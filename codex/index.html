@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the Codex of The Economy of Nothing—a satirical dystopian sci-fi series blending cosmic adventure with biting critique.">
+    <meta name="keywords" content="Economy of Nothing, Codex, sci-fi lore, characters, factions, episodes">
+    <meta name="author" content="The Economy of Nothing Team">
+    <title>Codex of Nothing</title>
+    <link rel="stylesheet" href="styledex.css">
+    <script>
+        async function fetchRandomFact() {
+            try {
+                const response = await fetch('facts.txt');
+                const text = await response.text();
+                const facts = text.split('\n').filter(fact => fact.trim() !== '');
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchRandomFact);
+    </script>
+</head>
+<body>
+    <div class="starfield"></div>
+    <header>
+        Codex of Nothing
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="codex.html" class="active">Codex Home</a>
+            <a href="humans.html">Humans</a>
+            <a href="aliens.html">Aliens</a>
+            <a href="creatures.html">Creatures</a>
+            <a href="robots.html">Robots</a>
+            <a href="ships.html">Ships & Technology</a>
+            <a href="locations.html">Locations</a>
+            <a href="factions.html">Factions</a>
+            <a href="economics.html">Economics</a>
+            <a href="politics.html">Politics</a>
+            <a href="timeline.html">Timeline</a>
+            <a href="glossary.html">Glossary</a>
+            <a href="index.html">Exit Codex</a>
+        </div>
+        <div class="content">
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+            <h2>Welcome to the Codex</h2>
+            <p>
+                Explore the vast universe of <em>The Economy of Nothing</em>. Use the navigation on the left to dive into categories such as characters, factions, and locations. Discover the rich lore, intricate politics, and the humorous yet satirical backdrop of this dystopian cosmic adventure.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
