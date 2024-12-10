@@ -2,7 +2,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace, sans-serif;
     background-color: black;
     color: #FFD700;
 }
@@ -15,7 +15,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: url('starfield.gif') repeat;
+    background: url('../media/starfield.gif') repeat;
 }
 
 /* Header */
@@ -69,6 +69,11 @@ header {
     pointer-events: none;
 }
 
+.sidebar a:focus {
+    outline: 2px dashed #FFD700;
+    outline-offset: 3px;
+}
+
 /* Content */
 .content {
     width: 75%;
@@ -81,13 +86,13 @@ header {
 
 /* Character Images */
 .character img {
-    width: 150px; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Ensure the image is on its own line */
-    margin: 10px auto; /* Center the image and add spacing */
-    border: 2px solid #FFD700; /* Add a border that matches your theme */
-    border-radius: 10px; /* Add rounded corners for a polished look */
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); /* Glow effect for the image */
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 /* Character Content */
@@ -110,121 +115,4 @@ header {
 
 .character ul {
     list-style-type: none;
-    padding: 0;
-}
-
-.character ul li {
-    margin: 5px 0;
-    font-size: 1.1rem;
-}
-
-/* Random Fact Box */
-.random-fact-box {
-    position: relative;
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 2px solid red;
-    background: rgba(255, 0, 0, 0.2);
-    color: #00FF00;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
-    height: 50px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-}
-
-/* Message Intercepted Text */
-.intercepted {
-    font-size: 1rem;
-    font-weight: bold;
-    color: red;
-    text-shadow: 0 0 10px red;
-    position: absolute;
-    top: 5px;
-    left: 10px;
-}
-
-/* Scrolling Fact Text */
-.fact-ticker {
-    position: absolute;
-    left: 150px; /* Adjusts spacing for "Message Intercepted" */
-    white-space: nowrap;
-    animation: scroll-text 15s linear infinite;
-    color: #00FF00;
-}
-
-/* Scrolling Animation */
-@keyframes scroll-text {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
-/* Responsive Design for Mobile */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        padding: 10px;
-        border-right: none;
-        border-bottom: 2px solid #FFD700;
-    }
-
-    .content {
-        width: 100%;
-        padding: 15px;
-    }
-}
-/* Moonshine Ship Entry */
-.ship-entry {
-    margin: 20px 0;
-    padding: 20px;
-    border: 2px solid #FFD700;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-    color: #FFD700;
-}
-
-.ship-entry h2, .ship-entry h3 {
-    color: #FFD700;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-}
-
-.ship-entry p {
-    margin: 10px 0;
-    font-size: 1.2rem;
-    line-height: 1.5;
-}
-
-.ship-entry ul {
-    margin: 10px 0;
-    padding: 0 20px;
-    list-style-type: square;
-}
-
-.ship-entry ul li {
-    margin: 5px 0;
-    font-size: 1.2rem;
-}
-
-.ship-image {
-    width: 100%;
-    max-width: 600px;
-    display: block;
-    margin: 10px auto;
-    border: 2px solid #FFD700;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
+    pa
