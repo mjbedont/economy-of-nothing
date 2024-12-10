@@ -7,11 +7,11 @@
     <meta name="keywords" content="Economy of Nothing, Codex, sci-fi lore, characters, factions, episodes">
     <meta name="author" content="The Economy of Nothing Team">
     <title>Codex of Nothing</title>
-    <link rel="stylesheet" href="styledex.css">
+    <link rel="stylesheet" href="../codex/styledex.css">
     <script>
         async function fetchRandomFact() {
             try {
-                const response = await fetch('facts.txt');
+                const response = await fetch('../data/facts.txt');
                 const text = await response.text();
                 const facts = text.split('\n').filter(fact => fact.trim() !== '');
                 const randomIndex = Math.floor(Math.random() * facts.length);
@@ -32,19 +32,19 @@
     </header>
     <div class="container">
         <div class="sidebar">
-            <a href="codex.html" class="active">Codex Home</a>
-            <a href="humans.html">Humans</a>
-            <a href="aliens.html">Aliens</a>
-            <a href="creatures.html">Creatures</a>
-            <a href="robots.html">Robots</a>
-            <a href="ships.html">Ships & Technology</a>
-            <a href="locations.html">Locations</a>
-            <a href="factions.html">Factions</a>
-            <a href="economics.html">Economics</a>
-            <a href="politics.html">Politics</a>
-            <a href="timeline.html">Timeline</a>
-            <a href="glossary.html">Glossary</a>
-            <a href="index.html">Exit Codex</a>
+            <a href="../codex/" class="active">Codex Home</a>
+            <a href="../codex/humans/">Humans</a>
+            <a href="../codex/aliens/">Aliens</a>
+            <a href="../codex/creatures/">Creatures</a>
+            <a href="../codex/robots/">Robots</a>
+            <a href="../codex/technology/">Ships & Technology</a>
+            <a href="../codex/locations/">Locations</a>
+            <a href="../codex/factions/">Factions</a>
+            <a href="../codex/economics/">Economics</a>
+            <a href="../codex/politics/">Politics</a>
+            <a href="../codex/timeline/">Timeline</a>
+            <a href="../codex/glossary/">Glossary</a>
+            <a href="../index.html">Exit Codex</a>
         </div>
         <div class="content">
             <div class="random-fact-box">
