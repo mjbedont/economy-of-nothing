@@ -1,0 +1,180 @@
+/* Root Variables */
+:root {
+    --primary-color: #FFD700;
+    --secondary-color: #FF4500;
+    --accent-color: #00FF00;
+    --background-dark: rgba(0, 0, 0, 0.8);
+    --font-family: 'Comic Sans MS', 'Arial', sans-serif;
+}
+
+/* Universal Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    background: url('cosmic_starfield.gif') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    padding: 20px;
+    background: transparent; /* Allow starfield to show */
+    text-align: center;
+    position: relative; /* Needed for the ::after pseudo-element */
+}
+
+header h1 {
+    font-size: 4rem;
+    color: var(--secondary-color);
+    text-shadow: 2px 2px 4px #000000;
+    margin-bottom: 10px; /* Space between h1 and p */
+}
+
+header::after {
+    content: "";
+    display: block;
+    width: 100%; /* Full-width line */
+    height: 5px; /* Line thickness */
+    background-color: var(--accent-color); /* Green color */
+    position: absolute;
+    bottom: 0; /* Position at the bottom of the header */
+    left: 0; /* Align with the left edge */
+}
+
+
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 15px;
+    background: var(--background-dark);
+    border-top: 3px solid var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+    flex-wrap: wrap; /* Allow wrapping for small screens */
+}
+
+nav a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: var(--secondary-color);
+}
+
+/* Main Content */
+main {
+    flex-grow: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+main h2 {
+    background: var(--secondary-color);
+    color: #FFFFFF;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+main p {
+    line-height: 1.8;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Video Section */
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    max-width: 100%; /* Ensure it doesn't exceed screen width */
+}
+
+iframe {
+    width: 100%; /* Takes up the full width of the container */
+    max-width: 800px; /* Restricts the width on larger screens */
+    aspect-ratio: 16 / 9; /* Maintains a proper video aspect ratio */
+    height: auto; /* Automatically adjusts height based on width */
+    border: none; /* Removes any default borders */
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+    background: var(--background-dark);
+    color: #FFFFFF;
+    border-top: 3px solid var(--primary-color);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+footer p {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+footer a {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: var(--accent-color);
+}
+
+.visitor-counter {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 3rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav a {
+        font-size: 1.2rem;
+    }
+
+    main {
+        padding: 20px;
+    }
+}
