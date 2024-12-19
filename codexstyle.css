@@ -129,16 +129,33 @@ header {
     }
 }
 
-/* Character Box for Humans Page (updated for better styling) */
+/* Character Box for Humans Page */
 .character-box {
     margin-bottom: 30px;
-    padding: 20px; /* Increased padding for better spacing */
+    padding: 15px;
     background-color: #1a1a1a; /* Dark background */
     border: 2px solid #FFD700; /* Golden border */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     display: flex;
     align-items: center;
+}
+
+/* Character Name Hyperlinks */
+.character-box h2 a {
+    color: #FFD700; /* Golden color for the character names */
+    text-decoration: none; /* Remove the default underline */
+    font-weight: bold; /* Make the text stand out */
+    text-transform: uppercase; /* Capitalize the text */
+    letter-spacing: 1px; /* Space out the letters a bit for a sleek look */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover Effects */
+.character-box h2 a:hover {
+    color: #00FF00; /* Change to green on hover */
+    text-shadow: 0 0 10px #00FF00; /* Add a green glowing effect */
+    transform: scale(1.1); /* Slightly enlarge the text for emphasis */
 }
 
 /* Character Image Box */
