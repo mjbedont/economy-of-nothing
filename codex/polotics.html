@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the political structure of The Economy of Nothing—a cosmos dominated by corporate control.">
+    <meta name="keywords" content="Politics, The Economy of Nothing, Corporate Control, Cosmic Confederacy">
+    <meta name="author" content="The Economy of Nothing Team">
+    <title>Politics - Codex of Nothing</title>
+    <link rel="stylesheet" href="/codexstyle.css">
+    <script>
+        async function fetchRandomFact() {
+            try {
+                const response = await fetch('/data/facts.txt');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const facts = text.split('\n').filter(fact => fact.trim() !== '');
+                if (facts.length === 0) {
+                    throw new Error('No facts available.');
+                }
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+            }
+        }
+
+        async function loadPolitics() {
+            const container = document.getElementById('politics-list');
+            const politicsPages = [
+                "/codex/politics/confederacy.html",
+                "/codex/politics/corporations.html",
+                "/codex/politics/colonies.html",
+                "/codex/politics/representation.html",
+                "/codex/politics/oligopoly.html",
+                "/codex/politics/rebellions.html",
+                "/codex/politics/social-stratification.html",
+                "/codex/politics/culture.html"
+            ];
+
+            container.innerHTML = '<p>Accessing database of Nothing...</p>';
+
+            for (const page of politicsPages) {
+                try {
+                    const response = await fetch(page);
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    const name = doc.querySelector('h1')?.textContent || "Unknown Political Topic";
+                    const summary = doc.querySelector('p')?.outerHTML || "<p>No summary available.</p>";
+                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
+
+                    const politicsDiv = document.createElement('div');
+                    politicsDiv.classList.add('character-box');
+
+                    politicsDiv.innerHTML = `
+                        <div class="character">
+                            <h2><a href="${page}">${name}</a></h2>
+                            <div class="character-image">${image}</div>
+                            <div class="character-summary">${summary}</div>
+                        </div>
+                    `;
+                    container.appendChild(politicsDiv);
+                } catch (error) {
+                    console.error(`Error loading political topic: ${page}`, error);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRandomFact();   // Load random fact
+            loadPolitics();      // Load politics data
+        });
+    </script>
+</head>
+<body>
+    <div class="starfield"></div>
+    <header>
+        <h1>Codex of Nothing</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/codex.html">Codex Home</a>
+            <a href="/codex/humans.html">Humans</a>
+            <a href="/codex/aliens.html">Aliens</a>
+            <a href="/codex/creatures.html">Creatures</a>
+            <a href="/codex/robots.html">Robots</a>
+            <a href="/codex/transportation.html">Transportation</a>
+            <a href="/codex/technology.html">Technology</a>
+            <a href="/codex/locations.html">Locations</a>
+            <a href="/codex/factions.html">Factions</a>
+            <a href="/codex/economics.html">Economics</a>
+            <a href="/codex/politics.html" class="active">Politics</a>
+            <a href="/codex/timeline.html">Timeline</a>
+            <a href="/codex/glossary.html">Glossary</a>
+            <a href="/index.html">Exit Codex</a>
+        </div>
+        <div class="content">
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+            <h2>Politics</h2>
+            <div id="politics-list">
+                <p>Accessing database of Nothing...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
