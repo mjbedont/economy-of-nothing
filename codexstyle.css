@@ -60,6 +60,7 @@ header {
 .sidebar a:hover {
     background: #FFD700;
     color: black;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.8); /* Glow effect */
 }
 
 .sidebar .active {
@@ -84,35 +85,135 @@ header {
     overflow-y: auto;
 }
 
-/* Character Images */
-.character img {
-    width: 150px;
-    height: auto;
-    display: block;
-    margin: 10px auto;
-    border: 2px solid #FFD700;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-/* Character Content */
-.character {
-    margin-bottom: 20px;
+/* Random Fact Box */
+.random-fact-box {
+    position: relative;
     padding: 15px;
-    border: 2px solid #FFD700;
-    background: rgba(0, 0, 0, 0.8);
+    margin-bottom: 20px;
+    border: 2px solid red;
+    background: rgba(255, 0, 0, 0.2);
+    color: #00FF00;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.intercepted {
+    font-size: 1rem;
+    font-weight: bold;
+    color: red;
+    text-shadow: 0 0 10px red;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+
+.fact-ticker {
+    position: absolute;
+    left: 150px;
+    white-space: nowrap;
+    animation: scroll-text 15s linear infinite;
+    color: #00FF00;
+}
+
+@keyframes scroll-text {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Character Box for Humans Page */
+.character-box {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #1a1a1a; /* Dark background */
+    border: 2px solid #FFD700; /* Golden border */
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    display: flex;
+    align-items: center;
 }
 
-.character h2 {
-    text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+/* Character Name Hyperlinks */
+.character-box h2 a {
+    color: #FFD700; /* Golden color for the character names */
+    text-decoration: none; /* Remove the default underline */
+    font-weight: bold; /* Make the text stand out */
+    text-transform: uppercase; /* Capitalize the text */
+    letter-spacing: 1px; /* Space out the letters a bit for a sleek look */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover Effects */
+.character-box h2 a:hover {
+    color: #00FF00; /* Change to green on hover */
+    text-shadow: 0 0 10px #00FF00; /* Add a green glowing effect */
+    transform: scale(1.1); /* Slightly enlarge the text for emphasis */
+}
+
+/* Character Image Box */
+.character-box .character-image {
+    width: 120px;  /* Set fixed width */
+    height: 120px; /* Set fixed height */
+    border: 2px solid #FFD700; /* Golden border around the image */
+    border-radius: 10px;
+    margin-right: 20px; /* Space between the image and the summary */
+    overflow: hidden; /* Prevents image overflow */
+    display: flex; /* Ensures correct alignment of content */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ensure image inside scales correctly */
+.character-box .character-image img {
+    width: 100%; /* Ensures the image fills the width of the container */
+    height: 100%; /* Ensures the image fills the height of the container */
+    object-fit: cover; /* Rescale the image to cover the box while maintaining aspect ratio */
+}
+
+/* Character Summary */
+.character-box .character-summary {
+    flex-grow: 1;
+    font-size: 1rem;
     color: #FFD700;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
 }
 
-.character ul {
-    list-style-type: none;
-    pa
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 10px;
+        border-right: none;
+        border-bottom: 2px solid #FFD700;
+    }
+
+    .content {
+        width: 100%;
+        padding: 15px;
+    }
+
+    /* Ensure the layout works on smaller screens */
+    .character-box {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .character-box .character-image {
+        margin-right: 0; /* Remove margin on smaller screens */
+        margin-bottom: 15px; /* Add space between image and summary */
+    }
+}
