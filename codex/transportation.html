@@ -3,13 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codex of Nothing - The Moonshine</title>
+    <title>Codex of Nothing - Transportation</title>
     <link rel="stylesheet" href="/codexstyle.css">
+    <script>
+        async function loadTransportation() {
+            const container = document.getElementById('transportation-list');
+            const transportationPages = [
+                "/codex/transportation/moonshine.html",  // Link to the Moonshine page
+                "/codex/transportation/transportation-one.html",  // Add other transportation pages
+                "/codex/transportation/transportation-two.html"  // Add another transportation page
+                // Add more transportation pages as they are added
+            ];
+
+            container.innerHTML = '<p>Accessing database of Nothing...</p>';
+
+            for (const page of transportationPages) {
+                try {
+                    const response = await fetch(page);
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    const name = doc.querySelector('h1').textContent || "Unknown Transportation";
+                    const summary = doc.querySelector('ul').outerHTML || "<p>No summary available.</p>";
+                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
+
+                    const transportDiv = document.createElement('div');
+                    transportDiv.classList.add('character-box');
+
+                    transportDiv.innerHTML = `
+                        <div class="character">
+                            <h2><a href="${page}">${name}</a></h2>
+                            <div class="character-image">${image}</div>
+                            <div class="character-summary">${summary}</div>
+                        </div>
+                    `;
+                    container.appendChild(transportDiv);
+                } catch (error) {
+                    console.error(`Error loading transportation: ${page}`, error);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTransportation();  // Start loading transportation data
+        });
+    </script>
 </head>
 <body>
     <div class="starfield"></div>
     <header>
-        <h1 class="subject-title">The Moonshine</h1>
+        <h1>Codex of Nothing - Transportation</h1>
     </header>
     <div class="container">
         <div class="sidebar">
@@ -29,55 +73,14 @@
             <a href="/index.html">Exit Codex</a>
         </div>
         <div class="content">
-            <!-- Subject Box for The Moonshine -->
-            <div class="subject">
-                <h2>"The Legendary Pickup Ship"</h2>
-
-                <!-- Subject Image -->
-                <div class="subject-image-container">
-                    <img src="/media/images/moonshine-1.png" alt="The Moonshine spaceship, a red pickup truck in space." class="subject-image">
-                </div>
-
-                <!-- Subject Summary Section -->
-                <div class="subject-summary">
-                    <h3>Summary</h3>
-                    <ul>
-                        <li><strong>Type:</strong> Retro-fitted Spacecraft</li>
-                        <li><strong>Role:</strong> Primary vessel of the <strong>Moonshine Crew</strong></li>
-                        <li><strong>Affiliations:</strong> <strong>Moonshine Crew</strong>, <strong>Nothing Corporation</strong></li>
-                        <li><strong>Key Features:</strong> Hyperspace Boosters, Reinforced Plating, Cargo Bed</li>
-                        <li><strong>Episode Appearances:</strong> All Episodes</li>
-                    </ul>
-                </div>
-
-                <!-- Backstory Section -->
-                <div class="subject-summary">
-                    <h3>Backstory</h3>
-                    <p>The <strong>Moonshine</strong> began as an ordinary red pickup truck on <strong>Planet Prime</strong>. After Captain <strong>Raymond B. Tracy</strong> bought it for simple hauls, an unforeseen hyperspace anomaly transformed it into an interstellar marvel. This humble truck became the iconic vessel for the Moonshine Crew, evolving into a hybrid of rugged Earth design and advanced space tech.</p>
-                </div>
-
-                <!-- Key Moments Section -->
-                <h3>Key Moments</h3>
-                <ul>
-                    <li>Transported the <strong>Brettson Rangers</strong> to the site of the <strong>Skull Pirate Ambush</strong></li>
-                    <li>Survived a critical hit during the <strong>Hyperspace Paradox</strong></li>
-                    <li>Outmaneuvered <strong>Technobandit</strong> fighter crafts in the <strong>Dark Orbit</strong></li>
-                </ul>
-
-                <!-- Specifications Section -->
-                <h3>Specifications</h3>
-                <ul>
-                    <li><strong>Origin:</strong> Retro Pickup Truck from <strong>Planet Prime</strong></li>
-                    <li><strong>Crew Capacity:</strong> 4-5 (Crew Cab Model)</li>
-                    <li><strong>Propulsion:</strong> Dual Plasma Thrusters with Hyperspace Boosters</li>
-                    <li><strong>Defenses:</strong> Energy Shields, Rear Laser Turret</li>
-                    <li><strong>Unique Features:</strong> Classic red paint, functional cargo bed, integrated hyperspace transmitter</li>
-                </ul>
-
-                <!-- Role in the Universe Section -->
-                <h3>Role in the Universe</h3>
-                <p>The <strong>Moonshine</strong> is a symbol of resilience and ingenuity. As the backbone of the Moonshine Crew’s adventures, it blends nostalgic charm with futuristic functionality. Its journey from a rusted truck to a vital spacecraft reflects the adaptability and resourcefulness of its crew, particularly Captain Tracy.</p>
-            </div> <!-- End of subject box -->
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+            <h2>Transportation</h2>
+            <div id="transportation-list">
+                <p>Accessing database of Nothing...</p>
+            </div>
         </div>
     </div>
 </body>
