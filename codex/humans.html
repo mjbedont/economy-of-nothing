@@ -19,61 +19,48 @@
             }
         }
 
-        async function loadCharacters() {
-            const container = document.getElementById('character-list');
-            const characterPages = [
-          "/codex/humans/captain-tracy.html",
+        async function loadHumans() {
+            const container = document.getElementById('human-list');
+            const humanPages = [
+                "/codex/humans/captain-tracy.html",
                 "/codex/humans/ranger-alex.html",
-                "/codex/humans/ranger-erik.html",
-                "/codex/humans/shyan-farms.html",
-                "/codex/humans/ranger-christina.html",
-  "/codex/humans/ranger-monica.html",
-               "/codex/humans/james-francis.html",
-   "/codex/humans/clive-pierce-jones.html",
- "/codex/humans/tallulah.html",
-  "/codex/humans/lance.html",
-     "/codex/humans/captain-red-hook.html",
-                "/codex/humans/richard-rider.html",
-                "/codex/humans/laser.html",
-                    "/codex/humans/captain-washington.html",
-                "/codex/humans/marz.html",
-                "/codex/humans/eddie-dyson-maverick.html"
-            ];
+                "/codex/humans/ranger-erik.html"
+                // Add more human pages as needed
             ];
 
             container.innerHTML = '<p>Accessing database of Nothing...</p>';
 
-            for (const page of characterPages) {
+            for (const page of humanPages) {
                 try {
                     const response = await fetch(page);
                     const html = await response.text();
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
 
-                    const name = doc.querySelector('h1').textContent || "Unknown Character";
-                    const summary = doc.querySelector('ul').outerHTML || "<p>No summary available.</p>";
-                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
+                    const name = doc.querySelector('h1')?.textContent || "Unknown Human";
+                    const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
+                    const image = doc.querySelector('img')?.outerHTML || "<img src='/media/images/coming_soon.png' alt='No Image' />";
 
-                    const charDiv = document.createElement('div');
-                    charDiv.classList.add('character-box');
+                    const humanDiv = document.createElement('div');
+                    humanDiv.classList.add('character-box');
 
-                    charDiv.innerHTML = `
+                    humanDiv.innerHTML = `
                         <div class="character">
                             <h2><a href="${page}">${name}</a></h2>
                             <div class="character-image">${image}</div>
                             <div class="character-summary">${summary}</div>
                         </div>
                     `;
-                    container.appendChild(charDiv);
+                    container.appendChild(humanDiv);
                 } catch (error) {
-                    console.error(`Error loading character: ${page}`, error);
+                    console.error(`Error loading human: ${page}`, error);
                 }
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchRandomFact();  // Start loading facts
-            loadCharacters();   // Start loading character data
+            loadHumans();       // Start loading human data
         });
     </script>
 </head>
@@ -105,7 +92,7 @@
                 <span class="fact-ticker" id="random-fact">Loading...</span>
             </div>
             <h2>Humans</h2>
-            <div id="character-list">
+            <div id="human-list">
                 <p>Accessing database of Nothing...</p>
             </div>
         </div>
