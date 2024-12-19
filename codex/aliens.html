@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codex of Nothing - Aliens</title>
+    <title>Codex of Nothing - Humans</title>
     <link rel="stylesheet" href="/codexstyle.css">
     <script>
         async function fetchRandomFact() {
@@ -19,48 +19,48 @@
             }
         }
 
-        async function loadAliens() {
-            const container = document.getElementById('alien-list');
-            const alienPages = [
-                "/codex/aliens/mr-green.html",
-                "/codex/aliens/grasshopper.html",
-                "/codex/aliens/butterfly.html"
-                // Add more alien pages as needed
+        async function loadHumans() {
+            const container = document.getElementById('human-list');
+            const humanPages = [
+                "/codex/humans/captain-tracy.html",
+                "/codex/humans/ranger-alex.html",
+                "/codex/humans/ranger-erik.html"
+                // Add more human pages as needed
             ];
 
             container.innerHTML = '<p>Accessing database of Nothing...</p>';
 
-            for (const page of alienPages) {
+            for (const page of humanPages) {
                 try {
                     const response = await fetch(page);
                     const html = await response.text();
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
 
-                    const name = doc.querySelector('h1')?.textContent || "Unknown Alien";
+                    const name = doc.querySelector('h1')?.textContent || "Unknown Human";
                     const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
                     const image = doc.querySelector('img')?.outerHTML || "<img src='/media/images/coming_soon.png' alt='No Image' />";
 
-                    const alienDiv = document.createElement('div');
-                    alienDiv.classList.add('character-box');
+                    const humanDiv = document.createElement('div');
+                    humanDiv.classList.add('character-box');
 
-                    alienDiv.innerHTML = `
+                    humanDiv.innerHTML = `
                         <div class="character">
                             <h2><a href="${page}">${name}</a></h2>
                             <div class="character-image">${image}</div>
                             <div class="character-summary">${summary}</div>
                         </div>
                     `;
-                    container.appendChild(alienDiv);
+                    container.appendChild(humanDiv);
                 } catch (error) {
-                    console.error(`Error loading alien: ${page}`, error);
+                    console.error(`Error loading human: ${page}`, error);
                 }
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchRandomFact();  // Start loading facts
-            loadAliens();       // Start loading alien data
+            loadHumans();       // Start loading human data
         });
     </script>
 </head>
@@ -72,8 +72,8 @@
     <div class="container">
         <div class="sidebar">
             <a href="/codex.html">Codex Home</a>
-            <a href="/codex/humans.html">Humans</a>
-            <a href="/codex/aliens.html" class="active">Aliens</a>
+            <a href="/codex/humans.html" class="active">Humans</a>
+            <a href="/codex/aliens.html">Aliens</a>
             <a href="/codex/creatures.html">Creatures</a>
             <a href="/codex/robots.html">Robots</a>
             <a href="/codex/transportation.html">Transportation</a>
@@ -91,8 +91,8 @@
                 <span class="intercepted">Message Intercepted:</span>
                 <span class="fact-ticker" id="random-fact">Loading...</span>
             </div>
-            <h2>Aliens</h2>
-            <div id="alien-list">
+            <h2>Humans</h2>
+            <div id="human-list">
                 <p>Accessing database of Nothing...</p>
             </div>
         </div>
