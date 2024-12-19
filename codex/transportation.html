@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codex of Nothing - Transportation</title>
+    <link rel="stylesheet" href="/codexstyle.css">
+    <script>
+        async function fetchRandomFact() {
+            try {
+                const response = await fetch('/data/facts.txt'); // Correct path to facts.txt
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const facts = text.split('\n').filter(fact => fact.trim() !== '');
+                if (facts.length === 0) {
+                    throw new Error('No facts available in the file.');
+                }
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+            }
+        }
 
+        async function loadTransportation() {
+            const container = document.getElementById('transportation-list');
+            const transportationPages = [
+                "/codex/transportation/moonshine.html",  // Link to the Moonshine page
+                "/codex/transportation/transportation-one.html",  // Add other transportation pages
+                "/codex/transportation/transportation-two.html"  // Add another transportation page
+                // Add more transportation pages as they are added
+            ];
+
+            container.innerHTML = '<p>Accessing database of Nothing...</p>';
+
+            for (const page of transportationPages) {
+                try {
+                    const response = await fetch(page);
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    const name = doc.querySelector('h1')?.textContent || "Unknown Transportation";
+                    const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
+                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
+
+                    const transportDiv = document.createElement('div');
+                    transportDiv.classList.add('character-box');
+
+                    transportDiv.innerHTML = `
+                        <div class="character">
+                            <h2><a href="${page}">${name}</a></h2>
+                            <div class="character-image">${image}</div>
+                            <div class="character-summary">${summary}</div>
+                        </div>
+                    `;
+                    container.appendChild(transportDiv);
+                } catch (error) {
+                    console.error(`Error loading transportation: ${page}`, error);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRandomFact();       // Load a random fact
+            loadTransportation();   // Load transportation data
+        });
+    </script>
+</head>
+<body>
+    <div class="starfield"></div>
+    <header>
+        <h1>Codex of Nothing</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/codex.html">Codex Home</a>
+            <a href="/codex/humans.html">Humans</a>
+            <a href="/codex/aliens.html">Aliens</a>
+            <a href="/codex/creatures.html">Creatures</a>
+            <a href="/codex/robots.html">Robots</a>
+            <a href="/codex/transportation.html" class="active">Transportation</a>
+            <a href="/codex/technology.html">Technology</a>
+            <a href="/codex/locations.html">Locations</a>
+            <a href="/codex/factions.html">Factions</a>
+            <a href="/codex/economics.html">Economics</a>
+            <a href="/codex/politics.html">Politics</a>
+            <a href="/codex/timeline.html">Timeline</a>
+            <a href="/codex/glossary.html">Glossary</a>
+            <a href="/index.html">Exit Codex</a>
+        </div>
+        <div class="content">
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+            <h2>Transportation</h2>
+            <div id="transportation-list">
+                <p>Accessing database of Nothing...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
