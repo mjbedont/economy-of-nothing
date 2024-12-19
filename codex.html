@@ -3,65 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codex of Nothing - [Category]</title>
+    <title>Codex of Nothing</title>
     <link rel="stylesheet" href="/codexstyle.css">
-    <script>
-        async function fetchRandomFact() {
-            try {
-                const response = await fetch('/data/facts.txt');
-                const text = await response.text();
-                const facts = text.split('\n').filter(fact => fact.trim() !== '');
-                const randomIndex = Math.floor(Math.random() * facts.length);
-                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
-            } catch (error) {
-                console.error('Error fetching facts:', error);
-                document.getElementById('random-fact').textContent = '...Accessing database of Nothing...';
-            }
-        }
-
-        async function loadContent(category, containerId, pages) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '<p>Accessing database of Nothing...</p>';
-
-            for (const page of pages) {
-                try {
-                    const response = await fetch(page);
-                    const html = await response.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-
-                    const name = doc.querySelector('h1')?.textContent || `Unknown ${category}`;
-                    const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
-                    const image = doc.querySelector('img')?.outerHTML || "<img src='/media/images/coming_soon.png' alt='No Image' />";
-
-                    const itemDiv = document.createElement('div');
-                    itemDiv.classList.add('character-box');
-
-                    itemDiv.innerHTML = `
-                        <div class="character">
-                            <h2><a href="${page}">${name}</a></h2>
-                            <div class="character-image">${image}</div>
-                            <div class="character-summary">${summary}</div>
-                        </div>
-                    `;
-                    container.appendChild(itemDiv);
-                } catch (error) {
-                    console.error(`Error loading ${category}: ${page}`, error);
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchRandomFact();
-            // Replace 'humans' and list with appropriate category and pages
-            loadContent('Humans', 'content-list', [
-                "/codex/humans/captain-tracy.html",
-                "/codex/humans/ranger-alex.html",
-                "/codex/humans/ranger-erik.html"
-                // Add more pages here
-            ]);
-        });
-    </script>
 </head>
 <body>
     <div class="starfield"></div>
@@ -70,7 +13,7 @@
     </header>
     <div class="container">
         <div class="sidebar">
-            <a href="/codex.html">Codex Home</a>
+            <a href="/codex.html" class="active">Codex Home</a>
             <a href="/codex/humans.html">Humans</a>
             <a href="/codex/aliens.html">Aliens</a>
             <a href="/codex/creatures.html">Creatures</a>
@@ -90,11 +33,36 @@
                 <span class="intercepted">Message Intercepted:</span>
                 <span class="fact-ticker" id="random-fact">Loading...</span>
             </div>
-            <h2>[Category]</h2>
-            <div id="content-list">
-                <p>Accessing database of Nothing...</p>
+            <div class="welcome-box">
+                <p>Welcome to the Codex of Nothing, an ever-growing repository of knowledge from across the galaxy. This is your gateway to understanding the vast and chaotic universe of Nothing. Whether you're looking for information on humans, creatures, technology, or the timeline of events, you'll find it all here.</p>
+                <p>Use the sidebar to navigate through the various categories. Stay curious!</p>
             </div>
         </div>
     </div>
+
+    <script>
+        async function fetchRandomFact() {
+            try {
+                const response = await fetch('/data/facts.txt'); // Correct path to facts.txt
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const facts = text.split('\n').filter(fact => fact.trim() !== '');
+                if (facts.length === 0) {
+                    throw new Error('No facts available in the file.');
+                }
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRandomFact(); // Load a random fact on page load
+        });
+    </script>
 </body>
 </html>
