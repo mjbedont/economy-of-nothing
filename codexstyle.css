@@ -1,0 +1,118 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace, sans-serif;
+    background-color: black;
+    color: #FFD700;
+}
+
+/* Starfield Background */
+.starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: url('../media/starfield.gif') repeat;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 20px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FFD700;
+    background: rgba(0, 0, 0, 0.9);
+    border-bottom: 2px solid #FFD700;
+}
+
+/* Container Layout */
+.container {
+    display: flex;
+    height: calc(100vh - 100px);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 25%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px;
+    border-right: 2px solid #FFD700;
+    box-shadow: 3px 0 5px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+}
+
+.sidebar a {
+    display: block;
+    color: #00FF00;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 10px;
+    border: 2px solid #FFD700;
+    border-radius: 5px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.sidebar a:hover {
+    background: #FFD700;
+    color: black;
+}
+
+.sidebar .active {
+    background: #00FF00;
+    color: black;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.sidebar a:focus {
+    outline: 2px dashed #FFD700;
+    outline-offset: 3px;
+}
+
+/* Content */
+.content {
+    width: 75%;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-left: 2px solid #FFD700;
+    color: #FFD700;
+    overflow-y: auto;
+}
+
+/* Character Images */
+.character img {
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Character Content */
+.character {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 2px solid #FFD700;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.character h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+.character ul {
+    list-style-type: none;
+    pa
