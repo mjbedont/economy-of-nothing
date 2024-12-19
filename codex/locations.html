@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the key locations in The Economy of Nothing—a satirical dystopian universe dominated by corporate control.">
+    <meta name="keywords" content="Locations, Cosmic Territories, The Economy of Nothing, Dystopian Sci-Fi">
+    <meta name="author" content="The Economy of Nothing Team">
+    <title>Locations - Codex of Nothing</title>
+    <link rel="stylesheet" href="/codexstyle.css">
+    <script>
+        async function fetchRandomFact() {
+            try {
+                const response = await fetch('/data/facts.txt');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const facts = text.split('\n').filter(fact => fact.trim() !== '');
+                if (facts.length === 0) {
+                    throw new Error('No facts available.');
+                }
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+            }
+        }
+
+        async function loadLocations() {
+            const container = document.getElementById('location-list');
+            const locationPages = [
+                "/codex/locations/earth-20xx.html",
+                "/codex/locations/planet-prime.html",
+                "/codex/locations/brenner-7.html",
+                "/codex/locations/dracronaria.html",
+                "/codex/locations/new-rome.html",
+                "/codex/locations/snow-boots.html"
+                // Add new location pages here as they are created
+            ];
+
+            container.innerHTML = '<p>Accessing database of Nothing...</p>';
+
+            for (const page of locationPages) {
+                try {
+                    const response = await fetch(page);
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    const name = doc.querySelector('h1')?.textContent || "Unknown Location";
+                    const summary = doc.querySelector('p')?.outerHTML || "<p>No summary available.</p>";
+                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
+
+                    const locDiv = document.createElement('div');
+                    locDiv.classList.add('character-box');
+
+                    locDiv.innerHTML = `
+                        <div class="character">
+                            <h2><a href="${page}">${name}</a></h2>
+                            <div class="character-image">${image}</div>
+                            <div class="character-summary">${summary}</div>
+                        </div>
+                    `;
+                    container.appendChild(locDiv);
+                } catch (error) {
+                    console.error(`Error loading location: ${page}`, error);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRandomFact(); // Start loading facts
+            loadLocations();   // Start loading location data
+        });
+    </script>
+</head>
+<body>
+    <div class="starfield"></div>
+    <header>
+        <h1>Codex of Nothing</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/codex.html">Codex Home</a>
+            <a href="humans.html">Humans</a>
+            <a href="aliens.html">Aliens</a>
+            <a href="creatures.html">Creatures</a>
+            <a href="robots.html">Robots</a>
+            <a href="transportation.html">Transportation</a>
+            <a href="technology.html">Technology</a>
+            <a href="locations.html" class="active">Locations</a>
+            <a href="factions.html">Factions</a>
+            <a href="economics.html">Economics</a>
+            <a href="politics.html">Politics</a>
+            <a href="timeline.html">Timeline</a>
+            <a href="glossary.html">Glossary</a>
+            <a href="/index.html">Exit Codex</a>
+        </div>
+        <div class="content">
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+            <h2>Locations</h2>
+            <div id="location-list">
+                <p>Accessing database of Nothing...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
