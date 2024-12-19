@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codex of Nothing - Creatures</title>
+    <link rel="stylesheet" href="/codexstyle.css">
+    <script>
+        async function loadCreatures() {
+            const container = document.getElementById('creature-list');
+            const creaturePages = [
+                "/codex/creatures/mississippi.html",  // Mississippi creature page
+                "/codex/creatures/creature-one.html",  // Add actual creature page
+                "/codex/creatures/creature-two.html"  // Add actual creature page
+                // Add more creature pages as they are created
+            ];
+
+            container.innerHTML = '<p>Accessing database of Nothing...</p>';
+
+            for (const page of creaturePages) {
+                try {
+                    const response = await fetch(page);
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    const name = doc.querySelector('h1')?.textContent || "Unknown Creature";
+                    const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
+                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
+
+                    const creatureDiv = document.createElement('div');
+                    creatureDiv.classList.add('character-box');
+
+                    creatureDiv.innerHTML = `
+                        <div class="character">
+                            <h2><a href="${page}">${name}</a></h2>
+                            <div class="character-image">${image}</div>
+                            <div class="character-summary">${summary}</div>
+                        </div>
+                    `;
+                    container.appendChild(creatureDiv);
+                } catch (error) {
+                    console.error(`Error loading creature: ${page}`, error);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCreatures();  // Start loading creatures data
+        });
+    </script>
+</head>
+<body>
+    <div class="starfield"></div>
+    <header>
+        <h1>Codex of Nothing</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/codex.html">Codex Home</a>
+            <a href="/codex/humans.html">Humans</a>
+            <a href="/codex/aliens.html">Aliens</a>
+            <a href="/codex/creatures.html" class="active">Creatures</a>
+            <a href="/codex/robots.html">Robots</a>
+            <a href="/codex/transportation.html">Transportation</a>
+            <a href="/codex/technology.html">Technology</a>
+            <a href="/codex/locations.html">Locations</a>
+            <a href="/codex/factions.html">Factions</a>
+            <a href="/codex/economics.html">Economics</a>
+            <a href="/codex/politics.html">Politics</a>
+            <a href="/codex/timeline.html">Timeline</a>
+            <a href="/codex/glossary.html">Glossary</a>
+            <a href="/index.html">Exit Codex</a>
+        </div>
+        <div class="content">
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+            <h2>Creatures</h2>
+            <div id="creature-list">
+                <p>Accessing database of Nothing...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
