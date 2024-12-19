@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codex of Nothing - [Category]</title>
+    <title>Codex of Nothing - Humans</title>
     <link rel="stylesheet" href="/codexstyle.css">
     <script>
         async function fetchRandomFact() {
@@ -19,47 +19,59 @@
             }
         }
 
-        async function loadContent(category, containerId, pages) {
-            const container = document.getElementById(containerId);
+        async function loadCharacters() {
+            const container = document.getElementById('character-list');
+            const characterPages = [
+                "/codex/humans/captain-tracy.html",
+                "/codex/humans/ranger-alex.html",
+                "/codex/humans/ranger-erik.html",
+                "/codex/humans/shyan-farms.html",
+                "/codex/humans/ranger-monica.html",
+                "/codex/humans/ranger-christina.html",
+                "/codex/humans/richard-rider.html",
+                "/codex/humans/laser.html",
+                "/codex/humans/captain-red-hook.html",
+                "/codex/humans/clive-pierce-jones.html",
+                "/codex/humans/tallulah.html",
+                "/codex/humans/james-francis.html",
+                "/codex/humans/lance.html",
+                "/codex/humans/marz.html",
+                "/codex/humans/eddie-dyson-maverick.html"
+            ];
+
             container.innerHTML = '<p>Accessing database of Nothing...</p>';
 
-            for (const page of pages) {
+            for (const page of characterPages) {
                 try {
                     const response = await fetch(page);
                     const html = await response.text();
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
 
-                    const name = doc.querySelector('h1')?.textContent || `Unknown ${category}`;
-                    const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
-                    const image = doc.querySelector('img')?.outerHTML || "<img src='/media/images/coming_soon.png' alt='No Image' />";
+                    const name = doc.querySelector('h1').textContent || "Unknown Character";
+                    const summary = doc.querySelector('ul').outerHTML || "<p>No summary available.</p>";
+                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
 
-                    const itemDiv = document.createElement('div');
-                    itemDiv.classList.add('character-box');
+                    const charDiv = document.createElement('div');
+                    charDiv.classList.add('character-box');
 
-                    itemDiv.innerHTML = `
+                    charDiv.innerHTML = `
                         <div class="character">
                             <h2><a href="${page}">${name}</a></h2>
                             <div class="character-image">${image}</div>
                             <div class="character-summary">${summary}</div>
                         </div>
                     `;
-                    container.appendChild(itemDiv);
+                    container.appendChild(charDiv);
                 } catch (error) {
-                    console.error(`Error loading ${category}: ${page}`, error);
+                    console.error(`Error loading character: ${page}`, error);
                 }
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetchRandomFact();
-            // Replace 'humans' and list with appropriate category and pages
-            loadContent('Humans', 'content-list', [
-                "/codex/humans/captain-tracy.html",
-                "/codex/humans/ranger-alex.html",
-                "/codex/humans/ranger-erik.html"
-                // Add more pages here
-            ]);
+            fetchRandomFact();  // Start loading facts
+            loadCharacters();   // Start loading character data
         });
     </script>
 </head>
@@ -71,7 +83,7 @@
     <div class="container">
         <div class="sidebar">
             <a href="/codex.html">Codex Home</a>
-            <a href="/codex/humans.html">Humans</a>
+            <a href="/codex/humans.html" class="active">Humans</a>
             <a href="/codex/aliens.html">Aliens</a>
             <a href="/codex/creatures.html">Creatures</a>
             <a href="/codex/robots.html">Robots</a>
@@ -90,8 +102,8 @@
                 <span class="intercepted">Message Intercepted:</span>
                 <span class="fact-ticker" id="random-fact">Loading...</span>
             </div>
-            <h2>[Category]</h2>
-            <div id="content-list">
+            <h2>Humans</h2>
+            <div id="character-list">
                 <p>Accessing database of Nothing...</p>
             </div>
         </div>
