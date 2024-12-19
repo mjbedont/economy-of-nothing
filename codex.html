@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codex of Nothing</title>
+    <link rel="stylesheet" href="/codexstyle.css">
+</head>
+<body>
+    <div class="starfield"></div>
+    <header>
+        <h1>Codex of Nothing</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/codex.html" class="active">Codex Home</a>
+            <a href="/codex/humans.html">Humans</a>
+            <a href="/codex/aliens.html">Aliens</a>
+            <a href="/codex/creatures.html">Creatures</a>
+            <a href="/codex/robots.html">Robots</a>
+            <a href="/codex/transportation.html">Transportation</a>
+            <a href="/codex/technology.html">Technology</a>
+            <a href="/codex/locations.html">Locations</a>
+            <a href="/codex/factions.html">Factions</a>
+            <a href="/codex/economics.html">Economics</a>
+            <a href="/codex/politics.html">Politics</a>
+            <a href="/codex/timeline.html">Timeline</a>
+            <a href="/codex/glossary.html">Glossary</a>
+            <a href="/index.html">Exit Codex</a>
+        </div>
+        <div class="content">
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+            <div class="welcome-box">
+                <p>Welcome to the Codex of Nothing, an ever-growing repository of knowledge from across the galaxy. This is your gateway to understanding the vast and chaotic universe of Nothing. Whether you're looking for information on humans, creatures, technology, or the timeline of events, you'll find it all here.</p>
+                <p>Use the sidebar to navigate through the various categories. Stay curious!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchRandomFact() {
+            try {
+                const response = await fetch('/data/facts.txt'); // Correct path to facts.txt
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const facts = text.split('\n').filter(fact => fact.trim() !== '');
+                if (facts.length === 0) {
+                    throw new Error('No facts available in the file.');
+                }
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRandomFact(); // Load a random fact on page load
+        });
+    </script>
+</body>
+</html>
