@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codex of Nothing - Humans</title>
+    <title>Codex of Nothing - Aliens</title>
     <link rel="stylesheet" href="/codexstyle.css">
     <script>
         async function fetchRandomFact() {
@@ -12,55 +12,55 @@
                 const text = await response.text();
                 const facts = text.split('\n').filter(fact => fact.trim() !== '');
                 const randomIndex = Math.floor(Math.random() * facts.length);
-                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+                document.getElementById('random-fact').textContent = ...${facts[randomIndex]}...;
             } catch (error) {
                 console.error('Error fetching facts:', error);
                 document.getElementById('random-fact').textContent = '...Accessing database of Nothing...';
             }
         }
 
-        async function loadHumans() {
-            const container = document.getElementById('human-list');
-            const humanPages = [
-                "/codex/humans/captain-tracy.html",
-                "/codex/humans/ranger-alex.html",
-                "/codex/humans/ranger-erik.html"
-                // Add more human pages as needed
+        async function loadAliens() {
+            const container = document.getElementById('alien-list');
+            const alienPages = [
+                "/codex/aliens/mr-green.html",
+                "/codex/aliens/grasshopper.html",
+                "/codex/aliens/butterfly.html"
+                // Add more alien pages as needed
             ];
 
             container.innerHTML = '<p>Accessing database of Nothing...</p>';
 
-            for (const page of humanPages) {
+            for (const page of alienPages) {
                 try {
                     const response = await fetch(page);
                     const html = await response.text();
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
 
-                    const name = doc.querySelector('h1')?.textContent || "Unknown Human";
+                    const name = doc.querySelector('h1')?.textContent || "Unknown Alien";
                     const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
                     const image = doc.querySelector('img')?.outerHTML || "<img src='/media/images/coming_soon.png' alt='No Image' />";
 
-                    const humanDiv = document.createElement('div');
-                    humanDiv.classList.add('character-box');
+                    const alienDiv = document.createElement('div');
+                    alienDiv.classList.add('character-box');
 
-                    humanDiv.innerHTML = `
+                    alienDiv.innerHTML = 
                         <div class="character">
                             <h2><a href="${page}">${name}</a></h2>
                             <div class="character-image">${image}</div>
                             <div class="character-summary">${summary}</div>
                         </div>
-                    `;
-                    container.appendChild(humanDiv);
+                    ;
+                    container.appendChild(alienDiv);
                 } catch (error) {
-                    console.error(`Error loading human: ${page}`, error);
+                    console.error(Error loading alien: ${page}, error);
                 }
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchRandomFact();  // Start loading facts
-            loadHumans();       // Start loading human data
+            loadAliens();       // Start loading alien data
         });
     </script>
 </head>
@@ -72,8 +72,8 @@
     <div class="container">
         <div class="sidebar">
             <a href="/codex.html">Codex Home</a>
-            <a href="/codex/humans.html" class="active">Humans</a>
-            <a href="/codex/aliens.html">Aliens</a>
+            <a href="/codex/humans.html">Humans</a>
+            <a href="/codex/aliens.html" class="active">Aliens</a>
             <a href="/codex/creatures.html">Creatures</a>
             <a href="/codex/robots.html">Robots</a>
             <a href="/codex/transportation.html">Transportation</a>
@@ -91,8 +91,8 @@
                 <span class="intercepted">Message Intercepted:</span>
                 <span class="fact-ticker" id="random-fact">Loading...</span>
             </div>
-            <h2>Humans</h2>
-            <div id="human-list">
+            <h2>Aliens</h2>
+            <div id="alien-list">
                 <p>Accessing database of Nothing...</p>
             </div>
         </div>
