@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codex of Nothing - Captain Raymond B. Tracy</title>
+    <title>Codex of Nothing</title>
     <link rel="stylesheet" href="/codexstyle.css">
 </head>
 <body>
     <div class="starfield"></div>
-
     <header>
-        <h1 class="subject-title">Captain Raymond B. Tracy</h1>
+        <h1 class="subject-title">Captain Raymond B. Tracy</h1> <!-- Updated to smaller style -->
     </header>
-
     <div class="container">
         <div class="sidebar">
             <a href="/codex.html">Codex Home</a>
-            <a href="/codex/humans.html" class="active">Humans</a> <!-- "Humans" is now active -->
+            <a href="/codex/humans.html">Humans</a>
             <a href="/codex/aliens.html">Aliens</a>
             <a href="/codex/creatures.html">Creatures</a>
             <a href="/codex/robots.html">Robots</a>
@@ -30,36 +28,33 @@
             <a href="/codex/glossary.html">Glossary</a>
             <a href="/index.html">Exit Codex</a>
         </div>
-
         <div class="content">
-            <!-- Subject Box for Captain Tracy -->
-            <div class="subject">
+            <!-- Random Fact Box -->
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+
+            <!-- Character Box for Captain Tracy -->
+            <div class="character-box">
                 <h2>"The Captain"</h2>
-
-                <!-- Subject Image -->
-                <div class="subject-image-container">
+                <div class="subject-bio">
                     <img src="/media/images/captain-tracy-1.png" alt="Subject: Captain Raymond B. Tracy" class="subject-image">
+                    <div class="subject-summary">
+                        <h3>Summary</h3>
+                        <ul>
+                            <li><strong>Age:</strong> 36</li>
+                            <li><strong>Role:</strong> Captain of the Moonshine, Savior of Everything.</li>
+                            <li><strong>Personality:</strong> Charismatic romantic pragmatist.</li>
+                            <li><strong>Affiliations:</strong> Moonshine Crew, Nothing Corporation.</li>
+                            <li><strong>Episode Appearances:</strong> All episodes.</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <!-- Subject Summary Section -->
-                <div class="subject-summary">
-                    <h3>Summary</h3>
-                    <ul>
-                        <li><strong>Age:</strong> 36</li>
-                        <li><strong>Role:</strong> Captain of the Moonshine, Savior of Everything</li>
-                        <li><strong>Personality:</strong> Charismatic romantic pragmatist</li>
-                        <li><strong>Affiliations:</strong> Moonshine Crew, Nothing Corporation</li>
-                        <li><strong>Episode Appearances:</strong> All episodes</li>
-                    </ul>
-                </div>
+                <h2>Biography</h2>
+                <p>Subject Raymond B. Tracy was once an ordinary individual from Earth in the year 20XX. His life changed drastically when he was drafted into the Robo-Human Wars. Although initially reluctant to take on such a monumental role, Tracy soon became the captain of the Moonshine, leading the crew through numerous challenges. Known for his pragmatic idealism and unwavering moral compass, Tracy became a symbol of hope and resistance in the universe. As a leader, he navigated the complexities of intergalactic diplomacy while dealing with the personal struggles of his crew.</p>
 
-                <!-- Biography Section -->
-                <div class="subject-summary">
-                    <h3>Biography</h3>
-                    <p>Subject Raymond B. Tracy was once an ordinary individual from Earth in the year 20XX. His life changed drastically when he was drafted into the Robo-Human Wars...</p>
-                </div>
-
-                <!-- Key Moments Section -->
                 <h3>Key Moments</h3>
                 <ul>
                     <li>Led the Moonshine Crew in the <strong>Battle of Brenner 7</strong></li>
@@ -68,12 +63,28 @@
                     <li>Uncovered the <strong>Hyperspace Paradox</strong> that reshaped the universe's timeline</li>
                 </ul>
 
-                <!-- Role in the Universe Section -->
                 <h3>Role in the Universe</h3>
-                <p>As Captain of the Moonshine, Tracy's leadership played a pivotal role in the formation of the <strong>Dispatch</strong>.</p>
-            </div> <!-- End of subject box -->
+                <p>As Captain of the Moonshine, Tracy's leadership played a pivotal role in the formation of the <strong>Dispatch</strong>. He is both a hero and a reluctant leader, guiding his crew through the many twists and turns of the fragmented universe.</p>
+            </div>
         </div>
     </div>
 
+    <!-- JavaScript for Random Fact Box -->
+    <script>
+        async function fetchRandomFact() {
+            try {
+                const response = await fetch('/data/facts.txt');
+                const text = await response.text();
+                const facts = text.split('\n').filter(fact => fact.trim() !== '');
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchRandomFact);
+    </script>
 </body>
 </html>
