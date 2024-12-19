@@ -12,7 +12,7 @@
                 const text = await response.text();
                 const facts = text.split('\n').filter(fact => fact.trim() !== '');
                 const randomIndex = Math.floor(Math.random() * facts.length);
-                document.getElementById('random-fact').textContent = ...${facts[randomIndex]}...;
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
             } catch (error) {
                 console.error('Error fetching facts:', error);
                 document.getElementById('random-fact').textContent = '...Accessing database of Nothing...';
@@ -44,16 +44,16 @@
                     const alienDiv = document.createElement('div');
                     alienDiv.classList.add('character-box');
 
-                    alienDiv.innerHTML = 
+                    alienDiv.innerHTML = `
                         <div class="character">
                             <h2><a href="${page}">${name}</a></h2>
                             <div class="character-image">${image}</div>
                             <div class="character-summary">${summary}</div>
                         </div>
-                    ;
+                    `;
                     container.appendChild(alienDiv);
                 } catch (error) {
-                    console.error(Error loading alien: ${page}, error);
+                    console.error(`Error loading alien: ${page}`, error);
                 }
             }
         }
@@ -99,3 +99,4 @@
     </div>
 </body>
 </html>
+
