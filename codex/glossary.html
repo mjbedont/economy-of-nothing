@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Glossary of terms, characters, and locations in The Economy of Nothing—a satirical dystopian universe.">
+    <meta name="keywords" content="Glossary, The Economy of Nothing, Characters, Episodes, Terms">
+    <meta name="author" content="The Economy of Nothing Team">
+    <title>Glossary - Codex of Nothing</title>
+    <link rel="stylesheet" href="/codexstyle.css">
+    <script>
+        async function fetchRandomFact() {
+            try {
+                const response = await fetch('/data/facts.txt'); // Ensure the file path is correct
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const facts = text.split('\n').filter(fact => fact.trim() !== '');
+                if (facts.length === 0) {
+                    throw new Error('No facts available.');
+                }
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+            }
+        }
+
+        async function fetchGlossary() {
+            const container = document.getElementById('glossary-list');
+            const glossaryItems = [
+                { term: "AI Run Amok", definition: "Episode where an AI system at the Dispatch malfunctions, causing bureaucratic havoc." },
+                { term: "Brenner 7", definition: "Corporate-controlled mining planet owned by the Nothing Corporation, inhabited mostly by robots." },
+                { term: "Captain Raymond B. Tracy", definition: "Main character, a war hero turned space ranger struggling with corporate corruption." },
+                { term: "Cosmic Agriculture", definition: "Megacorporation managing agriculture and resources." },
+                { term: "Dracronaria", definition: "Medieval planet ruled by Queen Kamalalalala, home to rebellion and sacred dragon eggs." },
+                { term: "Infinity Screen", definition: "Device showing alternate realities and future outcomes." }
+                // Add more glossary terms and definitions here
+            ];
+
+            container.innerHTML = '<p>Accessing database of Nothing...</p>';
+
+            try {
+                container.innerHTML = ''; // Clear the loading message
+                glossaryItems.forEach(item => {
+                    const entryDiv = document.createElement('div');
+                    entryDiv.classList.add('glossary-item');
+                    entryDiv.innerHTML = `
+                        <h3>${item.term}</h3>
+                        <p>${item.definition}</p>
+                    `;
+                    container.appendChild(entryDiv);
+                });
+            } catch (error) {
+                console.error('Error loading glossary:', error);
+                container.innerHTML = '<p>Failed to load glossary. Please try again later.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRandomFact();
+            fetchGlossary();
+        });
+    </script>
+</head>
+<body>
+    <div class="starfield"></div>
+    <header>
+        <h1>Codex of Nothing</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/codex.html">Codex Home</a>
+            <a href="humans.html">Humans</a>
+            <a href="aliens.html">Aliens</a>
+            <a href="creatures.html">Creatures</a>
+            <a href="robots.html">Robots</a>
+            <a href="transportation.html">Transportation</a>
+            <a href="technology.html">Technology</a>
+            <a href="locations.html">Locations</a>
+            <a href="factions.html">Factions</a>
+            <a href="economics.html">Economics</a>
+            <a href="politics.html">Politics</a>
+            <a href="timeline.html">Timeline</a>
+            <a href="glossary.html" class="active">Glossary</a>
+            <a href="/index.html">Exit Codex</a>
+        </div>
+        <div class="content">
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+            <div class="subject-box">
+                <h2>Glossary</h2>
+                <p>
+                    The glossary provides definitions and descriptions of key terms, characters, locations, and items from <em>The Economy of Nothing</em>. Browse alphabetically to explore the universe.
+                </p>
+                <div id="glossary-list">
+                    <p>Accessing database of Nothing...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
