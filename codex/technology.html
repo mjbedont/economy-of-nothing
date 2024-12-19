@@ -3,38 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore the technology of The Economy of Nothing—innovations, tools, and devices shaping the galaxy.">
-    <meta name="keywords" content="Technology, Codex, The Economy of Nothing, Sci-Fi Universe">
-    <meta name="author" content="The Economy of Nothing Team">
-    <title>Technology - Codex of Nothing</title>
+    <title>Codex of Nothing - Technology</title>
     <link rel="stylesheet" href="/codexstyle.css">
     <script>
         async function fetchRandomFact() {
             try {
                 const response = await fetch('/data/facts.txt');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
                 const text = await response.text();
                 const facts = text.split('\n').filter(fact => fact.trim() !== '');
-                if (facts.length === 0) {
-                    throw new Error('No facts available.');
-                }
                 const randomIndex = Math.floor(Math.random() * facts.length);
                 document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
             } catch (error) {
                 console.error('Error fetching facts:', error);
-                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+                document.getElementById('random-fact').textContent = '...Accessing database of Nothing...';
             }
         }
 
-        async function loadTechnology() {
+        async function loadTechnologies() {
             const container = document.getElementById('technology-list');
             const technologyPages = [
-                "/codex/technology/cell-phones.html",
-              "/codex/technology/hyperspace-drive.html",
-                "/codex/technology/infinity-screen.html",
-                "/codex/technology/robotics-enhancer.html"
+                "/codex/technology/cell-phones.html"
                 // Add more technology pages as needed
             ];
 
@@ -47,21 +35,21 @@
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
 
-                    const name = doc.querySelector('h1').textContent || "Unknown Technology";
+                    const name = doc.querySelector('h1')?.textContent || "Unknown Technology";
                     const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
-                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
+                    const image = doc.querySelector('img')?.outerHTML || "<img src='/media/images/coming_soon.png' alt='No Image' />";
 
-                    const techDiv = document.createElement('div');
-                    techDiv.classList.add('character-box');
+                    const technologyDiv = document.createElement('div');
+                    technologyDiv.classList.add('character-box');
 
-                    techDiv.innerHTML = `
+                    technologyDiv.innerHTML = `
                         <div class="character">
                             <h2><a href="${page}">${name}</a></h2>
                             <div class="character-image">${image}</div>
                             <div class="character-summary">${summary}</div>
                         </div>
                     `;
-                    container.appendChild(techDiv);
+                    container.appendChild(technologyDiv);
                 } catch (error) {
                     console.error(`Error loading technology: ${page}`, error);
                 }
@@ -69,8 +57,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetchRandomFact();
-            loadTechnology();
+            fetchRandomFact();  // Start loading facts
+            loadTechnologies(); // Start loading technology data
         });
     </script>
 </head>
@@ -101,5 +89,11 @@
                 <span class="intercepted">Message Intercepted:</span>
                 <span class="fact-ticker" id="random-fact">Loading...</span>
             </div>
-            <h
-
+            <h2>Technology</h2>
+            <div id="technology-list">
+                <p>Accessing database of Nothing...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
