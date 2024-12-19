@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the timeline of key events in The Economy of Nothing—a satirical dystopian sci-fi universe.">
+    <meta name="keywords" content="Timeline, Events, The Economy of Nothing, Dystopian Sci-Fi">
+    <meta name="author" content="The Economy of Nothing Team">
+    <title>Timeline - Codex of Nothing</title>
+    <link rel="stylesheet" href="/codexstyle.css">
+    <script>
+        async function fetchRandomFact() {
+            try {
+                const response = await fetch('/data/facts.txt'); // Ensure this path is correct
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const facts = text.split('\n').filter(fact => fact.trim() !== '');
+                if (facts.length === 0) {
+                    throw new Error('No facts available.');
+                }
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+            }
+        }
+
+        async function loadTimeline() {
+            const container = document.getElementById('timeline-list');
+            const timelinePages = [
+                "/codex/timeline/event-1.html",
+                "/codex/timeline/event-2.html",
+                "/codex/timeline/event-3.html",
+                "/codex/timeline/event-4.html",
+                "/codex/timeline/event-5.html"
+                // Add new event pages here as they are created
+            ];
+
+            container.innerHTML = '<p>Accessing database of Nothing...</p>';
+
+            for (const page of timelinePages) {
+                try {
+                    const response = await fetch(page);
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    const name = doc.querySelector('h1')?.textContent || "Unknown Event";
+                    const summary = doc.querySelector('p')?.outerHTML || "<p>No summary available.</p>";
+                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
+
+                    const eventDiv = document.createElement('div');
+                    eventDiv.classList.add('character-box');
+
+                    eventDiv.innerHTML = `
+                        <div class="character">
+                            <h2><a href="${page}">${name}</a></h2>
+                            <div class="character-image">${image}</div>
+                            <div class="character-summary">${summary}</div>
+                        </div>
+                    `;
+                    container.appendChild(eventDiv);
+                } catch (error) {
+                    console.error(`Error loading timeline event: ${page}`, error);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRandomFact();  // Load random fact
+            loadTimeline();     // Load timeline events
+        });
+    </script>
+</head>
+<body>
+    <div class="starfield"></div>
+    <header>
+        <h1>Codex of Nothing</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/codex.html">Codex Home</a>
+            <a href="/codex/humans.html">Humans</a>
+            <a href="/codex/aliens.html">Aliens</a>
+            <a href="/codex/creatures.html">Creatures</a>
+            <a href="/codex/robots.html">Robots</a>
+            <a href="/codex/transportation.html">Transportation</a>
+            <a href="/codex/technology.html">Technology</a>
+            <a href="/codex/locations.html">Locations</a>
+            <a href="/codex/factions.html">Factions</a>
+            <a href="/codex/economics.html">Economics</a>
+            <a href="/codex/politics.html">Politics</a>
+            <a href="/codex/timeline.html" class="active">Timeline</a>
+            <a href="/codex/glossary.html">Glossary</a>
+            <a href="/index.html">Exit Codex</a>
+        </div>
+        <div class="content">
+            <div class="random-fact-box">
+                <span class="intercepted">Message Intercepted:</span>
+                <span class="fact-ticker" id="random-fact">Loading...</span>
+            </div>
+            <h2>Timeline</h2>
+            <div id="timeline-list">
+                <p>Accessing database of Nothing...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
