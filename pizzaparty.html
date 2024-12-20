@@ -133,6 +133,7 @@
             fuelStatus.textContent = `Fuel: ${gameState.fuel}`;
             creditsStatus.textContent = `Credits: ${gameState.credits}`;
             reputationStatus.textContent = `Reputation: ${gameState.reputation}`;
+            checkFailState(); // Check for fail state after updating stats
         }
 
         function setActions(actionsList) {
@@ -170,36 +171,15 @@
             gameState.fuel -= job.distance;
             updateOutput(`You chose the ${job.name} job. Traveling ${job.distance} fuel units...`);
 
-            // Simulate job success or failure
             if (Math.random() < job.successRate) {
-                updateOutput(`You arrived at the mission site. ${job.name} mission starting...`);
-                makeReputationChoice(job);
+                updateOutput(`The ${job.name} job was successful!`);
+                gameState.credits += job.reward;
+                gameState.reputation += 10;
             } else {
-                updateOutput(`The ${job.name} job failed in transit. You lost reputation.`);
+                updateOutput(`The ${job.name} job failed.`);
                 gameState.reputation -= 10;
-                checkFailState();
             }
-        }
 
-        function makeReputationChoice(job) {
-            updateOutput("You must decide: Rescue the stranded crew for reputation or salvage the cargo for credits?");
-            setActions({
-                "Rescue Crew": () => {
-                    gameState.reputation += 15;
-                    updateOutput(`You rescued the crew! Reputation increased by 15.`);
-                    endJob(job.reward * 0.5); // Half reward
-                },
-                "Salvage Cargo": () => {
-                    gameState.credits += job.reward;
-                    updateOutput(`You salvaged the cargo! Gained ${job.reward} credits.`);
-                    endJob(0); // No additional reward
-                }
-            });
-        }
-
-        function endJob(bonus) {
-            gameState.credits += bonus;
-            updateOutput("Mission complete. Returning to Dispatch...");
             updateStatus();
             setActions({
                 "Return to Dispatch": initializeGame
@@ -211,22 +191,17 @@
                 gameOver("You ran out of fuel and drifted into the void.");
             } else if (gameState.reputation <= 0) {
                 gameOver("Your reputation is ruined. No one will hire you.");
-            } else {
-                updateStatus();
-                setActions({
-                    "Return to Dispatch": initializeGame
-                });
             }
         }
 
         function gameOver(message) {
             updateOutput(`\n--- GAME OVER ---\n${message}`);
+            updateOutput(`Final Score: ${gameState.credits + gameState.reputation}`);
             setActions({
                 "Restart": () => location.reload()
             });
         }
 
-        // === Initialize Game ===
         function initializeGame() {
             updateStatus();
             updateOutput("\n--- Dispatch 69 ---");
