@@ -19,7 +19,7 @@
             align-items: center;
         }
 
-        header, nav, footer {
+        header, footer {
             text-align: center;
             margin-bottom: 20px;
         }
@@ -37,7 +37,6 @@
             border: 3px solid #fff;
             border-radius: 8px;
             overflow-y: auto;
-            overflow-x: hidden;
             padding: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
@@ -117,10 +116,6 @@
             <button id="mission-2" class="mission-button" disabled>Mission 2</button>
             <button id="mission-3" class="mission-button" disabled>Mission 3</button>
         </div>
-        <div id="controls">
-            <button id="buy-fuel">Buy Fuel</button>
-            <button id="buy-medical">Buy Medical Kits</button>
-        </div>
         <div id="leaderboard">
             <h3>Leaderboard</h3>
             <ul id="leaderboard-stats">
@@ -143,11 +138,9 @@
             document.getElementById('mission-2'),
             document.getElementById('mission-3')
         ];
-        const buyFuelButton = document.getElementById('buy-fuel');
-        const buyMedicalButton = document.getElementById('buy-medical');
         const leaderboardStats = document.getElementById('leaderboard-stats');
 
-        let fuel = 10, medicalKits = 2, credits = 50;
+        let fuel = 15, medicalKits = 5, credits = 50;
         let socialScore = 0, missionsCompleted = 0, grossCredits = 0;
         let missionOptions = [];
         let currentMission = null;
@@ -238,33 +231,15 @@ Mission ${index + 1}:
                 button.disabled = true;
                 button.textContent = "Waiting for next mission...";
             });
+            setTimeout(() => {
+                generateMissions();
+                output.textContent += "\nNew missions available! Select your next mission.";
+            }, 2000);
         }
 
         // === Event Listeners ===
         missionButtons.forEach((button, index) => {
             button.addEventListener('click', () => selectMission(index));
-        });
-
-        buyFuelButton.addEventListener('click', () => {
-            const amount = parseInt(prompt('How much fuel to buy? (10 credits per unit)'));
-            if (amount && amount * 10 <= credits) {
-                fuel += amount;
-                credits -= amount * 10;
-                output.textContent += `Bought ${amount} fuel for ${amount * 10} credits.\n`;
-            } else {
-                output.textContent += "Not enough credits or invalid input.\n";
-            }
-        });
-
-        buyMedicalButton.addEventListener('click', () => {
-            const amount = parseInt(prompt('How many medical kits to buy? (15 credits each)'));
-            if (amount && amount * 15 <= credits) {
-                medicalKits += amount;
-                credits -= amount * 15;
-                output.textContent += `Bought ${amount} medical kits for ${amount * 15} credits.\n`;
-            } else {
-                output.textContent += "Not enough credits or invalid input.\n";
-            }
         });
 
         // === Initialize Game ===
