@@ -32,6 +32,12 @@
             <h2>Message Board</h2>
             <p>Share your thoughts or connect with others in the community:</p>
 
+            <div id="messages-container">
+                <ul id="message-list">
+                    <li>Loading messages...</li>
+                </ul>
+            </div>
+
             <form id="message-form">
                 <label for="username">Your Name:</label>
                 <input type="text" id="username" name="username" placeholder="Enter your name" required>
@@ -41,13 +47,6 @@
 
                 <button type="submit">Post Message</button>
             </form>
-
-            <div id="messages">
-                <h3>Recent Messages:</h3>
-                <ul id="message-list">
-                    <li>Loading messages...</li>
-                </ul>
-            </div>
         </section>
     </main>
 
@@ -57,4 +56,3 @@
     </footer>
 </body>
 </html>
-
