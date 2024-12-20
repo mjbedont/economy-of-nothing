@@ -3,7 +3,7 @@ const path = require("path");
 
 exports.handler = async () => {
     // Path to the visitor count file in the project directory
-    const filePath = path.resolve(__dirname, "../../data/counters/visitorcount.txt");
+    const filePath = path.resolve(__dirname, "/data/counters/visitorcount.txt");
 
     try {
         let count = 0;
