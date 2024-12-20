@@ -14,18 +14,17 @@
         <h1>Pizza Party</h1>
         <p>Arcade Games in the Economy of Nothing Universe</p>
     </header>
-        <nav>
-            <a href="/index.html">Home</a>
-            <a href="/episodes.html">Episodes</a>
-            <a href="/codex.html">Codex</a>
-            <a href="/people.html">People</a>
-        </nav>
-
+    <nav>
+        <a href="/index.html">Home</a>
+        <a href="/episodes.html">Episodes</a>
+        <a href="/codex.html">Codex</a>
+        <a href="/people.html">People</a>
+    </nav>
     <main>
-        <h2>Choose Your Game</h2>
-        <div class="game-list">
-            <a href="/games/game1.html" class="game-link">Play Game 1</a>
-            <a href="/games/game2.html" class="game-link">Play Game 2</a>
+        <h2>Play Distress Call Simulator</h2>
+        <pre id="game-output"></pre>
+        <div>
+            <button id="start-game">Start Game</button>
         </div>
     </main>
     <footer>
@@ -33,5 +32,112 @@
         <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
         <p class="visitor-counter">You are visitor number: <span id="visitor-count">1</span></p>
     </footer>
+
+    <script>
+        // === Distress Call Game Code ===
+        const output = document.getElementById('game-output');
+        const startButton = document.getElementById('start-game');
+
+        // Game Variables
+        let fuel, medicalKits, repairTools, credits;
+        let distance, hazards, survivors, shipCondition;
+
+        // Initialize Game Variables
+        function initializeGame() {
+            fuel = 10;
+            medicalKits = 3;
+            repairTools = 2;
+            credits = 100;
+            output.textContent = "Welcome to Distress Call Simulator!\nClick 'Start Game' to begin!";
+        }
+
+        // Generate Mission
+        function generateMission() {
+            distance = Math.floor(Math.random() * 10) + 5;
+            survivors = Math.floor(Math.random() * 5) + 1;
+            shipCondition = ["Critical", "Stable", "Damaged"][Math.floor(Math.random() * 3)];
+            hazards = Array.from({ length: Math.floor(Math.random() * 3) }, () =>
+                ["Asteroid", "Pirates"][Math.floor(Math.random() * 2)]
+            );
+
+            output.textContent += `\n\nNEW MISSION:\nA ship ${distance} units away needs help!\nSurvivors: ${survivors}\nShip Condition: ${shipCondition}\nHazards: ${hazards.length > 0 ? hazards.join(", ") : "None"}\nPotential Reward: ${survivors * 50} credits`;
+        }
+
+        // Travel Phase
+        function travel() {
+            for (let i = 0; i < distance; i++) {
+                if (fuel <= 0) {
+                    output.textContent += "\nYou ran out of fuel and failed the mission!";
+                    return false;
+                }
+                fuel--;
+
+                // Random Hazard Encounter
+                if (hazards.length > 0 && Math.random() < 0.3) {
+                    const hazard = hazards.pop();
+                    output.textContent += `\nEncountered: ${hazard}`;
+                    if (hazard === "Asteroid") {
+                        if (repairTools > 0) {
+                            repairTools--;
+                            output.textContent += "\nUsed a repair tool to avoid damage.";
+                        } else {
+                            output.textContent += "\nNo repair tools! Suffered damage.";
+                        }
+                    } else if (hazard === "Pirates") {
+                        credits -= 50;
+                        output.textContent += "\nLost 50 credits to pirates.";
+                    }
+                }
+            }
+            output.textContent += "\nArrived at the distress signal!";
+            return true;
+        }
+
+        // Rescue Phase
+        function rescue() {
+            output.textContent += "\nRESCUE PHASE:";
+            if (shipCondition === "Critical" && repairTools > 0) {
+                repairTools--;
+                output.textContent += "\nRepaired the ship's critical systems.";
+            } else if (shipCondition === "Critical") {
+                output.textContent += "\nFailed to repair the ship. Survivors lost!";
+                survivors = 0;
+            }
+
+            if (survivors > 0 && medicalKits >= survivors) {
+                medicalKits -= survivors;
+                output.textContent += `\nRescued all ${survivors} survivors!`;
+            } else if (survivors > 0) {
+                output.textContent += `\nNot enough medical kits! Only ${medicalKits} survivors rescued.`;
+                survivors = medicalKits;
+                medicalKits = 0;
+            }
+
+            const reward = survivors * 50;
+            credits += reward;
+            output.textContent += `\nMission Reward: ${reward} credits`;
+        }
+
+        // Main Game Loop
+        function playGame() {
+            generateMission();
+            if (travel()) {
+                rescue();
+                output.textContent += `\n\nMISSION COMPLETE!\nRemaining Fuel: ${fuel}\nCredits: ${credits}`;
+                if (fuel <= 0) {
+                    output.textContent += "\nOut of fuel! Game Over.";
+                    return;
+                }
+            }
+        }
+
+        // Start Game Event Listener
+        startButton.addEventListener('click', () => {
+            playGame();
+        });
+
+        // Initialize Game on Load
+        initializeGame();
+    </script>
 </body>
 </html>
