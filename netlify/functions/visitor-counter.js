@@ -2,13 +2,13 @@ const fs = require("fs");
 const path = require("path");
 
 exports.handler = async () => {
-    // Path to the visitor count file in the project directory
-    const filePath = path.resolve(__dirname, "/data/counters/visitorcount.txt");
+    // Path to the visitor count file in the /tmp directory
+    const filePath = path.join("/tmp", "visitorcount.txt");
 
     try {
         let count = 0;
 
-        // Read the visitor count from the file if it exists
+        // Check if the file exists and read the count
         if (fs.existsSync(filePath)) {
             count = parseInt(fs.readFileSync(filePath, "utf-8"), 10) || 0;
         }
@@ -16,9 +16,10 @@ exports.handler = async () => {
         // Increment the count
         count++;
 
-        // Write the updated count back to the file
+        // Write the updated count back to the /tmp file
         fs.writeFileSync(filePath, count.toString());
 
+        // Return the visitor count
         return {
             statusCode: 200,
             body: count.toString(),
@@ -31,4 +32,5 @@ exports.handler = async () => {
         };
     }
 };
+
 
