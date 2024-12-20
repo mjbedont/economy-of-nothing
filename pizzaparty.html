@@ -7,91 +7,7 @@
     <meta name="keywords" content="Pizza Party, Economy of Nothing, games, JavaScript, arcade">
     <meta name="author" content="The Economy of Nothing Team">
     <title>Pizza Party - Arcade Games</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #222;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        header, footer {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #game-container {
-            width: 360px;
-            height: 400px;
-            background: #000;
-            border: 3px solid #fff;
-            border-radius: 8px;
-            overflow-y: auto;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-        }
-
-        #game-output {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 14px;
-            white-space: pre-wrap;
-            line-height: 1.5;
-        }
-
-        #missions {
-            margin: 20px 0;
-            width: 360px;
-        }
-
-        .mission-button {
-            display: block;
-            margin: 10px auto;
-            padding: 10px;
-            width: 90%;
-            background: #444;
-            border: 1px solid #fff;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-            font-family: "Courier New", Courier, monospace;
-        }
-
-        .mission-button:hover {
-            background: #666;
-        }
-
-        #stats {
-            width: 360px;
-            margin-top: 20px;
-            padding: 10px;
-            background: #111;
-            border: 3px solid #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        #stats ul {
-            list-style-type: none;
-            padding: 0;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 14px;
-        }
-
-        #stats li {
-            margin: 5px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
@@ -102,22 +18,22 @@
         <h2>Play Distress Call Simulator</h2>
         <div id="game-container">
             <pre id="game-output">Welcome to Distress Call Simulator!</pre>
-        </div>
-        <div id="missions">
-            <button id="mission-1" class="mission-button" disabled>Mission 1</button>
-            <button id="mission-2" class="mission-button" disabled>Mission 2</button>
-            <button id="mission-3" class="mission-button" disabled>Mission 3</button>
-        </div>
-        <div id="stats">
-            <h3>Your Stats</h3>
-            <ul id="player-stats">
-                <li>Fuel: 15</li>
-                <li>Medical Kits: 5</li>
-                <li>Credits: 50</li>
-                <li>Social Score: 0</li>
-                <li>Missions Completed: 0</li>
-                <li>Gross Credits: 0</li>
-            </ul>
+            <div id="missions">
+                <button id="mission-1" class="mission-button" disabled>Mission 1</button>
+                <button id="mission-2" class="mission-button" disabled>Mission 2</button>
+                <button id="mission-3" class="mission-button" disabled>Mission 3</button>
+            </div>
+            <div id="stats">
+                <h3>Your Stats</h3>
+                <ul id="player-stats">
+                    <li>Fuel: 15</li>
+                    <li>Medical Kits: 5</li>
+                    <li>Credits: 50</li>
+                    <li>Social Score: 0</li>
+                    <li>Missions Completed: 0</li>
+                    <li>Gross Credits: 0</li>
+                </ul>
+            </div>
         </div>
     </main>
     <footer>
