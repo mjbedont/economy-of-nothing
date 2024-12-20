@@ -6,7 +6,7 @@
     <meta name="description" content="Pizza Party - Play exciting games set in The Economy of Nothing universe!">
     <meta name="keywords" content="Pizza Party, Economy of Nothing, games, JavaScript, arcade">
     <meta name="author" content="The Economy of Nothing Team">
-    <title>Pizza Party - Arcade Games</title>
+    <title>Distress Call Simulator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,24 +15,25 @@
         <p>Arcade Games in the Economy of Nothing Universe</p>
     </header>
     <main>
-        <h2>Play Distress Call Simulator</h2>
-        <div id="game-container">
-            <pre id="game-output">Welcome to Distress Call Simulator!</pre>
-            <div id="missions">
-                <button id="mission-1" class="mission-button" disabled>Mission 1</button>
-                <button id="mission-2" class="mission-button" disabled>Mission 2</button>
-                <button id="mission-3" class="mission-button" disabled>Mission 3</button>
-            </div>
-            <div id="stats">
-                <h3>Your Stats</h3>
-                <ul id="player-stats">
-                    <li>Fuel: 15</li>
-                    <li>Medical Kits: 5</li>
-                    <li>Credits: 50</li>
-                    <li>Social Score: 0</li>
-                    <li>Missions Completed: 0</li>
-                    <li>Gross Credits: 0</li>
-                </ul>
+        <div id="gameCanvas" class="shared-box">
+            <div id="game-container">
+                <pre id="game-output">Welcome to Distress Call Simulator!</pre>
+                <div id="missions">
+                    <button id="mission-1" class="mission-button">Mission 1</button>
+                    <button id="mission-2" class="mission-button">Mission 2</button>
+                    <button id="mission-3" class="mission-button">Mission 3</button>
+                </div>
+                <div id="stats">
+                    <h3>Your Stats</h3>
+                    <ul id="player-stats">
+                        <li>Fuel: 15</li>
+                        <li>Medical Kits: 5</li>
+                        <li>Credits: 50</li>
+                        <li>Social Score: 0</li>
+                        <li>Missions Completed: 0</li>
+                        <li>Gross Credits: 0</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
