@@ -24,7 +24,8 @@
         <h2>Play Distress Call Simulator</h2>
         <pre id="game-output"></pre>
         <div>
-            <button id="start-game">Start Game</button>
+            <button id="start-game">Start Mission</button>
+            <button id="buy-fuel" disabled>Buy Fuel</button>
         </div>
     </main>
     <footer>
@@ -37,6 +38,7 @@
         // === Distress Call Game Code ===
         const output = document.getElementById('game-output');
         const startButton = document.getElementById('start-game');
+        const buyFuelButton = document.getElementById('buy-fuel');
 
         // Game Variables
         let fuel, medicalKits, repairTools, credits;
@@ -48,19 +50,35 @@
             medicalKits = 3;
             repairTools = 2;
             credits = 100;
-            output.textContent = "Welcome to Distress Call Simulator!\nClick 'Start Game' to begin!";
+            output.textContent = "Welcome to Distress Call Simulator!\nClick 'Start Mission' to begin!";
         }
 
         // Generate Mission
         function generateMission() {
-            distance = Math.floor(Math.random() * 10) + 5;
-            survivors = Math.floor(Math.random() * 5) + 1;
+            distance = Math.floor(Math.random() * 10) + 5; // Random distance (5-15)
+            survivors = Math.floor(Math.random() * 5) + 1; // Random survivors (1-5)
             shipCondition = ["Critical", "Stable", "Damaged"][Math.floor(Math.random() * 3)];
             hazards = Array.from({ length: Math.floor(Math.random() * 3) }, () =>
                 ["Asteroid", "Pirates"][Math.floor(Math.random() * 2)]
             );
 
             output.textContent += `\n\nNEW MISSION:\nA ship ${distance} units away needs help!\nSurvivors: ${survivors}\nShip Condition: ${shipCondition}\nHazards: ${hazards.length > 0 ? hazards.join(", ") : "None"}\nPotential Reward: ${survivors * 50} credits`;
+        }
+
+        // Stock Up on Fuel
+        function buyFuel() {
+            const fuelToBuy = prompt(`You have ${credits} credits.\nFuel costs 10 credits per unit.\nHow much fuel would you like to buy?`);
+            const fuelCost = fuelToBuy * 10;
+
+            if (fuelCost > credits) {
+                output.textContent += "\nNot enough credits to buy that much fuel!";
+            } else if (fuelToBuy <= 0 || isNaN(fuelToBuy)) {
+                output.textContent += "\nInvalid input. No fuel purchased.";
+            } else {
+                credits -= fuelCost;
+                fuel += parseInt(fuelToBuy, 10);
+                output.textContent += `\nBought ${fuelToBuy} units of fuel for ${fuelCost} credits. Remaining credits: ${credits}`;
+            }
         }
 
         // Travel Phase
@@ -120,6 +138,7 @@
 
         // Main Game Loop
         function playGame() {
+            buyFuelButton.disabled = false; // Allow buying fuel between missions
             generateMission();
             if (travel()) {
                 rescue();
@@ -131,9 +150,13 @@
             }
         }
 
-        // Start Game Event Listener
+        // Event Listeners
         startButton.addEventListener('click', () => {
             playGame();
+        });
+
+        buyFuelButton.addEventListener('click', () => {
+            buyFuel();
         });
 
         // Initialize Game on Load
