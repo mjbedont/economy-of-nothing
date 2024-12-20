@@ -1,132 +1,61 @@
-const fs = require("fs");
-const path = require("path");
+document.addEventListener("DOMContentLoaded", () => {
+    const messageForm = document.getElementById("message-form");
+    const messageList = document.getElementById("message-list");
 
-const filePath = path.join("/tmp", "messages.json");
-
-exports.handler = async (event) => {
-    try {
-        // Determine HTTP method
-        const method = event.httpMethod;
-
-        if (method === "GET") {
-            // Fetch messages
-            if (fs.existsSync(filePath)) {
-                const messages = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify(messages),
-                };
-            } else {
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify([]), // No messages yet
-                };
-            }
-        } else if (method === "POST") {
-            // Add a new message
-            const { username, message } = JSON.parse(event.body);
-
-            if (!username || !message) {
-                return {
-                    statusCode: 400,
-                    body: JSON.stringify({ error: "Both username and message are required." }),
-                };
-            }
-
-            // Read existing messages
-            let messages = [];
-            if (fs.existsSync(filePath)) {
-                messages = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-            }
-
-            // Add the new message
-            const newMessage = { username, message, timestamp: new Date().toISOString() };
-            messages.push(newMessage);
-
-            // Write messages back to the file
-            fs.writeFileSync(filePath, JSON.stringify(messages, null, 2));
-
-            return {
-                statusCode: 200,
-                body: JSON.stringify(newMessage),
-            };
-        } else {
-            return {
-                statusCode: 405,
-                body: JSON.stringify({ error: "Method not allowed" }),
-            };
-        }
-    } catch (error) {
-        console.error("Error handling messages:", error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: "Internal server error" }),
-        };
+    // Fetch messages from the backend
+    function fetchMessages() {
+        fetch("/.netlify/functions/message-board")
+            .then((response) => response.json())
+            .then((messages) => {
+                console.log("Fetched messages:", messages); // Debug log
+                messageList.innerHTML = ""; // Clear the list
+                messages.forEach(({ username, message, timestamp }) => {
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `<strong>${username}:</strong> ${message} <br><small>${new Date(timestamp).toLocaleString()}</small>`;
+                    messageList.appendChild(listItem);
+                });
+            })
+            .catch((error) => {
+                console.error("Failed to fetch messages:", error);
+                messageList.innerHTML = "<li>Error loading messages.</li>";
+            });
     }
-};
-const fs = require("fs");
-const path = require("path");
 
-const filePath = path.join("/tmp", "messages.json");
+    // Post a new message
+    messageForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const username = document.getElementById("username").value.trim();
+        const message = document.getElementById("message").value.trim();
 
-exports.handler = async (event) => {
-    try {
-        // Determine HTTP method
-        const method = event.httpMethod;
-
-        if (method === "GET") {
-            // Fetch messages
-            if (fs.existsSync(filePath)) {
-                const messages = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify(messages),
-                };
-            } else {
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify([]), // No messages yet
-                };
-            }
-        } else if (method === "POST") {
-            // Add a new message
-            const { username, message } = JSON.parse(event.body);
-
-            if (!username || !message) {
-                return {
-                    statusCode: 400,
-                    body: JSON.stringify({ error: "Both username and message are required." }),
-                };
-            }
-
-            // Read existing messages
-            let messages = [];
-            if (fs.existsSync(filePath)) {
-                messages = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-            }
-
-            // Add the new message
-            const newMessage = { username, message, timestamp: new Date().toISOString() };
-            messages.push(newMessage);
-
-            // Write messages back to the file
-            fs.writeFileSync(filePath, JSON.stringify(messages, null, 2));
-
-            return {
-                statusCode: 200,
-                body: JSON.stringify(newMessage),
-            };
-        } else {
-            return {
-                statusCode: 405,
-                body: JSON.stringify({ error: "Method not allowed" }),
-            };
+        if (!username || !message) {
+            alert("Both username and message are required!");
+            return;
         }
-    } catch (error) {
-        console.error("Error handling messages:", error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: "Internal server error" }),
-        };
-    }
-};
+
+        console.log("Posting message:", { username, message }); // Debug log
+
+        fetch("/.netlify/functions/message-board", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, message }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to post message");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Posted message:", data); // Debug log
+                fetchMessages(); // Refresh the message list
+                messageForm.reset(); // Clear the form
+            })
+            .catch((error) => {
+                console.error("Failed to post message:", error);
+                alert("Failed to post message.");
+            });
+    });
+
+    // Initial fetch
+    fetchMessages();
+});
