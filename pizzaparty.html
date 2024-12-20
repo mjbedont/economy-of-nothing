@@ -64,13 +64,15 @@
             background: #666;
         }
 
-        #game-over {
-            display: none;
-            text-align: center;
+        #missions {
+            margin: 20px 0;
         }
 
-        #game-over h2 {
-            color: red;
+        .mission-button {
+            display: block;
+            margin: 10px auto;
+            width: 90%;
+            background: #555;
         }
 
         #leaderboard {
@@ -105,27 +107,19 @@
         <h1>Pizza Party</h1>
         <p>Arcade Games in the Economy of Nothing Universe</p>
     </header>
-    <nav>
-        <a href="/index.html">Home</a>
-        <a href="/episodes.html">Episodes</a>
-        <a href="/codex.html">Codex</a>
-        <a href="/people.html">People</a>
-    </nav>
     <main>
         <h2>Play Distress Call Simulator</h2>
         <div id="game-container">
-            <pre id="game-output"></pre>
+            <pre id="game-output">Welcome to Distress Call Simulator!</pre>
+        </div>
+        <div id="missions">
+            <button id="mission-1" class="mission-button" disabled>Mission 1</button>
+            <button id="mission-2" class="mission-button" disabled>Mission 2</button>
+            <button id="mission-3" class="mission-button" disabled>Mission 3</button>
         </div>
         <div id="controls">
-            <button id="select-mission">Select Mission</button>
-            <button id="start-game" disabled>Start Mission</button>
             <button id="buy-fuel">Buy Fuel</button>
             <button id="buy-medical">Buy Medical Kits</button>
-        </div>
-        <div id="game-over">
-            <h2>Game Over!</h2>
-            <p>Your journey has come to an end. Try again?</p>
-            <button id="restart-game">Restart</button>
         </div>
         <div id="leaderboard">
             <h3>Leaderboard</h3>
@@ -138,132 +132,48 @@
     </main>
     <footer>
         <p>&copy; 56.009 Nothing Inc.</p>
-        <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
-        <p class="visitor-counter">You are visitor number: <span id="visitor-count">1</span></p>
+        <p>Best viewed on Netscape Navigator.</p>
     </footer>
 
     <script>
-        // === Game Logic ===
+        // === Game Variables ===
         const output = document.getElementById('game-output');
-        const selectMissionButton = document.getElementById('select-mission');
-        const startButton = document.getElementById('start-game');
+        const missionButtons = [
+            document.getElementById('mission-1'),
+            document.getElementById('mission-2'),
+            document.getElementById('mission-3')
+        ];
         const buyFuelButton = document.getElementById('buy-fuel');
         const buyMedicalButton = document.getElementById('buy-medical');
-        const gameOverScreen = document.getElementById('game-over');
-        const restartButton = document.getElementById('restart-game');
         const leaderboardStats = document.getElementById('leaderboard-stats');
 
-        // Game Variables
-        let fuel, medicalKits, repairTools, credits, socialScore, missionsCompleted, grossCredits;
+        let fuel = 10, medicalKits = 2, credits = 50;
+        let socialScore = 0, missionsCompleted = 0, grossCredits = 0;
         let missionOptions = [];
         let currentMission = null;
 
-        // Initialize Game Variables
-        function initializeGame() {
-            fuel = 10;
-            medicalKits = 2;
-            repairTools = 1;
-            credits = 50;
-            socialScore = 0;
-            missionsCompleted = 0;
-            grossCredits = 0;
-            updateLeaderboard();
-            output.textContent = "Welcome to Distress Call Simulator!\nClick 'Select Mission' to view available missions.";
-            gameOverScreen.style.display = "none";
-            startButton.disabled = true;
-        }
-
-        // Generate Mission Options
-        function generateMissionOptions() {
-            missionOptions = [];
-            for (let i = 0; i < 3; i++) {
-                missionOptions.push({
-                    distance: Math.floor(Math.random() * 10) + 5,
-                    survivors: Math.floor(Math.random() * 5) + 1,
-                    hazards: Array.from({ length: Math.floor(Math.random() * 3) }, () =>
-                        ["Asteroid", "Pirates"][Math.floor(Math.random() * 2)]
-                    ),
-                    reward: Math.floor(Math.random() * 100) + 50
-                });
-            }
-        }
-
-        // Display Mission Options
-        function displayMissionOptions() {
-            output.textContent = "Select a Mission:\n";
-            missionOptions.forEach((mission, index) => {
-                output.textContent += `\nMission ${index + 1}:\n`;
-                output.textContent += `  Distance: ${mission.distance}\n`;
-                output.textContent += `  Survivors: ${mission.survivors}\n`;
-                output.textContent += `  Hazards: ${mission.hazards.length > 0 ? mission.hazards.join(", ") : "None"}\n`;
-                output.textContent += `  Reward: ${mission.reward} credits\n`;
-            });
-            startButton.disabled = true;
-        }
-
-        // Select a Mission
-        function selectMission() {
-            generateMissionOptions();
-            displayMissionOptions();
-            const missionIndex = prompt("Enter the mission number (1-3) to select:") - 1;
-            if (missionIndex >= 0 && missionIndex < missionOptions.length) {
-                currentMission = missionOptions[missionIndex];
-                output.textContent += `\nYou selected Mission ${missionIndex + 1}.\nPrepare your crew and resources!`;
-                startButton.disabled = false;
-            } else {
-                output.textContent += "\nInvalid selection. Please try again.";
-            }
-        }
-
-        // Travel Phase
-        function travel() {
-            if (currentMission.distance > fuel) {
-                output.textContent += "\nNot enough fuel to complete the mission! Mission failed.";
-                triggerGameOver();
-                return false;
-            }
-            fuel -= currentMission.distance;
-            currentMission.hazards.forEach((hazard) => {
-                if (Math.random() < 0.3) {
-                    if (hazard === "Asteroid" && repairTools > 0) {
-                        repairTools--;
-                        output.textContent += "\nEncountered an Asteroid. Used a repair tool.";
-                    } else if (hazard === "Pirates") {
-                        credits -= 25;
-                        output.textContent += "\nEncountered Pirates. Lost 25 credits.";
-                    } else {
-                        output.textContent += `\nEncountered ${hazard}. No resources available to mitigate damage.`;
-                    }
-                }
-            });
-            return true;
-        }
-
-        // Rescue Phase
-        function rescue() {
-            const survivorsSaved = Math.min(currentMission.survivors, medicalKits);
-            medicalKits -= survivorsSaved;
-            socialScore += survivorsSaved;
-            grossCredits += currentMission.reward;
-            credits += currentMission.reward;
-            output.textContent += `\nRescued ${survivorsSaved}/${currentMission.survivors} survivors.`;
-            missionsCompleted++;
+        // === Local Storage Leaderboard ===
+        function loadLeaderboard() {
+            const storedData = JSON.parse(localStorage.getItem('leaderboard')) || {
+                socialScore: 0,
+                missionsCompleted: 0,
+                grossCredits: 0
+            };
+            socialScore = storedData.socialScore;
+            missionsCompleted = storedData.missionsCompleted;
+            grossCredits = storedData.grossCredits;
             updateLeaderboard();
         }
 
-        // Start Mission
-        function startMission() {
-            if (!currentMission) return;
-            output.textContent += "\nStarting Mission...\n";
-            if (travel()) {
-                rescue();
-                output.textContent += "\nMission Complete!";
-            }
-            currentMission = null;
-            startButton.disabled = true;
+        function saveLeaderboard() {
+            localStorage.setItem('leaderboard', JSON.stringify({
+                socialScore,
+                missionsCompleted,
+                grossCredits
+            }));
         }
 
-        // Update Leaderboard
+        // === Update Leaderboard Display ===
         function updateLeaderboard() {
             leaderboardStats.innerHTML = `
                 <li>Social Score: ${socialScore}</li>
@@ -272,13 +182,94 @@
             `;
         }
 
-        // Event Listeners
-        selectMissionButton.addEventListener("click", selectMission);
-        startButton.addEventListener("click", startMission);
-        restartButton.addEventListener("click", initializeGame);
+        // === Generate Missions ===
+        function generateMissions() {
+            missionOptions = [];
+            for (let i = 0; i < 3; i++) {
+                missionOptions.push({
+                    distance: Math.floor(Math.random() * 10) + 5,
+                    survivors: Math.floor(Math.random() * 5) + 1,
+                    reward: Math.floor(Math.random() * 100) + 50
+                });
+            }
+            updateMissionButtons();
+        }
 
-        // Initialize Game on Load
-        initializeGame();
+        function updateMissionButtons() {
+            missionOptions.forEach((mission, index) => {
+                missionButtons[index].disabled = false;
+                missionButtons[index].textContent = `
+Mission ${index + 1}: 
+- Distance: ${mission.distance} 
+- Survivors: ${mission.survivors} 
+- Reward: ${mission.reward} credits
+`;
+            });
+        }
+
+        // === Select a Mission ===
+        function selectMission(index) {
+            currentMission = missionOptions[index];
+            output.textContent = `You selected Mission ${index + 1}!\nStarting Mission...\n`;
+            executeMission();
+        }
+
+        // === Execute Mission ===
+        function executeMission() {
+            if (currentMission.distance > fuel) {
+                output.textContent += "Not enough fuel! Mission failed.";
+                return;
+            }
+            fuel -= currentMission.distance;
+            const survivorsSaved = Math.min(currentMission.survivors, medicalKits);
+            medicalKits -= survivorsSaved;
+            socialScore += survivorsSaved;
+            missionsCompleted++;
+            grossCredits += currentMission.reward;
+            credits += currentMission.reward;
+            output.textContent += `Mission Complete! Saved ${survivorsSaved} survivors.\nEarned ${currentMission.reward} credits.`;
+            saveLeaderboard();
+            updateLeaderboard();
+            resetMissionButtons();
+        }
+
+        function resetMissionButtons() {
+            missionButtons.forEach(button => {
+                button.disabled = true;
+                button.textContent = "Waiting for next mission...";
+            });
+        }
+
+        // === Event Listeners ===
+        missionButtons.forEach((button, index) => {
+            button.addEventListener('click', () => selectMission(index));
+        });
+
+        buyFuelButton.addEventListener('click', () => {
+            const amount = parseInt(prompt('How much fuel to buy? (10 credits per unit)'));
+            if (amount && amount * 10 <= credits) {
+                fuel += amount;
+                credits -= amount * 10;
+                output.textContent += `Bought ${amount} fuel for ${amount * 10} credits.\n`;
+            } else {
+                output.textContent += "Not enough credits or invalid input.\n";
+            }
+        });
+
+        buyMedicalButton.addEventListener('click', () => {
+            const amount = parseInt(prompt('How many medical kits to buy? (15 credits each)'));
+            if (amount && amount * 15 <= credits) {
+                medicalKits += amount;
+                credits -= amount * 15;
+                output.textContent += `Bought ${amount} medical kits for ${amount * 15} credits.\n`;
+            } else {
+                output.textContent += "Not enough credits or invalid input.\n";
+            }
+        });
+
+        // === Initialize Game ===
+        loadLeaderboard();
+        generateMissions();
     </script>
 </body>
 </html>
