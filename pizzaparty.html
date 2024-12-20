@@ -32,13 +32,14 @@
 
         #game-container {
             width: 360px;
-            height: 640px;
+            height: 400px;
             background: #000;
             border: 3px solid #fff;
             border-radius: 8px;
             overflow-y: auto;
             padding: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
         }
 
         #game-output {
@@ -48,56 +49,47 @@
             line-height: 1.5;
         }
 
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background: #444;
-            border: 1px solid #fff;
-            border-radius: 5px;
-            color: #fff;
-        }
-
-        button:hover {
-            background: #666;
-        }
-
         #missions {
             margin: 20px 0;
+            width: 360px;
         }
 
         .mission-button {
             display: block;
             margin: 10px auto;
+            padding: 10px;
             width: 90%;
-            background: #555;
+            background: #444;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            font-family: "Courier New", Courier, monospace;
         }
 
-        #leaderboard {
-            margin-top: 20px;
+        .mission-button:hover {
+            background: #666;
+        }
+
+        #stats {
             width: 360px;
+            margin-top: 20px;
+            padding: 10px;
             background: #111;
             border: 3px solid #fff;
             border-radius: 8px;
-            padding: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        #leaderboard h3 {
-            margin: 0;
-            text-align: center;
-        }
-
-        #leaderboard ul {
+        #stats ul {
             list-style-type: none;
             padding: 0;
-        }
-
-        #leaderboard li {
-            margin: 5px 0;
             font-family: "Courier New", Courier, monospace;
             font-size: 14px;
+        }
+
+        #stats li {
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -116,9 +108,12 @@
             <button id="mission-2" class="mission-button" disabled>Mission 2</button>
             <button id="mission-3" class="mission-button" disabled>Mission 3</button>
         </div>
-        <div id="leaderboard">
-            <h3>Leaderboard</h3>
-            <ul id="leaderboard-stats">
+        <div id="stats">
+            <h3>Your Stats</h3>
+            <ul id="player-stats">
+                <li>Fuel: 15</li>
+                <li>Medical Kits: 5</li>
+                <li>Credits: 50</li>
                 <li>Social Score: 0</li>
                 <li>Missions Completed: 0</li>
                 <li>Gross Credits: 0</li>
@@ -138,37 +133,19 @@
             document.getElementById('mission-2'),
             document.getElementById('mission-3')
         ];
-        const leaderboardStats = document.getElementById('leaderboard-stats');
+        const playerStats = document.getElementById('player-stats');
 
         let fuel = 15, medicalKits = 5, credits = 50;
         let socialScore = 0, missionsCompleted = 0, grossCredits = 0;
         let missionOptions = [];
         let currentMission = null;
 
-        // === Local Storage Leaderboard ===
-        function loadLeaderboard() {
-            const storedData = JSON.parse(localStorage.getItem('leaderboard')) || {
-                socialScore: 0,
-                missionsCompleted: 0,
-                grossCredits: 0
-            };
-            socialScore = storedData.socialScore;
-            missionsCompleted = storedData.missionsCompleted;
-            grossCredits = storedData.grossCredits;
-            updateLeaderboard();
-        }
-
-        function saveLeaderboard() {
-            localStorage.setItem('leaderboard', JSON.stringify({
-                socialScore,
-                missionsCompleted,
-                grossCredits
-            }));
-        }
-
-        // === Update Leaderboard Display ===
-        function updateLeaderboard() {
-            leaderboardStats.innerHTML = `
+        // === Update Player Stats Display ===
+        function updatePlayerStats() {
+            playerStats.innerHTML = `
+                <li>Fuel: ${fuel}</li>
+                <li>Medical Kits: ${medicalKits}</li>
+                <li>Credits: ${credits}</li>
                 <li>Social Score: ${socialScore}</li>
                 <li>Missions Completed: ${missionsCompleted}</li>
                 <li>Gross Credits: ${grossCredits}</li>
@@ -221,8 +198,7 @@ Mission ${index + 1}:
             grossCredits += currentMission.reward;
             credits += currentMission.reward;
             output.textContent += `Mission Complete! Saved ${survivorsSaved} survivors.\nEarned ${currentMission.reward} credits.`;
-            saveLeaderboard();
-            updateLeaderboard();
+            updatePlayerStats();
             resetMissionButtons();
         }
 
@@ -243,7 +219,7 @@ Mission ${index + 1}:
         });
 
         // === Initialize Game ===
-        loadLeaderboard();
+        updatePlayerStats();
         generateMissions();
     </script>
 </body>
