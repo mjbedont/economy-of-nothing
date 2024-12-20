@@ -1,4 +1,4 @@
-/* General Styles */ 
+/* General Styles */
 body {
     margin: 0;
     padding: 0;
@@ -61,13 +61,6 @@ header {
     background: #FFD700;
     color: black;
     box-shadow: 0 0 10px rgba(0, 255, 0, 0.8); /* Glow effect */
-}
-
-.sidebar .active {
-    background: #00FF00;
-    color: black;
-    font-weight: bold;
-    pointer-events: none;
 }
 
 .sidebar a:focus {
@@ -151,7 +144,6 @@ header {
     transition: all 0.3s ease; /* Smooth transition for hover effect */
 }
 
-/* Hover Effects */
 .character-box h2 a:hover {
     color: #00FF00; /* Change to green on hover */
     text-shadow: 0 0 10px #00FF00; /* Add a green glowing effect */
@@ -160,7 +152,7 @@ header {
 
 /* Character Image Box */
 .character-box .character-image {
-    width: 120px;  /* Set fixed width */
+    width: 120px; /* Set fixed width */
     height: 120px; /* Set fixed height */
     border: 2px solid #FFD700; /* Golden border around the image */
     border-radius: 10px;
@@ -171,7 +163,6 @@ header {
     align-items: center;
 }
 
-/* Ensure image inside scales correctly */
 .character-box .character-image img {
     width: 100%; /* Ensures the image fills the width of the container */
     height: 100%; /* Ensures the image fills the height of the container */
@@ -182,6 +173,64 @@ header {
 .character-box .character-summary {
     flex-grow: 1;
     font-size: 1rem;
+    color: #FFD700;
+}
+
+/* Subject Box */
+.subject {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1a1a1a; /* Dark background */
+    border: 2px solid #FFD700; /* Golden border */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+    max-width: 800px; /* Center content with fixed max width */
+    color: #FFD700; /* Golden text */
+    text-align: left; /* Align text to the left */
+}
+
+.subject-image-container {
+    text-align: center; /* Center the image */
+    margin-bottom: 20px;
+}
+
+.subject-image-container img {
+    max-width: 100%; /* Ensure the image is responsive */
+    height: auto;
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Subtle shadow around image */
+}
+
+.subject-summary {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.6); /* Slightly darker background for emphasis */
+    border-radius: 5px;
+    border-left: 4px solid #FFD700; /* Highlight section with a golden border */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.subject-summary h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #FFD700;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+}
+
+.subject-summary ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.key-moments ul {
+    padding-left: 20px;
+    list-style-type: square;
+}
+
+.key-moments ul li {
+    margin-bottom: 10px;
     color: #FFD700;
 }
 
@@ -206,7 +255,6 @@ header {
         padding: 15px;
     }
 
-    /* Ensure the layout works on smaller screens */
     .character-box {
         flex-direction: column;
         align-items: center;
@@ -216,5 +264,15 @@ header {
         margin-right: 0; /* Remove margin on smaller screens */
         margin-bottom: 15px; /* Add space between image and summary */
     }
+
+    .subject {
+        padding: 15px;
+    }
+
+    .subject-image-container img {
+        width: 100%;
+        height: auto;
+    }
 }
+
 
