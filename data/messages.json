@@ -1,1 +1,18 @@
+[
+    {
+        "username": "Alice",
+        "message": "Hello, world!",
+        "timestamp": "2024-12-19T15:45:00.000Z"
+    },
+    {
+        "username": "Bob",
+        "message": "This project is amazing!",
+        "timestamp": "2024-12-19T16:00:00.000Z"
+    },
+    {
+        "username": "Charlie",
+        "message": "How can I contribute?",
+        "timestamp": "2024-12-19T16:15:00.000Z"
+    }
+]
 
