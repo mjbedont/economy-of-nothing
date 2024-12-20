@@ -27,18 +27,14 @@
                 "/codex/humans/ranger-erik.html",
                 "/codex/humans/shyan-farms.html",
                 "/codex/humans/ranger-christina.html",
-  "/codex/humans/ranger-monica.html",
+                "/codex/humans/ranger-monica.html",
                 "/codex/humans/captain-red-hook.html",
                 "/codex/humans/james-francis.html",
-   "/codex/humans/clive-pierce-jones.html",
- "/codex/humans/tallulah.html",
-  "/codex/humans/lance.html",
-    
-            
-                    "/codex/humans/captain-washington.html",
+                "/codex/humans/clive-pierce-jones.html",
+                "/codex/humans/tallulah.html",
+                "/codex/humans/lance.html",
+                "/codex/humans/captain-washington.html",
                 "/codex/humans/marz.html"
-            
-                // Add more human pages as needed
             ];
 
             container.innerHTML = '<p>Accessing database of Nothing...</p>';
@@ -52,7 +48,7 @@
 
                     const name = doc.querySelector('h1')?.textContent || "Unknown Human";
                     const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
-                    const image = doc.querySelector('img')?.outerHTML || "<img src='/media/images/coming_soon.png' alt='No Image' />";
+                    const imageSrc = doc.querySelector('img')?.getAttribute('src') || "/media/images/coming_soon.png";
 
                     const humanDiv = document.createElement('div');
                     humanDiv.classList.add('character-box');
@@ -60,7 +56,11 @@
                     humanDiv.innerHTML = `
                         <div class="character">
                             <h2><a href="${page}">${name}</a></h2>
-                            <div class="character-image">${image}</div>
+                            <div class="character-image">
+                                <a href="${page}">
+                                    <img src="${imageSrc}" alt="${name}">
+                                </a>
+                            </div>
                             <div class="character-summary">${summary}</div>
                         </div>
                     `;
@@ -112,3 +112,4 @@
     </div>
 </body>
 </html>
+
