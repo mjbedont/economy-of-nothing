@@ -2,28 +2,26 @@ const fs = require("fs");
 const path = require("path");
 
 exports.handler = async () => {
-    const filePath = path.join(__dirname, "data", "counters", "visitor-count.txt");
+    // Use Netlify's temporary directory
+    const filePath = path.join("/tmp", "visitor-count.txt");
 
     try {
         let count = 0;
 
-        // Read the visitor count from the file if it exists
+        // Check if the file exists and read the count
         if (fs.existsSync(filePath)) {
-            count = parseInt(fs.readFileSync(filePath, "utf-8"), 10);
+            count = parseInt(fs.readFileSync(filePath, "utf-8"), 10) || 0;
         }
 
         // Increment the count
         count++;
-
-        // Ensure the directory exists
-        fs.mkdirSync(path.dirname(filePath), { recursive: true });
 
         // Write the updated count back to the file
         fs.writeFileSync(filePath, count.toString());
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ visitorCount: count }),
+            body: count.toString(),
         };
     } catch (error) {
         console.error("Error updating visitor count:", error);
