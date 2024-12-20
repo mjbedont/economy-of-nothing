@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const visitorCountElement = document.getElementById("visitor-count");
 
     // Fetch and update visitor count
-    fetch("/data/visitor-count.txt", { method: "GET" })
+    fetch("/data/counters/visitor-count.txt", { method: "GET" })
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
