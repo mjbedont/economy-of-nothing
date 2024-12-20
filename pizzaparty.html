@@ -3,39 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pizza Party - Play exciting games set in The Economy of Nothing universe!">
-    <meta name="keywords" content="Pizza Party, Economy of Nothing, games, JavaScript, arcade">
-    <meta name="author" content="The Economy of Nothing Team">
-    <title>Distress Call Simulator</title>
+    <meta name="description" content="The Economy of Nothing - Text Adventure">
+    <meta name="keywords" content="text adventure, The Economy of Nothing, interactive fiction">
+    <meta name="author" content="Nothing Inc.">
+    <title>The Economy of Nothing - Text Adventure</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Pizza Party</h1>
-        <p>Arcade Games in the Economy of Nothing Universe</p>
+        <h1>The Economy of Nothing</h1>
+        <p>Text Adventure Demo</p>
     </header>
     <main>
         <div id="gameCanvas" class="shared-box">
             <div id="game-container">
-                <pre id="game-output">Welcome to Distress Call Simulator!</pre>
-                <div id="missions">
-                    <button id="mission-1" class="mission-button" disabled>Mission 1</button>
-                    <button id="mission-2" class="mission-button" disabled>Mission 2</button>
-                    <button id="mission-3" class="mission-button" disabled>Mission 3</button>
-                </div>
+                <pre id="game-output">Welcome to The Economy of Nothing. You're the captain of the freighter *Void Venture*. Will you survive the chaos of corporate hyperspace?</pre>
                 <div id="actions">
-                    <button id="buy-fuel" class="game-option">Buy Fuel</button>
-                </div>
-                <div id="stats">
-                    <h3>Your Stats</h3>
-                    <ul id="player-stats">
-                        <li>Fuel: 15</li>
-                        <li>Medical Kits: 5</li>
-                        <li>Credits: 50</li>
-                        <li>Social Score: 0</li>
-                        <li>Missions Completed: 0</li>
-                        <li>Gross Credits: 0</li>
-                    </ul>
+                    <!-- Actions will dynamically populate -->
                 </div>
             </div>
         </div>
@@ -48,128 +32,116 @@
     <script>
         // === Game Variables ===
         const output = document.getElementById('game-output');
-        const missionButtons = [
-            document.getElementById('mission-1'),
-            document.getElementById('mission-2'),
-            document.getElementById('mission-3')
-        ];
-        const buyFuelButton = document.getElementById('buy-fuel');
-        const playerStats = document.getElementById('player-stats');
+        const actions = document.getElementById('actions');
 
-        let fuel = 15, medicalKits = 5, credits = 50;
-        let socialScore = 0, missionsCompleted = 0, grossCredits = 0;
-        let missionOptions = [];
-        let currentMission = null;
+        let gameState = {
+            credits: 100,
+            fuel: 20,
+            reputation: 50, // Social score
+            location: "Dispatch 69",
+            alive: true
+        };
 
-        // === Update Player Stats Display ===
-        function updatePlayerStats() {
-            playerStats.innerHTML = `
-                <li>Fuel: ${fuel}</li>
-                <li>Medical Kits: ${medicalKits}</li>
-                <li>Credits: ${credits}</li>
-                <li>Social Score: ${socialScore}</li>
-                <li>Missions Completed: ${missionsCompleted}</li>
-                <li>Gross Credits: ${grossCredits}</li>
-            `;
-        }
-
-        // === Generate Missions ===
-        function generateMissions() {
-            missionOptions = [];
-            for (let i = 0; i < 3; i++) {
-                missionOptions.push({
-                    distance: Math.floor(Math.random() * 10) + 5,
-                    survivors: Math.floor(Math.random() * 5) + 1,
-                    reward: Math.floor(Math.random() * 100) + 50,
-                    hazard: Math.random() < 0.5 ? "Asteroid Field" : "Pirates"
-                });
+        const story = {
+            "Dispatch 69": {
+                description: "You're at Dispatch 69, the bustling hub of hyperspace trade. You can refuel, take a job, or gather intel from shady characters.",
+                actions: {
+                    "Refuel": () => {
+                        if (gameState.credits >= 20) {
+                            gameState.fuel += 10;
+                            gameState.credits -= 20;
+                            updateOutput("You purchased 10 units of fuel for 20 credits.");
+                        } else {
+                            updateOutput("You don't have enough credits to refuel.");
+                        }
+                    },
+                    "Take a Job": () => {
+                        updateOutput("A distressed ship in Hyperspace Zone 7 needs a rescue. Do you accept the mission?");
+                        setActions({
+                            "Accept Mission": () => changeLocation("Hyperspace Zone 7"),
+                            "Decline": () => updateOutput("You declined the mission. The Dispatch looks a little less welcoming."),
+                        });
+                    },
+                    "Gather Intel": () => {
+                        if (Math.random() > 0.5) {
+                            gameState.credits += 10;
+                            updateOutput("You overheard a corporate spy and sold the intel for 10 credits.");
+                        } else {
+                            gameState.reputation -= 5;
+                            updateOutput("The spy noticed you snooping and blacklisted your ship. Reputation decreased.");
+                        }
+                    }
+                }
+            },
+            "Hyperspace Zone 7": {
+                description: "The zone is eerily quiet, with only the faint glow of the distressed ship. Will you investigate or leave?",
+                actions: {
+                    "Investigate": () => {
+                        if (Math.random() > 0.3) {
+                            gameState.credits += 50;
+                            gameState.reputation += 10;
+                            updateOutput("You rescued the crew and recovered 50 credits. Reputation increased!");
+                        } else {
+                            gameState.fuel -= 5;
+                            gameState.alive = gameState.fuel > 0;
+                            if (gameState.alive) {
+                                updateOutput("The mission turned into a trap! You barely escaped, losing 5 fuel.");
+                            } else {
+                                gameOver("You ran out of fuel and drifted into the void...");
+                            }
+                        }
+                        setActions({
+                            "Return to Dispatch": () => changeLocation("Dispatch 69")
+                        });
+                    },
+                    "Leave": () => {
+                        updateOutput("You abandoned the mission. Your reputation took a hit.");
+                        gameState.reputation -= 10;
+                        setActions({
+                            "Return to Dispatch": () => changeLocation("Dispatch 69")
+                        });
+                    }
+                }
             }
-            updateMissionButtons();
+        };
+
+        // === Utility Functions ===
+        function updateOutput(message) {
+            output.textContent += `\n${message}`;
         }
 
-        function updateMissionButtons() {
-            missionOptions.forEach((mission, index) => {
-                missionButtons[index].disabled = false;
-                missionButtons[index].textContent = `
-Mission ${index + 1}: 
-- Distance: ${mission.distance} 
-- Survivors: ${mission.survivors} 
-- Reward: ${mission.reward} credits
-- Hazard: ${mission.hazard}
-`;
+        function setActions(actionsList) {
+            actions.innerHTML = "";
+            Object.keys(actionsList).forEach(actionName => {
+                const button = document.createElement("button");
+                button.textContent = actionName;
+                button.classList.add("game-option");
+                button.onclick = actionsList[actionName];
+                actions.appendChild(button);
             });
         }
 
-        // === Select a Mission ===
-        function selectMission(index) {
-            currentMission = missionOptions[index];
-            output.textContent += `\nYou selected Mission ${index + 1}.\n`;
-            executeMission();
+        function changeLocation(location) {
+            if (!story[location]) return;
+            gameState.location = location;
+            updateOutput(`\n--- ${location} ---`);
+            updateOutput(story[location].description);
+            setActions(story[location].actions);
         }
 
-        // === Execute Mission ===
-        function executeMission() {
-            if (currentMission.distance > fuel) {
-                output.textContent += "Not enough fuel! Mission failed.\n";
-                resetMissionButtons();
-                return;
-            }
-            fuel -= currentMission.distance;
-
-            // Handle Hazards
-            if (currentMission.hazard === "Asteroid Field" && Math.random() < 0.5) {
-                output.textContent += "Encountered an Asteroid Field! Lost 10 credits for emergency maneuvers.\n";
-                credits -= 10;
-            } else if (currentMission.hazard === "Pirates" && Math.random() < 0.5) {
-                output.textContent += "Attacked by Pirates! Lost 1 medical kit.\n";
-                if (medicalKits > 0) medicalKits--;
-            }
-
-            const survivorsSaved = Math.min(currentMission.survivors, medicalKits);
-            medicalKits -= survivorsSaved;
-            socialScore += survivorsSaved;
-            missionsCompleted++;
-            grossCredits += currentMission.reward;
-            credits += currentMission.reward;
-
-            output.textContent += `Mission Complete! Saved ${survivorsSaved} survivors.\nEarned ${currentMission.reward} credits.\n`;
-            updatePlayerStats();
-            resetMissionButtons();
-        }
-
-        function resetMissionButtons() {
-            missionButtons.forEach(button => {
-                button.disabled = true;
-                button.textContent = "Waiting for next mission...";
+        function gameOver(message) {
+            updateOutput(`\n--- GAME OVER ---\n${message}`);
+            setActions({
+                "Restart": () => location.reload()
             });
-            setTimeout(() => {
-                generateMissions();
-                output.textContent += "\nNew missions available! Select your next mission.\n";
-            }, 2000);
         }
-
-        // === Buy Fuel ===
-        buyFuelButton.addEventListener('click', () => {
-            const fuelToBuy = parseInt(prompt("How many units of fuel would you like to buy? (10 credits per unit)"));
-            if (!isNaN(fuelToBuy) && fuelToBuy > 0 && fuelToBuy * 10 <= credits) {
-                fuel += fuelToBuy;
-                credits -= fuelToBuy * 10;
-                output.textContent += `Bought ${fuelToBuy} units of fuel for ${fuelToBuy * 10} credits.\n`;
-                updatePlayerStats();
-            } else {
-                output.textContent += "Invalid purchase or insufficient credits.\n";
-            }
-        });
 
         // === Initialize Game ===
         function initializeGame() {
-            updatePlayerStats();
-            generateMissions();
+            updateOutput("\n--- Dispatch 69 ---");
+            updateOutput(story["Dispatch 69"].description);
+            setActions(story["Dispatch 69"].actions);
         }
-
-        missionButtons.forEach((button, index) => {
-            button.addEventListener('click', () => selectMission(index));
-        });
 
         initializeGame();
     </script>
