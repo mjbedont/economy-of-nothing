@@ -8,7 +8,19 @@
     <meta name="author" content="The Economy of Nothing Team">
     <title>The Economy of Nothing - A Dystopian Odyssey</title>
     <link rel="stylesheet" href="style.css">
-    <script src="/script.js" defer></script>
+    <script defer>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("/.netlify/functions/visitor-counter")
+                .then(response => response.text())
+                .then(count => {
+                    document.getElementById("visitor-count").textContent = count;
+                })
+                .catch(error => {
+                    console.error("Failed to fetch visitor count:", error);
+                    document.getElementById("visitor-count").textContent = "Error";
+                });
+        });
+    </script>
 </head>
 <body>
     <!-- Header Section -->
@@ -17,14 +29,13 @@
         <p>A Dystopian Odyssey Through the Corporate Cosmos</p>
     </header>
 
-        <!-- Navigation Section -->
-        <nav>
-             <a href="/episodes.html">Episodes</a>
-<a href="/codex.html">Codex</a>
-            <a href="/pizzaparty.html">Pizza Party</a>
-            <a href="/people.html">People</a>
-        </nav>
-
+    <!-- Navigation Section -->
+    <nav>
+        <a href="/episodes.html">Episodes</a>
+        <a href="/codex.html">Codex</a>
+        <a href="/pizzaparty.html">Pizza Party</a>
+        <a href="/people.html">People</a>
+    </nav>
 
     <!-- Main Content Section -->
     <main>
@@ -51,7 +62,7 @@
     <footer>
         <p>&copy; 56.009 Nothing Inc.</p>
         <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
-        <p class="visitor-counter">You are visitor number: <span id="visitor-count">1</span></p>
+        <p class="visitor-counter">You are visitor number: <span id="visitor-count">Loading...</span></p>
     </footer>
 </body>
 </html>
