@@ -16,7 +16,6 @@
             border: 3px solid var(--primary-color);
             border-radius: 10px;
             background: var(--background-dark-gradient);
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -61,6 +60,21 @@
             color: #000;
             transform: scale(1.05);
         }
+
+        #status-panel {
+            display: flex;
+            justify-content: space-around;
+            background: var(--background-dark);
+            color: var(--primary-color);
+            padding: 10px;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        #status-panel div {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 14px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -70,6 +84,11 @@
     </header>
     <main>
         <div id="gameCanvas">
+            <div id="status-panel">
+                <div id="fuel-status">Fuel: 20</div>
+                <div id="credits-status">Credits: 100</div>
+                <div id="reputation-status">Reputation: 50</div>
+            </div>
             <div id="game-output">
                 Welcome to The Economy of Nothing. You're the captain of the freighter *Void Venture*. Will you survive the chaos of corporate hyperspace?
             </div>
@@ -87,6 +106,9 @@
         // === Game Variables ===
         const output = document.getElementById('game-output');
         const actions = document.getElementById('actions');
+        const fuelStatus = document.getElementById('fuel-status');
+        const creditsStatus = document.getElementById('credits-status');
+        const reputationStatus = document.getElementById('reputation-status');
 
         let gameState = {
             credits: 100,
@@ -105,6 +127,7 @@
                             gameState.fuel += 10;
                             gameState.credits -= 20;
                             updateOutput("You purchased 10 units of fuel for 20 credits.");
+                            updateStatus();
                         } else {
                             updateOutput("You don't have enough credits to refuel.");
                         }
@@ -124,6 +147,7 @@
                             gameState.reputation -= 5;
                             updateOutput("The spy noticed you snooping and blacklisted your ship. Reputation decreased.");
                         }
+                        updateStatus();
                     }
                 }
             },
@@ -144,6 +168,7 @@
                                 gameOver("You ran out of fuel and drifted into the void...");
                             }
                         }
+                        updateStatus();
                         setActions({
                             "Return to Dispatch": () => changeLocation("Dispatch 69")
                         });
@@ -151,6 +176,7 @@
                     "Leave": () => {
                         updateOutput("You abandoned the mission. Your reputation took a hit.");
                         gameState.reputation -= 10;
+                        updateStatus();
                         setActions({
                             "Return to Dispatch": () => changeLocation("Dispatch 69")
                         });
@@ -163,6 +189,12 @@
         function updateOutput(message) {
             output.textContent += `\n${message}`;
             output.scrollTop = output.scrollHeight; // Keep scrolled to the bottom
+        }
+
+        function updateStatus() {
+            fuelStatus.textContent = `Fuel: ${gameState.fuel}`;
+            creditsStatus.textContent = `Credits: ${gameState.credits}`;
+            reputationStatus.textContent = `Reputation: ${gameState.reputation}`;
         }
 
         function setActions(actionsList) {
@@ -193,6 +225,7 @@
 
         // === Initialize Game ===
         function initializeGame() {
+            updateStatus();
             updateOutput("\n--- Dispatch 69 ---");
             updateOutput(story["Dispatch 69"].description);
             setActions(story["Dispatch 69"].actions);
