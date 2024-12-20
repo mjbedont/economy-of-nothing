@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Connect with The Economy of Nothing team and fellow fans. Leave a message or explore the visitor count!">
-    <meta name="keywords" content="Contact, Message Board, Visitor Counter, Economy of Nothing">
+    <meta name="description" content="Connect with The Economy of Nothing team and fellow fans. Leave a message or explore the community!">
+    <meta name="keywords" content="Message Board, Economy of Nothing, Community, Connect">
     <meta name="author" content="The Economy of Nothing Team">
     <title>People of Nothing</title>
     <link rel="stylesheet" href="/style.css">
-    <script src="/scripts/counter.js" defer></script>
     <script src="/scripts/message-board.js" defer></script>
 </head>
 <body>
@@ -19,44 +18,33 @@
     </header>
 
     <!-- Navigation Section -->
-    <nav aria-label="Main navigation">
-        <ul>
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/episodes/index.html">Episodes</a></li>
-            <li><a href="/codex.html">Codex</a></li>
-            <li><a href="/pizzaparty/index.html">Pizza Party</a></li>
-        </ul>
+    <nav>
+        <a href="/index.html">Home</a>
+        <a href="/episodes/index.html">Episodes</a>
+        <a href="/codex.html">Codex</a>
+        <a href="/pizzaparty/index.html">Pizza Party</a>
     </nav>
 
     <!-- Main Content Section -->
     <main>
-        <!-- Visitor Counter -->
-        <section id="visitor-counter-section" aria-labelledby="visitor-counter-heading">
-            <h2 id="visitor-counter-heading">Visitor Counter</h2>
-            <p>You are visitor number: <span id="visitor-count" aria-live="polite">Loading...</span></p>
-            <p id="visitor-error-message" class="hidden" aria-live="assertive">Unable to load the visitor count. Please try again later.</p>
-        </section>
-
         <!-- Message Board -->
-        <section id="message-board-section" aria-labelledby="message-board-heading">
-            <h2 id="message-board-heading">Message Board</h2>
+        <section id="message-board-section">
+            <h2>Message Board</h2>
             <p>Share your thoughts or connect with others in the community:</p>
 
-            <form id="message-form" aria-describedby="message-form-instructions">
-                <p id="message-form-instructions">Fields marked with * are required.</p>
-                
-                <label for="username">Your Name: *</label>
-                <input type="text" id="username" name="username" placeholder="Enter your name" required aria-required="true">
+            <form id="message-form">
+                <label for="username">Your Name:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your name" required>
 
-                <label for="message">Your Message: *</label>
-                <textarea id="message" name="message" placeholder="Write your message here" required aria-required="true"></textarea>
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="message" placeholder="Write your message here" required></textarea>
 
-                <button type="submit" aria-label="Post your message">Post Message</button>
+                <button type="submit">Post Message</button>
             </form>
 
             <div id="messages">
                 <h3>Recent Messages:</h3>
-                <ul id="message-list" aria-live="polite" aria-relevant="additions">
+                <ul id="message-list">
                     <li>Loading messages...</li>
                 </ul>
             </div>
@@ -69,3 +57,4 @@
     </footer>
 </body>
 </html>
+
