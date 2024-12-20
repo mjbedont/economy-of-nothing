@@ -5,14 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fetch and display messages
     function loadMessages() {
         fetch("/data/messages/messages.txt")
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
             .then(data => {
-                const messages = data.trim().split("\n").reverse(); // Reverse for newest first
+                const messages = data.trim().split("\n").reverse(); // Display newest first
                 messageList.innerHTML = messages.map(msg => `<li>${msg}</li>`).join("");
             })
             .catch(error => {
                 console.error("Error loading messages:", error);
-                messageList.innerHTML = "<li>Error loading messages</li>";
+                messageList.innerHTML = "<li>Error loading messages.</li>";
             });
     }
 
