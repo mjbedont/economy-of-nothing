@@ -93,6 +93,7 @@
         <div id="controls">
             <button id="start-game">Start Mission</button>
             <button id="buy-fuel" disabled>Buy Fuel</button>
+            <button id="buy-medical" disabled>Buy Medical Kits</button>
         </div>
         <div id="game-over">
             <h2>Game Over!</h2>
@@ -111,20 +112,22 @@
         const output = document.getElementById('game-output');
         const startButton = document.getElementById('start-game');
         const buyFuelButton = document.getElementById('buy-fuel');
+        const buyMedicalButton = document.getElementById('buy-medical');
         const gameOverScreen = document.getElementById('game-over');
         const restartButton = document.getElementById('restart-game');
         const controls = document.getElementById('controls');
 
         // Game Variables
-        let fuel, medicalKits, repairTools, credits;
+        let fuel, medicalKits, repairTools, credits, socialScore;
         let distance, hazards, survivors, shipCondition;
 
         // Initialize Game Variables
         function initializeGame() {
-            fuel = 10; // Enough fuel to make success 50/50
-            medicalKits = 2;
-            repairTools = 1;
-            credits = 50; // Less starting credits to make choices matter
+            fuel = 10; // Start with 10 fuel
+            medicalKits = 2; // Start with 2 medical kits
+            repairTools = 1; // Start with 1 repair tool
+            credits = 50; // Start with 50 credits
+            socialScore = 0; // Reputation starts at 0
             output.textContent = "Welcome to Distress Call Simulator!\nClick 'Start Mission' to begin!";
             gameOverScreen.style.display = "none";
             controls.style.display = "block";
@@ -187,15 +190,17 @@
             if (survivors > 0 && medicalKits >= survivors) {
                 medicalKits -= survivors;
                 output.textContent += `\nRescued all ${survivors} survivors!`;
+                socialScore += survivors; // Increase social score for each survivor
             } else if (survivors > 0) {
                 output.textContent += `\nNot enough medical kits! Only ${medicalKits} survivors rescued.`;
+                socialScore += medicalKits; // Increase social score only for saved survivors
                 survivors = medicalKits;
                 medicalKits = 0;
             }
 
             const reward = survivors * 50;
             credits += reward;
-            output.textContent += `\nMission Reward: ${reward} credits`;
+            output.textContent += `\nMission Reward: ${reward} credits\nSocial Score: ${socialScore}`;
         }
 
         // Trigger Game Over
@@ -206,11 +211,12 @@
 
         // Main Game Loop
         function playGame() {
-            buyFuelButton.disabled = false; // Allow buying fuel between missions
+            buyFuelButton.disabled = false;
+            buyMedicalButton.disabled = false;
             generateMission();
             if (travel()) {
                 rescue();
-                output.textContent += `\n\nMISSION COMPLETE!\nRemaining Fuel: ${fuel}\nCredits: ${credits}`;
+                output.textContent += `\n\nMISSION COMPLETE!\nRemaining Fuel: ${fuel}\nCredits: ${credits}\nSocial Score: ${socialScore}`;
                 if (fuel <= 0) {
                     triggerGameOver();
                 }
@@ -234,6 +240,21 @@
                 credits -= fuelCost;
                 fuel += parseInt(fuelToBuy, 10);
                 output.textContent += `\nBought ${fuelToBuy} units of fuel for ${fuelCost} credits. Remaining credits: ${credits}`;
+            }
+        });
+
+        buyMedicalButton.addEventListener('click', () => {
+            const kitsToBuy = prompt(`You have ${credits} credits.\nMedical kits cost 15 credits each.\nHow many kits would you like to buy?`);
+            const kitsCost = kitsToBuy * 15;
+
+            if (kitsCost > credits) {
+                output.textContent += "\nNot enough credits to buy that many medical kits!";
+            } else if (kitsToBuy <= 0 || isNaN(kitsToBuy)) {
+                output.textContent += "\nInvalid input. No medical kits purchased.";
+            } else {
+                credits -= kitsCost;
+                medicalKits += parseInt(kitsToBuy, 10);
+                output.textContent += `\nBought ${kitsToBuy} medical kits for ${kitsCost} credits. Remaining credits: ${credits}`;
             }
         });
 
