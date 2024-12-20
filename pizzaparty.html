@@ -75,6 +75,48 @@
             font-size: 14px;
             text-align: center;
         }
+
+        #game-over-screen {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--primary-color);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        #game-over-screen h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        #game-over-screen p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        #game-over-screen button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background: var(--secondary-color);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #game-over-screen button:hover {
+            background: var(--accent-color);
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -96,6 +138,12 @@
                 <!-- Actions will dynamically populate -->
             </div>
         </div>
+        <div id="game-over-screen">
+            <h1>Game Over</h1>
+            <p id="game-over-message"></p>
+            <p id="final-score"></p>
+            <button id="play-again">Play Again</button>
+        </div>
     </main>
     <footer>
         <p>&copy; 56.009 Nothing Inc.</p>
@@ -109,6 +157,10 @@
         const fuelStatus = document.getElementById('fuel-status');
         const creditsStatus = document.getElementById('credits-status');
         const reputationStatus = document.getElementById('reputation-status');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const gameOverMessage = document.getElementById('game-over-message');
+        const finalScore = document.getElementById('final-score');
+        const playAgainButton = document.getElementById('play-again');
 
         let gameState = {
             credits: 100,
@@ -188,19 +240,19 @@
 
         function checkFailState() {
             if (gameState.fuel <= 0) {
-                gameOver("You ran out of fuel and drifted into the void.");
+                triggerGameOver("You ran out of fuel and drifted into the void.");
             } else if (gameState.reputation <= 0) {
-                gameOver("Your reputation is ruined. No one will hire you.");
+                triggerGameOver("Your reputation is ruined. No one will hire you.");
             }
         }
 
-        function gameOver(message) {
-            updateOutput(`\n--- GAME OVER ---\n${message}`);
-            updateOutput(`Final Score: ${gameState.credits + gameState.reputation}`);
-            setActions({
-                "Restart": () => location.reload()
-            });
+        function triggerGameOver(message) {
+            gameOverScreen.style.display = "flex";
+            gameOverMessage.textContent = message;
+            finalScore.textContent = `Final Score: ${gameState.credits + gameState.reputation}`;
         }
+
+        playAgainButton.addEventListener("click", () => location.reload());
 
         function initializeGame() {
             updateStatus();
