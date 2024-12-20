@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 exports.handler = async () => {
-    const filePath = path.join("/tmp", "visitor-count.txt"); // Temporary storage
+    const filePath = path.join(__dirname, "data", "counters", "visitor-count.txt");
 
     try {
         let count = 0;
@@ -14,6 +14,9 @@ exports.handler = async () => {
 
         // Increment the count
         count++;
+
+        // Ensure the directory exists
+        fs.mkdirSync(path.dirname(filePath), { recursive: true });
 
         // Write the updated count back to the file
         fs.writeFileSync(filePath, count.toString());
@@ -30,3 +33,4 @@ exports.handler = async () => {
         };
     }
 };
+
