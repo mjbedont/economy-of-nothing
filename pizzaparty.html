@@ -3,20 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pizza Party Galaxy Map</title>
+  <title>Retro Galaxy Map</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: black;
+      border: 2px solid #0f0;
+    }
+    body {
+      font-family: monospace;
+      color: white;
+      text-align: center;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Pizza Party Galaxy Map</h1>
-  </header>
-  <main>
-    <p>Select Your Ship:</p>
-    <button onclick="selectShip('small')" class="game-option">Small Ship</button>
-    <button onclick="selectShip('medium')" class="game-option">Medium Ship</button>
-    <button onclick="selectShip('large')" class="game-option">Large Ship</button>
-    <canvas id="galaxyMap" class="hidden" width="800" height="600"></canvas>
-  </main>
+  <h1>Retro Galaxy Map</h1>
+  <p>Select Your Ship:</p>
+  <button onclick="selectShip('small')">Small Ship</button>
+  <button onclick="selectShip('medium')">Medium Ship</button>
+  <button onclick="selectShip('large')">Large Ship</button>
+  <canvas id="galaxyMap" class="hidden" width="800" height="600"></canvas>
   <script>
     const canvas = document.getElementById("galaxyMap");
     const ctx = canvas.getContext("2d");
@@ -70,11 +82,189 @@
 
     let ship = { x: planets[0].x, y: planets[0].y }; // Start at Planet Prime
 
-    // Game functionality (unchanged, refer to the original script)
-    function draw() {
-      // Drawing logic...
+    // Draw Routes
+    function drawRoutes() {
+      ctx.setLineDash([10, 10]);
+      ctx.strokeStyle = "rgba(0, 255, 255, 0.5)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      planets.forEach((start) => {
+        planets.forEach((end) => {
+          if (start !== end) {
+            ctx.moveTo(start.x, start.y);
+            ctx.lineTo(end.x, end.y);
+          }
+        });
+      });
+      ctx.stroke();
     }
 
+    // Draw Visual Fuel Scale
+    function drawFuelScale() {
+      const scaleLength = 100; // Distance equivalent to 1 fuel
+      ctx.strokeStyle = "white";
+      ctx.beginPath();
+      ctx.moveTo(700, 580); // Start point
+      ctx.lineTo(700 + scaleLength, 580); // End point
+      ctx.stroke();
+      ctx.fillStyle = "white";
+      ctx.font = "12px monospace";
+      ctx.fillText("1 Fuel Unit", 700, 570);
+    }
+
+    // Draw Fuel and Credits
+    function drawStats() {
+      ctx.fillStyle = "white";
+      ctx.font = "16px monospace";
+      ctx.fillText(Fuel: ${fuel}, 10, 20);
+      ctx.fillText(Credits: ${credits}, 10, 40);
+    }
+
+    // Draw Planets
+    function drawPlanets() {
+      ctx.setLineDash([5, 5]);
+      planets.forEach((planet) => {
+        ctx.strokeStyle = planet.color;
+        ctx.beginPath();
+        ctx.arc(planet.x, planet.y, 15, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = "white";
+        ctx.font = "12px monospace";
+        ctx.fillText(planet.name, planet.x + 20, planet.y);
+      });
+    }
+
+    // Draw Ship
+    function drawShip() {
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.moveTo(ship.x, ship.y - 5);
+      ctx.lineTo(ship.x - 5, ship.y + 5);
+      ctx.lineTo(ship.x + 5, ship.y + 5);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Draw Buy Fuel Prompt
+    function drawBuyFuelPrompt() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      ctx.fillRect(150, 200, 500, 200);
+
+      ctx.fillStyle = "white";
+      ctx.font = "18px monospace";
+      ctx.fillText("Welcome to Planet Prime!", 300, 240);
+      ctx.fillText("Press 'B' to Buy Fuel (2 credits per unit)", 220, 280);
+      ctx.fillText("Press 'C' to Continue", 320, 320);
+    }
+
+    // Main Draw Function
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawRoutes();
+      drawPlanets();
+      drawStats();
+      drawFuelScale();
+      drawShip();
+      if (atPlanetPrime) {
+        drawBuyFuelPrompt();
+      }
+    }
+
+    // Move Ship
+    function moveShip(targetX, targetY, planet) {
+      if (gameOver) return;
+
+      const distance = Math.sqrt((targetX - ship.x) ** 2 + (targetY - ship.y) ** 2);
+      const fuelCost = Math.ceil((distance / 100) * fuelMultiplier[shipSize]);
+
+      if (fuel < fuelCost) {
+        alert("Not enough fuel for this trip!");
+        return;
+      }
+
+      const interval = setInterval(() => {
+        if (Math.abs(ship.x - targetX) < 1 && Math.abs(ship.y - targetY) < 1) {
+          ship.x = targetX;
+          ship.y = targetY;
+          clearInterval(interval);
+          onArrival(planet, fuelCost);
+        } else {
+          ship.x += (targetX - ship.x) * 0.05;
+          ship.y += (targetY - ship.y) * 0.05;
+        }
+        draw();
+      }, 16);
+    }
+
+    // On Arrival
+    function onArrival(planet, fuelCost) {
+      if (planet.hub) {
+        atPlanetPrime = true;
+        document.addEventListener("keydown", handleBuyFuelPrompt);
+      } else {
+        credits += 10; // Earn credits for visiting
+      }
+      updateFuel(-fuelCost);
+    }
+
+    // Handle Buy Fuel at Planet Prime
+    function handleBuyFuelPrompt(e) {
+      if (e.key === "b") {
+        if (credits >= fuelCostPerUnit) {
+          credits -= fuelCostPerUnit;
+          fuel += 1;
+          draw();
+        } else {
+          alert("Not enough credits to buy fuel!");
+        }
+      } else if (e.key === "c") {
+        atPlanetPrime = false;
+        document.removeEventListener("keydown", handleBuyFuelPrompt);
+        draw();
+      }
+    }
+
+    // Update Fuel
+    function updateFuel(amount) {
+      fuel += amount;
+      if (fuel <= 0) {
+        fuel = 0;
+        endGame();
+      }
+    }
+
+    // Restart Game
+    function restartGame() {
+      fuel = 5;
+      credits = 0;
+      ship.x = planets[0].x;
+      ship.y = planets[0].y;
+      gameOver = false;
+      atPlanetPrime = false;
+      draw();
+    }
+
+    // Handle Clicks
+    canvas.addEventListener("click", (e) => {
+      if (gameOver) {
+        restartGame();
+        return;
+      }
+      if (!atPlanetPrime) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        planets.forEach((planet) => {
+          const distance = Math.sqrt(
+            Math.pow(mouseX - planet.x, 2) + Math.pow(mouseY - planet.y, 2)
+          );
+          if (distance < 15) moveShip(planet.x, planet.y, planet);
+        });
+      }
+    });
+
+    // Select Ship
     function selectShip(size) {
       shipSize = size;
       document.querySelectorAll("button").forEach((btn) => btn.classList.add("hidden"));
