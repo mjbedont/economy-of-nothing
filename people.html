@@ -36,7 +36,6 @@
     let shipSize = null;
     let currentMenu = "main"; // 'main', 'game', 'shop', 'gameover'
     let shipMoving = false;
-    let lastTripInfo = { fuelSpent: 0, creditsEarned: 0 };
 
     const fuelBasePrice = 2;
     const rewardBase = 10;
@@ -107,7 +106,10 @@
         drawFuelScale();
         drawShip();
       } else if (currentMenu === "shop") {
-        drawShopMenu();
+        drawRoutes(); // Keep map visible
+        drawPlanets();
+        drawShip();
+        drawLowerThirdShopMenu();
       } else if (currentMenu === "gameover") {
         drawGameOverScreen();
       }
@@ -189,6 +191,33 @@
       ctx.fill();
     }
 
+    function drawLowerThirdShopMenu() {
+      const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
+
+      // Lower Third Background
+      ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      ctx.fillRect(50, 450, 700, 100);
+
+      // Text
+      ctx.fillStyle = "white";
+      ctx.font = "16px monospace";
+      ctx.fillText(`Welcome to ${currentPlanet.name}!`, 70, 470);
+      ctx.fillText(`Fuel Price: ${currentPlanet.fuelPrice} credits per unit.`, 70, 490);
+
+      // Buttons
+      ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      ctx.fillRect(70, 510, 100, 30); // Buy Fuel Button
+      ctx.fillRect(200, 510, 100, 30); // Leave Planet Button
+
+      ctx.strokeStyle = "white";
+      ctx.strokeRect(70, 510, 100, 30);
+      ctx.strokeRect(200, 510, 100, 30);
+
+      ctx.fillStyle = "white";
+      ctx.fillText("Buy Fuel", 85, 530);
+      ctx.fillText("Leave", 225, 530);
+    }
+
     function moveShip(targetX, targetY, planet) {
       const distance = Math.sqrt((targetX - ship.x) ** 2 + (targetY - ship.y) ** 2);
       const fuelCost = Math.ceil((distance / 100) * fuelMultiplier[shipSize]);
@@ -210,9 +239,6 @@
           ship.y = targetY;
           shipMoving = false;
 
-          lastTripInfo.creditsEarned = planet.reward;
-          lastTripInfo.fuelSpent = fuelCost;
-
           credits += planet.reward;
           fuel -= fuelCost;
           currentMenu = "shop";
@@ -220,34 +246,6 @@
         }
         drawMenu();
       }, 16);
-    }
-
-    function drawShopMenu() {
-      const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
-
-      ctx.fillStyle = "white";
-      ctx.font = "16px monospace";
-      ctx.fillText(`Welcome to ${currentPlanet.name}!`, 10, 150);
-      ctx.fillText(`Credits Earned: ${lastTripInfo.creditsEarned}`, 10, 170);
-      ctx.fillText(`Fuel Spent: ${lastTripInfo.fuelSpent}`, 10, 190);
-
-      ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-      ctx.fillRect(120, 530, 100, 20); // Buy Fuel
-      ctx.fillRect(120, 560, 100, 20); // Continue
-
-      ctx.strokeStyle = "white";
-      ctx.strokeRect(120, 530, 100, 20);
-      ctx.strokeRect(120, 560, 100, 20);
-
-      ctx.fillStyle = "white";
-      ctx.fillText("Buy Fuel", 125, 545);
-      ctx.fillText("Continue", 125, 575);
-
-      if (currentPlanet.hub) {
-        ctx.fillRect(120, 590, 100, 20); // Promotion
-        ctx.strokeRect(120, 590, 100, 20);
-        ctx.fillText("Promotion", 125, 605);
-      }
     }
 
     canvas.addEventListener("click", (e) => {
@@ -274,33 +272,26 @@
             drawMenu();
           }
         });
-      } else if (currentMenu === "shop") {
-        const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
-
-        if (mouseX >= 120 && mouseX <= 220 && mouseY >= 530 && mouseY <= 550) {
-          // Buy Fuel
-          if (credits >= currentPlanet.fuelPrice) {
-            credits -= currentPlanet.fuelPrice;
-            fuel += 1;
-          }
-        } else if (mouseX >= 120 && mouseX <= 220 && mouseY >= 560 && mouseY <= 580) {
-          // Continue
-          currentMenu = "game";
-        } else if (mouseX >= 120 && mouseX <= 220 && mouseY >= 590 && mouseY <= 610 && currentPlanet.hub) {
-          // Promotion
-          if (credits >= promotionCost) {
-            credits -= promotionCost;
-            promotions += 1;
-          }
-        }
-        drawMenu();
-      } else if (currentMenu === "game") {
+      } else if (currentMenu === "game" && !shipMoving) {
         planets.forEach((planet) => {
           const distance = Math.sqrt((mouseX - planet.x) ** 2 + (mouseY - planet.y) ** 2);
           if (distance < 15) {
             moveShip(planet.x, planet.y, planet);
           }
         });
+      } else if (currentMenu === "shop") {
+        // Lower third button clicks
+        if (mouseX >= 70 && mouseX <= 170 && mouseY >= 510 && mouseY <= 540) {
+          const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
+          if (credits >= currentPlanet.fuelPrice) {
+            credits -= currentPlanet.fuelPrice;
+            fuel += 1;
+            drawMenu();
+          }
+        } else if (mouseX >= 200 && mouseX <= 300 && mouseY >= 510 && mouseY <= 540) {
+          currentMenu = "game";
+          drawMenu();
+        }
       }
     });
 
