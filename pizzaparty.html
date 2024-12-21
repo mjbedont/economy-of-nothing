@@ -9,67 +9,70 @@
       display: block;
       margin: 0 auto;
       background: black;
+      border: 2px solid #0f0;
+    }
+    body {
+      font-family: monospace;
+      color: white;
+      text-align: center;
+    }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
+  <h1>Galaxy Map</h1>
   <canvas id="galaxyMap" width="800" height="600"></canvas>
+  <p id="fuel">Fuel: 100</p>
+  <p id="status">Status: Awaiting orders...</p>
+  <div id="gameOver" class="hidden">
+    <h2>Game Over</h2>
+    <p id="scoreDisplay">Your Score: 0</p>
+    <button onclick="restartGame()">Try Again</button>
+  </div>
   <script>
     const canvas = document.getElementById("galaxyMap");
     const ctx = canvas.getContext("2d");
+    const fuelDisplay = document.getElementById("fuel");
+    const status = document.getElementById("status");
+    const gameOverDiv = document.getElementById("gameOver");
+    const scoreDisplay = document.getElementById("scoreDisplay");
 
-    // Starfield
-    function drawStarfield() {
-      for (let i = 0; i < 100; i++) {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        const size = Math.random() * 2;
-        const opacity = Math.random();
-        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-        ctx.beginPath();
-        ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+    // Game State
+    let fuel = 100;
+    let score = 0;
 
-    // Planets/Nodes
+    // Planets
     const planets = [
-      { x: 200, y: 150, name: "Alpha" },
-      { x: 400, y: 300, name: "Beta" },
-      { x: 600, y: 450, name: "Gamma" }
+      { x: 400, y: 300, name: "Planet Prime", color: "yellow", hub: true },
+      { x: 150, y: 100, name: "Brenner 7", color: "red" },
+      { x: 650, y: 100, name: "Dracronaria", color: "green" },
+      { x: 150, y: 500, name: "Mukuku", color: "blue" },
+      { x: 650, y: 500, name: "Malonberg", color: "purple" },
+      { x: 400, y: 100, name: "Donnie47", color: "orange" },
+      { x: 100, y: 300, name: "New Rome", color: "cyan" },
+      { x: 700, y: 300, name: "Pawndora", color: "brown" },
     ];
 
+    let ship = { x: 400, y: 300 }; // Start at Planet Prime
+
+    // Draw Planets
     function drawPlanets() {
       planets.forEach((planet) => {
-        ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
+        ctx.fillStyle = planet.color;
         ctx.beginPath();
         ctx.arc(planet.x, planet.y, 10, 0, Math.PI * 2);
         ctx.fill();
-        // Planet label
         ctx.fillStyle = "white";
         ctx.font = "12px monospace";
         ctx.fillText(planet.name, planet.x + 12, planet.y + 4);
       });
     }
 
-    // Travel Routes
-    function drawRoutes() {
-      ctx.strokeStyle = "rgba(0, 255, 255, 0.5)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      for (let i = 0; i < planets.length - 1; i++) {
-        const start = planets[i];
-        const end = planets[i + 1];
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(end.x, end.y);
-      }
-      ctx.stroke();
-    }
-
-    // Ship
-    let ship = { x: 200, y: 150 };
+    // Draw Ship
     function drawShip() {
-      ctx.fillStyle = "rgba(255, 255, 0, 1)";
+      ctx.fillStyle = "yellow";
       ctx.beginPath();
       ctx.moveTo(ship.x, ship.y - 5);
       ctx.lineTo(ship.x - 5, ship.y + 5);
@@ -81,19 +84,19 @@
     // Main Draw Function
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawStarfield();
-      drawRoutes();
       drawPlanets();
       drawShip();
     }
 
-    // Animate Ship Movement (example: move to next planet)
-    function moveShip(targetX, targetY) {
+    // Move Ship
+    function moveShip(targetX, targetY, planet) {
+      status.textContent = `Traveling to ${planet.name}...`;
       const interval = setInterval(() => {
         if (Math.abs(ship.x - targetX) < 1 && Math.abs(ship.y - targetY) < 1) {
           ship.x = targetX;
           ship.y = targetY;
           clearInterval(interval);
+          onArrival(planet);
         } else {
           ship.x += (targetX - ship.x) * 0.05;
           ship.y += (targetY - ship.y) * 0.05;
@@ -102,11 +105,63 @@
       }, 16);
     }
 
+    // On Arrival
+    function onArrival(planet) {
+      status.textContent = `Arrived at ${planet.name}`;
+      if (planet.hub) {
+        fuel = 100; // Refuel at Planet Prime
+        status.textContent += " - Refueled!";
+      }
+      score += 10;
+      updateFuel(-10);
+    }
+
+    // Update Fuel
+    function updateFuel(amount) {
+      fuel += amount;
+      fuelDisplay.textContent = `Fuel: ${fuel}`;
+      if (fuel <= 0) {
+        endGame();
+      }
+    }
+
+    // End Game
+    function endGame() {
+      status.textContent = "Game Over";
+      scoreDisplay.textContent = `Your Score: ${score}`;
+      gameOverDiv.classList.remove("hidden");
+    }
+
+    // Restart Game
+    function restartGame() {
+      fuel = 100;
+      score = 0;
+      ship.x = 400;
+      ship.y = 300;
+      gameOverDiv.classList.add("hidden");
+      fuelDisplay.textContent = `Fuel: ${fuel}`;
+      status.textContent = "Status: Awaiting orders...";
+      draw();
+    }
+
+    // Handle Clicks
+    canvas.addEventListener("click", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      planets.forEach((planet) => {
+        const distance = Math.sqrt(
+          Math.pow(mouseX - planet.x, 2) + Math.pow(mouseY - planet.y, 2)
+        );
+        if (distance < 10) {
+          moveShip(planet.x, planet.y, planet);
+        }
+      });
+    });
+
     // Initial Draw
     draw();
-
-    // Move Ship to Gamma after 3 seconds
-    setTimeout(() => moveShip(600, 450), 3000);
   </script>
 </body>
 </html>
