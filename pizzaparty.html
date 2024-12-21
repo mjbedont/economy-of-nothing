@@ -32,14 +32,17 @@
     // Game State
     let fuel = 5;
     let credits = 0;
+    let promotions = 0; // Tracks the number of promotions
     let shipSize = null;
     let currentMenu = "main"; // 'main', 'game', 'arrival', 'shop', 'gameover'
     let messageTimeout = null;
-    let shipMoving = false; // Track if the ship is in motion
-    const animationSpeed = 0.02; // Adjust for smoother/faster animations
+    let shipMoving = false;
 
-    const fuelBasePrice = 2; // Base price for fuel
-    const rewardBase = 10; // Base payout for traveling to planets
+    const animationSpeed = 0.02;
+
+    const fuelBasePrice = 2;
+    const rewardBase = 10;
+    const promotionCost = 100; // Cost for a promotion at Planet Prime
     const fuelMultiplier = {
       small: 0.5,
       medium: 1.0,
@@ -61,11 +64,11 @@
     const prime = planets[0];
     planets.forEach((planet) => {
       const distance = Math.sqrt((planet.x - prime.x) ** 2 + (planet.y - prime.y) ** 2);
-      planet.fuelPrice = fuelBasePrice + Math.ceil(distance / 100); // Fuel price increases with distance
-      planet.reward = rewardBase + Math.ceil(distance / 50); // Payout increases with distance
+      planet.fuelPrice = fuelBasePrice + Math.ceil(distance / 100);
+      planet.reward = rewardBase + Math.ceil(distance / 50);
     });
 
-    let ship = { x: planets[0].x, y: planets[0].y }; // Start at Planet Prime
+    let ship = { x: planets[0].x, y: planets[0].y };
 
     function generatePlanets(count, canvasWidth, canvasHeight, minDistance) {
       const planets = [];
@@ -90,6 +93,7 @@
       ctx.font = "16px monospace";
       ctx.fillText(`Fuel: ${fuel}`, 10, 20);
       ctx.fillText(`Credits: ${credits}`, 10, 40);
+      ctx.fillText(`Promotions: ${promotions}`, 10, 60);
     }
 
     function showLowerThirdMessage(lines, callback = null, duration = 3000) {
@@ -125,12 +129,14 @@
         drawShip();
       } else if (currentMenu === "shop") {
         const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
-        showLowerThirdMessage([
-          `Welcome to ${currentPlanet.name}!`,
-          `Fuel Price: ${currentPlanet.fuelPrice} credits per unit.`,
-          "Press 'B' to buy fuel.",
-          "Press 'C' to continue.",
-        ]);
+        const shopOptions = [`Fuel Price: ${currentPlanet.fuelPrice} credits per unit.`];
+
+        if (currentPlanet.hub) {
+          shopOptions.push("Press '3' to gain a promotion for 100 credits.");
+        }
+        shopOptions.push("Press '1' to buy fuel.", "Press '2' to continue.");
+
+        showLowerThirdMessage([`Welcome to ${currentPlanet.name}!`, ...shopOptions]);
       } else if (currentMenu === "gameover") {
         drawGameOverScreen();
       }
@@ -233,9 +239,6 @@
           ship.y = targetY;
           shipMoving = false;
 
-          credits += planet.reward;
-          fuel -= fuelCost;
-
           showLowerThirdMessage(
             [
               `Safe arrival at ${planet.name}.`,
@@ -243,7 +246,14 @@
               `Fuel used: ${fuelCost}.`,
             ],
             () => {
-              currentMenu = "shop";
+              credits += planet.reward;
+              fuel -= fuelCost;
+
+              if (fuel <= 0) {
+                currentMenu = "gameover";
+              } else {
+                currentMenu = "shop";
+              }
               drawMenu();
             }
           );
@@ -276,13 +286,25 @@
         if (shipSize) currentMenu = "game";
       } else if (currentMenu === "shop") {
         const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
-        if (e.key === "b" && credits >= currentPlanet.fuelPrice) {
-          credits -= currentPlanet.fuelPrice;
-          fuel += 1;
-          showLowerThirdMessage([`Bought 1 fuel for ${currentPlanet.fuelPrice} credits.`]);
-        } else if (e.key === "c") {
+        if (e.key === "1") {
+          if (credits >= currentPlanet.fuelPrice) {
+            credits -= currentPlanet.fuelPrice;
+            fuel += 1;
+            showLowerThirdMessage([`Bought 1 fuel for ${currentPlanet.fuelPrice} credits.`]);
+          } else {
+            showLowerThirdMessage(["Not enough credits to buy fuel."]);
+          }
+        } else if (e.key === "2") {
           currentMenu = "game";
           drawMenu();
+        } else if (e.key === "3" && currentPlanet.hub) {
+          if (credits >= promotionCost) {
+            credits -= promotionCost;
+            promotions += 1;
+            showLowerThirdMessage([`Promotion earned! Total promotions: ${promotions}.`]);
+          } else {
+            showLowerThirdMessage(["Not enough credits for a promotion."]);
+          }
         }
       } else if (currentMenu === "gameover") {
         resetGame();
@@ -293,6 +315,7 @@
     function resetGame() {
       fuel = 5;
       credits = 0;
+      promotions = 0;
       ship = { x: planets[0].x, y: planets[0].y };
       shipSize = null;
       currentMenu = "main";
