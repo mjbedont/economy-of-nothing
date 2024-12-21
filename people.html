@@ -36,6 +36,7 @@
     let shipSize = null;
     let currentMenu = "main"; // 'main', 'game', 'shop', 'gameover'
     let shipMoving = false;
+    let lastTripInfo = { fuelSpent: 0, creditsEarned: 0 };
 
     const fuelBasePrice = 2;
     const rewardBase = 10;
@@ -209,6 +210,9 @@
           ship.y = targetY;
           shipMoving = false;
 
+          lastTripInfo.creditsEarned = planet.reward;
+          lastTripInfo.fuelSpent = fuelCost;
+
           credits += planet.reward;
           fuel -= fuelCost;
           currentMenu = "shop";
@@ -223,7 +227,9 @@
 
       ctx.fillStyle = "white";
       ctx.font = "16px monospace";
-      ctx.fillText(`Welcome to ${currentPlanet.name}!`, 120, 500);
+      ctx.fillText(`Welcome to ${currentPlanet.name}!`, 10, 150);
+      ctx.fillText(`Credits Earned: ${lastTripInfo.creditsEarned}`, 10, 170);
+      ctx.fillText(`Fuel Spent: ${lastTripInfo.fuelSpent}`, 10, 190);
 
       ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
       ctx.fillRect(120, 530, 100, 20); // Buy Fuel
