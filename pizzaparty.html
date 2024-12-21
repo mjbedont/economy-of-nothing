@@ -16,86 +16,53 @@
       color: white;
       text-align: center;
     }
-    .hidden {
-      display: none;
-    }
   </style>
 </head>
 <body>
   <h1>Retro Galaxy Map</h1>
   <canvas id="galaxyMap" width="800" height="600"></canvas>
-  <p id="fuel">Fuel: 100</p>
-  <p id="status">Status: Awaiting orders...</p>
-  <div id="gameOver" class="hidden">
-    <h2>Game Over</h2>
-    <p id="scoreDisplay">Your Score: 0</p>
-    <button onclick="restartGame()">Try Again</button>
-  </div>
   <script>
     const canvas = document.getElementById("galaxyMap");
     const ctx = canvas.getContext("2d");
-    const fuelDisplay = document.getElementById("fuel");
-    const status = document.getElementById("status");
-    const gameOverDiv = document.getElementById("gameOver");
-    const scoreDisplay = document.getElementById("scoreDisplay");
 
     // Game State
     let fuel = 100;
-    let score = 0;
+    let credits = 0;
+    let gameOver = false;
 
-    // Planets
+    // Helper Function to Generate Random Positions with Minimum Distance
+    function generatePlanets(count, canvasWidth, canvasHeight, minDistance) {
+      const planets = [];
+      while (planets.length < count) {
+        const x = Math.random() * (canvasWidth - 100) + 50; // Padding
+        const y = Math.random() * (canvasHeight - 100) + 50;
+        let tooClose = false;
+        for (const planet of planets) {
+          const distance = Math.sqrt((x - planet.x) ** 2 + (y - planet.y) ** 2);
+          if (distance < minDistance) {
+            tooClose = true;
+            break;
+          }
+        }
+        if (!tooClose) planets.push({ x, y });
+      }
+      return planets;
+    }
+
+    // Generate Planets
+    const planetPositions = generatePlanets(8, canvas.width, canvas.height, 150);
     const planets = [
-      { x: 400, y: 300, name: "Planet Prime", color: "yellow", hub: true },
-      { x: 150, y: 100, name: "Brenner 7", color: "red" },
-      { x: 650, y: 100, name: "Dracronaria", color: "green" },
-      { x: 150, y: 500, name: "Mukuku", color: "blue" },
-      { x: 650, y: 500, name: "Malonberg", color: "purple" },
-      { x: 400, y: 100, name: "Donnie47", color: "orange" },
-      { x: 100, y: 300, name: "New Rome", color: "cyan" },
-      { x: 700, y: 300, name: "Pawndora", color: "brown" },
+      { ...planetPositions[0], name: "Planet Prime", color: "yellow", hub: true },
+      { ...planetPositions[1], name: "Brenner 7", color: "red" },
+      { ...planetPositions[2], name: "Dracronaria", color: "green" },
+      { ...planetPositions[3], name: "Mukuku", color: "blue" },
+      { ...planetPositions[4], name: "Malonberg", color: "purple" },
+      { ...planetPositions[5], name: "Donnie47", color: "orange" },
+      { ...planetPositions[6], name: "New Rome", color: "cyan" },
+      { ...planetPositions[7], name: "Pawndora", color: "brown" },
     ];
 
-    let ship = { x: 400, y: 300 }; // Start at Planet Prime
-
-    // Draw Dashed Grid
-    function drawGrid() {
-      ctx.strokeStyle = "rgba(0, 255, 0, 0.2)";
-      ctx.setLineDash([5, 5]);
-      for (let x = 0; x < canvas.width; x += 50) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
-      for (let y = 0; y < canvas.height; y += 50) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-      }
-    }
-
-    // Draw Planets
-    function drawPlanets() {
-      ctx.setLineDash([5, 5]);
-      planets.forEach((planet) => {
-        // Dashed Circle
-        ctx.strokeStyle = planet.color;
-        ctx.beginPath();
-        ctx.arc(planet.x, planet.y, 15, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // Label with line
-        ctx.strokeStyle = "white";
-        ctx.beginPath();
-        ctx.moveTo(planet.x, planet.y);
-        ctx.lineTo(planet.x + 40, planet.y - 20);
-        ctx.stroke();
-        ctx.fillStyle = "white";
-        ctx.font = "12px monospace";
-        ctx.fillText(planet.name, planet.x + 45, planet.y - 25);
-      });
-    }
+    let ship = { x: planets[0].x, y: planets[0].y }; // Start at Planet Prime
 
     // Draw Routes
     function drawRoutes() {
@@ -103,18 +70,49 @@
       ctx.strokeStyle = "rgba(0, 255, 255, 0.5)";
       ctx.lineWidth = 1;
       ctx.beginPath();
-      for (let i = 0; i < planets.length; i++) {
-        for (let j = i + 1; j < planets.length; j++) {
-          ctx.moveTo(planets[i].x, planets[i].y);
-          ctx.lineTo(planets[j].x, planets[j].y);
-        }
-      }
+      planets.forEach((start) => {
+        planets.forEach((end) => {
+          if (start !== end) {
+            ctx.moveTo(start.x, start.y);
+            ctx.lineTo(end.x, end.y);
+          }
+        });
+      });
       ctx.stroke();
+    }
+
+    // Draw Fuel and Credits
+    function drawStats() {
+      ctx.fillStyle = "white";
+      ctx.font = "16px monospace";
+      ctx.fillText(`Fuel: ${fuel}`, 10, 20);
+      ctx.fillText(`Credits: ${credits}`, 10, 40);
+
+      // Draw Fuel Bar
+      const barWidth = 200;
+      const fuelPercentage = fuel / 100;
+      ctx.strokeStyle = "white";
+      ctx.strokeRect(10, 50, barWidth, 10);
+      ctx.fillStyle = fuelPercentage > 0.5 ? "green" : fuelPercentage > 0.2 ? "yellow" : "red";
+      ctx.fillRect(10, 50, barWidth * fuelPercentage, 10);
+    }
+
+    // Draw Planets
+    function drawPlanets() {
+      ctx.setLineDash([5, 5]);
+      planets.forEach((planet) => {
+        ctx.strokeStyle = planet.color;
+        ctx.beginPath();
+        ctx.arc(planet.x, planet.y, 15, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = "white";
+        ctx.font = "12px monospace";
+        ctx.fillText(planet.name, planet.x + 20, planet.y);
+      });
     }
 
     // Draw Ship
     function drawShip() {
-      ctx.setLineDash([]); // Solid
       ctx.fillStyle = "yellow";
       ctx.beginPath();
       ctx.moveTo(ship.x, ship.y - 5);
@@ -124,18 +122,35 @@
       ctx.fill();
     }
 
+    // Draw Game Over Screen
+    function drawGameOver() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      ctx.fillRect(150, 200, 500, 200);
+
+      ctx.fillStyle = "white";
+      ctx.font = "24px monospace";
+      ctx.fillText("GAME OVER", 350, 250);
+      ctx.fillText(`Final Credits: ${credits}`, 310, 280);
+      ctx.fillText("Click to Try Again", 320, 320);
+    }
+
     // Main Draw Function
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawGrid();
+      if (gameOver) {
+        drawGameOver();
+        return;
+      }
       drawRoutes();
       drawPlanets();
+      drawStats();
       drawShip();
     }
 
     // Move Ship
     function moveShip(targetX, targetY, planet) {
-      status.textContent = `Traveling to ${planet.name}...`;
+      if (gameOver) return;
+
       const interval = setInterval(() => {
         if (Math.abs(ship.x - targetX) < 1 && Math.abs(ship.y - targetY) < 1) {
           ship.x = targetX;
@@ -152,45 +167,44 @@
 
     // On Arrival
     function onArrival(planet) {
-      status.textContent = `Arrived at ${planet.name}`;
       if (planet.hub) {
         fuel = 100; // Refuel at Planet Prime
-        status.textContent += " - Refueled!";
       }
-      score += 10;
+      credits += 10; // Earn credits for visiting
       updateFuel(-10);
     }
 
     // Update Fuel
     function updateFuel(amount) {
       fuel += amount;
-      fuelDisplay.textContent = `Fuel: ${fuel}`;
       if (fuel <= 0) {
+        fuel = 0;
         endGame();
       }
     }
 
     // End Game
     function endGame() {
-      status.textContent = "Game Over";
-      scoreDisplay.textContent = `Your Score: ${score}`;
-      gameOverDiv.classList.remove("hidden");
+      gameOver = true;
+      draw();
     }
 
     // Restart Game
     function restartGame() {
       fuel = 100;
-      score = 0;
-      ship.x = 400;
-      ship.y = 300;
-      gameOverDiv.classList.add("hidden");
-      fuelDisplay.textContent = `Fuel: ${fuel}`;
-      status.textContent = "Status: Awaiting orders...";
+      credits = 0;
+      ship.x = planets[0].x;
+      ship.y = planets[0].y;
+      gameOver = false;
       draw();
     }
 
     // Handle Clicks
     canvas.addEventListener("click", (e) => {
+      if (gameOver) {
+        restartGame();
+        return;
+      }
       const rect = canvas.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
@@ -199,9 +213,7 @@
         const distance = Math.sqrt(
           Math.pow(mouseX - planet.x, 2) + Math.pow(mouseY - planet.y, 2)
         );
-        if (distance < 15) {
-          moveShip(planet.x, planet.y, planet);
-        }
+        if (distance < 15) moveShip(planet.x, planet.y, planet);
       });
     });
 
