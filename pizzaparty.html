@@ -1,186 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="The Economy of Nothing - Text Adventure">
-    <meta name="keywords" content="text adventure, The Economy of Nothing, interactive fiction">
-    <meta name="author" content="Nothing Inc.">
-    <title>The Economy of Nothing - Text Adventure</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Same styles as before */
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galaxy Map</title>
+  <style>
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: black;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>The Economy of Nothing</h1>
-        <p>Text Adventure Demo</p>
-    </header>
-    <main>
-        <div id="gameCanvas">
-            <div id="status-panel">
-                <div id="fuel-status">Fuel: 20</div>
-                <div id="credits-status">Credits: 100</div>
-                <div id="reputation-status">Reputation: 50</div>
-            </div>
-            <div id="game-output">
-                Welcome to The Economy of Nothing. You're the captain of the freighter *Void Venture*. Will you survive the chaos of corporate hyperspace?
-            </div>
-            <div id="actions">
-                <!-- Actions will dynamically populate -->
-            </div>
-        </div>
-        <div id="game-over-screen" style="display: none;">
-            <h1>Game Over</h1>
-            <p id="game-over-message"></p>
-            <p id="final-score"></p>
-            <button id="play-again">Play Again</button>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 56.009 Nothing Inc.</p>
-        <p>Best viewed on Netscape Navigator.</p>
-    </footer>
+  <canvas id="galaxyMap" width="800" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById("galaxyMap");
+    const ctx = canvas.getContext("2d");
 
-    <script>
-        // === Game Variables ===
-        const output = document.getElementById('game-output');
-        const actions = document.getElementById('actions');
-        const fuelStatus = document.getElementById('fuel-status');
-        const creditsStatus = document.getElementById('credits-status');
-        const reputationStatus = document.getElementById('reputation-status');
-        const gameOverScreen = document.getElementById('game-over-screen');
-        const gameOverMessage = document.getElementById('game-over-message');
-        const finalScore = document.getElementById('final-score');
-        const playAgainButton = document.getElementById('play-again');
+    // Starfield
+    function drawStarfield() {
+      for (let i = 0; i < 100; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const size = Math.random() * 2;
+        const opacity = Math.random();
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
 
-        let gameState = {
-            credits: 100,
-            fuel: 20,
-            reputation: 50,
-            alive: true
-        };
+    // Planets/Nodes
+    const planets = [
+      { x: 200, y: 150, name: "Alpha" },
+      { x: 400, y: 300, name: "Beta" },
+      { x: 600, y: 450, name: "Gamma" }
+    ];
 
-        const locations = [
-            "Hyperspace Station Alpha",
-            "Asteroid Belt 22",
-            "Pirate's Cove",
-            "Derelict Ship Beta",
-            "Outer Rim Depot"
-        ];
+    function drawPlanets() {
+      planets.forEach((planet) => {
+        ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
+        ctx.beginPath();
+        ctx.arc(planet.x, planet.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+        // Planet label
+        ctx.fillStyle = "white";
+        ctx.font = "12px monospace";
+        ctx.fillText(planet.name, planet.x + 12, planet.y + 4);
+      });
+    }
 
-        // === Utility Functions ===
-        function updateOutput(message) {
-            output.textContent += `\n${message}`;
-            output.scrollTop = output.scrollHeight;
+    // Travel Routes
+    function drawRoutes() {
+      ctx.strokeStyle = "rgba(0, 255, 255, 0.5)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i = 0; i < planets.length - 1; i++) {
+        const start = planets[i];
+        const end = planets[i + 1];
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(end.x, end.y);
+      }
+      ctx.stroke();
+    }
+
+    // Ship
+    let ship = { x: 200, y: 150 };
+    function drawShip() {
+      ctx.fillStyle = "rgba(255, 255, 0, 1)";
+      ctx.beginPath();
+      ctx.moveTo(ship.x, ship.y - 5);
+      ctx.lineTo(ship.x - 5, ship.y + 5);
+      ctx.lineTo(ship.x + 5, ship.y + 5);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Main Draw Function
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawStarfield();
+      drawRoutes();
+      drawPlanets();
+      drawShip();
+    }
+
+    // Animate Ship Movement (example: move to next planet)
+    function moveShip(targetX, targetY) {
+      const interval = setInterval(() => {
+        if (Math.abs(ship.x - targetX) < 1 && Math.abs(ship.y - targetY) < 1) {
+          ship.x = targetX;
+          ship.y = targetY;
+          clearInterval(interval);
+        } else {
+          ship.x += (targetX - ship.x) * 0.05;
+          ship.y += (targetY - ship.y) * 0.05;
         }
+        draw();
+      }, 16);
+    }
 
-        function updateStatus() {
-            fuelStatus.textContent = `Fuel: ${gameState.fuel}`;
-            creditsStatus.textContent = `Credits: ${gameState.credits}`;
-            reputationStatus.textContent = `Reputation: ${gameState.reputation}`;
-            checkFailState();
-        }
+    // Initial Draw
+    draw();
 
-        function setActions(actionsList) {
-            actions.innerHTML = "";
-            Object.keys(actionsList).forEach(actionName => {
-                const button = document.createElement("button");
-                button.textContent = actionName;
-                button.classList.add("game-option");
-                button.onclick = actionsList[actionName];
-                actions.appendChild(button);
-            });
-        }
-
-        function generateObjective() {
-            const location = locations[Math.floor(Math.random() * locations.length)];
-            const distance = Math.floor(Math.random() * 15) + 5; // Random distance (5-20)
-            return { location, distance };
-        }
-
-        function startAtDispatch() {
-            const objective = generateObjective();
-            updateOutput(`Objective: Travel to ${objective.location} (${objective.distance} fuel).`);
-            setActions({
-                "Take Job": () => travelToObjective(objective),
-                "Refuel": () => refuel(),
-                "Rest": () => updateOutput("You rested and prepared for the journey.")
-            });
-        }
-
-        function travelToObjective(objective) {
-            if (gameState.fuel < objective.distance) {
-                updateOutput("You don't have enough fuel for this journey. Refuel at Dispatch.");
-                return;
-            }
-
-            gameState.fuel -= objective.distance;
-            updateOutput(`You traveled ${objective.distance} units to ${objective.location}.`);
-            randomEvent();
-            completeObjective(objective);
-        }
-
-        function randomEvent() {
-            if (Math.random() < 0.5) {
-                const event = Math.random() < 0.5 ? "Pirates" : "Asteroid Field";
-                updateOutput(`Encountered ${event}! Lost 10 credits.`);
-                gameState.credits -= 10;
-                updateStatus();
-            }
-        }
-
-        function completeObjective(objective) {
-            updateOutput(`You reached ${objective.location}. Choose your action:`);
-            setActions({
-                "Help Crew": () => {
-                    gameState.reputation += 10;
-                    updateOutput("You helped the crew and gained 10 reputation.");
-                    returnToDispatch(objective.distance);
-                },
-                "Salvage Cargo": () => {
-                    gameState.credits += 50;
-                    updateOutput("You salvaged the cargo and gained 50 credits.");
-                    returnToDispatch(objective.distance);
-                }
-            });
-        }
-
-        function returnToDispatch(distance) {
-            gameState.fuel -= distance;
-            updateOutput("Returning to Dispatch...");
-            updateStatus();
-            setActions({
-                "Continue": () => startAtDispatch()
-            });
-        }
-
-        function refuel() {
-            if (gameState.credits < 20) {
-                updateOutput("Not enough credits to refuel.");
-                return;
-            }
-            gameState.credits -= 20;
-            gameState.fuel += 10;
-            updateOutput("Refueled 10 units for 20 credits.");
-            updateStatus();
-        }
-
-        function checkFailState() {
-            if (gameState.fuel <= 0) triggerGameOver("Out of fuel!");
-            if (gameState.reputation <= 0) triggerGameOver("Reputation ruined!");
-        }
-
-        function triggerGameOver(message) {
-            gameOverScreen.style.display = "flex";
-            gameOverMessage.textContent = message;
-            finalScore.textContent = `Final Score: ${gameState.credits + gameState.reputation}`;
-        }
-
-        playAgainButton.addEventListener("click", () => location.reload());
-
-        startAtDispatch();
-    </script>
+    // Move Ship to Gamma after 3 seconds
+    setTimeout(() => moveShip(600, 450), 3000);
+  </script>
 </body>
 </html>
