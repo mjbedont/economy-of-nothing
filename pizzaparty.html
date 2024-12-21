@@ -21,13 +21,35 @@
       border: 2px solid #0f0;
       display: block;
     }
+
+    .play-again {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      font-family: monospace;
+      font-size: 16px;
+      color: white;
+      background-color: #0f0;
+      border: 2px solid #fff;
+      cursor: pointer;
+      display: none;
+    }
+
+    .play-again:hover {
+      background-color: #fff;
+      color: #0f0;
+    }
   </style>
 </head>
 <body>
   <canvas id="galaxyMap" width="800" height="600"></canvas>
+  <button id="playAgain" class="play-again">Play Again</button>
   <script>
     const canvas = document.getElementById("galaxyMap");
     const ctx = canvas.getContext("2d");
+    const playAgainButton = document.getElementById("playAgain");
 
     // Game State
     let fuel = 5;
@@ -219,6 +241,15 @@
       ctx.fill();
     }
 
+    function drawGameOverScreen() {
+      ctx.fillStyle = "white";
+      ctx.font = "20px monospace";
+      ctx.fillText("GAME OVER", 320, 250);
+      ctx.fillText(`Final Score: ${credits} credits`, 280, 300);
+
+      playAgainButton.style.display = "block";
+    }
+
     function moveShip(targetX, targetY, planet) {
       const distance = Math.sqrt((targetX - ship.x) ** 2 + (targetY - ship.y) ** 2);
       const fuelCost = Math.ceil((distance / 100) * fuelMultiplier[shipSize]);
@@ -264,6 +295,8 @@
         }
       }, 16);
     }
+
+    playAgainButton.addEventListener("click", resetGame);
 
     canvas.addEventListener("click", (e) => {
       if (currentMenu !== "game" || shipMoving) return;
@@ -319,6 +352,7 @@
       ship = { x: planets[0].x, y: planets[0].y };
       shipSize = null;
       currentMenu = "main";
+      playAgainButton.style.display = "none";
       drawMenu();
     }
 
