@@ -252,56 +252,72 @@
       ctx.fill();
     }
 
+    <script>
+    // Replace the existing drawShop function
     function drawShop() {
-      const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
+        const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
 
-      ctx.fillStyle = "white";
-      ctx.font = "16px monospace";
-      ctx.fillText(`Welcome to ${currentPlanet.name}`, 320, 100);
+        const backgroundImageFileName = shopBackgrounds[currentPlanet.name] || "default-shop.png";
+        const backgroundImagePath = `/media/images/${backgroundImageFileName}`;
 
-      const buttons = [
-        { text: `Buy Fuel (${currentPlanet.fuelPrice} credits)`, x: 200, y: 150, action: () => buyFuel(currentPlanet) },
-        { text: "Leave Shop", x: 200, y: 200, action: leaveShop },
-      ];
+        const bg = new Image();
+        bg.src = backgroundImagePath;
+        bg.onload = () => {
+            ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-      if (currentPlanet.hub) {
-        buttons.push({
-          text: `Buy Promotion (100 credits)`,
-          x: 200,
-          y: 250,
-          action: buyPromotion,
-        });
-      }
+            // Draw the shop UI after the background is rendered
+            drawShopContents(currentPlanet);
+        };
+    }
 
-      buttons.forEach((button) => {
-        ctx.fillStyle = "#0f0";
-        ctx.fillRect(button.x, button.y, 200, 40);
+    function drawShopContents(currentPlanet) {
+        ctx.fillStyle = "white";
+        ctx.font = "16px monospace";
+        ctx.fillText(`Welcome to ${currentPlanet.name}`, 320, 100);
 
-        ctx.strokeStyle = "white";
-        ctx.strokeRect(button.x, button.y, 200, 40);
+        const buttons = [
+            { text: `Buy Fuel (${currentPlanet.fuelPrice} credits)`, x: 200, y: 150, action: () => buyFuel(currentPlanet) },
+            { text: "Leave Shop", x: 200, y: 200, action: leaveShop },
+        ];
 
-        ctx.fillStyle = "black";
-        ctx.fillText(button.text, button.x + 10, button.y + 25);
-      });
-
-      canvas.addEventListener("click", function shopClick(event) {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = event.clientX - rect.left;
-        const mouseY = event.clientY - rect.top;
+        if (currentPlanet.hub) {
+            buttons.push({
+                text: `Buy Promotion (100 credits)`,
+                x: 200,
+                y: 250,
+                action: buyPromotion,
+            });
+        }
 
         buttons.forEach((button) => {
-          if (
-            mouseX > button.x &&
-            mouseX < button.x + 200 &&
-            mouseY > button.y &&
-            mouseY < button.y + 40
-          ) {
-            button.action();
-            drawMenu();
-            canvas.removeEventListener("click", shopClick);
-          }
+            ctx.fillStyle = "#0f0";
+            ctx.fillRect(button.x, button.y, 200, 40);
+
+            ctx.strokeStyle = "white";
+            ctx.strokeRect(button.x, button.y, 200, 40);
+
+            ctx.fillStyle = "black";
+            ctx.fillText(button.text, button.x + 10, button.y + 25);
         });
-      });
+
+        canvas.addEventListener("click", function shopClick(event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+
+            buttons.forEach((button) => {
+                if (
+                    mouseX > button.x &&
+                    mouseX < button.x + 200 &&
+                    mouseY > button.y &&
+                    mouseY < button.y + 40
+                ) {
+                    button.action();
+                    drawMenu();
+                    canvas.removeEventListener("click", shopClick);
+                }
+            });
+        });
     }
 
     function buyFuel(planet) {
