@@ -20,7 +20,7 @@
       background-color: black;
       border: 2px solid #0f0;
       display: block;
-      touch-action: none; /* Disable touch gestures like scrolling */
+      touch-action: none; /* Prevent scrolling when touching the canvas */
     }
 
     .play-again {
@@ -55,7 +55,7 @@
     // Game State
     let fuel = 5;
     let credits = 0;
-    let promotions = 0; // Tracks the number of promotions
+    let promotions = 0;
     let shipSize = null;
     let currentMenu = "main"; // 'main', 'game', 'arrival', 'shop', 'gameover'
     let messageTimeout = null;
@@ -65,7 +65,7 @@
 
     const fuelBasePrice = 2;
     const rewardBase = 10;
-    const promotionCost = 100; // Cost for a promotion at Planet Prime
+    const promotionCost = 100;
     const fuelMultiplier = {
       small: 0.5,
       medium: 1.0,
