@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pizza Party Galaxy Map</title>
-  <link rel="stylesheet" href="style.css"> <!-- Link to external CSS file -->
+  <link rel="stylesheet" href="style.css"> <!-- Link to external CSS -->
 </head>
 <body>
   <header>
@@ -110,7 +110,7 @@
 
     // Draw Planets
     function drawPlanets() {
-      ctx.setLineDash([5, 5]);
+      ctx.setLineDash([]);
       planets.forEach((planet) => {
         ctx.strokeStyle = planet.color;
         ctx.beginPath();
@@ -133,11 +133,47 @@
       ctx.fill();
     }
 
-    // Select Ship
-    function selectShip(size) {
-      shipSize = size;
-      document.querySelectorAll("button").forEach((btn) => btn.classList.add("hidden"));
-      canvas.classList.remove("hidden");
+    // Move Ship
+    function moveShip(targetX, targetY, planet) {
+      if (gameOver) return;
+
+      const distance = Math.sqrt((targetX - ship.x) ** 2 + (targetY - ship.y) ** 2);
+      const fuelCost = Math.ceil((distance / 100) * fuelMultiplier[shipSize]);
+
+      if (fuel < fuelCost) {
+        alert("Not enough fuel for this trip!");
+        return;
+      }
+
+      const interval = setInterval(() => {
+        if (Math.abs(ship.x - targetX) < 1 && Math.abs(ship.y - targetY) < 1) {
+          ship.x = targetX;
+          ship.y = targetY;
+          clearInterval(interval);
+          onArrival(planet, fuelCost);
+        } else {
+          ship.x += (targetX - ship.x) * 0.05;
+          ship.y += (targetY - ship.y) * 0.05;
+        }
+        draw();
+      }, 16);
+    }
+
+    // On Arrival
+    function onArrival(planet, fuelCost) {
+      if (planet.hub) {
+        atPlanetPrime = true;
+        alert("You have arrived at Planet Prime! Refuel here.");
+      } else {
+        credits += 10; // Earn credits for visiting
+        alert(`You arrived at ${planet.name} and earned 10 credits!`);
+      }
+      fuel -= fuelCost;
+      if (fuel <= 0) {
+        fuel = 0;
+        gameOver = true;
+        alert("Game over! You ran out of fuel.");
+      }
       draw();
     }
 
@@ -149,6 +185,26 @@
       drawStats();
       drawFuelScale();
       drawShip();
+    }
+
+    // Handle Planet Clicks
+    canvas.addEventListener("click", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      planets.forEach((planet) => {
+        const distance = Math.sqrt((mouseX - planet.x) ** 2 + (mouseY - planet.y) ** 2);
+        if (distance < 15) moveShip(planet.x, planet.y, planet);
+      });
+    });
+
+    // Select Ship
+    function selectShip(size) {
+      shipSize = size;
+      document.querySelectorAll("button").forEach((btn) => btn.classList.add("hidden"));
+      canvas.classList.remove("hidden");
+      draw();
     }
   </script>
 </body>
