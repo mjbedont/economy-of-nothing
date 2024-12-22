@@ -25,7 +25,7 @@
   </style>
 </head>
 <body>
-  <canvas id="galaxyMap" width="800" height="600"></canvas>
+  <canvas id="galaxyMap"></canvas>
   <script>
     const canvas = document.getElementById("galaxyMap");
     const ctx = canvas.getContext("2d");
@@ -391,6 +391,19 @@ canvas.addEventListener("touchstart", (event) => {
   handleInput(event);
 });
 
+    function resizeCanvas() {
+  const scaleFactor = window.devicePixelRatio || 1;
+  canvas.width = window.innerWidth * scaleFactor;
+  canvas.height = window.innerHeight * scaleFactor;
+  ctx.scale(scaleFactor, scaleFactor);
+  drawMenu(); // Redraw after resizing
+}
+
+// Adjust canvas on window resize
+window.addEventListener("resize", resizeCanvas);
+
+// Call the function initially
+resizeCanvas();
 
     drawMenu();
   </script>
