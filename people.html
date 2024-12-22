@@ -253,7 +253,7 @@ function displayMessage(message) {
           });
         } else {
           addButton("Mission Unavailable", () => {
-            alert("You must return to Planet Prime to reset missions.");
+            displayMessage("You must return to Planet Prime to reset missions.");
           });
         }
       }
@@ -265,9 +265,9 @@ function displayMessage(message) {
             credits -= 100;
             promotions += 1;
             updateInfoPanel();
-            alert("Promotion purchased! Your rank has increased.");
+            displayMessage("Promotion purchased! Your rank has increased.");
           } else {
-            alert("Not enough credits to buy a promotion!");
+            displayMessage("Not enough credits to buy a promotion!");
           }
         });
       }
@@ -280,7 +280,7 @@ function displayMessage(message) {
           fuel += 1;
           updateInfoPanel();
         } else {
-          alert("Not enough credits!");
+          displayMessage("Not enough credits!");
         }
       });
 
@@ -324,7 +324,7 @@ function displayMessage(message) {
             fuel -= fuelSpent;
             visitPlanet(planet, fuelSpent);
           } else {
-            alert("Not enough fuel to travel to this planet!");
+            displayMessage("Not enough fuel to travel to this planet!");
           }
         }
       });
