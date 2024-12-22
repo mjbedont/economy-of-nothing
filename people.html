@@ -224,28 +224,36 @@ function displayMessage(message) {
       showPlanetScreen(planet, fuelSpent);
     }
 
-    function showPlanetScreen(planet, fuelSpent = 0) {
+  function showPlanetScreen(planet, fuelSpent = 0) {
   const planetScreen = document.getElementById("planetScreen");
   const planetTitle = document.getElementById("planetTitle");
   const planetInfo = document.getElementById("planetInfo");
   const planetButtons = document.getElementById("planetButtons");
 
   planetScreen.style.display = "block";
-  planetTitle.textContent = `Welcome to ${planet.name}`;
+  planetTitle.textContent = planet ? `Welcome to ${planet.name}` : "Awaiting Interaction";
 
-  const economy = calculateEconomy(planet);
+  const economy = planet ? calculateEconomy(planet) : null;
 
-  planetInfo.innerHTML = `
-    <p>Fuel Spent: ${fuelSpent}</p>
-  `;
+  if (planet) {
+    planetInfo.innerHTML = `
+      <p>Fuel Spent: ${fuelSpent}</p>
+    `;
+  } else {
+    planetInfo.innerHTML = "";
+  }
 
-  planetButtons.innerHTML = ""; // Clear previous buttons
+  planetButtons.innerHTML = ""; // Always reset buttons
 
-  // Always add "Leave Planet" button first
-  addButton("Leave Planet", () => {
-    document.getElementById("planetScreen").style.display = "none";
-    drawMap();
-  });
+  // Add "Leave Planet" button if a planet is selected
+  if (planet) {
+    addButton("Leave Planet", () => {
+      document.getElementById("planetScreen").style.display = "none";
+      drawMap();
+    });
+  }
+}
+
 
   // Add mission or other buttons
   if (!planet.hub) {
