@@ -109,10 +109,10 @@
     function drawPersistentInfo() {
       ctx.fillStyle = "white";
       ctx.font = "16px monospace";
-      ctx.fillText(`Dispatch: ${dispatches}`, 10, 20);
-      ctx.fillText(`Fuel: ${fuel}`, 10, 40);
-      ctx.fillText(`Credits: ${credits}`, 10, 60);
-      ctx.fillText(`Promotions: ${promotions}`, 10, 80);
+      ctx.fillText(Dispatch: ${dispatches}, 10, 20);
+      ctx.fillText(Fuel: ${fuel}, 10, 40);
+      ctx.fillText(Credits: ${credits}, 10, 60);
+      ctx.fillText(Promotions: ${promotions}, 10, 80);
     }
 
     function drawMenu() {
@@ -214,7 +214,7 @@
   ctx.fillStyle = "white";
   ctx.font = "16px monospace";
 
-  ctx.fillText(`Fuel Price: ${currentPlanet.fuelPrice} credits per unit.`, 70, 470);
+  ctx.fillText(Fuel Price: ${currentPlanet.fuelPrice} credits per unit., 70, 470);
   ctx.fillText("Choose an option:", 70, 490);
 
   // Draw buttons with improved styling
@@ -248,7 +248,7 @@ function drawButton(x, y, width, height, text) {
         ctx.fillText("No scores yet!", 320, 200);
       } else {
         leaderboard.forEach((score, index) => {
-          ctx.fillText(`${index + 1}. Dispatches: ${score.dispatches}, Credits: ${score.credits}`, 200, 150 + index * 30);
+          ctx.fillText(${index + 1}. Dispatches: ${score.dispatches}, Credits: ${score.credits}, 200, 150 + index * 30);
         });
       }
 
