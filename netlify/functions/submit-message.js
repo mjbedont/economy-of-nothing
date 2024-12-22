@@ -1,61 +1,58 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const messageForm = document.getElementById("message-form");
-    const messageList = document.getElementById("message-list");
+const fs = require("fs");
+const path = require("path");
 
-    // Fetch messages from the backend
-    function fetchMessages() {
-        fetch("/.netlify/functions/message-board")
-            .then((response) => response.json())
-            .then((messages) => {
-                console.log("Fetched messages:", messages); // Debug log
-                messageList.innerHTML = ""; // Clear the list
-                messages.forEach(({ username, message, timestamp }) => {
-                    const listItem = document.createElement("li");
-                    listItem.innerHTML = `<strong>${username}:</strong> ${message} <br><small>${new Date(timestamp).toLocaleString()}</small>`;
-                    messageList.appendChild(listItem);
-                });
-            })
-            .catch((error) => {
-                console.error("Failed to fetch messages:", error);
-                messageList.innerHTML = "<li>Error loading messages.</li>";
-            });
-    }
+exports.handler = async (event) => {
+    const filePath = path.join(__dirname, "../../data/messages.txt");
 
-    // Post a new message
-    messageForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const username = document.getElementById("username").value.trim();
-        const message = document.getElementById("message").value.trim();
+    if (event.httpMethod === "POST") {
+        const message = new URLSearchParams(event.body).get("message");
 
-        if (!username || !message) {
-            alert("Both username and message are required!");
-            return;
+        if (!message || message.trim() === "") {
+            return {
+                statusCode: 400,
+                body: "Message cannot be empty.",
+            };
         }
 
-        console.log("Posting message:", { username, message }); // Debug log
+        try {
+            // Append the message to the file
+            fs.appendFileSync(filePath, `${message}\n`, "utf8");
 
-        fetch("/.netlify/functions/message-board", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, message }),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to post message");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log("Posted message:", data); // Debug log
-                fetchMessages(); // Refresh the message list
-                messageForm.reset(); // Clear the form
-            })
-            .catch((error) => {
-                console.error("Failed to post message:", error);
-                alert("Failed to post message.");
-            });
-    });
+            // Read updated messages
+            const updatedMessages = fs.readFileSync(filePath, "utf8");
 
-    // Initial fetch
-    fetchMessages();
-});
+            return {
+                statusCode: 200,
+                body: updatedMessages,
+            };
+        } catch (error) {
+            console.error("Error writing to file:", error);
+            return {
+                statusCode: 500,
+                body: "Failed to save message.",
+            };
+        }
+    }
+
+    if (event.httpMethod === "GET") {
+        try {
+            const messages = fs.readFileSync(filePath, "utf8");
+            return {
+                statusCode: 200,
+                body: messages,
+            };
+        } catch (error) {
+            console.error("Error reading file:", error);
+            return {
+                statusCode: 500,
+                body: "Failed to load messages.",
+            };
+        }
+    }
+
+    return {
+        statusCode: 405,
+        body: "Method Not Allowed.",
+    };
+};
+
