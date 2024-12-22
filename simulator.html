@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+OCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -230,9 +230,9 @@
         if (planet.hub) {
           primeReturns += 1;
           resetMissions();
-          displayMessage(Welcome back to ${planet.name}!);
+          displayMessage(`Welcome back to ${planet.name}!`);
         } else {
-          displayMessage(Arrived at ${planet.name}. Fuel used: ${fuelUsage}.);
+          displayMessage(`Arrived at ${planet.name}. Fuel used: ${fuelUsage}.`);
         }
 
         updateStats();
@@ -249,7 +249,7 @@
       const planetLore = document.getElementById("planetLore");
 
       planetScreen.style.display = "block";
-      planetTitle.textContent = Welcome to ${planet.name};
+      planetTitle.textContent = `Welcome to ${planet.name}`;
       planetLore.textContent = planet.lore;
 
       planetButtons.innerHTML = ""; // Clear old buttons
@@ -282,12 +282,12 @@
         const fuelPrice = calculateFuelPriceFromPrime(planet);
         const missionPayout = calculateMissionPayoutFromPrime(planet);
 
-        const buyFuelButton = createButton(Buy Fuel (${fuelPrice} credits/unit), () => {
+        const buyFuelButton = createButton(`Buy Fuel (${fuelPrice} credits/unit)`, () => {
           if (credits >= fuelPrice) {
             credits -= fuelPrice;
             fuel++;
             updateStats();
-            displayMessage(Bought 1 unit of fuel for ${fuelPrice} credits.);
+            displayMessage(`Bought 1 unit of fuel for ${fuelPrice} credits.`);
           } else {
             displayMessage("Not enough credits to buy fuel!");
           }
@@ -295,11 +295,11 @@
         planetButtons.appendChild(buyFuelButton);
 
         if (!planet.missionCompleted) {
-          const missionButton = createButton(Start Mission (Reward: ${missionPayout} credits), () => {
+          const missionButton = createButton(`Start Mission (Reward: ${missionPayout} credits)`, () => {
             credits += missionPayout;
             planet.missionCompleted = true;
             updateStats();
-            displayMessage(Mission completed on ${planet.name}. Earned ${missionPayout} credits.);
+            displayMessage(`Mission completed on ${planet.name}. Earned ${missionPayout} credits.`);
             updatePlanetScreen(planet);
           });
           planetButtons.appendChild(missionButton);
