@@ -69,11 +69,13 @@
   <div id="infoPanel">
     <div>Fuel: <span id="fuel"></span></div>
     <div>Credits: <span id="credits">100</span></div>
+    <div>Promotions: <span id="promotions">0</span></div>
     <div>Selected Planet: <span id="selectedPlanet">None</span></div>
     <div>Returns to Planet Prime: <span id="primeReturns">0</span></div>
   </div>
   <div id="planetScreen">
     <h3 id="planetTitle">Welcome to Planet</h3>
+    <div id="planetInfo"></div>
     <div id="planetButtons"></div>
   </div>
   <script>
@@ -87,6 +89,7 @@
     // Game State
     let fuel = 20;
     let credits = 100;
+    let promotions = 0;
     let primeReturns = 0; // Count of returns to Planet Prime
     let ship = { x: 0, y: 0 }; // Start at Planet Prime
     let currentPlanet = null;
@@ -140,7 +143,7 @@
         : 2 + Math.ceil(distance / 100); // Base cost + distance-based cost
       const missionReward = 10 + Math.ceil(distance / 50); // Base reward + distance multiplier
 
-      return { fuelCost, missionReward };
+      return { fuelCost, missionReward, distance };
     }
 
     function resetMissions() {
@@ -199,7 +202,7 @@
       ctx.fill();
     }
 
-    function visitPlanet(planet) {
+    function visitPlanet(planet, fuelSpent) {
       currentPlanet = planet;
       ship.x = planet.x;
       ship.y = planet.y;
@@ -210,21 +213,59 @@
       }
 
       updateInfoPanel();
-      showPlanetScreen(planet);
+      showPlanetScreen(planet, fuelSpent);
     }
 
-    function showPlanetScreen(planet) {
+    function showPlanetScreen(planet, fuelSpent = 0) {
       const planetScreen = document.getElementById("planetScreen");
       const planetTitle = document.getElementById("planetTitle");
+      const planetInfo = document.getElementById("planetInfo");
       const planetButtons = document.getElementById("planetButtons");
 
       planetScreen.style.display = "block";
       planetTitle.textContent = `Welcome to ${planet.name}`;
 
-      planetButtons.innerHTML = ""; // Clear previous buttons
-
       const economy = calculateEconomy(planet);
 
+      planetInfo.innerHTML = `
+        <p>Fuel Spent: ${fuelSpent}</p>
+      `;
+
+      planetButtons.innerHTML = ""; // Clear previous buttons
+
+      if (!planet.hub) {
+        if (!planet.missionCompleted) {
+          addButton("Start Mission", () => {
+            credits += economy.missionReward;
+            planet.missionCompleted = true;
+            planetInfo.innerHTML = `<p>Mission Complete! You earned ${economy.missionReward} credits.</p>`;
+            planetButtons.innerHTML = ""; // Clear buttons after mission
+            addPostMissionButtons(economy);
+            updateInfoPanel();
+          });
+        } else {
+          addButton("Mission Unavailable", () => {
+            alert("You must return to Planet Prime to reset missions.");
+          });
+        }
+      }
+
+      if (planet.hub) {
+        addPostMissionButtons(economy);
+        addButton("Buy Promotion (100 credits)", () => {
+          if (credits >= 100) {
+            credits -= 100;
+            promotions += 1;
+            updateInfoPanel();
+            alert("Promotion purchased! Your rank has increased.");
+          } else {
+            alert("Not enough credits to buy a promotion!");
+          }
+        });
+      }
+    }
+
+    function addPostMissionButtons(economy) {
       addButton(`Buy Fuel (${economy.fuelCost} credits/unit)`, () => {
         if (credits >= economy.fuelCost) {
           credits -= economy.fuelCost;
@@ -235,23 +276,8 @@
         }
       });
 
-      if (!planet.hub) {
-        if (!planet.missionCompleted) {
-          addButton("Start Mission", () => {
-            credits += economy.missionReward;
-            planet.missionCompleted = true;
-            alert(`Mission complete! Earned ${economy.missionReward} credits.`);
-            updateInfoPanel();
-          });
-        } else {
-          addButton("Mission Unavailable", () => {
-            alert("You must return to Planet Prime to reset missions.");
-          });
-        }
-      }
-
       addButton("Leave Planet", () => {
-        planetScreen.style.display = "none";
+        document.getElementById("planetScreen").style.display = "none";
         drawMap();
       });
     }
@@ -267,6 +293,7 @@
     function updateInfoPanel() {
       document.getElementById("fuel").textContent = Math.max(fuel, 0);
       document.getElementById("credits").textContent = credits;
+      document.getElementById("promotions").textContent = promotions;
       document.getElementById("selectedPlanet").textContent = currentPlanet
         ? currentPlanet.name
         : "None";
@@ -283,7 +310,14 @@
           (mouseX - planet.x) ** 2 + (mouseY - planet.y) ** 2
         );
         if (distance < 15) {
-          visitPlanet(planet);
+          const economy = calculateEconomy(planet);
+          const fuelSpent = Math.ceil(economy.distance / 100);
+          if (fuel >= fuelSpent) {
+            fuel -= fuelSpent;
+            visitPlanet(planet, fuelSpent);
+          } else {
+            alert("Not enough fuel to travel to this planet!");
+          }
         }
       });
     });
@@ -297,4 +331,5 @@
   </script>
 </body>
 </html>
+
 
