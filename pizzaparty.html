@@ -325,65 +325,72 @@ function getCanvasCoordinates(event) {
       drawMenu();
     }
 
-    canvas.addEventListener("click", (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+    // Unified input handler for mouse and touch
+function handleInput(event) {
+  const { x: mouseX, y: mouseY } = getCanvasCoordinates(event);
 
-      if (currentMenu === "main") {
-        const crewBoxes = [
-          { crew: crews[0], x: 200, width: 100, y: 150, height: 150 },
-          { crew: crews[1], x: 350, width: 100, y: 150, height: 150 },
-          { crew: crews[2], x: 500, width: 100, y: 150, height: 150 },
-        ];
+  if (currentMenu === "main") {
+    const crewBoxes = [
+      { crew: crews[0], x: 200, width: 100, y: 150, height: 150 },
+      { crew: crews[1], x: 350, width: 100, y: 150, height: 150 },
+      { crew: crews[2], x: 500, width: 100, y: 150, height: 150 },
+    ];
 
-        crewBoxes.forEach((box) => {
-          if (
-            mouseX >= box.x &&
-            mouseX <= box.x + box.width &&
-            mouseY >= box.y &&
-            mouseY <= box.y + box.height
-          ) {
-            selectedCrew = box.crew;
-            currentMenu = "game";
-            drawMenu();
-          }
-        });
-      } else if (currentMenu === "game" && !crewMoving) {
-        planets.forEach((planet) => {
-          const distance = Math.sqrt((mouseX - planet.x) ** 2 + (mouseY - planet.y) ** 2);
-          if (distance < 15) {
-            moveShip(planet.x, planet.y, planet);
-          }
-        });
-      } else if (currentMenu === "shop") {
-        const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
-
-        // Check Buy Fuel click
-        if (mouseX >= 70 && mouseX <= 220 && mouseY >= 510 && mouseY <= 540) {
-          if (credits >= currentPlanet.fuelPrice) {
-            credits -= currentPlanet.fuelPrice;
-            fuel += 1;
-            drawMenu();
-          }
-        }
-        // Check Leave click
-        else if (mouseX >= 250 && mouseX <= 400 && mouseY >= 510 && mouseY <= 540) {
-          currentMenu = "game";
-          drawMenu();
-        }
-        // Check Buy Promotion click (only on Planet Prime)
-        else if (currentPlanet.hub && mouseX >= 430 && mouseX <= 630 && mouseY >= 510 && mouseY <= 540) {
-          if (credits >= promotionCost) {
-            credits -= promotionCost;
-            promotions += 1;
-            drawMenu();
-          }
-        }
-      } else if (currentMenu === "gameover") {
-        resetGame();
+    crewBoxes.forEach((box) => {
+      if (
+        mouseX >= box.x &&
+        mouseX <= box.x + box.width &&
+        mouseY >= box.y &&
+        mouseY <= box.y + box.height
+      ) {
+        selectedCrew = box.crew;
+        currentMenu = "game";
+        drawMenu();
       }
     });
+  } else if (currentMenu === "game" && !crewMoving) {
+    planets.forEach((planet) => {
+      const distance = Math.sqrt((mouseX - planet.x) ** 2 + (mouseY - planet.y) ** 2);
+      if (distance < 15) {
+        moveShip(planet.x, planet.y, planet);
+      }
+    });
+  } else if (currentMenu === "shop") {
+    const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
+
+    // Check Buy Fuel click
+    if (mouseX >= 70 && mouseX <= 220 && mouseY >= 510 && mouseY <= 540) {
+      if (credits >= currentPlanet.fuelPrice) {
+        credits -= currentPlanet.fuelPrice;
+        fuel += 1;
+        drawMenu();
+      }
+    }
+    // Check Leave click
+    else if (mouseX >= 250 && mouseX <= 400 && mouseY >= 510 && mouseY <= 540) {
+      currentMenu = "game";
+      drawMenu();
+    }
+    // Check Buy Promotion click (only on Planet Prime)
+    else if (currentPlanet.hub && mouseX >= 430 && mouseX <= 630 && mouseY >= 510 && mouseY <= 540) {
+      if (credits >= promotionCost) {
+        credits -= promotionCost;
+        promotions += 1;
+        drawMenu();
+      }
+    }
+  } else if (currentMenu === "gameover") {
+    resetGame();
+  }
+}
+
+// Add Event Listeners for mouse and touch
+canvas.addEventListener("click", handleInput);
+canvas.addEventListener("touchstart", (event) => {
+  event.preventDefault(); // Prevent default touch behavior like scrolling
+  handleInput(event);
+});
+
 
     drawMenu();
   </script>
