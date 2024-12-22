@@ -12,24 +12,24 @@
         document.addEventListener("DOMContentLoaded", () => {
             const messageContainer = document.getElementById("messages");
 
-            // Fetch messages from the .txt file
-            fetch("/data/messages.txt")
+            // Fetch messages from the serverless function
+            fetch("/.netlify/functions/submit-message")
                 .then(response => response.text())
                 .then(data => {
-                    messageContainer.textContent = data;
+                    messageContainer.textContent = data || "No messages yet. Be the first to post!";
                 })
                 .catch(error => {
                     console.error("Failed to load messages:", error);
                     messageContainer.textContent = "Error loading messages.";
                 });
 
-            // Submit a new message
+            // Handle form submission to post a new message
             document.getElementById("message-form").addEventListener("submit", (e) => {
                 e.preventDefault();
-                const newMessage = document.getElementById("new-message").value;
-                if (!newMessage.trim()) return;
+                const newMessage = document.getElementById("new-message").value.trim();
+                if (!newMessage) return alert("Message cannot be empty!");
 
-                fetch("/submit-message.php", {
+                fetch("/.netlify/functions/submit-message", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded"
@@ -39,10 +39,11 @@
                 .then(response => response.text())
                 .then(data => {
                     messageContainer.textContent = data;
-                    document.getElementById("new-message").value = "";
+                    document.getElementById("new-message").value = ""; // Clear the input
                 })
                 .catch(error => {
                     console.error("Failed to submit message:", error);
+                    alert("Failed to submit your message. Please try again later.");
                 });
             });
         });
@@ -85,5 +86,6 @@
     </footer>
 </body>
 </html>
+
 
 
