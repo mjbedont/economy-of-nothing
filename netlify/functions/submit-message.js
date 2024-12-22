@@ -2,7 +2,7 @@ const fs = require("fs").promises;
 const path = require("path");
 
 exports.handler = async (event) => {
-    const filePath = path.join(process.cwd(), "data/messages.txt");
+    const filePath = path.join(process.cwd(), "/data/messages.txt");
 
     if (event.httpMethod === "POST") {
         const message = new URLSearchParams(event.body).get("message");
