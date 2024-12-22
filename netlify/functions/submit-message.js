@@ -1,8 +1,8 @@
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
 
 exports.handler = async (event) => {
-    const filePath = path.join(__dirname, "../../data/messages.txt");
+    const filePath = path.join(process.cwd(), "data/messages.txt");
 
     if (event.httpMethod === "POST") {
         const message = new URLSearchParams(event.body).get("message");
@@ -15,14 +15,17 @@ exports.handler = async (event) => {
         }
 
         try {
-            // Append the message to the file
-            fs.appendFileSync(filePath, `${message}\n`, "utf8");
+            // Append the new message to the file
+            await fs.appendFile(filePath, `${message}\n`, "utf8");
 
-            // Read updated messages
-            const updatedMessages = fs.readFileSync(filePath, "utf8");
+            // Read the updated file content
+            const updatedMessages = await fs.readFile(filePath, "utf8");
 
             return {
                 statusCode: 200,
+                headers: {
+                    "Content-Type": "text/plain",
+                },
                 body: updatedMessages,
             };
         } catch (error) {
@@ -36,9 +39,14 @@ exports.handler = async (event) => {
 
     if (event.httpMethod === "GET") {
         try {
-            const messages = fs.readFileSync(filePath, "utf8");
+            // Read the content of the messages file
+            const messages = await fs.readFile(filePath, "utf8");
+
             return {
                 statusCode: 200,
+                headers: {
+                    "Content-Type": "text/plain",
+                },
                 body: messages,
             };
         } catch (error) {
@@ -55,4 +63,5 @@ exports.handler = async (event) => {
         body: "Method Not Allowed.",
     };
 };
+
 
