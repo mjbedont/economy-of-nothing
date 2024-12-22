@@ -1,9 +1,7 @@
 const fs = require("fs").promises;
-const path = require("path");
+const filePath = "/tmp/messages.txt";
 
 exports.handler = async (event) => {
-    const filePath = path.join(process.cwd(), "/data/messages.txt");
-
     if (event.httpMethod === "POST") {
         const message = new URLSearchParams(event.body).get("message");
 
@@ -15,6 +13,13 @@ exports.handler = async (event) => {
         }
 
         try {
+            // Ensure the file exists before appending
+            try {
+                await fs.access(filePath); // Check if the file exists
+            } catch (err) {
+                await fs.writeFile(filePath, "", "utf8"); // Create an empty file if it doesn't exist
+            }
+
             // Append the new message to the file
             await fs.appendFile(filePath, `${message}\n`, "utf8");
 
@@ -39,7 +44,7 @@ exports.handler = async (event) => {
 
     if (event.httpMethod === "GET") {
         try {
-            // Read the content of the messages file
+            // Read messages from the file
             const messages = await fs.readFile(filePath, "utf8");
 
             return {
@@ -63,5 +68,3 @@ exports.handler = async (event) => {
         body: "Method Not Allowed.",
     };
 };
-
-
