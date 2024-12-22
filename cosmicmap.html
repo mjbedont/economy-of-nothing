@@ -23,7 +23,7 @@
       display: block;
     }
 
-    #infoPanel, #planetScreen, #messageBox {
+    #infoPanel, #planetScreen, #messageBox, #leaderboard {
       position: absolute;
       background: rgba(0, 0, 0, 0.8);
       border: 2px solid #00FF00;
@@ -51,6 +51,14 @@
       width: 300px;
     }
 
+    #leaderboard {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      width: 300px;
+    }
+
     .button {
       display: block;
       margin: 10px 0;
@@ -75,8 +83,8 @@
     <div>Fuel: <span id="fuel">20</span></div>
     <div>Credits: <span id="credits">100</span></div>
     <div>Promotions: <span id="promotions">0</span></div>
-    <div>Selected Planet: <span id="selectedPlanet">None</span></div>
     <div>Dispatches: <span id="primeReturns">0</span></div>
+    <div>POD: <span id="pod">0</span></div>
   </div>
   <div id="messageBox">
     Ready for your next move!
@@ -88,6 +96,12 @@
     <div id="planetLore" style="margin-top: 10px; font-size: 12px;">
       <!-- Planet-specific lore will appear here -->
     </div>
+  </div>
+  <div id="leaderboard">
+    <h3>Game Over</h3>
+    <div>Promotions per Dispatch (POD): <span id="finalPod">0</span></div>
+    <div>Credits: <span id="finalCredits">0</span></div>
+    <div id="restartButton" class="button">Restart Game</div>
   </div>
   <script>
     const canvas = document.getElementById("galaxyMap");
@@ -142,15 +156,17 @@
       return positions;
     }
 
-    function calculateDistance(planet) {
-      return Math.sqrt((planet.x - prime.x) ** 2 + (planet.y - prime.y) ** 2);
+    function calculateTravelFuelUsage(current, destination) {
+      return Math.ceil(Math.sqrt((destination.x - current.x) ** 2 + (destination.y - current.y) ** 2) / 100);
     }
 
-    function calculateFuelPrice(distance) {
+    function calculateFuelPriceFromPrime(planet) {
+      const distance = Math.sqrt((planet.x - prime.x) ** 2 + (planet.y - prime.y) ** 2);
       return 2 + Math.ceil(distance / 100); // Base price + distance multiplier
     }
 
-    function calculateMissionPayout(distance) {
+    function calculateMissionPayoutFromPrime(planet) {
+      const distance = Math.sqrt((planet.x - prime.x) ** 2 + (planet.y - prime.y) ** 2);
       return 10 + Math.ceil(distance / 50); // Base payout + distance multiplier
     }
 
@@ -199,34 +215,15 @@
       ctx.fill();
     }
 
-    function animateShipTravel(destination, callback) {
-      const steps = 50;
-      const dx = (destination.x - ship.x) / steps;
-      const dy = (destination.y - ship.y) / steps;
-
-      let step = 0;
-      const interval = setInterval(() => {
-        ship.x += dx;
-        ship.y += dy;
-        step++;
-        drawMap();
-        if (step >= steps) {
-          clearInterval(interval);
-          callback();
-        }
-      }, 16);
-    }
-
     function visitPlanet(planet) {
-      const distance = calculateDistance(planet);
-      const fuelCost = calculateFuelPrice(distance);
+      const fuelUsage = calculateTravelFuelUsage(currentPlanet || prime, planet);
 
-      if (fuel < fuelCost) {
-        displayMessage("Not enough fuel to travel!");
+      if (fuel < fuelUsage) {
+        endGame();
         return;
       }
 
-      fuel -= fuelCost;
+      fuel -= fuelUsage;
       animateShipTravel(planet, () => {
         currentPlanet = planet;
 
@@ -235,34 +232,16 @@
           resetMissions();
           displayMessage(`Welcome back to ${planet.name}!`);
         } else {
-          displayMessage(`Arrived at ${planet.name}. Fuel used: ${fuelCost}.`);
+          displayMessage(`Arrived at ${planet.name}. Fuel used: ${fuelUsage}.`);
         }
 
         updateStats();
         drawMap();
-        updatePlanetScreen(planet, distance);
+        updatePlanetScreen(planet);
       });
     }
 
-    function resetMissions() {
-      planets.forEach((planet) => {
-        if (!planet.hub) {
-          planet.missionCompleted = false;
-        }
-      });
-    }
-
-    function updateStats() {
-      document.getElementById("fuel").textContent = fuel;
-      document.getElementById("credits").textContent = credits;
-      document.getElementById("promotions").textContent = promotions;
-      document.getElementById("primeReturns").textContent = primeReturns;
-      document.getElementById("selectedPlanet").textContent = currentPlanet
-        ? currentPlanet.name
-        : "None";
-    }
-
-    function updatePlanetScreen(planet, distance) {
+    function updatePlanetScreen(planet) {
       const planetScreen = document.getElementById("planetScreen");
       const planetTitle = document.getElementById("planetTitle");
       const planetInfo = document.getElementById("planetInfo");
@@ -275,44 +254,56 @@
 
       planetButtons.innerHTML = ""; // Clear old buttons
 
-      const fuelPrice = calculateFuelPrice(distance);
-      const missionPayout = calculateMissionPayout(distance);
-
-      const buyFuelButton = createButton(`Buy Fuel (${fuelPrice} credits/unit)`, () => {
-        if (credits >= fuelPrice) {
-          credits -= fuelPrice;
-          fuel++;
-          updateStats();
-          displayMessage(`Bought 1 unit of fuel for ${fuelPrice} credits.`);
-        } else {
-          displayMessage("Not enough credits to buy fuel!");
-        }
-      });
-      planetButtons.appendChild(buyFuelButton);
-
-      if (!planet.hub && !planet.missionCompleted) {
-        const missionButton = createButton(`Start Mission (Reward: ${missionPayout} credits)`, () => {
-          credits += missionPayout;
-          planet.missionCompleted = true;
-          updateStats();
-          displayMessage(`Mission completed on ${planet.name}. Earned ${missionPayout} credits.`);
-          updatePlanetScreen(planet, distance);
-        });
-        planetButtons.appendChild(missionButton);
-      }
-
       if (planet.hub) {
-        const promotionButton = createButton("Buy Promotion (100 credits)", () => {
+        const buyFuelButton = createButton("Buy Fuel (2 credits/unit)", () => {
+          if (credits >= 2) {
+            credits -= 2;
+            fuel++;
+            updateStats();
+            displayMessage("Bought 1 unit of fuel for 2 credits.");
+          } else {
+            displayMessage("Not enough credits to buy fuel!");
+          }
+        });
+        planetButtons.appendChild(buyFuelButton);
+
+        const buyPromotionButton = createButton("Buy Promotion (100 credits)", () => {
           if (credits >= 100) {
             credits -= 100;
             promotions++;
             updateStats();
-            displayMessage("Promotion purchased! Rank increased.");
+            displayMessage("Promotion purchased!");
           } else {
             displayMessage("Not enough credits to buy a promotion!");
           }
         });
-        planetButtons.appendChild(promotionButton);
+        planetButtons.appendChild(buyPromotionButton);
+      } else {
+        const fuelPrice = calculateFuelPriceFromPrime(planet);
+        const missionPayout = calculateMissionPayoutFromPrime(planet);
+
+        const buyFuelButton = createButton(`Buy Fuel (${fuelPrice} credits/unit)`, () => {
+          if (credits >= fuelPrice) {
+            credits -= fuelPrice;
+            fuel++;
+            updateStats();
+            displayMessage(`Bought 1 unit of fuel for ${fuelPrice} credits.`);
+          } else {
+            displayMessage("Not enough credits to buy fuel!");
+          }
+        });
+        planetButtons.appendChild(buyFuelButton);
+
+        if (!planet.missionCompleted) {
+          const missionButton = createButton(`Start Mission (Reward: ${missionPayout} credits)`, () => {
+            credits += missionPayout;
+            planet.missionCompleted = true;
+            updateStats();
+            displayMessage(`Mission completed on ${planet.name}. Earned ${missionPayout} credits.`);
+            updatePlanetScreen(planet);
+          });
+          planetButtons.appendChild(missionButton);
+        }
       }
 
       const leaveButton = createButton("Leave Planet", () => {
@@ -332,6 +323,74 @@
     function displayMessage(message) {
       const messageBox = document.getElementById("messageBox");
       messageBox.textContent = message;
+    }
+
+    function animateShipTravel(destination, callback) {
+      const steps = 50;
+      const dx = (destination.x - ship.x) / steps;
+      const dy = (destination.y - ship.y) / steps;
+
+      let step = 0;
+      const interval = setInterval(() => {
+        ship.x += dx;
+        ship.y += dy;
+        step++;
+        drawMap();
+        if (step >= steps) {
+          clearInterval(interval);
+          callback();
+        }
+      }, 16);
+    }
+
+    function resetMissions() {
+      planets.forEach((planet) => {
+        if (!planet.hub) {
+          planet.missionCompleted = false;
+        }
+      });
+    }
+
+    function updateStats() {
+      document.getElementById("fuel").textContent = fuel;
+      document.getElementById("credits").textContent = credits;
+      document.getElementById("promotions").textContent = promotions;
+      document.getElementById("primeReturns").textContent = primeReturns;
+      document.getElementById("pod").textContent = primeReturns > 0 ? (promotions / primeReturns).toFixed(2) : "0";
+    }
+
+    function endGame() {
+      const leaderboard = document.getElementById("leaderboard");
+      const finalPod = document.getElementById("finalPod");
+      const finalCredits = document.getElementById("finalCredits");
+      const restartButton = document.getElementById("restartButton");
+
+      finalPod.textContent = primeReturns > 0 ? (promotions / primeReturns).toFixed(2) : "0";
+      finalCredits.textContent = credits;
+      leaderboard.style.display = "block";
+
+      restartButton.onclick = () => {
+        leaderboard.style.display = "none";
+        resetGame();
+      };
+    }
+
+    function resetGame() {
+      fuel = 20;
+      credits = 100;
+      promotions = 0;
+      primeReturns = 0;
+      currentPlanet = prime;
+      ship.x = prime.x;
+      ship.y = prime.y;
+
+      planets.forEach((planet) => {
+        planet.missionCompleted = false;
+      });
+
+      updateStats();
+      drawMap();
+      displayMessage("Ready for your next move!");
     }
 
     canvas.addEventListener("click", (e) => {
@@ -354,3 +413,4 @@
   </script>
 </body>
 </html>
+
