@@ -325,7 +325,7 @@ function getCanvasCoordinates(event) {
       drawMenu();
     }
 
-    // Unified input handler for mouse and touch
+// Unified input handler for mouse and touch
 function handleInput(event) {
   const { x: mouseX, y: mouseY } = getCanvasCoordinates(event);
 
@@ -391,21 +391,23 @@ canvas.addEventListener("touchstart", (event) => {
   handleInput(event);
 });
 
-    function resizeCanvas() {
+// Resize canvas to fit the screen
+function resizeCanvas() {
   const scaleFactor = window.devicePixelRatio || 1;
   canvas.width = window.innerWidth * scaleFactor;
   canvas.height = window.innerHeight * scaleFactor;
   ctx.scale(scaleFactor, scaleFactor);
-  drawMenu(); // Redraw after resizing
+  drawMenu(); // Redraw the canvas after resizing
 }
 
 // Adjust canvas on window resize
 window.addEventListener("resize", resizeCanvas);
 
-// Call the function initially
+// Call the function initially to set up canvas size
 resizeCanvas();
 
-    drawMenu();
+drawMenu();
+
   </script>
 </body>
 </html>
