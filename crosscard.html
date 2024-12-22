@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Solitaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .grid-cell {
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #controls {
+            margin-bottom: 10px;
+        }
+
+        #current-letter {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #score {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="grid">
+            <!-- Grid cells will be dynamically generated -->
+        </div>
+        <div id="controls">
+            <div id="current-letter">?</div>
+            <button id="draw-letter">Draw Letter</button>
+            <button id="submit-words">Submit Words</button>
+        </div>
+        <div id="score">Score: <span id="score-value">0</span></div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const grid = document.getElementById("grid");
+            const drawLetterBtn = document.getElementById("draw-letter");
+            const submitWordsBtn = document.getElementById("submit-words");
+            const currentLetterDisplay = document.getElementById("current-letter");
+            const scoreDisplay = document.getElementById("score-value");
+
+            const letterFrequencies = [
+                { letter: "E", weight: 12 },
+                { letter: "A", weight: 9 },
+                { letter: "R", weight: 8 },
+                { letter: "I", weight: 7 },
+                { letter: "O", weight: 7 },
+                { letter: "T", weight: 7 },
+                { letter: "N", weight: 6 },
+                { letter: "S", weight: 6 },
+                { letter: "L", weight: 4 },
+                { letter: "C", weight: 3 },
+                { letter: "U", weight: 3 },
+                { letter: "D", weight: 3 },
+                { letter: "P", weight: 3 },
+                { letter: "M", weight: 2 },
+                { letter: "H", weight: 2 },
+                { letter: "G", weight: 2 },
+                { letter: "B", weight: 2 },
+                { letter: "F", weight: 2 },
+                { letter: "Y", weight: 2 },
+                { letter: "W", weight: 1 },
+                { letter: "K", weight: 1 },
+                { letter: "V", weight: 1 },
+                { letter: "X", weight: 1 },
+                { letter: "Z", weight: 1 },
+                { letter: "J", weight: 1 },
+                { letter: "Q", weight: 1 }
+            ];
+
+            let letterPool = [];
+            let currentLetter = null;
+            let score = 0;
+
+            // Build weighted letter pool
+            function buildLetterPool() {
+                letterFrequencies.forEach(({ letter, weight }) => {
+                    for (let i = 0; i < weight; i++) {
+                        letterPool.push(letter);
+                    }
+                });
+            }
+            buildLetterPool();
+
+            // Generate grid
+            const gridSize = 5;
+            const gridCells = [];
+            for (let i = 0; i < gridSize * gridSize; i++) {
+                const cell = document.createElement("div");
+                cell.classList.add("grid-cell");
+                cell.dataset.index = i;
+                cell.addEventListener("click", () => placeLetter(cell));
+                grid.appendChild(cell);
+                gridCells.push(cell);
+            }
+
+            // Draw a random letter
+            drawLetterBtn.addEventListener("click", () => {
+                if (!currentLetter) {
+                    const randomIndex = Math.floor(Math.random() * letterPool.length);
+                    currentLetter = letterPool[randomIndex];
+                    currentLetterDisplay.textContent = currentLetter;
+                }
+            });
+
+            // Place letter on grid
+            function placeLetter(cell) {
+                if (currentLetter && !cell.textContent) {
+                    cell.textContent = currentLetter;
+                    currentLetter = null;
+                    currentLetterDisplay.textContent = "?";
+                }
+            }
+
+            // Submit words
+            submitWordsBtn.addEventListener("click", () => {
+                const words = extractWords();
+                let roundScore = 0;
+
+                words.forEach((word) => {
+                    if (isValidWord(word)) {
+                        roundScore += word.length * 10; // Example: 10 points per letter
+                        clearWord(word);
+                    }
+                });
+
+                if (roundScore > 0) {
+                    score += roundScore;
+                    scoreDisplay.textContent = score;
+                } else {
+                    alert("No valid words found!");
+                }
+            });
+
+            // Extract words (rows, columns, diagonals)
+            function extractWords() {
+                const words = [];
+
+                // Check rows
+                for (let row = 0; row < gridSize; row++) {
+                    const word = [];
+                    for (let col = 0; col < gridSize; col++) {
+                        const index = row * gridSize + col;
+                        const letter = gridCells[index].textContent;
+                        if (letter) {
+                            word.push(letter);
+                        } else if (word.length > 0) {
+                            words.push(word.join(""));
+                            word.length = 0;
+                        }
+                    }
+                    if (word.length > 0) words.push(word.join(""));
+                }
+
+                // Check columns
+                for (let col = 0; col < gridSize; col++) {
+                    const word = [];
+                    for (let row = 0; row < gridSize; row++) {
+                        const index = row * gridSize + col;
+                        const letter = gridCells[index].textContent;
+                        if (letter) {
+                            word.push(letter);
+                        } else if (word.length > 0) {
+                            words.push(word.join(""));
+                            word.length = 0;
+                        }
+                    }
+                    if (word.length > 0) words.push(word.join(""));
+                }
+
+                return words;
+            }
+
+            // Clear a word from the grid
+            function clearWord(word) {
+                gridCells.forEach((cell) => {
+                    if (cell.textContent === word[0]) {
+                        cell.textContent = "";
+                        word = word.slice(1);
+                    }
+                });
+            }
+
+            // Placeholder word validation
+            function isValidWord(word) {
+                return word.length >= 3; // For simplicity, treat any word with 3+ letters as valid
+            }
+        });
+    </script>
+</body>
+</html>
