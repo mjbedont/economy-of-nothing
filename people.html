@@ -61,6 +61,45 @@
       },
     ];
 
+    const planetPositions = generatePlanets(8, 800, 600, 150);
+    const planets = [
+      { ...planetPositions[0], name: "Planet Prime", color: "yellow", hub: true },
+      { ...planetPositions[1], name: "Brenner 7", color: "red" },
+      { ...planetPositions[2], name: "Dracronaria", color: "green" },
+      { ...planetPositions[3], name: "Mukuku", color: "blue" },
+      { ...planetPositions[4], name: "Malonberg", color: "purple" },
+      { ...planetPositions[5], name: "Donnie47", color: "orange" },
+      { ...planetPositions[6], name: "New Rome", color: "cyan" },
+      { ...planetPositions[7], name: "Pawndora", color: "brown" },
+    ];
+
+    const prime = planets[0];
+    planets.forEach((planet) => {
+      const distance = Math.sqrt((planet.x - prime.x) ** 2 + (planet.y - prime.y) ** 2);
+      planet.fuelPrice = 2 + Math.ceil(distance / 100);
+      planet.reward = 10 + Math.ceil(distance / 50);
+    });
+
+    let ship = { x: planets[0].x, y: planets[0].y };
+
+    function generatePlanets(count, canvasWidth, canvasHeight, minDistance) {
+      const planets = [];
+      while (planets.length < count) {
+        const x = Math.random() * (canvasWidth - 100) + 50;
+        const y = Math.random() * (canvasHeight - 100) + 50;
+        let tooClose = false;
+        for (const planet of planets) {
+          const distance = Math.sqrt((x - planet.x) ** 2 + (y - planet.y) ** 2);
+          if (distance < minDistance) {
+            tooClose = true;
+            break;
+          }
+        }
+        if (!tooClose) planets.push({ x, y });
+      }
+      return planets;
+    }
+
     function drawPersistentInfo() {
       ctx.fillStyle = "white";
       ctx.font = "16px monospace";
@@ -73,19 +112,16 @@
     }
 
     function drawFuelIndicator() {
-      const indicatorWidth = 50; // Fixed width for the indicator
-      const indicatorHeight = 10; // Fixed height for the indicator
-      const margin = 10; // Margin from the bottom-right corner
+      const indicatorWidth = 50;
+      const indicatorHeight = 10;
+      const margin = 10;
 
-      // Position at bottom-right of the canvas
       const x = canvas.width - indicatorWidth - margin;
       const y = canvas.height - indicatorHeight - margin;
 
-      // Draw the indicator box
       ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
       ctx.fillRect(x, y, indicatorWidth, indicatorHeight);
 
-      // Draw the text for the fuel unit distance
       ctx.fillStyle = "white";
       ctx.font = "12px monospace";
       ctx.fillText(`1 Fuel = ${fuelUnitDistance}px`, x - 40, y - 5);
@@ -98,8 +134,49 @@
       if (currentMenu === "main") {
         drawCrewSelection();
       } else if (currentMenu === "game") {
-        // Add game-specific drawing here
+        drawRoutes();
+        drawPlanets();
+        drawShip();
       }
+    }
+
+    function drawRoutes() {
+      ctx.setLineDash([5, 5]);
+      ctx.strokeStyle = "rgba(0, 255, 255, 0.5)";
+      ctx.beginPath();
+      planets.forEach((start) => {
+        planets.forEach((end) => {
+          if (start !== end) {
+            ctx.moveTo(start.x, start.y);
+            ctx.lineTo(end.x, end.y);
+          }
+        });
+      });
+      ctx.stroke();
+    }
+
+    function drawPlanets() {
+      planets.forEach((planet) => {
+        ctx.setLineDash([]);
+        ctx.strokeStyle = planet.color;
+        ctx.beginPath();
+        ctx.arc(planet.x, planet.y, 15, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = "white";
+        ctx.font = "12px monospace";
+        ctx.fillText(planet.name, planet.x + 20, planet.y);
+      });
+    }
+
+    function drawShip() {
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.moveTo(ship.x, ship.y - 5);
+      ctx.lineTo(ship.x - 5, ship.y + 5);
+      ctx.lineTo(ship.x + 5, ship.y + 5);
+      ctx.closePath();
+      ctx.fill();
     }
 
     function drawCrewSelection() {
@@ -129,11 +206,10 @@
     }
 
     function resizeCanvas() {
-      const aspectRatio = 800 / 600; // Original aspect ratio
-      let width = window.innerWidth * 0.95; // 95% of window width
-      let height = window.innerHeight * 0.95; // 95% of window height
+      const aspectRatio = 800 / 600;
+      let width = window.innerWidth * 0.95;
+      let height = window.innerHeight * 0.95;
 
-      // Maintain aspect ratio
       if (width / height > aspectRatio) {
         width = height * aspectRatio;
       } else {
@@ -143,11 +219,11 @@
       canvas.width = width;
       canvas.height = height;
 
-      drawMenu(); // Redraw content after resizing
+      drawMenu();
     }
 
-    window.addEventListener("resize", resizeCanvas); // Dynamically resize on window resize
-    resizeCanvas(); // Initial canvas size adjustment
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
     canvas.addEventListener("click", (e) => {
       const rect = canvas.getBoundingClientRect();
