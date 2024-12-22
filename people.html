@@ -73,6 +73,9 @@
     <div>Selected Planet: <span id="selectedPlanet">None</span></div>
     <div>Returns to Planet Prime: <span id="primeReturns">0</span></div>
   </div>
+  <div id="messageBox" style="position: absolute; bottom: 10px; left: 10px; width: 300px; background: rgba(0,0,0,0.8); border: 2px solid #00FF00; padding: 10px; color: #00FF00; font-family: 'Courier New', monospace;">
+  Ready for your next move!
+</div>
   <div id="planetScreen">
     <h3 id="planetTitle">Welcome to Planet</h3>
     <div id="planetInfo"></div>
@@ -201,6 +204,11 @@
       ctx.closePath();
       ctx.fill();
     }
+function displayMessage(message) {
+  const messageBox = document.getElementById("messageBox");
+  messageBox.textContent = message;
+}
+
 
     function visitPlanet(planet, fuelSpent) {
       currentPlanet = planet;
