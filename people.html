@@ -33,11 +33,12 @@
     let fuel = 5;
     let credits = 0;
     let promotions = 0;
-    let dispatches = 1; // Start on Dispatch 1
+    let dispatches = 1;
     let currentMenu = "main"; // 'main', 'game', 'shop', 'gameover'
     let crewMoving = false;
     let selectedCrew = null;
-    let tripSummary = null;
+
+    const fuelUnitDistance = 100; // Distance covered by 1 unit of fuel
 
     const crews = [
       {
@@ -60,49 +61,6 @@
       },
     ];
 
-    const fuelBasePrice = 2;
-    const rewardBase = 10;
-    const promotionCost = 100;
-
-    const planetPositions = generatePlanets(8, canvas.width, canvas.height, 150);
-    const planets = [
-      { ...planetPositions[0], name: "Planet Prime", color: "yellow", hub: true },
-      { ...planetPositions[1], name: "Brenner 7", color: "red" },
-      { ...planetPositions[2], name: "Dracronaria", color: "green" },
-      { ...planetPositions[3], name: "Mukuku", color: "blue" },
-      { ...planetPositions[4], name: "Malonberg", color: "purple" },
-      { ...planetPositions[5], name: "Donnie47", color: "orange" },
-      { ...planetPositions[6], name: "New Rome", color: "cyan" },
-      { ...planetPositions[7], name: "Pawndora", color: "brown" },
-    ];
-
-    const prime = planets[0];
-    planets.forEach((planet) => {
-      const distance = Math.sqrt((planet.x - prime.x) ** 2 + (planet.y - prime.y) ** 2);
-      planet.fuelPrice = fuelBasePrice + Math.ceil(distance / 100);
-      planet.reward = rewardBase + Math.ceil(distance / 50);
-    });
-
-    let ship = { x: planets[0].x, y: planets[0].y };
-
-    function generatePlanets(count, canvasWidth, canvasHeight, minDistance) {
-      const planets = [];
-      while (planets.length < count) {
-        const x = Math.random() * (canvasWidth - 100) + 50;
-        const y = Math.random() * (canvasHeight - 100) + 50;
-        let tooClose = false;
-        for (const planet of planets) {
-          const distance = Math.sqrt((x - planet.x) ** 2 + (y - planet.y) ** 2);
-          if (distance < minDistance) {
-            tooClose = true;
-            break;
-          }
-        }
-        if (!tooClose) planets.push({ x, y });
-      }
-      return planets;
-    }
-
     function drawPersistentInfo() {
       ctx.fillStyle = "white";
       ctx.font = "16px monospace";
@@ -110,6 +68,27 @@
       ctx.fillText(`Fuel: ${fuel}`, 10, 40);
       ctx.fillText(`Credits: ${credits}`, 10, 60);
       ctx.fillText(`Promotions: ${promotions}`, 10, 80);
+
+      drawFuelIndicator();
+    }
+
+    function drawFuelIndicator() {
+      const indicatorWidth = 50; // Fixed width for the indicator
+      const indicatorHeight = 10; // Fixed height for the indicator
+      const margin = 10; // Margin from the bottom-right corner
+
+      // Position at bottom-right of the canvas
+      const x = canvas.width - indicatorWidth - margin;
+      const y = canvas.height - indicatorHeight - margin;
+
+      // Draw the indicator box
+      ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+      ctx.fillRect(x, y, indicatorWidth, indicatorHeight);
+
+      // Draw the text for the fuel unit distance
+      ctx.fillStyle = "white";
+      ctx.font = "12px monospace";
+      ctx.fillText(`1 Fuel = ${fuelUnitDistance}px`, x - 40, y - 5);
     }
 
     function drawMenu() {
@@ -119,16 +98,7 @@
       if (currentMenu === "main") {
         drawCrewSelection();
       } else if (currentMenu === "game") {
-        drawRoutes();
-        drawPlanets();
-        drawShip();
-      } else if (currentMenu === "shop") {
-        drawRoutes();
-        drawPlanets();
-        drawShip();
-        drawLowerThirdShopMenu();
-      } else if (currentMenu === "gameover") {
-        drawGameOverScreen();
+        // Add game-specific drawing here
       }
     }
 
@@ -210,4 +180,3 @@
   </script>
 </body>
 </html>
-
