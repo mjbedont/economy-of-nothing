@@ -1,122 +1,22 @@
-/* Base Styles */
-html, body {
+/* Body styling for responsive layout */
+body {
   margin: 0;
-  padding: 0;
-  font-family: "Courier New", Courier, monospace;
+  font-family: monospace;
   background-color: black;
   color: white;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* Responsive Layout */
-body {
+  height: 100vh; /* Full viewport height */
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* Prevent scrolling */
 }
 
-/* Canvas */
+/* Canvas styling for responsiveness */
 canvas {
-  display: block;
+  touch-action: manipulation; /* Disable pinch-zoom gestures */
+  width: 100%; /* Canvas scales to full width of the screen */
+  height: 100%; /* Canvas scales to full height of the screen */
+  display: block; /* Remove inline spacing issues */
+  border: 2px solid #0f0; /* Optional: Canvas border */
   background-color: black;
-  border: 2px solid #0f0;
-  width: 100%;
-  max-width: 800px; /* Maintain aspect ratio */
-  height: auto;
-}
-
-/* Text Styles */
-.text-large {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.text-medium {
-  font-size: 16px;
-}
-
-.text-small {
-  font-size: 12px;
-}
-
-/* Accessibility: High Contrast Mode */
-.high-contrast body {
-  background-color: white;
-  color: black;
-}
-
-.high-contrast canvas {
-  border-color: black;
-}
-
-/* Utility Classes */
-.hidden {
-  display: none !important;
-}
-
-.centered {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Buttons */
-button {
-  font-family: inherit;
-  font-size: 16px;
-  background-color: #0f0;
-  color: black;
-  border: 2px solid #0a0;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin: 10px;
-}
-
-button:hover {
-  background-color: #0a0;
-}
-
-button:active {
-  background-color: #070;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  canvas {
-    width: 90%;
-    max-width: 600px;
-  }
-
-  .text-large {
-    font-size: 18px;
-  }
-
-  .text-medium {
-    font-size: 14px;
-  }
-
-  .text-small {
-    font-size: 10px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-}
-
-/* Focus and Accessibility */
-:focus {
-  outline: 3px solid #0f0;
-  outline-offset: 2px;
-}
-
-[role="button"] {
-  cursor: pointer;
-}
-
-[aria-hidden="true"] {
-  display: none;
 }
