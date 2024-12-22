@@ -205,31 +205,38 @@
       ctx.fill();
     }
 
-    function drawLowerThirdShopMenu() {
-      const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
+  function drawLowerThirdShopMenu() {
+  const currentPlanet = planets.find((p) => p.x === ship.x && p.y === ship.y);
 
-      ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-      ctx.fillRect(50, 450, 700, 100);
+  ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+  ctx.fillRect(50, 450, 700, 100);
 
-      ctx.fillStyle = "white";
-      ctx.font = "16px monospace";
+  ctx.fillStyle = "white";
+  ctx.font = "16px monospace";
 
-      ctx.fillText(`Fuel Price: ${currentPlanet.fuelPrice} credits per unit.`, 70, 470);
-      ctx.fillText("Choose an option:", 70, 490);
+  ctx.fillText(`Fuel Price: ${currentPlanet.fuelPrice} credits per unit.`, 70, 470);
+  ctx.fillText("Choose an option:", 70, 490);
 
-      ctx.fillRect(70, 510, 150, 30); // Buy Fuel
-      ctx.fillRect(250, 510, 150, 30); // Leave
-      if (currentPlanet.hub) ctx.fillRect(430, 510, 200, 30); // Buy Promotion
+  // Draw buttons with improved styling
+  drawButton(70, 510, 150, 30, "Buy Fuel");
+  drawButton(250, 510, 150, 30, "Leave");
+  if (currentPlanet.hub) {
+    drawButton(430, 510, 200, 30, "Buy Promotion");
+  }
+}
 
-      ctx.strokeStyle = "white";
-      ctx.strokeRect(70, 510, 150, 30);
-      ctx.strokeRect(250, 510, 150, 30);
-      if (currentPlanet.hub) ctx.strokeRect(430, 510, 200, 30);
+function drawButton(x, y, width, height, text) {
+  ctx.fillStyle = "rgba(50, 50, 50, 0.9)"; // Semi-transparent dark background
+  ctx.fillRect(x, y, width, height);
 
-      ctx.fillText("Buy Fuel", 90, 530);
-      ctx.fillText("Leave", 280, 530);
-      if (currentPlanet.hub) ctx.fillText("Buy Promotion", 450, 530);
-    }
+  ctx.strokeStyle = "white"; // White border
+  ctx.strokeRect(x, y, width, height);
+
+  ctx.fillStyle = "white"; // Text color
+  ctx.font = "14px monospace";
+  ctx.fillText(text, x + 10, y + 20); // Centered vertically
+}
+
 
     function drawLeaderboard() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
