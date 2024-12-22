@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pizza Party Galaxy Map</title>
   <style>
     body {
@@ -14,7 +14,6 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
     }
 
     canvas {
@@ -30,17 +29,7 @@
     const canvas = document.getElementById("galaxyMap");
     const ctx = canvas.getContext("2d");
 
-    // Dynamically resize the canvas to fit the screen
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      drawMenu(); // Redraw the menu after resizing
-    }
-
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas(); // Initial resize on load
-
-    // Game state variables
+    // Game State
     let fuel = 5;
     let credits = 0;
     let promotions = 0;
@@ -114,27 +103,111 @@
       return planets;
     }
 
-    // Drawing functions remain unchanged
-    // ...
-
-    // Touch event handler
-    function handleTouch(e) {
-      const touch = e.touches[0];
-      const rect = canvas.getBoundingClientRect();
-      const touchX = touch.clientX - rect.left;
-      const touchY = touch.clientY - rect.top;
-
-      // Reuse the logic from the click handler
-      const event = new MouseEvent("click", {
-        clientX: touchX + rect.left,
-        clientY: touchY + rect.top,
-      });
-      canvas.dispatchEvent(event);
+    function drawPersistentInfo() {
+      ctx.fillStyle = "white";
+      ctx.font = "16px monospace";
+      ctx.fillText(`Dispatch: ${dispatches}`, 10, 20);
+      ctx.fillText(`Fuel: ${fuel}`, 10, 40);
+      ctx.fillText(`Credits: ${credits}`, 10, 60);
+      ctx.fillText(`Promotions: ${promotions}`, 10, 80);
     }
 
-    canvas.addEventListener("touchstart", handleTouch, { passive: false });
+    function drawMenu() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawPersistentInfo();
+
+      if (currentMenu === "main") {
+        drawCrewSelection();
+      } else if (currentMenu === "game") {
+        drawRoutes();
+        drawPlanets();
+        drawShip();
+      } else if (currentMenu === "shop") {
+        drawRoutes();
+        drawPlanets();
+        drawShip();
+        drawLowerThirdShopMenu();
+      } else if (currentMenu === "gameover") {
+        drawGameOverScreen();
+      }
+    }
+
+    function drawCrewSelection() {
+      ctx.fillStyle = "white";
+      ctx.font = "18px monospace";
+      ctx.fillText("Select Your Crew:", canvas.width / 2 - 80, 100);
+
+      const crewBoxes = [
+        { crew: crews[0], x: canvas.width / 4 - 50, width: 100, y: 150, height: 150 },
+        { crew: crews[1], x: canvas.width / 2 - 50, width: 100, y: 150, height: 150 },
+        { crew: crews[2], x: (3 * canvas.width) / 4 - 50, width: 100, y: 150, height: 150 },
+      ];
+
+      crewBoxes.forEach((box) => {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+        ctx.fillRect(box.x, box.y, box.width, box.height);
+
+        ctx.strokeStyle = "white";
+        ctx.strokeRect(box.x, box.y, box.width, box.height);
+
+        ctx.fillStyle = "white";
+        ctx.font = "14px monospace";
+        ctx.fillText(box.crew.type, box.x + 5, box.y + 20);
+        ctx.font = "12px monospace";
+        ctx.fillText(box.crew.description, box.x + 5, box.y + 50);
+      });
+    }
+
+    function resizeCanvas() {
+      const aspectRatio = 800 / 600; // Original aspect ratio
+      let width = window.innerWidth * 0.95; // 95% of window width
+      let height = window.innerHeight * 0.95; // 95% of window height
+
+      // Maintain aspect ratio
+      if (width / height > aspectRatio) {
+        width = height * aspectRatio;
+      } else {
+        height = width / aspectRatio;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      drawMenu(); // Redraw content after resizing
+    }
+
+    window.addEventListener("resize", resizeCanvas); // Dynamically resize on window resize
+    resizeCanvas(); // Initial canvas size adjustment
+
+    canvas.addEventListener("click", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      if (currentMenu === "main") {
+        const crewBoxes = [
+          { crew: crews[0], x: canvas.width / 4 - 50, width: 100, y: 150, height: 150 },
+          { crew: crews[1], x: canvas.width / 2 - 50, width: 100, y: 150, height: 150 },
+          { crew: crews[2], x: (3 * canvas.width) / 4 - 50, width: 100, y: 150, height: 150 },
+        ];
+
+        crewBoxes.forEach((box) => {
+          if (
+            mouseX >= box.x &&
+            mouseX <= box.x + box.width &&
+            mouseY >= box.y &&
+            mouseY <= box.y + box.height
+          ) {
+            selectedCrew = box.crew;
+            currentMenu = "game";
+            drawMenu();
+          }
+        });
+      }
+    });
 
     drawMenu();
   </script>
 </body>
 </html>
+
