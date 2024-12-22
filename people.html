@@ -1,91 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Connect with fans and creators of The Economy of Nothing. Share your thoughts on the series!">
-    <meta name="keywords" content="Economy of Nothing, message board, dystopian sci-fi, community">
-    <meta name="author" content="The Economy of Nothing Team">
-    <title>The Economy of Nothing - People</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer>
-        document.addEventListener("DOMContentLoaded", () => {
-            const messageContainer = document.getElementById("messages");
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galactic Economy Map</title>
+  <style>
+    body {
+      font-family: "Courier New", monospace;
+      background-color: black;
+      color: #00FF00;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-            // Fetch messages from the serverless function
-            fetch("/.netlify/functions/submit-message")
-                .then(response => response.text())
-                .then(data => {
-                    messageContainer.textContent = data || "No messages yet. Be the first to post!";
-                })
-                .catch(error => {
-                    console.error("Failed to load messages:", error);
-                    messageContainer.textContent = "Error loading messages.";
-                });
+    canvas {
+      background-color: black;
+      border: 2px solid #00FF00;
+      display: block;
+    }
 
-            // Handle form submission to post a new message
-            document.getElementById("message-form").addEventListener("submit", (e) => {
-                e.preventDefault();
-                const newMessage = document.getElementById("new-message").value.trim();
-                if (!newMessage) return alert("Message cannot be empty!");
+    #infoPanel, #planetScreen, #messageBox, #leaderboard {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00FF00;
+      padding: 10px;
+      font-family: "Courier New", monospace;
+      color: #00FF00;
+    }
 
-                fetch("/.netlify/functions/submit-message", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: `message=${encodeURIComponent(newMessage)}`
-                })
-                .then(response => response.text())
-                .then(data => {
-                    messageContainer.textContent = data;
-                    document.getElementById("new-message").value = ""; // Clear the input
-                })
-                .catch(error => {
-                    console.error("Failed to submit message:", error);
-                    alert("Failed to submit your message. Please try again later.");
-                });
-            });
-        });
-    </script>
+    #infoPanel {
+      top: 10px;
+      left: 10px;
+    }
+
+    #planetScreen {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      width: 300px;
+    }
+
+    #messageBox {
+      bottom: 10px;
+      left: 10px;
+      width: 300px;
+    }
+
+    #leaderboard {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      width: 300px;
+    }
+
+    .button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      background: black;
+      border: 2px solid #00FF00;
+      color: #00FF00;
+      text-align: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .button:hover {
+      background: #00FF00;
+      color: black;
+    }
+  </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <h1>The Economy of Nothing</h1>
-        <p>Join the Conversation</p>
-    </header>
-
-    <!-- Navigation Section -->
-    <nav>
-        <a href="/episodes.html">Episodes</a>
-        <a href="/codex.html">Codex</a>
-        <a href="/pizzaparty.html">Pizza Party</a>
-        <a href="/people.html" class="active">People</a>
-    </nav>
-
-    <!-- Main Content Section -->
-    <main>
-        <h2>Message Board</h2>
-        <div id="messages" class="message-board">
-            Loading messages...
-        </div>
-
-        <h3>Post a Message</h3>
-        <form id="message-form">
-            <textarea id="new-message" name="message" rows="4" placeholder="Type your message here..."></textarea>
-            <button type="submit">Post</button>
-        </form>
-    </main>
-
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 56.009 Nothing Inc.</p>
-        <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
-        <p class="visitor-counter">You are visitor number: <span id="visitor-count">Loading...</span></p>
-    </footer>
+  <canvas id="galaxyMap"></canvas>
+  <div id="infoPanel">
+    <div>Fuel: <span id="fuel">20</span></div>
+    <div>Credits: <span id="credits">100</span></div>
+    <div>Promotions: <span id="promotions">0</span></div>
+    <div>Dispatches: <span id="primeReturns">0</span></div>
+    <div>POD: <span id="pod">0</span></div>
+  </div>
+  <div id="messageBox">Ready for your next move!</div>
+  <div id="planetScreen">
+    <h3 id="planetTitle">Welcome to Planet</h3>
+    <div id="planetInfo"></div>
+    <div id="planetButtons"></div>
+    <div id="planetLore"></div>
+  </div>
+  <div id="leaderboard">
+    <h3>Game Over</h3>
+    <div>Promotions per Dispatch (POD): <span id="finalPod">0</span></div>
+    <div>Credits: <span id="finalCredits">0</span></div>
+    <div id="restartButton" class="button">Restart Game</div>
+  </div>
+  <script src="galaxyMap.js"></script>
 </body>
 </html>
-
-
-
