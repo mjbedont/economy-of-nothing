@@ -40,6 +40,25 @@
     let selectedCrew = null;
     let tripSummary = null;
 
+// Helper function to get canvas-relative coordinates for touch and mouse events
+function getCanvasCoordinates(event) {
+  const rect = canvas.getBoundingClientRect();
+  let clientX, clientY;
+
+  if (event.touches) {
+    clientX = event.touches[0].clientX; // First touch point
+    clientY = event.touches[0].clientY;
+  } else {
+    clientX = event.clientX;
+    clientY = event.clientY;
+  }
+
+  return {
+    x: clientX - rect.left,
+    y: clientY - rect.top,
+  };
+}
+    
     const crews = [
       {
         type: "Small Crew",
