@@ -225,38 +225,61 @@ function displayMessage(message) {
     }
 
     function showPlanetScreen(planet, fuelSpent = 0) {
-      const planetScreen = document.getElementById("planetScreen");
-      const planetTitle = document.getElementById("planetTitle");
-      const planetInfo = document.getElementById("planetInfo");
-      const planetButtons = document.getElementById("planetButtons");
+  const planetScreen = document.getElementById("planetScreen");
+  const planetTitle = document.getElementById("planetTitle");
+  const planetInfo = document.getElementById("planetInfo");
+  const planetButtons = document.getElementById("planetButtons");
 
-      planetScreen.style.display = "block";
-      planetTitle.textContent = `Welcome to ${planet.name}`;
+  planetScreen.style.display = "block";
+  planetTitle.textContent = `Welcome to ${planet.name}`;
 
-      const economy = calculateEconomy(planet);
+  const economy = calculateEconomy(planet);
 
-      planetInfo.innerHTML = `
-        <p>Fuel Spent: ${fuelSpent}</p>
-      `;
+  planetInfo.innerHTML = `
+    <p>Fuel Spent: ${fuelSpent}</p>
+  `;
 
-      planetButtons.innerHTML = ""; // Clear previous buttons
+  planetButtons.innerHTML = ""; // Clear previous buttons
 
-      if (!planet.hub) {
-        if (!planet.missionCompleted) {
-          addButton("Start Mission", () => {
-            credits += economy.missionReward;
-            planet.missionCompleted = true;
-            planetInfo.innerHTML = `<p>Mission Complete! You earned ${economy.missionReward} credits.</p>`;
-            planetButtons.innerHTML = ""; // Clear buttons after mission
-            addPostMissionButtons(economy);
-            updateInfoPanel();
-          });
-        } else {
-          addButton("Mission Unavailable", () => {
-            displayMessage("You must return to Planet Prime to reset missions.");
-          });
-        }
+  // Always add "Leave Planet" button first
+  addButton("Leave Planet", () => {
+    document.getElementById("planetScreen").style.display = "none";
+    drawMap();
+  });
+
+  // Add mission or other buttons
+  if (!planet.hub) {
+    if (!planet.missionCompleted) {
+      addButton("Start Mission", () => {
+        credits += economy.missionReward;
+        planet.missionCompleted = true;
+        planetInfo.innerHTML = `<p>Mission Complete! You earned ${economy.missionReward} credits.</p>`;
+        planetButtons.innerHTML = ""; // Clear buttons after mission
+        addPostMissionButtons(economy);
+        updateInfoPanel();
+      });
+    } else {
+      addButton("Mission Unavailable", () => {
+        displayMessage("You must return to Planet Prime to reset missions.");
+      });
+    }
+  }
+
+  if (planet.hub) {
+    addPostMissionButtons(economy);
+    addButton("Buy Promotion (100 credits)", () => {
+      if (credits >= 100) {
+        credits -= 100;
+        promotions += 1;
+        updateInfoPanel();
+        displayMessage("Promotion purchased! Your rank has increased.");
+      } else {
+        displayMessage("Not enough credits to buy a promotion!");
       }
+    });
+  }
+}
+
 
       if (planet.hub) {
         addPostMissionButtons(economy);
