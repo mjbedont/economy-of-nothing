@@ -3,24 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore The Economy of Nothing—a satirical dystopian series blending cosmic adventure with biting critique.">
-    <meta name="keywords" content="Economy of Nothing, dystopian sci-fi, satire, intergalactic adventure, corporate chaos">
-    <meta name="author" content="The Economy of Nothing Team">
     <title>Pizza Party - The Economy of Nothing</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer>
-        document.addEventListener("DOMContentLoaded", () => {
-            fetch("/.netlify/functions/visitor-counter")
-                .then(response => response.text())
-                .then(count => {
-                    document.getElementById("visitor-count").textContent = count;
-                })
-                .catch(error => {
-                    console.error("Failed to fetch visitor count:", error);
-                    document.getElementById("visitor-count").textContent = "Error";
-                });
-        });
-    </script>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            font-family: "Courier New", monospace;
+            background-color: black;
+            color: #00FF00;
+        }
+
+        header, nav, footer {
+            text-align: center;
+            padding: 10px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+        }
+
+        .game-container {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        iframe {
+            width: 95%;
+            height: 95%;
+            border-radius: 10px;
+            border: 2px solid #00FF00;
+        }
+
+        footer {
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -40,35 +76,7 @@
     <!-- Main Content Section -->
     <main>
         <h2>Welcome to Pizza Party</h2>
-        <p>
-            Dive into the chaos with our collection of games set in the world of <em>The Economy of Nothing</em>. Play, explore, and conquer!
-        </p>
-
-        <!-- Game Instructions -->
-        <section class="game-instructions">
-            <h3>How to Play Cosmic Map:</h3>
-            <ul>
-                <li>
-                    Start your journey on <strong>Planet Prime</strong>, where you can purchase fuel or promotions.
-                </li>
-                <li>
-                    Navigate to other planets by clicking on them in the galactic map. Each trip consumes fuel based on the distance traveled.
-                </li>
-                <li>
-                    Complete missions on planets to earn credits. Missions can only be completed once per planet before returning to Planet Prime.
-                </li>
-                <li>
-                    Buy fuel at local prices or promotions (Planet Prime only) to improve your dispatch statistics.
-                </li>
-                <li>
-                    Your <strong>POD (Promotions per Dispatch)</strong> is tracked. It's calculated as the number of promotions divided by the number of dispatches. Aim for the highest POD!
-                </li>
-                <li>
-                    The game ends if you run out of fuel while traveling. Your final score is determined by your POD, with credits serving as a tiebreaker.
-                </li>
-            </ul>
-            <p>Good luck, captain! May your POD be ever high.</p>
-        </section>
+        <p>Dive into the chaos with our collection of games set in the world of <em>The Economy of Nothing</em>.</p>
 
         <!-- Game Container -->
         <div class="game-container">
@@ -76,8 +84,7 @@
                 src="/people.html" 
                 frameborder="0" 
                 allowfullscreen 
-                title="Pizza Party Game"
-                style="width: 100%; height: 80vh; border-radius: 10px;">
+                title="Pizza Party Game">
             </iframe>
         </div>
     </main>
@@ -90,3 +97,4 @@
     </footer>
 </body>
 </html>
+
