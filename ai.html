@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Economy of Nothing - A retro-futuristic space adventure game">
+  <meta name="author" content="Your Name">
+  <title>Economy of Nothing</title>
+  <link rel="stylesheet" href="aistyle.css">
+</head>
+<body>
+  <div id="gameContainer" class="centered">
+    <canvas id="gameCanvas" width="800" height="600" role="img" aria-label="Galaxy map of Economy of Nothing"></canvas>
+  </div>
+  
+  <div id="controls" class="centered">
+    <button id="startButton">Start Game</button>
+    <button id="highContrastToggle">Toggle High Contrast</button>
+    <div id="info" class="text-medium" aria-live="polite">
+      Welcome to the Economy of Nothing! Navigate the galaxy and complete missions to succeed.
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for interactivity
+    const canvas = document.getElementById('gameCanvas');
+    const startButton = document.getElementById('startButton');
+    const highContrastToggle = document.getElementById('highContrastToggle');
+    const info = document.getElementById('info');
+
+    // Start game handler
+    startButton.addEventListener('click', () => {
+      info.textContent = "Game started! Good luck.";
+      // Initialize game logic here
+    });
+
+    // High contrast mode toggle
+    highContrastToggle.addEventListener('click', () => {
+      document.body.classList.toggle('high-contrast');
+      info.textContent = "High contrast mode toggled.";
+    });
+  </script>
+</body>
+</html>
