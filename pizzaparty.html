@@ -3,29 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Host</title>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #121212;
-            color: #ffffff;
-        }
-        iframe {
-            border: none;
-            width: 90%;
-            height: 90%;
-            max-width: 800px;
-            max-height: 600px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-        }
-    </style>
+    <meta name="description" content="Explore The Economy of Nothing—a satirical dystopian series blending cosmic adventure with biting critique.">
+    <meta name="keywords" content="Economy of Nothing, dystopian sci-fi, satire, intergalactic adventure, corporate chaos">
+    <meta name="author" content="The Economy of Nothing Team">
+    <title>Pizza Party - The Economy of Nothing</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("/.netlify/functions/visitor-counter")
+                .then(response => response.text())
+                .then(count => {
+                    document.getElementById("visitor-count").textContent = count;
+                })
+                .catch(error => {
+                    console.error("Failed to fetch visitor count:", error);
+                    document.getElementById("visitor-count").textContent = "Error";
+                });
+        });
+    </script>
 </head>
 <body>
-    <iframe src="people.html" title="Game"></iframe>
+    <!-- Header Section -->
+    <header>
+        <h1>Pizza Party</h1>
+        <p>The Arcade Corner of the Corporate Cosmos</p>
+    </header>
+
+    <!-- Navigation Section -->
+    <nav>
+        <a href="/episodes.html">Episodes</a>
+        <a href="/codex.html">Codex</a>
+        <a href="/pizzaparty.html">Pizza Party</a>
+        <a href="/people.html">People</a>
+    </nav>
+
+    <!-- Main Content Section -->
+    <main>
+        <h2>Welcome to Pizza Party</h2>
+        <p>
+            Dive into the chaos with our collection of games set in the world of <em>The Economy of Nothing</em>. Play, explore, and conquer!
+        </p>
+
+        <!-- Game Container -->
+        <div class="game-container">
+            <iframe 
+                src="/pizzaparty/game.html" 
+                frameborder="0" 
+                allowfullscreen 
+                title="Pizza Party Game"
+                style="width: 100%; height: 80vh; border-radius: 10px;">
+            </iframe>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 56.009 Nothing Inc.</p>
+        <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
+        <p class="visitor-counter">You are visitor number: <span id="visitor-count">Loading...</span></p>
+    </footer>
 </body>
 </html>
