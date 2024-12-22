@@ -4,6 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Message Board</title>
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyATx-M5h15kTulE6Q7V36l-vd4seFL1sO0",
+            authDomain: "messageboaroodo.firebaseapp.com",
+            databaseURL: "https://messageboaroodo-default-rtdb.firebaseio.com",
+            projectId: "messageboaroodo",
+            storageBucket: "messageboaroodo.firebasestorage.app",
+            messagingSenderId: "629645127715",
+            appId: "1:629645127715:web:98470a96f0a107b8054196",
+            measurementId: "G-S5KM21K9K3",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Add a message to the database
+        function addMessage(message) {
+            const messagesRef = ref(database, "messages");
+            push(messagesRef, { text: message });
+        }
+
+        // Listen for new messages
+        function listenForMessages() {
+            const messagesRef = ref(database, "messages");
+            onChildAdded(messagesRef, (snapshot) => {
+                const message = snapshot.val();
+                displayMessage(message.text);
+            });
+        }
+
+        // Display a message in the UI
+        function displayMessage(message) {
+            const messagesDiv = document.getElementById("messages");
+            const p = document.createElement("p");
+            p.textContent = message;
+            messagesDiv.appendChild(p);
+        }
+
+        // Handle form submission
+        window.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("messageForm");
+            const messageInput = document.getElementById("messageInput");
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const message = messageInput.value.trim();
+                if (!message) return;
+                addMessage(message);
+                messageInput.value = "";
+            });
+
+            // Start listening for messages
+            listenForMessages();
+        });
+    </script>
 </head>
 <body>
     <h1>Message Board</h1>
@@ -13,46 +74,5 @@
     </form>
     <h2>Messages</h2>
     <div id="messages"></div>
-
-    <script>
-        const form = document.getElementById("messageForm");
-        const messageInput = document.getElementById("messageInput");
-        const messagesDiv = document.getElementById("messages");
-
-        async function fetchMessages() {
-            try {
-                const response = await fetch("/.netlify/functions/readMessages");
-                const data = await response.json();
-                messagesDiv.innerHTML = data.messages
-                    .map(msg => `<p>${msg}</p>`)
-                    .join("");
-            } catch (error) {
-                console.error("Error fetching messages:", error);
-            }
-        }
-
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const message = messageInput.value.trim();
-            if (!message) return;
-
-            try {
-                await fetch("/.netlify/functions/writeMessage", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ message }),
-                });
-                messageInput.value = "";
-                fetchMessages();
-            } catch (error) {
-                console.error("Error submitting message:", error);
-            }
-        });
-
-        fetchMessages();
-    </script>
 </body>
 </html>
-
