@@ -107,18 +107,19 @@
     const canvas = document.getElementById("galaxyMap");
     const ctx = canvas.getContext("2d");
 
-    // Add the resizeCanvas function
-    function resizeCanvas() {
-      const ratio = window.devicePixelRatio || 1; // Get the device pixel ratio
-      canvas.width = Math.floor(window.innerWidth * 0.8 * ratio); // Scale canvas width
-      canvas.height = Math.floor(window.innerHeight * 0.8 * ratio); // Scale canvas height
-      canvas.style.width = `${window.innerWidth * 0.8}px`; // Set CSS width
-      canvas.style.height = `${window.innerHeight * 0.8}px`; // Set CSS height
-      ctx.scale(ratio, ratio); // Scale the context
-    }
+function resizeCanvas() {
+  const ratio = window.devicePixelRatio || 1; // Get the device pixel ratio
+  canvas.width = Math.floor(window.innerWidth * 0.8 * ratio); // Scale canvas width
+  canvas.height = Math.floor(window.innerHeight * 0.8 * ratio); // Scale canvas height
+  canvas.style.width = `${window.innerWidth * 0.8}px`; // Set CSS width
+  canvas.style.height = `${window.innerHeight * 0.8}px`; // Set CSS height
 
-    // Call this to initialize the canvas size
-    resizeCanvas();
+  ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transformations
+  ctx.scale(ratio, ratio); // Apply scaling for high-DPI screens
+}
+
+// Call this to initialize the canvas size
+resizeCanvas();
 
     // Add a listener for window resizing
     window.addEventListener("resize", resizeCanvas);
