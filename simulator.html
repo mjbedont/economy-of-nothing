@@ -107,23 +107,25 @@
     const canvas = document.getElementById("galaxyMap");
     const ctx = canvas.getContext("2d");
 
-function resizeCanvas() {
-  const ratio = window.devicePixelRatio || 1; // Get the device pixel ratio
-  canvas.width = Math.floor(window.innerWidth * 0.8 * ratio); // Scale canvas width
-  canvas.height = Math.floor(window.innerHeight * 0.8 * ratio); // Scale canvas height
-  canvas.style.width = `${window.innerWidth * 0.8}px`; // Set CSS width
-  canvas.style.height = `${window.innerHeight * 0.8}px`; // Set CSS height
+    function resizeCanvas() {
+      const ratio = window.devicePixelRatio || 1; // Get the device pixel ratio
+      canvas.width = Math.floor(window.innerWidth * 0.8 * ratio); // Scale canvas width
+      canvas.height = Math.floor(window.innerHeight * 0.8 * ratio); // Scale canvas height
+      canvas.style.width = `${window.innerWidth * 0.8}px`; // Set CSS width
+      canvas.style.height = `${window.innerHeight * 0.8}px`; // Set CSS height
 
-  ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transformations
-  ctx.scale(ratio, ratio); // Apply scaling for high-DPI screens
-}
+      ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transformations
+      ctx.scale(ratio, ratio); // Apply scaling for high-DPI screens
+    }
 
-// Call this to initialize the canvas size
-resizeCanvas();
+    // Resize and scale the canvas
+    resizeCanvas();
 
     // Add a listener for window resizing
-    window.addEventListener("resize", resizeCanvas);
-
+    window.addEventListener("resize", () => {
+      resizeCanvas(); // Adjust canvas size and scaling
+      drawMap(); // Redraw the map
+    });
 
     // Game State
     let fuel = 20;
@@ -144,6 +146,34 @@ resizeCanvas();
       { name: "Pawndora", missionCompleted: false, lore: "A planet inhabited by sentient dogs." },
     ];
 
+    function generatePlanets(count, width, height, minDistance) {
+      const positions = [];
+      let attempts = 0;
+      const maxAttempts = 1000; // To avoid infinite loops
+
+      while (positions.length < count && attempts < maxAttempts) {
+        const x = Math.random() * (width - 100) + 50;
+        const y = Math.random() * (height - 100) + 50;
+
+        const tooClose = positions.some((pos) => {
+          const distance = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
+          return distance < minDistance;
+        });
+
+        if (!tooClose) {
+          positions.push({ x, y });
+        }
+        attempts++;
+      }
+
+      if (positions.length < count) {
+        console.warn(`Only ${positions.length} planets generated out of ${count}.`);
+      }
+
+      return positions;
+    }
+
+    // Generate planet positions
     const planetPositions = generatePlanets(planets.length, canvas.width, canvas.height, 150);
     planets.forEach((planet, index) => {
       planet.x = planetPositions[index].x;
@@ -151,57 +181,17 @@ resizeCanvas();
     });
 
     const prime = planets[0];
+    ship.x = prime.x;
+    ship.y = prime.y; // Initialize ship at Planet Prime
 
-function generatePlanets(count, width, height, minDistance) {
-  const positions = [];
-  let attempts = 0;
-  const maxAttempts = 1000; // To avoid infinite loops
+    function drawMap() {
+      ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transformations to default
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
 
-  while (positions.length < count && attempts < maxAttempts) {
-    const x = Math.random() * (width - 100) + 50;
-    const y = Math.random() * (height - 100) + 50;
-
-    const tooClose = positions.some((pos) => {
-      const distance = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
-      return distance < minDistance;
-    });
-
-    if (!tooClose) {
-      positions.push({ x, y });
+      drawRoutes();
+      drawPlanets();
+      drawShip();
     }
-    attempts++;
-  }
-
-  // If unable to generate all planets, log a warning
-  if (positions.length < count) {
-    console.warn(`Only ${positions.length} planets generated out of ${count}. Consider reducing minDistance or increasing canvas size.`);
-  }
-
-  return positions;
-}
-
-    function calculateTravelFuelUsage(current, destination) {
-      return Math.ceil(Math.sqrt((destination.x - current.x) ** 2 + (destination.y - current.y) ** 2) / 100);
-    }
-
-    function calculateFuelPriceFromPrime(planet) {
-      const distance = Math.sqrt((planet.x - prime.x) ** 2 + (planet.y - prime.y) ** 2);
-      return 2 + Math.ceil(distance / 100); // Base price + distance multiplier
-    }
-
-    function calculateMissionPayoutFromPrime(planet) {
-      const distance = Math.sqrt((planet.x - prime.x) ** 2 + (planet.y - prime.y) ** 2);
-      return 10 + Math.ceil(distance / 50); // Base payout + distance multiplier
-    }
-
-function drawMap() {
-  ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transformations to default
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
-
-  drawRoutes();
-  drawPlanets();
-  drawShip();
-}
 
     function drawRoutes() {
       ctx.strokeStyle = "rgba(0, 255, 0, 0.5)";
@@ -240,208 +230,9 @@ function drawMap() {
       ctx.fill();
     }
 
-    function visitPlanet(planet) {
-      const fuelUsage = calculateTravelFuelUsage(currentPlanet || prime, planet);
-
-      if (fuel < fuelUsage) {
-        endGame();
-        return;
-      }
-
-      fuel -= fuelUsage;
-      animateShipTravel(planet, () => {
-        currentPlanet = planet;
-
-        if (planet.hub) {
-          primeReturns += 1;
-          resetMissions();
-          displayMessage(`Welcome back to ${planet.name}!`);
-        } else {
-          displayMessage(`Arrived at ${planet.name}. Fuel used: ${fuelUsage}.`);
-        }
-
-        updateStats();
-        drawMap();
-        updatePlanetScreen(planet);
-      });
-    }
-
-    function updatePlanetScreen(planet) {
-      const planetScreen = document.getElementById("planetScreen");
-      const planetTitle = document.getElementById("planetTitle");
-      const planetInfo = document.getElementById("planetInfo");
-      const planetButtons = document.getElementById("planetButtons");
-      const planetLore = document.getElementById("planetLore");
-
-      planetScreen.style.display = "block";
-      planetTitle.textContent = `Welcome to ${planet.name}`;
-      planetLore.textContent = planet.lore;
-
-      planetButtons.innerHTML = ""; // Clear old buttons
-
-      if (planet.hub) {
-        const buyFuelButton = createButton("Buy Fuel (2 credits/unit)", () => {
-          if (credits >= 2) {
-            credits -= 2;
-            fuel++;
-            updateStats();
-            displayMessage("Bought 1 unit of fuel for 2 credits.");
-          } else {
-            displayMessage("Not enough credits to buy fuel!");
-          }
-        });
-        planetButtons.appendChild(buyFuelButton);
-
-        const buyPromotionButton = createButton("Buy Promotion (100 credits)", () => {
-          if (credits >= 100) {
-            credits -= 100;
-            promotions++;
-            updateStats();
-            displayMessage("Promotion purchased!");
-          } else {
-            displayMessage("Not enough credits to buy a promotion!");
-          }
-        });
-        planetButtons.appendChild(buyPromotionButton);
-      } else {
-        const fuelPrice = calculateFuelPriceFromPrime(planet);
-        const missionPayout = calculateMissionPayoutFromPrime(planet);
-
-        const buyFuelButton = createButton(`Buy Fuel (${fuelPrice} credits/unit)`, () => {
-          if (credits >= fuelPrice) {
-            credits -= fuelPrice;
-            fuel++;
-            updateStats();
-            displayMessage(`Bought 1 unit of fuel for ${fuelPrice} credits.`);
-          } else {
-            displayMessage("Not enough credits to buy fuel!");
-          }
-        });
-        planetButtons.appendChild(buyFuelButton);
-
-        if (!planet.missionCompleted) {
-          const missionButton = createButton(`Start Mission (Reward: ${missionPayout} credits)`, () => {
-            credits += missionPayout;
-            planet.missionCompleted = true;
-            updateStats();
-            displayMessage(`Mission completed on ${planet.name}. Earned ${missionPayout} credits.`);
-            updatePlanetScreen(planet);
-          });
-          planetButtons.appendChild(missionButton);
-        }
-      }
-
-const leaveButton = createButton("Leave Planet", () => {
-  planetScreen.style.display = "none"; // Hide the planet interaction screen
-
-  // Re-render the map with the ship and planets visible
-  drawMap();
-});
-planetButtons.appendChild(leaveButton);
-
-    function createButton(label, onClick) {
-      const button = document.createElement("div");
-      button.className = "button";
-      button.textContent = label;
-      button.onclick = onClick;
-      return button;
-    }
-
-    function displayMessage(message) {
-      const messageBox = document.getElementById("messageBox");
-      messageBox.textContent = message;
-    }
-
-    function animateShipTravel(destination, callback) {
-      const steps = 50;
-      const dx = (destination.x - ship.x) / steps;
-      const dy = (destination.y - ship.y) / steps;
-
-      let step = 0;
-      const interval = setInterval(() => {
-        ship.x += dx;
-        ship.y += dy;
-        step++;
-        drawMap();
-        if (step >= steps) {
-          clearInterval(interval);
-          callback();
-        }
-      }, 16);
-    }
-
-    function resetMissions() {
-      planets.forEach((planet) => {
-        if (!planet.hub) {
-          planet.missionCompleted = false;
-        }
-      });
-    }
-
-    function updateStats() {
-      document.getElementById("fuel").textContent = fuel;
-      document.getElementById("credits").textContent = credits;
-      document.getElementById("promotions").textContent = promotions;
-      document.getElementById("primeReturns").textContent = primeReturns;
-      document.getElementById("pod").textContent = primeReturns > 0 ? (promotions / primeReturns).toFixed(2) : "0";
-    }
-
-    function endGame() {
-      const leaderboard = document.getElementById("leaderboard");
-      const finalPod = document.getElementById("finalPod");
-      const finalCredits = document.getElementById("finalCredits");
-      const restartButton = document.getElementById("restartButton");
-
-      finalPod.textContent = primeReturns > 0 ? (promotions / primeReturns).toFixed(2) : "0";
-      finalCredits.textContent = credits;
-      leaderboard.style.display = "block";
-
-      restartButton.onclick = () => {
-        leaderboard.style.display = "none";
-        resetGame();
-      };
-    }
-
-    function resetGame() {
-      fuel = 20;
-      credits = 100;
-      promotions = 0;
-      primeReturns = 0;
-      currentPlanet = prime;
-      ship.x = prime.x;
-      ship.y = prime.y;
-
-      planets.forEach((planet) => {
-        planet.missionCompleted = false;
-      });
-
-      updateStats();
-      drawMap();
-      displayMessage("Ready for your next move!");
-    }
-
-window.addEventListener("resize", () => {
-  resizeCanvas(); // Adjust canvas size and scaling
-
-  // Redraw the map without recalculating planet positions
-  drawMap();
-});
-
-
-    // Recalculate planet positions
-    const planetPositions = generatePlanets(planets.length, canvas.width, canvas.height, 150);
-    planets.forEach((planet, index) => {
-      planet.x = planetPositions[index].x;
-      planet.y = planetPositions[index].y;
-    });
-
-    // Redraw the map with new positions
+    // Initial rendering
     drawMap();
-  });
-
-  // Initial rendering and setup
-  drawMap();
-  visitPlanet(prime);
   </script>
 </body>
 </html>
+
