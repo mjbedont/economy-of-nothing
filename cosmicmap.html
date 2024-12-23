@@ -61,6 +61,11 @@
       background: #00FF00;
       color: black;
     }
+
+    #planetImage {
+      width: 100%;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -69,19 +74,28 @@
     <div>Fuel: <span id="fuel">20</span></div>
     <div>Credits: <span id="credits">100</span></div>
     <div>Promotions: <span id="promotions">0</span></div>
-    <div>Dispatches: <span id="dispatches">0</span></div>
-    <div>POD: <span id="pod">0</span></div>
   </div>
   <div id="planetScreen">
     <h3 id="planetTitle">Welcome to Planet</h3>
-    <div id="planetButtons"></div>
+    <img id="planetImage" src="" alt="Planet Image">
     <div id="planetLore" style="margin-top: 10px; font-size: 12px;">
       <!-- Planet-specific lore will appear here -->
     </div>
+    <div id="planetButtons"></div>
   </div>
   <script>
     const canvas = document.getElementById("galaxyMap");
     const ctx = canvas.getContext("2d");
+
+    let fuel = 20;
+    let credits = 100;
+    let promotions = 0;
+    let ship = { x: 0, y: 0 };
+    let planets = [
+      { name: "Planet Prime", file: "planet-prime.html", x: 0, y: 0 },
+      { name: "Brenner 7", file: "brenner-7.html", x: 0, y: 0 },
+      { name: "Dracronaria", file: "dracronaria.html", x: 0, y: 0 },
+    ];
 
     function resizeCanvas() {
       canvas.width = window.innerWidth * 0.8;
@@ -91,78 +105,14 @@
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    // Game State
-    let fuel = 20;
-    let credits = 100;
-    let promotions = 0;
-    let dispatches = 0;
-    let currentPlanet = null;
-    let ship = { x: 0, y: 0 };
-
-    const planets = [
-      { name: "Planet Prime", file: "planet-prime.html", hub: true, missionCompleted: false, fuelPrice: 2, missionReward: 50, lore: "The bustling central hub of the galaxy." },
-      { name: "Brenner 7", file: "brenner-7.html", missionCompleted: false, fuelPrice: 5, missionReward: 70, lore: "Home to rabid cowboy robots in the Badlands." },
-      { name: "Dracronaria", file: "dracronaria.html", missionCompleted: false, fuelPrice: 7, missionReward: 80, lore: "A medieval-themed world ruled by Queen Kamalalalala." },
-      { name: "Mukuku", file: "mukuku.html", missionCompleted: false, fuelPrice: 4, missionReward: 60, lore: "A serene ski resort planet, perfect for relaxation." },
-    ];
-
-    const planetPositions = generatePlanets(planets.length, canvas.width, canvas.height, 150);
-    planets.forEach((planet, index) => {
-      planet.x = planetPositions[index].x;
-      planet.y = planetPositions[index].y;
-    });
-
-    const prime = planets[0];
-    ship.x = prime.x;
-    ship.y = prime.y;
-
-    function generatePlanets(count, width, height, minDistance) {
-      const positions = [];
-      while (positions.length < count) {
-        const x = Math.random() * (width - 100) + 50;
-        const y = Math.random() * (height - 100) + 50;
-
-        const tooClose = positions.some((pos) => {
-          const distance = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
-          return distance < minDistance;
-        });
-
-        if (!tooClose) {
-          positions.push({ x, y });
-        }
-      }
-      return positions;
-    }
-
-    function calculateFuelUsage(current, destination) {
-      const distance = Math.sqrt((destination.x - current.x) ** 2 + (destination.y - current.y) ** 2);
-      return Math.ceil(distance / 100); // 1 fuel unit per 100px distance
-    }
-
     function drawMap() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawRoutes();
-      drawPlanets();
-      drawShip();
-    }
 
-    function drawRoutes() {
-      ctx.strokeStyle = "rgba(0, 255, 0, 0.5)";
-      ctx.beginPath();
-      planets.forEach((start) => {
-        planets.forEach((end) => {
-          if (start !== end) {
-            ctx.moveTo(start.x, start.y);
-            ctx.lineTo(end.x, end.y);
-          }
-        });
-      });
-      ctx.stroke();
-    }
-
-    function drawPlanets() {
       planets.forEach((planet) => {
-        ctx.fillStyle = currentPlanet === planet ? "cyan" : "#00FF00";
+        planet.x = Math.random() * (canvas.width - 100) + 50;
+        planet.y = Math.random() * (canvas.height - 100) + 50;
+
+        ctx.fillStyle = "#00FF00";
         ctx.beginPath();
         ctx.arc(planet.x, planet.y, 15, 0, Math.PI * 2);
         ctx.fill();
@@ -171,6 +121,8 @@
         ctx.font = "12px monospace";
         ctx.fillText(planet.name, planet.x - 30, planet.y - 20);
       });
+
+      drawShip();
     }
 
     function drawShip() {
@@ -180,84 +132,46 @@
       ctx.fill();
     }
 
-    function createButton(label, onClick) {
-      const button = document.createElement("div");
-      button.className = "button";
-      button.textContent = label;
-      button.onclick = onClick;
-      return button;
-    }
+    function fetchPlanetData(planet, callback) {
+      fetch(`./codex/locations/${planet.file}`)
+        .then((response) => response.text())
+        .then((html) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          const lore = doc.querySelector("#lore") ? doc.querySelector("#lore").innerHTML : "No lore available.";
+          const img = doc.querySelector("img") ? doc.querySelector("img").src : "";
 
-    function updateStats() {
-      document.getElementById("fuel").textContent = fuel;
-      document.getElementById("credits").textContent = credits;
-      document.getElementById("promotions").textContent = promotions;
-      document.getElementById("dispatches").textContent = dispatches;
-      document.getElementById("pod").textContent = dispatches > 0 ? (promotions / dispatches).toFixed(2) : "0";
+          callback({ lore, img });
+        })
+        .catch((error) => {
+          console.error("Error fetching planet data:", error);
+          callback({ lore: "Error loading planet data.", img: "" });
+        });
     }
 
     function visitPlanet(planet) {
-      const fuelNeeded = calculateFuelUsage({ x: ship.x, y: ship.y }, planet);
-
-      if (fuel < fuelNeeded) {
-        alert("Not enough fuel to travel!");
-        return;
-      }
-
-      fuel -= fuelNeeded;
-      ship.x = planet.x;
-      ship.y = planet.y;
-
-      currentPlanet = planet;
-
       const planetScreen = document.getElementById("planetScreen");
       const planetTitle = document.getElementById("planetTitle");
-      const planetButtons = document.getElementById("planetButtons");
+      const planetImage = document.getElementById("planetImage");
       const planetLore = document.getElementById("planetLore");
+      const planetButtons = document.getElementById("planetButtons");
 
       planetScreen.style.display = "block";
       planetTitle.textContent = `Welcome to ${planet.name}`;
-      planetLore.innerHTML = `
-        <p>${planet.lore}</p>
-        <a href="https://economyofnothing.com/codex/locations/${planet.file}" target="_blank">More Info</a>
-      `;
+
+      fetchPlanetData(planet, (data) => {
+        planetLore.innerHTML = data.lore;
+        planetImage.src = data.img;
+      });
+
       planetButtons.innerHTML = "";
-
-      if (planet.hub) {
-        dispatches++;
-        updateStats();
-      }
-
-      if (!planet.missionCompleted) {
-        const missionButton = createButton("Complete Mission", () => {
-          credits += planet.missionReward;
-          planet.missionCompleted = true;
-          updateStats();
-          alert(`Mission completed! Earned ${planet.missionReward} credits.`);
-        });
-        planetButtons.appendChild(missionButton);
-      }
-
-      const buyFuelButton = createButton(`Buy Fuel (${planet.fuelPrice} credits/unit)`, () => {
-        if (credits >= planet.fuelPrice) {
-          credits -= planet.fuelPrice;
-          fuel++;
-          updateStats();
-        } else {
-          alert("Not enough credits!");
-        }
-      });
-      planetButtons.appendChild(buyFuelButton);
-
-      const leaveButton = createButton("Leave Planet", () => {
+      const leaveButton = document.createElement("div");
+      leaveButton.className = "button";
+      leaveButton.textContent = "Leave Planet";
+      leaveButton.onclick = () => {
         planetScreen.style.display = "none";
-        currentPlanet = null;
-        drawMap();
-      });
+      };
       planetButtons.appendChild(leaveButton);
-
-      updateStats();
-      drawMap();
     }
 
     canvas.addEventListener("click", (e) => {
@@ -276,8 +190,6 @@
     });
 
     drawMap();
-    visitPlanet(prime);
   </script>
 </body>
 </html>
-
