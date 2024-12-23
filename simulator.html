@@ -186,6 +186,9 @@ canvas.addEventListener("click", (event) => {
   const mouseX = event.clientX - rect.left;
   const mouseY = event.clientY - rect.top;
 
+  // Debug: Log the click coordinates
+  console.log(`Mouse clicked at: (${mouseX}, ${mouseY})`);
+
   // Check if the click is on a planet
   const clickedPlanet = planets.find((planet) => {
     const distance = Math.sqrt(
@@ -195,6 +198,7 @@ canvas.addEventListener("click", (event) => {
   });
 
   if (clickedPlanet) {
+    console.log(`Clicked on planet: ${clickedPlanet.name}`);
     visitPlanet(clickedPlanet);
   }
 });
