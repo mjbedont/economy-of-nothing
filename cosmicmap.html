@@ -197,6 +197,27 @@
       }, duration);
     }
 
+    function animateShipMovement(destination, callback) {
+      const steps = 50;
+      const dx = (destination.x - ship.x) / steps;
+      const dy = (destination.y - ship.y) / steps;
+      let step = 0;
+
+      function moveStep() {
+        if (step < steps) {
+          ship.x += dx;
+          ship.y += dy;
+          step++;
+          drawMap();
+          requestAnimationFrame(moveStep);
+        } else {
+          callback();
+        }
+      }
+
+      moveStep();
+    }
+
     function visitPlanet(planet) {
       const fuelNeeded = calculateFuelUsage(ship, planet);
       if (fuel < fuelNeeded) {
