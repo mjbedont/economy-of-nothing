@@ -179,6 +179,25 @@
       planet.x = planetPositions[index].x;
       planet.y = planetPositions[index].y;
     });
+    
+// Add a click event listener to detect clicks on planets
+canvas.addEventListener("click", (event) => {
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = event.clientX - rect.left;
+  const mouseY = event.clientY - rect.top;
+
+  // Check if the click is on a planet
+  const clickedPlanet = planets.find((planet) => {
+    const distance = Math.sqrt(
+      (mouseX - planet.x) ** 2 + (mouseY - planet.y) ** 2
+    );
+    return distance <= 15; // Planet radius is 15
+  });
+
+  if (clickedPlanet) {
+    visitPlanet(clickedPlanet);
+  }
+});
 
     const prime = planets[0];
     ship.x = prime.x;
