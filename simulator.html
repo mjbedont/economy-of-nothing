@@ -244,7 +244,7 @@ function updateStats() {
   document.getElementById("promotions").textContent = promotions;
 }
 
-  function visitPlanet(planet) {
+function visitPlanet(planet) {
   currentPlanet = planet;
 
   const planetScreen = document.getElementById("planetScreen");
@@ -252,52 +252,61 @@ function updateStats() {
   const planetButtons = document.getElementById("planetButtons");
   const planetLore = document.getElementById("planetLore");
 
-  // Display the planet screen
-  planetScreen.style.display = "block";
-  planetTitle.textContent = `Welcome to ${planet.name}`;
-  planetLore.textContent = planet.lore;
+  // Animate ship movement to the new planet
+  animateShipTravel(planet, () => {
+    // Update ship position and display the planet screen after arrival
+    ship.x = planet.x;
+    ship.y = planet.y;
 
-  // Clear old buttons and add new ones
-  planetButtons.innerHTML = "";
+    planetScreen.style.display = "block";
+    planetTitle.textContent = `Welcome to ${planet.name}`;
+    planetLore.textContent = planet.lore;
 
-  if (planet.hub) {
-    const buyFuelButton = createButton("Buy Fuel (2 credits/unit)", () => {
-      if (credits >= 2) {
-        credits -= 2;
-        fuel++;
-        updateStats();
-      } else {
-        alert("Not enough credits!");
-      }
+    planetButtons.innerHTML = "";
+
+    if (planet.hub) {
+      const buyFuelButton = createButton("Buy Fuel (2 credits/unit)", () => {
+        if (credits >= 2) {
+          credits -= 2;
+          fuel++;
+          updateStats();
+        } else {
+          alert("Not enough credits!");
+        }
+      });
+      planetButtons.appendChild(buyFuelButton);
+
+      const buyPromotionButton = createButton("Buy Promotion (100 credits)", () => {
+        if (credits >= 100) {
+          credits -= 100;
+          promotions++;
+          updateStats();
+        } else {
+          alert("Not enough credits!");
+        }
+      });
+      planetButtons.appendChild(buyPromotionButton);
+    }
+
+    const leaveButton = createButton("Leave Planet", () => {
+      planetScreen.style.display = "none";
+      currentPlanet = null;
+      drawMap();
     });
-    planetButtons.appendChild(buyFuelButton);
+    planetButtons.appendChild(leaveButton);
 
-    const buyPromotionButton = createButton("Buy Promotion (100 credits)", () => {
-      if (credits >= 100) {
-        credits -= 100;
-        promotions++;
-        updateStats();
-      } else {
-        alert("Not enough credits!");
-      }
-    });
-    planetButtons.appendChild(buyPromotionButton);
-  }
-
-  const leaveButton = createButton("Leave Planet", () => {
-    planetScreen.style.display = "none";
-    currentPlanet = null; // Reset current planet
-    drawMap(); // Redraw the map to update visuals
+    // Redraw map after arrival
+    drawMap();
   });
-  planetButtons.appendChild(leaveButton);
 }
+
 
 
 // Initial rendering
 drawMap();
 
 // Ensure Planet Prime interaction screen is displayed
-visitPlanet(prime);
+(prime);
 
   </script>
 </body>
