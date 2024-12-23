@@ -243,7 +243,8 @@ function updateStats() {
   document.getElementById("credits").textContent = credits;
   document.getElementById("promotions").textContent = promotions;
 }
-function visitPlanet(planet) {
+
+  function visitPlanet(planet) {
   currentPlanet = planet;
 
   const planetScreen = document.getElementById("planetScreen");
@@ -285,9 +286,12 @@ function visitPlanet(planet) {
 
   const leaveButton = createButton("Leave Planet", () => {
     planetScreen.style.display = "none";
+    currentPlanet = null; // Reset current planet
+    drawMap(); // Redraw the map to update visuals
   });
   planetButtons.appendChild(leaveButton);
 }
+
 
 // Initial rendering
 drawMap();
