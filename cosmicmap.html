@@ -3,140 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galactic Economy Map</title>
+  <title>Map and Movement Test</title>
   <style>
     body {
-      font-family: "Courier New", monospace;
-      background-color: black;
-      color: #00FF00;
       margin: 0;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background-color: #000;
     }
-
     canvas {
-      background-color: black;
-      border: 2px solid #00FF00;
       display: block;
-    }
-
-    #infoPanel {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #00FF00;
-      padding: 10px;
-      font-family: "Courier New", monospace;
-      color: #00FF00;
-    }
-
-    .notification {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #00FF00;
-      font-family: "Courier New", monospace;
-      font-size: 14px;
-      text-align: center;
-      visibility: hidden;
+      background: radial-gradient(circle, #1a1a1a, #000);
     }
   </style>
 </head>
 <body>
-  <canvas id="galaxyMap"></canvas>
-  <div id="infoPanel">
-    <div>Fuel: <span id="fuel">20</span></div>
-    <div>Credits: <span id="credits">100</span></div>
-  </div>
-  <div class="notification" id="notification">Notification</div>
+  <canvas id="mapCanvas"></canvas>
+
   <script>
-    const canvas = document.getElementById("galaxyMap");
-    const ctx = canvas.getContext("2d");
-    const notification = document.getElementById("notification");
+    const canvas = document.getElementById('mapCanvas');
+    const ctx = canvas.getContext('2d');
 
-    const canvasCenter = { x: canvas.width / 2, y: canvas.height / 2 };
-    let fuel = 20;
-    let credits = 100;
-    const planets = [
-      { name: "Planet Prime", x: 0, y: 0, hub: true },
-      { name: "Planet 2", angle: Math.PI / 4, distance: 200, hub: false },
-    ];
-
+    // Resize canvas to fit the screen
     function resizeCanvas() {
-      canvas.width = window.innerWidth * 0.8;
-      canvas.height = window.innerHeight * 0.8;
-      canvasCenter.x = canvas.width / 2;
-      canvasCenter.y = canvas.height / 2;
-      positionPlanets();
-      drawMap();
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      draw();
     }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-    function positionPlanets() {
-      planets.forEach((planet, index) => {
-        if (planet.name === "Planet Prime") {
-          planet.x = canvasCenter.x;
-          planet.y = canvasCenter.y;
-        } else {
-          planet.x = canvasCenter.x + planet.distance * Math.cos(planet.angle);
-          planet.y = canvasCenter.y + planet.distance * Math.sin(planet.angle);
-        }
-      });
+    // Constants
+    const primePlanet = { x: canvas.width / 2, y: canvas.height / 2, radius: 20, color: 'yellow' };
+    const planets = [];
+    const ship = { x: primePlanet.x, y: primePlanet.y, radius: 5, color: 'white' };
+    const numberOfPlanets = 8;
+    const maxRadius = Math.min(canvas.width, canvas.height) * 0.4;
+
+    // Generate random planets
+    function generatePlanets() {
+      planets.length = 0;
+      for (let i = 0; i < numberOfPlanets; i++) {
+        let angle = Math.random() * 2 * Math.PI;
+        let distance = Math.random() * maxRadius;
+        let x = primePlanet.x + distance * Math.cos(angle);
+        let y = primePlanet.y + distance * Math.sin(angle);
+        planets.push({ x, y, radius: 15, color: 'blue', name: `Planet ${i + 1}` });
+      }
     }
+    generatePlanets();
 
-    function drawMap() {
+    // Draw planets and ship
+    function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      drawRoutes();
-      drawPlanets();
-    }
-
-    function drawRoutes() {
-      ctx.strokeStyle = "rgba(0, 255, 0, 0.5)";
-      ctx.setLineDash([5, 5]);
+      // Draw Prime Planet
       ctx.beginPath();
+      ctx.arc(primePlanet.x, primePlanet.y, primePlanet.radius, 0, Math.PI * 2);
+      ctx.fillStyle = primePlanet.color;
+      ctx.fill();
 
-      planets.forEach((start) => {
-        planets.forEach((end) => {
-          if (start !== end) {
-            ctx.moveTo(start.x, start.y);
-            ctx.lineTo(end.x, end.y);
-          }
-        });
-      });
-
-      ctx.stroke();
-    }
-
-    function drawPlanets() {
-      planets.forEach((planet) => {
-        ctx.fillStyle = planet.hub ? "cyan" : "#00FF00";
+      // Draw other planets
+      planets.forEach(planet => {
         ctx.beginPath();
-        ctx.arc(planet.x, planet.y, 15, 0, Math.PI * 2);
+        ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
+        ctx.fillStyle = planet.color;
         ctx.fill();
-
-        ctx.fillStyle = "#00FF00";
-        ctx.font = "12px monospace";
-        ctx.fillText(planet.name, planet.x - 30, planet.y - 20);
       });
+
+      // Draw ship
+      ctx.beginPath();
+      ctx.arc(ship.x, ship.y, ship.radius, 0, Math.PI * 2);
+      ctx.fillStyle = ship.color;
+      ctx.fill();
     }
 
-    function displayNotification(message, duration = 2000) {
-      notification.textContent = message;
-      notification.style.visibility = "visible";
-      setTimeout(() => {
-        notification.style.visibility = "hidden";
-      }, duration);
+    // Move ship to a planet
+    function moveShip(target) {
+      const dx = target.x - ship.x;
+      const dy = target.y - ship.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const speed = 2; // Adjust speed as needed
+      const stepX = (dx / distance) * speed;
+      const stepY = (dy / distance) * speed;
+
+      const interval = setInterval(() => {
+        ship.x += stepX;
+        ship.y += stepY;
+        if (Math.abs(ship.x - target.x) < speed && Math.abs(ship.y - target.y) < speed) {
+          ship.x = target.x;
+          ship.y = target.y;
+          clearInterval(interval);
+        }
+        draw();
+      }, 16);
     }
 
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    // Detect clicks on planets
+    canvas.addEventListener('click', (event) => {
+      const { offsetX, offsetY } = event;
+      planets.forEach(planet => {
+        const dx = offsetX - planet.x;
+        const dy = offsetY - planet.y;
+        if (Math.sqrt(dx * dx + dy * dy) < planet.radius) {
+          moveShip(planet);
+        }
+      });
+    });
 
-    drawMap();
+    // Initial draw
+    draw();
   </script>
 </body>
 </html>
