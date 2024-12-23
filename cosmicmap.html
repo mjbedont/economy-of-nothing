@@ -63,11 +63,32 @@
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      // Draw star chart lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 1;
+      planets.forEach((planet, index) => {
+        for (let j = index + 1; j < planets.length; j++) {
+          ctx.beginPath();
+          ctx.moveTo(planet.x, planet.y);
+          ctx.lineTo(planets[j].x, planets[j].y);
+          ctx.stroke();
+        }
+      });
+
       // Draw planets
       planets.forEach(planet => {
         ctx.beginPath();
         ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
         ctx.fillStyle = planet.color;
+        ctx.fill();
+
+        // Add glow effect
+        const gradient = ctx.createRadialGradient(planet.x, planet.y, 0, planet.x, planet.y, planet.radius * 2);
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(planet.x, planet.y, planet.radius * 2, 0, Math.PI * 2);
         ctx.fill();
       });
 
