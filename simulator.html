@@ -193,13 +193,14 @@ function generatePlanets(count, width, height, minDistance) {
       return 10 + Math.ceil(distance / 50); // Base payout + distance multiplier
     }
 
-    function drawMap() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+function drawMap() {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transformations to default
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
 
-      drawRoutes();
-      drawPlanets();
-      drawShip();
-    }
+  drawRoutes();
+  drawPlanets();
+  drawShip();
+}
 
     function drawRoutes() {
       ctx.strokeStyle = "rgba(0, 255, 0, 0.5)";
