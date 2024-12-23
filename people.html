@@ -4,75 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Message Board</title>
-    <script type="module">
-        // Import Firebase SDKs
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyATx-M5h15kTulE6Q7V36l-vd4seFL1sO0",
-            authDomain: "messageboaroodo.firebaseapp.com",
-            databaseURL: "https://messageboaroodo-default-rtdb.firebaseio.com",
-            projectId: "messageboaroodo",
-            storageBucket: "messageboaroodo.firebasestorage.app",
-            messagingSenderId: "629645127715",
-            appId: "1:629645127715:web:98470a96f0a107b8054196",
-            measurementId: "G-S5KM21K9K3",
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
-        // Add a message to the database
-        function addMessage(message) {
-            const messagesRef = ref(database, "messages");
-            push(messagesRef, { text: message });
-        }
-
-        // Listen for new messages
-        function listenForMessages() {
-            const messagesRef = ref(database, "messages");
-            onChildAdded(messagesRef, (snapshot) => {
-                const message = snapshot.val();
-                displayMessage(message.text);
-            });
-        }
-
-        // Display a message in the UI
-        function displayMessage(message) {
-            const messagesDiv = document.getElementById("messages");
-            const p = document.createElement("p");
-            p.textContent = message;
-            messagesDiv.appendChild(p);
-        }
-
-        // Handle form submission
-        window.addEventListener("DOMContentLoaded", () => {
-            const form = document.getElementById("messageForm");
-            const messageInput = document.getElementById("messageInput");
-
-            form.addEventListener("submit", (e) => {
-                e.preventDefault();
-                const message = messageInput.value.trim();
-                if (!message) return;
-                addMessage(message);
-                messageInput.value = "";
-            });
-
-            // Start listening for messages
-            listenForMessages();
-        });
-    </script>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your external CSS -->
 </head>
 <body>
-    <h1>Message Board</h1>
-    <form id="messageForm">
-        <textarea id="messageInput" placeholder="Write your message here"></textarea><br>
-        <button type="submit">Submit</button>
-    </form>
-    <h2>Messages</h2>
-    <div id="messages"></div>
+    <header>
+        <h1>Simple Message Board</h1>
+    </header>
+    <main>
+        <div id="messageContainer" class="shared-box">
+            <h2>Messages</h2>
+            <div id="messages"></div> <!-- Scrollable message box -->
+        </div>
+        <form id="messageForm">
+            <textarea id="messageInput" placeholder="Write your message here"></textarea><br>
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Website</p>
+    </footer>
+
+    <script>
+        async function fetchMessages() {
+            const response = await fetch('getMessages.php');
+            const messages = await response.json();
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = messages.map(msg => `<p>${msg}</p>`).join('');
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the bottom
+        }
+
+        async function submitMessage(e) {
+            e.preventDefault();
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            const response = await fetch('saveMessage.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `message=${encodeURIComponent(message)}`,
+            });
+
+            if (response.ok) {
+                messageInput.value = '';
+                fetchMessages();
+            }
+        }
+
+        const form = document.getElementById('messageForm');
+        const messageInput = document.getElementById('messageInput');
+        form.addEventListener('submit', submitMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                form.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        fetchMessages();
+    </script>
 </body>
 </html>
