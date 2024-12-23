@@ -331,11 +331,12 @@ function drawMap() {
         }
       }
 
-      const leaveButton = createButton("Leave Planet", () => {
-        planetScreen.style.display = "none";
-      });
-      planetButtons.appendChild(leaveButton);
-    }
+const leaveButton = createButton("Leave Planet", () => {
+  planetScreen.style.display = "none"; // Hide the planet interaction screen
+  drawMap(); // Redraw the map to ensure the ship and planets are visible
+});
+planetButtons.appendChild(leaveButton);
+
 
     function createButton(label, onClick) {
       const button = document.createElement("div");
