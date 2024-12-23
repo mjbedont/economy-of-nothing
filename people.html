@@ -8,17 +8,18 @@
 </head>
 <body>
     <header>
-        <h1>Simple Message Board</h1>
+        <h1>Classic Chat Room</h1>
     </header>
     <main>
-        <div id="messageContainer" class="shared-box">
-            <h2>Messages</h2>
-            <div id="messages"></div> <!-- Scrollable message box -->
+        <div id="chatContainer">
+            <div id="chatFrame" class="shared-box">
+                <div id="messages"></div> <!-- Scrollable message box -->
+            </div>
+            <form id="messageForm">
+                <textarea id="messageInput" placeholder="Type your message here"></textarea>
+                <button type="submit">Send</button>
+            </form>
         </div>
-        <form id="messageForm">
-            <textarea id="messageInput" placeholder="Write your message here"></textarea><br>
-            <button type="submit">Submit</button>
-        </form>
     </main>
     <footer>
         <p>&copy; 2024 Your Website</p>
