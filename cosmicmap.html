@@ -27,21 +27,28 @@
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      generatePlanets(); // Regenerate planets to fit the new size
       draw();
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
     // Constants
-    const primePlanet = { x: canvas.width / 2, y: canvas.height / 2, radius: 20, color: 'yellow' };
+    const primePlanet = { x: 0, y: 0, radius: 20, color: 'yellow' };
     const planets = [];
-    const ship = { x: primePlanet.x, y: primePlanet.y, radius: 5, color: 'white' };
+    const ship = { x: 0, y: 0, radius: 5, color: 'white' };
     const numberOfPlanets = 8;
-    const maxRadius = Math.min(canvas.width, canvas.height) * 0.4;
 
     // Generate random planets
     function generatePlanets() {
       planets.length = 0;
+      primePlanet.x = canvas.width / 2;
+      primePlanet.y = canvas.height / 2;
+      ship.x = primePlanet.x;
+      ship.y = primePlanet.y;
+
+      const maxRadius = Math.min(canvas.width, canvas.height) * 0.4;
+
       for (let i = 0; i < numberOfPlanets; i++) {
         let angle = Math.random() * 2 * Math.PI;
         let distance = Math.random() * maxRadius;
@@ -50,7 +57,6 @@
         planets.push({ x, y, radius: 15, color: 'blue', name: `Planet ${i + 1}` });
       }
     }
-    generatePlanets();
 
     // Draw planets and ship
     function draw() {
@@ -94,7 +100,7 @@
           ship.y = target.y;
           clearInterval(interval);
         }
-        draw();
+        draw(); // Redraw map with updated ship position
       }, 16);
     }
 
