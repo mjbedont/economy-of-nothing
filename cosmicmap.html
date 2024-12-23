@@ -91,6 +91,7 @@
     let credits = 100;
     let promotions = 0;
     let ship = { x: 0, y: 0 };
+    let currentPlanet = null;
     let planets = [
       { name: "Planet Prime", file: "planet-prime.html", x: 0, y: 0 },
       { name: "Brenner 7", file: "brenner-7.html", x: 0, y: 0 },
@@ -105,14 +106,43 @@
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    function drawMap() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    function generatePlanetPositions() {
       planets.forEach((planet) => {
         planet.x = Math.random() * (canvas.width - 100) + 50;
         planet.y = Math.random() * (canvas.height - 100) + 50;
+      });
+      ship.x = planets[0].x;
+      ship.y = planets[0].y; // Start the ship at the first planet
+    }
 
-        ctx.fillStyle = "#00FF00";
+    function drawMap() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawRoutes();
+      drawPlanets();
+      drawShip();
+    }
+
+    function drawRoutes() {
+      ctx.strokeStyle = "rgba(0, 255, 0, 0.5)";
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+
+      planets.forEach((start) => {
+        planets.forEach((end) => {
+          if (start !== end) {
+            ctx.moveTo(start.x, start.y);
+            ctx.lineTo(end.x, end.y);
+          }
+        });
+      });
+
+      ctx.stroke();
+    }
+
+    function drawPlanets() {
+      planets.forEach((planet) => {
+        ctx.fillStyle = currentPlanet === planet ? "cyan" : "#00FF00";
         ctx.beginPath();
         ctx.arc(planet.x, planet.y, 15, 0, Math.PI * 2);
         ctx.fill();
@@ -121,8 +151,6 @@
         ctx.font = "12px monospace";
         ctx.fillText(planet.name, planet.x - 30, planet.y - 20);
       });
-
-      drawShip();
     }
 
     function drawShip() {
@@ -130,6 +158,27 @@
       ctx.beginPath();
       ctx.arc(ship.x, ship.y, 5, 0, Math.PI * 2);
       ctx.fill();
+    }
+
+    function animateShipMovement(destination, callback) {
+      const steps = 50;
+      const dx = (destination.x - ship.x) / steps;
+      const dy = (destination.y - ship.y) / steps;
+      let step = 0;
+
+      function moveStep() {
+        if (step < steps) {
+          ship.x += dx;
+          ship.y += dy;
+          step++;
+          drawMap();
+          requestAnimationFrame(moveStep);
+        } else {
+          callback();
+        }
+      }
+
+      moveStep();
     }
 
     function fetchPlanetData(planet, callback) {
@@ -184,11 +233,12 @@
           (mouseX - planet.x) ** 2 + (mouseY - planet.y) ** 2
         );
         if (distance < 15) {
-          visitPlanet(planet);
+          animateShipMovement(planet, () => visitPlanet(planet));
         }
       });
     });
 
+    generatePlanetPositions();
     drawMap();
   </script>
 </body>
