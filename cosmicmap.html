@@ -9,49 +9,39 @@
 <body>
     <header>
         <h1>Economy of Nothing</h1>
-     <nav>
-        <a href="/index.html">Home</a>
-         <a href="/episodes.html">Episodes</a>
-        <a href="/codex.html">Codex</a>
-        <a href="/pizzaparty.html">Pizza-Party</a>
-        <a href="/people.html">People</a>
-    </nav>
+        <nav>
+            <a href="/index.html">Home</a>
+            <a href="/episodes.html">Episodes</a>
+            <a href="/codex.html">Codex</a>
+            <a href="/pizzaparty.html">Pizza-Party</a>
+            <a href="/people.html">People</a>
+        </nav>
     </header>
     <main>
-      <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galactic Economy Map</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <canvas id="galaxyMap"></canvas>
-  <div id="infoPanel">
-    <div>Fuel: <span id="fuel">20</span></div>
-    <div>Credits: <span id="credits">100</span></div>
-    <div>Promotions: <span id="promotions">0</span></div>
-    <div>Dispatches: <span id="primeReturns">0</span></div>
-    <div>POD: <span id="pod">0</span></div>
-  </div>
-  <div id="messageBox">
-    Ready for your next move!
-  </div>
-  <div id="planetScreen">
-    <h3 id="planetTitle">Welcome to Planet</h3>
-    <div id="planetInfo"></div>
-    <div id="planetButtons"></div>
-    <div id="planetLore" style="margin-top: 10px; font-size: 12px;">
-      <!-- Planet-specific lore will appear here -->
-    </div>
-  </div>
-  <div id="leaderboard">
-    <h3>Game Over</h3>
-    <div>Promotions per Dispatch (POD): <span id="finalPod">0</span></div>
-    <div>Credits: <span id="finalCredits">0</span></div>
-    <div id="restartButton" class="button">Restart Game</div>
-  </div>
-  <script src="scripts/main.js"></script>
+        <canvas id="galaxyMap"></canvas>
+        <div id="infoPanel">
+            <div>Fuel: <span id="fuel">20</span></div>
+            <div>Credits: <span id="credits">100</span></div>
+            <div>Promotions: <span id="promotions">0</span></div>
+            <div>Dispatches: <span id="primeReturns">0</span></div>
+            <div>POD: <span id="pod">0</span></div>
+        </div>
+        <div id="messageBox">Ready for your next move!</div>
+        <div id="planetScreen">
+            <h3 id="planetTitle">Welcome to Planet</h3>
+            <div id="planetInfo"></div>
+            <div id="planetButtons"></div>
+            <div id="planetLore" style="margin-top: 10px; font-size: 12px;">
+                <!-- Planet-specific lore will appear here -->
+            </div>
+        </div>
+        <div id="leaderboard">
+            <h3>Game Over</h3>
+            <div>Promotions per Dispatch (POD): <span id="finalPod">0</span></div>
+            <div>Credits: <span id="finalCredits">0</span></div>
+            <div id="restartButton" class="button">Restart Game</div>
+        </div>
+    </main>
+    <script src="scripts/main.js"></script>
 </body>
 </html>
