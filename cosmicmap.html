@@ -23,52 +23,47 @@
     const canvas = document.getElementById('mapCanvas');
     const ctx = canvas.getContext('2d');
 
+    const planets = [];
+    const ship = { x: 0, y: 0, radius: 10, color: 'white' };
+
     // Resize canvas to fit the screen
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      generatePlanets(); // Regenerate planets to fit the new size
+      generatePlanets();
       draw();
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Constants
-    const primePlanet = { x: 0, y: 0, radius: 20, color: 'yellow' };
-    const planets = [];
-    const ship = { x: 0, y: 0, radius: 5, color: 'white' };
-    const numberOfPlanets = 8;
-
-    // Generate random planets
+    // Generate planets
     function generatePlanets() {
       planets.length = 0;
-      primePlanet.x = canvas.width / 2;
-      primePlanet.y = canvas.height / 2;
-      ship.x = primePlanet.x;
-      ship.y = primePlanet.y;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
 
-      const maxRadius = Math.min(canvas.width, canvas.height) * 0.4;
+      // Prime Planet
+      planets.push({ x: centerX, y: centerY, radius: 30, color: 'yellow', name: 'Prime Planet' });
 
-      for (let i = 0; i < numberOfPlanets; i++) {
-        let angle = Math.random() * 2 * Math.PI;
-        let distance = Math.random() * maxRadius;
-        let x = primePlanet.x + distance * Math.cos(angle);
-        let y = primePlanet.y + distance * Math.sin(angle);
-        planets.push({ x, y, radius: 15, color: 'blue', name: `Planet ${i + 1}` });
+      // Other planets
+      for (let i = 0; i < 5; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 100 + Math.random() * 200;
+        const x = centerX + Math.cos(angle) * distance;
+        const y = centerY + Math.sin(angle) * distance;
+        planets.push({ x, y, radius: 20, color: 'blue', name: `Planet ${i + 1}` });
       }
+
+      // Place ship at the Prime Planet
+      ship.x = centerX;
+      ship.y = centerY;
     }
 
-    // Draw planets and ship
+    // Draw everything
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw Prime Planet
-      ctx.beginPath();
-      ctx.arc(primePlanet.x, primePlanet.y, primePlanet.radius, 0, Math.PI * 2);
-      ctx.fillStyle = primePlanet.color;
-      ctx.fill();
-
-      // Draw other planets
+      // Draw planets
       planets.forEach(planet => {
         ctx.beginPath();
         ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
@@ -83,40 +78,45 @@
       ctx.fill();
     }
 
-    // Move ship to a planet
-    function moveShip(target) {
+    // Move ship to a target planet
+    function moveShipTo(target) {
       const dx = target.x - ship.x;
       const dy = target.y - ship.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       const speed = 2; // Adjust speed as needed
-      const stepX = (dx / distance) * speed;
-      const stepY = (dy / distance) * speed;
+      const steps = distance / speed;
+      const stepX = dx / steps;
+      const stepY = dy / steps;
 
+      let currentStep = 0;
       const interval = setInterval(() => {
-        ship.x += stepX;
-        ship.y += stepY;
-        if (Math.abs(ship.x - target.x) < speed && Math.abs(ship.y - target.y) < speed) {
+        if (currentStep >= steps) {
+          clearInterval(interval);
           ship.x = target.x;
           ship.y = target.y;
-          clearInterval(interval);
+        } else {
+          ship.x += stepX;
+          ship.y += stepY;
+          currentStep++;
         }
-        draw(); // Redraw map with updated ship position
+        draw();
       }, 16);
     }
 
-    // Detect clicks on planets
+    // Handle click events
     canvas.addEventListener('click', (event) => {
       const { offsetX, offsetY } = event;
       planets.forEach(planet => {
         const dx = offsetX - planet.x;
         const dy = offsetY - planet.y;
-        if (Math.sqrt(dx * dx + dy * dy) < planet.radius) {
-          moveShip(planet);
+        if (Math.sqrt(dx * dx + dy * dy) <= planet.radius) {
+          console.log(`Clicked on: ${planet.name}`);
+          moveShipTo(planet);
         }
       });
     });
 
-    // Initial draw
+    generatePlanets();
     draw();
   </script>
 </body>
