@@ -1,4 +1,4 @@
-// Import modules
+// Import functions from other scripts
 import { drawMap, initializeCanvas, canvasClickHandler } from './map.js';
 import { visitPlanet, loadPlanetContent } from './interaction.js';
 import { updateStats, displayMessage } from './utils.js';
@@ -11,7 +11,7 @@ let primeReturns = 0;
 let ship = { x: 0, y: 0 };
 let currentPlanet = null;
 
-// Planets Definition
+// Define planets and their properties
 const planets = [
   { name: "Planet Prime", hub: true, missionCompleted: false, lore: "The bustling central hub of the galaxy." },
   { name: "Brenner 7", missionCompleted: false, lore: "Home to rabid cowboy robots in the Badlands." },
@@ -23,25 +23,22 @@ const planets = [
   { name: "Pawndora", missionCompleted: false, lore: "A planet inhabited by sentient dogs." },
 ];
 
-// Initialize the game and load the first planet
+// Initialize the game with canvas setup and first planet visit
 function initializeGame() {
-  initializeCanvas();
-  drawMap();
-  visitPlanet(planets[0]);
+  initializeCanvas(); // Initialize canvas size and context
+  drawMap();          // Draw the map initially
+  visitPlanet(planets[0]); // Start at Planet Prime
 }
 
-// Start Game
+// Start the game
 initializeGame();
 
-// Canvas click listener for planet interactions
+// Handle canvas click to interact with planets
 canvas.addEventListener("click", (e) => canvasClickHandler(e, planets, visitPlanet));
 
-// Update Stats every time there's a change
-updateStats();
-
-// Functions for updating the game stats and messages
+// Function to update stats on the UI
 function updateStats() {
-  // Update the displayed values
+  // Update stats in the info panel
   document.getElementById("fuel").textContent = fuel;
   document.getElementById("credits").textContent = credits;
   document.getElementById("promotions").textContent = promotions;
@@ -49,8 +46,9 @@ function updateStats() {
   document.getElementById("pod").textContent = primeReturns > 0 ? (promotions / primeReturns).toFixed(2) : "0";
 }
 
+// Function to display messages in the UI (e.g., "Arrived at Planet X")
 function displayMessage(message) {
-  // Display message in the UI
   const messageBox = document.getElementById("messageBox");
   messageBox.textContent = message;
 }
+
