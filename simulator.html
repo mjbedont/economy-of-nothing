@@ -332,11 +332,12 @@ function drawMap() {
       }
 
 const leaveButton = createButton("Leave Planet", () => {
-  planetScreen.style.display = "none";
+  planetScreen.style.display = "none"; // Hide the planet interaction screen
+
+  // Re-render the map with the ship and planets visible
+  drawMap();
 });
 planetButtons.appendChild(leaveButton);
-
-
 
     function createButton(label, onClick) {
       const button = document.createElement("div");
@@ -419,9 +420,13 @@ planetButtons.appendChild(leaveButton);
       displayMessage("Ready for your next move!");
     }
 
- window.addEventListener("resize", () => {
-    canvas.width = window.innerWidth * 0.8;
-    canvas.height = window.innerHeight * 0.8;
+window.addEventListener("resize", () => {
+  resizeCanvas(); // Adjust canvas size and scaling
+
+  // Redraw the map without recalculating planet positions
+  drawMap();
+});
+
 
     // Recalculate planet positions
     const planetPositions = generatePlanets(planets.length, canvas.width, canvas.height, 150);
