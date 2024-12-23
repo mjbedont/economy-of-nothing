@@ -138,23 +138,33 @@
 
     const prime = planets[0];
 
-    function generatePlanets(count, width, height, minDistance) {
-      const positions = [];
-      while (positions.length < count) {
-        const x = Math.random() * (width - 100) + 50;
-        const y = Math.random() * (height - 100) + 50;
+function generatePlanets(count, width, height, minDistance) {
+  const positions = [];
+  let attempts = 0;
+  const maxAttempts = 1000; // To avoid infinite loops
 
-        let tooClose = positions.some((pos) => {
-          const distance = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
-          return distance < minDistance;
-        });
+  while (positions.length < count && attempts < maxAttempts) {
+    const x = Math.random() * (width - 100) + 50;
+    const y = Math.random() * (height - 100) + 50;
 
-        if (!tooClose) {
-          positions.push({ x, y });
-        }
-      }
-      return positions;
+    const tooClose = positions.some((pos) => {
+      const distance = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
+      return distance < minDistance;
+    });
+
+    if (!tooClose) {
+      positions.push({ x, y });
     }
+    attempts++;
+  }
+
+  // If unable to generate all planets, log a warning
+  if (positions.length < count) {
+    console.warn(`Only ${positions.length} planets generated out of ${count}. Consider reducing minDistance or increasing canvas size.`);
+  }
+
+  return positions;
+}
 
     function calculateTravelFuelUsage(current, destination) {
       return Math.ceil(Math.sqrt((destination.x - current.x) ** 2 + (destination.y - current.y) ** 2) / 100);
