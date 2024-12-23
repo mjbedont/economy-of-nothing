@@ -403,23 +403,24 @@ function generatePlanets(count, width, height, minDistance) {
       displayMessage("Ready for your next move!");
     }
 
-    canvas.addEventListener("click", (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+ window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth * 0.8;
+    canvas.height = window.innerHeight * 0.8;
 
-      planets.forEach((planet) => {
-        const distance = Math.sqrt(
-          (mouseX - planet.x) ** 2 + (mouseY - planet.y) ** 2
-        );
-        if (distance < 15) {
-          visitPlanet(planet);
-        }
-      });
+    // Recalculate planet positions
+    const planetPositions = generatePlanets(planets.length, canvas.width, canvas.height, 150);
+    planets.forEach((planet, index) => {
+      planet.x = planetPositions[index].x;
+      planet.y = planetPositions[index].y;
     });
 
+    // Redraw the map with new positions
     drawMap();
-    visitPlanet(prime);
+  });
+
+  // Initial rendering and setup
+  drawMap();
+  visitPlanet(prime);
   </script>
 </body>
 </html>
