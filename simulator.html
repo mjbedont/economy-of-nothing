@@ -229,9 +229,72 @@
       ctx.arc(ship.x, ship.y, 5, 0, Math.PI * 2);
       ctx.fill();
     }
+    
+function createButton(label, onClick) {
+  const button = document.createElement("div");
+  button.className = "button";
+  button.textContent = label;
+  button.onclick = onClick;
+  return button;
+}
 
-    // Initial rendering
-    drawMap();
+function updateStats() {
+  document.getElementById("fuel").textContent = fuel;
+  document.getElementById("credits").textContent = credits;
+  document.getElementById("promotions").textContent = promotions;
+}
+function visitPlanet(planet) {
+  currentPlanet = planet;
+
+  const planetScreen = document.getElementById("planetScreen");
+  const planetTitle = document.getElementById("planetTitle");
+  const planetButtons = document.getElementById("planetButtons");
+  const planetLore = document.getElementById("planetLore");
+
+  // Display the planet screen
+  planetScreen.style.display = "block";
+  planetTitle.textContent = `Welcome to ${planet.name}`;
+  planetLore.textContent = planet.lore;
+
+  // Clear old buttons and add new ones
+  planetButtons.innerHTML = "";
+
+  if (planet.hub) {
+    const buyFuelButton = createButton("Buy Fuel (2 credits/unit)", () => {
+      if (credits >= 2) {
+        credits -= 2;
+        fuel++;
+        updateStats();
+      } else {
+        alert("Not enough credits!");
+      }
+    });
+    planetButtons.appendChild(buyFuelButton);
+
+    const buyPromotionButton = createButton("Buy Promotion (100 credits)", () => {
+      if (credits >= 100) {
+        credits -= 100;
+        promotions++;
+        updateStats();
+      } else {
+        alert("Not enough credits!");
+      }
+    });
+    planetButtons.appendChild(buyPromotionButton);
+  }
+
+  const leaveButton = createButton("Leave Planet", () => {
+    planetScreen.style.display = "none";
+  });
+  planetButtons.appendChild(leaveButton);
+}
+
+// Initial rendering
+drawMap();
+
+// Ensure Planet Prime interaction screen is displayed
+visitPlanet(prime);
+
   </script>
 </body>
 </html>
