@@ -98,7 +98,7 @@ function draw() {
 
 // Draw retro line art
 function drawLineArt() {
-  ctx.setLineDash([5, 15]); // Dashed lines
+  ctx.setLineDash([5, 15]);
   ctx.lineWidth = 1;
   planets.forEach((start) => {
     planets.forEach((end) => {
@@ -116,7 +116,7 @@ function drawLineArt() {
     });
   });
 
-  ctx.setLineDash([]); // Reset line dash
+  ctx.setLineDash([]);
 }
 
 // Update HUD
@@ -203,7 +203,7 @@ function patchUp() {
 
 // Choose job
 function chooseJob() {
-  actionsContainer.innerHTML = ''; // Clear menu
+  actionsContainer.innerHTML = '';
   showMenuMessage('Choose a job:');
 
   planets
@@ -222,7 +222,6 @@ function chooseJob() {
       actionsContainer.appendChild(jobButton);
     });
 
-  // Back button
   const backButton = document.createElement('button');
   backButton.textContent = 'Back';
   backButton.onclick = () => openMenu(planets[0]);
@@ -242,36 +241,7 @@ function completeJob() {
   }
 }
 
-// Show menu message
-function showMenuMessage(message) {
-  const messageElement = document.createElement('p');
-  messageElement.textContent = message;
-  messageElement.style.color = '#ffffff';
-
-  const oldMessages = actionsContainer.querySelectorAll('p');
-  oldMessages.forEach((msg) => msg.remove());
-  actionsContainer.prepend(messageElement);
-}
-
-// Initialize the game
-function initializeGame() {
-  resizeCanvas();
-  openMenu(planets[0]);
-  updateHUD();
-}
-
-// Handle clicks
-canvas.addEventListener('click', (event) => {
-  const { offsetX, offsetY } = event;
-  planets.forEach((planet) => {
-    const dx = offsetX - planet.x;
-    const dy = offsetY - planet.y;
-    if (Math.sqrt(dx ** 2 + dy ** 2) <= planet.radius) {
-      moveShipTo(planet);
-    }
-  });
-});
-
+// Ship movement
 function moveShipTo(targetPlanet) {
   const dx = targetPlanet.x - (ship.x + ship.width / 2);
   const dy = targetPlanet.y - (ship.y + ship.height / 2);
@@ -307,7 +277,25 @@ function moveShipTo(targetPlanet) {
   }, 16);
 }
 
-// Start game
+// Initialize the game
+function initializeGame() {
+  resizeCanvas();
+  openMenu(planets[0]);
+  updateHUD();
+}
+
+// Handle clicks
+canvas.addEventListener('click', (event) => {
+  const { offsetX, offsetY } = event;
+  planets.forEach((planet) => {
+    const dx = offsetX - planet.x;
+    const dy = offsetY - planet.y;
+    if (Math.sqrt(dx ** 2 + dy ** 2) <= planet.radius) {
+      moveShipTo(planet);
+    }
+  });
+});
+
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 initializeGame();
