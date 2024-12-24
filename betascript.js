@@ -72,24 +72,68 @@ function generatePlanets() {
       distanceFromPrime: Math.round(distance / 50), // Relative distance
     });
   }
+
+  // Center the ship on Prime Planet
+  const primePlanet = planets[0];
+  ship.x = primePlanet.x - ship.width / 2;
+  ship.y = primePlanet.y - ship.height / 2;
 }
 
 // Redraw planets and ship within the bounds
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Draw line art between planets
+  planets.forEach((planet, index) => {
+    for (let j = index + 1; j < planets.length; j++) {
+      ctx.setLineDash([5, 15]);
+      ctx.strokeStyle = '#555555';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(planet.x, planet.y);
+      ctx.lineTo(planets[j].x, planets[j].y);
+      ctx.stroke();
+    }
+  });
+
+  // Draw planets with glow effect
   planets.forEach((planet) => {
+    // Glow effect
+    const gradient = ctx.createRadialGradient(planet.x, planet.y, 0, planet.x, planet.y, planet.radius * 3);
+    gradient.addColorStop(0, `${planet.color}33`); // Light glow
+    gradient.addColorStop(1, '#00000000'); // Fade to transparent
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(planet.x, planet.y, planet.radius * 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Planet border
     ctx.beginPath();
     ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
-    ctx.fillStyle = planet.color;
-    ctx.fill();
-    ctx.strokeStyle = '#ffffff';
+    ctx.strokeStyle = planet.color;
+    ctx.lineWidth = 2;
     ctx.stroke();
+
+    // Planet label
     ctx.font = '12px monospace';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
     ctx.fillText(planet.name, planet.x, planet.y - planet.radius - 5);
   });
+
+  // Draw ship
+  const shipGlow = ctx.createRadialGradient(
+    ship.x + ship.width / 2,
+    ship.y + ship.height / 2,
+    0,
+    ship.x + ship.width / 2,
+    ship.y + ship.height / 2,
+    Math.max(ship.width, ship.height) * 3
+  );
+  shipGlow.addColorStop(0, '#ffffff33');
+  shipGlow.addColorStop(1, '#00000000');
+  ctx.fillStyle = shipGlow;
+  ctx.fillRect(ship.x - ship.width, ship.y - ship.height, ship.width * 4, ship.height * 4);
 
   ctx.fillStyle = ship.color;
   ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
@@ -156,17 +200,55 @@ function showMenuMessage(message) {
   actionsContainer.prepend(messageElement);
 }
 
+// Ship movement animation
+function moveShipTo(targetPlanet) {
+  const dx = targetPlanet.x - (ship.x + ship.width / 2);
+  const dy = targetPlanet.y - (ship.y + ship.height / 2);
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  const fuelCost = Math.ceil(distance / 50); // Fuel cost based on distance
+  if (fuel < fuelCost) {
+    showMenuMessage('Not enough fuel to travel!');
+    return;
+  }
+
+  fuel -= fuelCost;
+  updateHUD();
+
+  const steps = Math.ceil(distance / 5); // Adjust speed by changing the divisor
+  const stepX = dx / steps;
+  const stepY = dy / steps;
+
+  let currentStep = 0;
+
+  const interval = setInterval(() => {
+    if (currentStep >= steps) {
+      clearInterval(interval); // Stop animation
+      ship.x = targetPlanet.x - ship.width / 2; // Snap ship to target
+      ship.y = targetPlanet.y - ship.height / 2;
+
+      // Open planet menu on arrival
+      openMenu(targetPlanet);
+    } else {
+      // Move the ship incrementally
+      ship.x += stepX;
+      ship.y += stepY;
+      currentStep++;
+      draw(); // Redraw the canvas to update ship position
+    }
+  }, 16); // Approx. 60 FPS
+}
+
 // Initialize the game, opening Planet Prime menu on start
 function initializeGame() {
-  resizeCanvas(); // Ensure the canvas is correctly sized
+  resizeCanvas();
   const primePlanet = planets.find((planet) => planet.name === 'Prime Planet');
   if (primePlanet) {
     ship.x = primePlanet.x - ship.width / 2; // Position the ship on Prime Planet
     ship.y = primePlanet.y - ship.height / 2;
     openMenu(primePlanet); // Open the menu for Planet Prime
   }
-  updateHUD(); // Update the HUD to reflect initial stats
-  draw(); // Draw the initial game state
+  updateHUD();
+  draw();
 }
 
 // Handle planet clicks
