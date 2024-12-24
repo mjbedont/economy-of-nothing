@@ -113,6 +113,35 @@ function draw() {
   drawMissionIndicators();
 }
 
+// Ship movement animation
+function moveShipTo(targetPlanet) {
+  const dx = targetPlanet.x - (ship.x + ship.width / 2);
+  const dy = targetPlanet.y - (ship.y + ship.height / 2);
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  const steps = Math.ceil(distance / 5); // Adjust speed by changing the divisor
+  const stepX = dx / steps;
+  const stepY = dy / steps;
+
+  let currentStep = 0;
+
+  const interval = setInterval(() => {
+    if (currentStep >= steps) {
+      clearInterval(interval); // Stop animation
+      ship.x = targetPlanet.x - ship.width / 2; // Snap ship to target
+      ship.y = targetPlanet.y - ship.height / 2;
+
+      // Open planet menu on arrival
+      openMenu(targetPlanet);
+    } else {
+      // Move the ship incrementally
+      ship.x += stepX;
+      ship.y += stepY;
+      currentStep++;
+      draw(); // Redraw the canvas to update ship position
+    }
+  }, 16); // Approx. 60 FPS
+}
+
 // Draw arrows for active missions
 function drawArrow(fromX, fromY, toX, toY, color) {
   const headLength = 10;
@@ -256,7 +285,7 @@ canvas.addEventListener('click', (event) => {
     const dx = offsetX - planet.x;
     const dy = offsetY - planet.y;
     if (Math.sqrt(dx * dx + dy * dy) <= planet.radius) {
-      openMenu(planet);
+      moveShipTo(planet); // Trigger ship movement animation
     }
   });
 });
