@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map and Movement Test</title>
+  <link rel="stylesheet" href="betastyles.css">
+</head>
+<body>
+  <div id="mapContainer">
+    <div id="hud">
+      <p>Health: <span id="health">100</span></p>
+      <p>Cargo: <span id="cargo">10</span></p>
+      <p>Fuel: <span id="fuel">50</span></p>
+      <p>Credits: <span id="credits">500</span></p>
+    </div>
+    <canvas id="mapCanvas"></canvas>
+    <div id="planetMenu">
+      <p id="planetName">Welcome to the Planet</p>
+      <button onclick="closeMenu()">Leave</button>
+    </div>
+  </div>
+  <script src="betascript.js"></script>
+</body>
+</html>
