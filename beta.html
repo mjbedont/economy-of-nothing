@@ -10,8 +10,9 @@
     <!-- Navigation -->
     <a id="homeLink" href="/">Home</a>
 
-    <!-- Game Canvas Container -->
-    <div id="mapContainer">
+    <!-- Map Box -->
+    <div id="mapBox">
+        <!-- Canvas -->
         <canvas id="mapCanvas"></canvas>
 
         <!-- HUD -->
@@ -34,6 +35,12 @@
                 <!-- Action buttons dynamically added here -->
             </div>
             <button onclick="leavePlanet()">Leave Planet</button>
+        </div>
+
+        <!-- Alert Box -->
+        <div id="alertBox" class="hidden">
+            <p id="alertMessage">Alert Message</p>
+            <button onclick="closeAlert()">OK</button>
         </div>
     </div>
 
