@@ -151,6 +151,11 @@ function openMenu(planet) {
     patchUpButton.textContent = 'Patch Up (10 credits/health)';
     patchUpButton.onclick = patchUp;
     actionsContainer.appendChild(patchUpButton);
+
+    const promotionButton = document.createElement('button');
+    promotionButton.textContent = 'Buy Promotion (100 credits)';
+    promotionButton.onclick = buyPromotion;
+    actionsContainer.appendChild(promotionButton);
   }
 
   // Job completion
@@ -198,6 +203,17 @@ function patchUp() {
     updateHUD();
   } else {
     showMenuMessage('Not enough credits!');
+  }
+}
+
+// Buy promotion
+function buyPromotion() {
+  if (credits >= 100) {
+    credits -= 100;
+    showMenuMessage('Promotion bought! Your rank increases.');
+    updateHUD();
+  } else {
+    showMenuMessage('Not enough credits to buy a promotion!');
   }
 }
 
@@ -277,13 +293,6 @@ function moveShipTo(targetPlanet) {
   }, 16);
 }
 
-// Initialize the game
-function initializeGame() {
-  resizeCanvas();
-  openMenu(planets[0]);
-  updateHUD();
-}
-
 // Handle clicks
 canvas.addEventListener('click', (event) => {
   const { offsetX, offsetY } = event;
@@ -295,6 +304,13 @@ canvas.addEventListener('click', (event) => {
     }
   });
 });
+
+// Initialize the game
+function initializeGame() {
+  resizeCanvas();
+  openMenu(planets[0]);
+  updateHUD();
+}
 
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
