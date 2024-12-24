@@ -32,15 +32,36 @@ function generatePlanets() {
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
 
-  planets.push({ x: centerX, y: centerY, radius: 30, color: '#ff6600', name: 'Prime Planet' });
+  // Add Prime Planet
+  planets.push({
+    x: centerX,
+    y: centerY,
+    radius: 30,
+    color: '#ff6600',
+    name: 'Prime Planet',
+    distanceFromPrime: 0,
+  });
 
+  // Add other planets
   for (let i = 0; i < 5; i++) {
     const angle = Math.random() * Math.PI * 2;
     const distance = 100 + Math.random() * (canvas.width * 0.4);
     const x = centerX + Math.cos(angle) * distance;
     const y = centerY + Math.sin(angle) * distance;
-    planets.push({ x, y, radius: 20, color: '#00ff00', name: `Planet ${i + 1}` });
+    planets.push({
+      x,
+      y,
+      radius: 20,
+      color: ['#ffcc00', '#00bfff', '#ff3399'][i % 3],
+      name: `Planet ${i + 1}`,
+      distanceFromPrime: Math.round(distance / 50), // Relative distance
+    });
   }
+
+  // Center the ship on Prime Planet
+  const primePlanet = planets[0];
+  ship.x = primePlanet.x - ship.width / 2;
+  ship.y = primePlanet.y - ship.height / 2;
 }
 
 // Draw the game
@@ -77,9 +98,10 @@ function openMenu(planet) {
   actionsContainer.innerHTML = ''; // Clear old actions
 
   // Add "Buy Fuel" button
+  const fuelPrice = planet.distanceFromPrime ? planet.distanceFromPrime + 1 : 2; // Prime Planet: 2, others: relative to distance
   const buyFuelButton = document.createElement('button');
-  buyFuelButton.textContent = 'Buy Fuel (2 credits/unit)';
-  buyFuelButton.onclick = () => buyFuel(planet);
+  buyFuelButton.textContent = `Buy Fuel (${fuelPrice} credits/unit)`;
+  buyFuelButton.onclick = () => buyFuel(planet, fuelPrice);
   actionsContainer.appendChild(buyFuelButton);
 
   // Planet Prime-specific actions
@@ -125,8 +147,7 @@ function showMenuMessage(message) {
 }
 
 // Buy fuel action
-function buyFuel(planet) {
-  const fuelPrice = planet.name === 'Prime Planet' ? 2 : 3;
+function buyFuel(planet, fuelPrice) {
   const unitsToBuy = Math.min(10, Math.floor(credits / fuelPrice)); // Allow buying up to 10 units
   if (unitsToBuy > 0) {
     fuel += unitsToBuy;
@@ -157,6 +178,44 @@ function completeMission() {
   updateHUD();
 }
 
+// Ship movement animation
+function moveShipTo(targetPlanet) {
+  const dx = targetPlanet.x - (ship.x + ship.width / 2);
+  const dy = targetPlanet.y - (ship.y + ship.height / 2);
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  const fuelCost = Math.ceil(distance / 50); // Fuel cost based on distance
+  if (fuel < fuelCost) {
+    showMenuMessage('Not enough fuel to travel!');
+    return;
+  }
+
+  fuel -= fuelCost;
+  updateHUD();
+
+  const steps = Math.ceil(distance / 5); // Adjust speed by changing the divisor
+  const stepX = dx / steps;
+  const stepY = dy / steps;
+
+  let currentStep = 0;
+
+  const interval = setInterval(() => {
+    if (currentStep >= steps) {
+      clearInterval(interval); // Stop animation
+      ship.x = targetPlanet.x - ship.width / 2; // Snap ship to target
+      ship.y = targetPlanet.y - ship.height / 2;
+
+      // Open planet menu on arrival
+      openMenu(targetPlanet);
+    } else {
+      // Move the ship incrementally
+      ship.x += stepX;
+      ship.y += stepY;
+      currentStep++;
+      draw(); // Redraw the canvas to update ship position
+    }
+  }, 16); // Approx. 60 FPS
+}
+
 // Handle planet clicks
 canvas.addEventListener('click', (event) => {
   const { offsetX, offsetY } = event;
@@ -164,7 +223,7 @@ canvas.addEventListener('click', (event) => {
     const dx = offsetX - planet.x;
     const dy = offsetY - planet.y;
     if (Math.sqrt(dx * dx + dy * dy) <= planet.radius) {
-      openMenu(planet);
+      moveShipTo(planet);
     }
   });
 });
