@@ -16,23 +16,23 @@ let fuel = 50;
 let credits = 500;
 let currentJob = null;
 
-// Resize canvas to match the container
+// Resize canvas and regenerate planets only if they don't exist
 function resizeCanvas() {
   const container = document.getElementById('mapContainer');
   canvas.width = container.clientWidth;
   canvas.height = container.clientHeight;
 
-  generatePlanets();
+  if (planets.length === 0) generatePlanets();
   draw();
 }
 
-// Generate planets within the visible bounds of the canvas
+// Generate planets
 function generatePlanets() {
   planets.length = 0;
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
 
-  // Add Prime Planet in the center
+  // Add Prime Planet
   planets.push({
     x: centerX,
     y: centerY,
@@ -44,24 +44,10 @@ function generatePlanets() {
 
   // Add other planets
   for (let i = 0; i < 5; i++) {
-    let x, y;
-    const padding = 50; // Minimum distance from canvas edges
     const angle = Math.random() * Math.PI * 2;
-    const distance = 100 + Math.random() * (Math.min(canvas.width, canvas.height) * 0.4);
-
-    // Calculate position within bounds
-    do {
-      x = centerX + Math.cos(angle) * distance;
-      y = centerY + Math.sin(angle) * distance;
-
-      // Clamp values to keep planets inside the canvas
-      x = Math.max(padding, Math.min(canvas.width - padding, x));
-      y = Math.max(padding, Math.min(canvas.height - padding, y));
-    } while (
-      planets.some(
-        (p) => Math.sqrt((p.x - x) ** 2 + (p.y - y) ** 2) < 60
-      )
-    ); // Avoid overlapping planets
+    const distance = 100 + Math.random() * (canvas.width * 0.4);
+    const x = centerX + Math.cos(angle) * distance;
+    const y = centerY + Math.sin(angle) * distance;
 
     planets.push({
       x,
@@ -69,71 +55,32 @@ function generatePlanets() {
       radius: 20,
       color: ['#ffcc00', '#00bfff', '#ff3399'][i % 3],
       name: `Planet ${i + 1}`,
-      distanceFromPrime: Math.round(distance / 50), // Relative distance
+      distanceFromPrime: Math.round(distance / 50),
     });
   }
 
-  // Center the ship on Prime Planet
+  // Position ship on Prime Planet
   const primePlanet = planets[0];
   ship.x = primePlanet.x - ship.width / 2;
   ship.y = primePlanet.y - ship.height / 2;
 }
 
-// Redraw planets and ship within the bounds
+// Draw the game
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw line art between planets
-  planets.forEach((planet, index) => {
-    for (let j = index + 1; j < planets.length; j++) {
-      ctx.setLineDash([5, 15]);
-      ctx.strokeStyle = '#555555';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(planet.x, planet.y);
-      ctx.lineTo(planets[j].x, planets[j].y);
-      ctx.stroke();
-    }
-  });
-
-  // Draw planets with glow effect
   planets.forEach((planet) => {
-    // Glow effect
-    const gradient = ctx.createRadialGradient(planet.x, planet.y, 0, planet.x, planet.y, planet.radius * 3);
-    gradient.addColorStop(0, `${planet.color}33`); // Light glow
-    gradient.addColorStop(1, '#00000000'); // Fade to transparent
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.arc(planet.x, planet.y, planet.radius * 3, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Planet border
     ctx.beginPath();
     ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
-    ctx.strokeStyle = planet.color;
-    ctx.lineWidth = 2;
+    ctx.fillStyle = planet.color;
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
     ctx.stroke();
-
-    // Planet label
     ctx.font = '12px monospace';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
     ctx.fillText(planet.name, planet.x, planet.y - planet.radius - 5);
   });
-
-  // Draw ship
-  const shipGlow = ctx.createRadialGradient(
-    ship.x + ship.width / 2,
-    ship.y + ship.height / 2,
-    0,
-    ship.x + ship.width / 2,
-    ship.y + ship.height / 2,
-    Math.max(ship.width, ship.height) * 3
-  );
-  shipGlow.addColorStop(0, '#ffffff33');
-  shipGlow.addColorStop(1, '#00000000');
-  ctx.fillStyle = shipGlow;
-  ctx.fillRect(ship.x - ship.width, ship.y - ship.height, ship.width * 4, ship.height * 4);
 
   ctx.fillStyle = ship.color;
   ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
@@ -152,7 +99,7 @@ function openMenu(planet) {
   actionsContainer.innerHTML = ''; // Clear old actions
 
   // Add "Buy Fuel" button
-  const fuelPrice = planet.distanceFromPrime ? planet.distanceFromPrime + 1 : 2; // Prime Planet: 2, others: relative to distance
+  const fuelPrice = planet.distanceFromPrime ? planet.distanceFromPrime + 1 : 2;
   const buyFuelButton = document.createElement('button');
   buyFuelButton.textContent = `Buy Fuel (${fuelPrice} credits/unit)`;
   buyFuelButton.onclick = () => buyFuel(planet, fuelPrice);
@@ -188,24 +135,45 @@ function closeMenu() {
   planetMenu.style.display = 'none';
 }
 
-// Show a single message in the menu
-function showMenuMessage(message) {
-  const messageElement = document.createElement('p');
-  messageElement.textContent = message;
-  messageElement.style.color = '#ffffff';
+// Buy fuel action
+function buyFuel(planet, fuelPrice) {
+  const unitsToBuy = Math.min(10, Math.floor(credits / fuelPrice));
+  if (unitsToBuy > 0) {
+    fuel += unitsToBuy;
+    credits -= unitsToBuy * fuelPrice;
+    showMenuMessage(`Bought ${unitsToBuy} fuel for ${unitsToBuy * fuelPrice} credits.`);
+    updateHUD();
+  } else {
+    showMenuMessage('Not enough credits to buy fuel!');
+  }
+}
 
-  // Clear existing messages and add the new one
-  const oldMessages = actionsContainer.querySelectorAll('p');
-  oldMessages.forEach((msg) => msg.remove());
-  actionsContainer.prepend(messageElement);
+// Select a job
+function selectJob() {
+  const availablePlanets = planets.filter((planet) => planet.name !== 'Prime Planet');
+  currentJob = {
+    targetPlanet: availablePlanets[Math.floor(Math.random() * availablePlanets.length)],
+    reward: 100,
+  };
+  showMenuMessage(`Job assigned! Travel to ${currentJob.targetPlanet.name}.`);
+  updateHUD();
+}
+
+// Complete job mission
+function completeMission() {
+  showMenuMessage(`Mission complete! You earned ${currentJob.reward} credits.`);
+  credits += currentJob.reward;
+  currentJob = null;
+  updateHUD();
 }
 
 // Ship movement animation
 function moveShipTo(targetPlanet) {
   const dx = targetPlanet.x - (ship.x + ship.width / 2);
   const dy = targetPlanet.y - (ship.y + ship.height / 2);
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  const fuelCost = Math.ceil(distance / 50); // Fuel cost based on distance
+  const distance = Math.sqrt(dx ** 2 + dy ** 2);
+  const fuelCost = Math.ceil(distance / 50);
+
   if (fuel < fuelCost) {
     showMenuMessage('Not enough fuel to travel!');
     return;
@@ -214,7 +182,7 @@ function moveShipTo(targetPlanet) {
   fuel -= fuelCost;
   updateHUD();
 
-  const steps = Math.ceil(distance / 5); // Adjust speed by changing the divisor
+  const steps = Math.ceil(distance / 5);
   const stepX = dx / steps;
   const stepY = dy / steps;
 
@@ -222,33 +190,17 @@ function moveShipTo(targetPlanet) {
 
   const interval = setInterval(() => {
     if (currentStep >= steps) {
-      clearInterval(interval); // Stop animation
-      ship.x = targetPlanet.x - ship.width / 2; // Snap ship to target
+      clearInterval(interval);
+      ship.x = targetPlanet.x - ship.width / 2;
       ship.y = targetPlanet.y - ship.height / 2;
-
-      // Open planet menu on arrival
       openMenu(targetPlanet);
     } else {
-      // Move the ship incrementally
       ship.x += stepX;
       ship.y += stepY;
       currentStep++;
-      draw(); // Redraw the canvas to update ship position
+      draw();
     }
-  }, 16); // Approx. 60 FPS
-}
-
-// Initialize the game, opening Planet Prime menu on start
-function initializeGame() {
-  resizeCanvas();
-  const primePlanet = planets.find((planet) => planet.name === 'Prime Planet');
-  if (primePlanet) {
-    ship.x = primePlanet.x - ship.width / 2; // Position the ship on Prime Planet
-    ship.y = primePlanet.y - ship.height / 2;
-    openMenu(primePlanet); // Open the menu for Planet Prime
-  }
-  updateHUD();
-  draw();
+  }, 16);
 }
 
 // Handle planet clicks
@@ -257,7 +209,7 @@ canvas.addEventListener('click', (event) => {
   planets.forEach((planet) => {
     const dx = offsetX - planet.x;
     const dy = offsetY - planet.y;
-    if (Math.sqrt(dx * dx + dy * dy) <= planet.radius) {
+    if (Math.sqrt(dx ** 2 + dy ** 2) <= planet.radius) {
       moveShipTo(planet);
     }
   });
@@ -266,4 +218,4 @@ canvas.addEventListener('click', (event) => {
 // Initialize the game
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
-initializeGame();
+updateHUD();
