@@ -60,21 +60,20 @@ body {
     align-items: center;
     justify-content: center;
     background-color: var(--background-dark);
-    overflow: hidden;
+    overflow: hidden; /* Prevent overflow */
     border: 2px solid var(--primary-color);
     border-radius: 10px;
-    max-width: 600px;
-    max-height: 90vh; /* Ensures it doesn’t overflow on smaller screens */
-    width: 90%; /* Responsive width */
-    height: auto;
-    aspect-ratio: 16 / 9; /* Maintains a consistent ratio for the map */
+    width: 90%; /* Full-width on mobile */
+    max-width: 1000px; /* Limit on larger screens */
+    height: calc(100vh - 120px); /* Fill available space minus header/footer */
     margin: auto;
 }
 
 /* Canvas */
 #mapCanvas {
-    width: 100%; /* Always fill the container */
-    height: 100%; /* Scale to maintain aspect ratio */
+    flex-grow: 1; /* Occupy most of the container */
+    width: 100%; /* Fill the container */
+    height: 100%; /* Match the container height */
     display: block;
     background-color: #000;
     border: none;
@@ -84,17 +83,49 @@ body {
 
 /* HUD */
 #hud {
+    position: absolute;
+    top: 0;
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    width: 100%;
     padding: 10px;
     font-size: 0.9rem;
     color: var(--primary-color);
     background-color: var(--background-dark);
     border-bottom: 2px solid var(--primary-color);
+    z-index: 10;
 }
 
-/* Buttons (Blended Style) */
+/* Planet Menu */
+#planetMenu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-dark);
+    color: var(--primary-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 100;
+    text-align: center;
+    display: none;
+}
+
+/* Footer */
+#gameFooter {
+    text-align: center;
+    padding: 10px;
+    background-color: var(--background-dark);
+    color: var(--accent-color);
+    font-size: 1rem;
+    border-top: 2px solid var(--primary-color);
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+}
+
+/* Buttons */
 button {
     font-family: var(--font-family);
     font-size: 1rem;
@@ -117,39 +148,6 @@ button:active {
     background: linear-gradient(135deg, #222, #333);
     transform: translateY(2px);
     box-shadow: none;
-}
-
-/* Planet Menu */
-#planetMenu {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: var(--background-dark);
-    color: var(--primary-color);
-    border: 2px solid var(--secondary-color);
-    border-radius: 10px;
-    padding: 20px;
-    z-index: 100;
-    text-align: center;
-    display: none;
-}
-
-#planetMenu h2 {
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-    color: var(--secondary-color);
-}
-
-/* Footer */
-#gameFooter {
-    text-align: center;
-    padding: 10px;
-    background-color: var(--background-dark);
-    color: var(--accent-color);
-    font-size: 1rem;
-    border-top: 2px solid var(--primary-color);
-    width: 100%;
 }
 
 /* Responsive Adjustments */
