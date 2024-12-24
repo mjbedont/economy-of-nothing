@@ -3,38 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Adventure Game</title>
+    <title>Space Adventure</title>
     <link rel="stylesheet" href="betastyle.css">
 </head>
 <body>
     <!-- Navigation -->
-    <a id="homeLink" href="/">Home</a>
+    <a id="homeLink" href="index.html">Home</a>
 
-    <!-- Map Box -->
-    <div id="mapBox">
+    <!-- Game Box -->
+    <div id="gameBox">
         <!-- Canvas -->
-        <canvas id="mapCanvas"></canvas>
+        <canvas id="gameCanvas"></canvas>
 
         <!-- HUD -->
         <div id="hud">
             <p>Health: <span id="health">100</span></p>
             <p>Fuel: <span id="fuel">50</span></p>
             <p>Credits: <span id="credits">500</span></p>
-            <p id="currentMission">Mission: None</p>
-        </div>
-
-        <!-- Travel Bar -->
-        <div id="travelBar">
-            <div id="progress"></div>
+            <p>Mission: <span id="mission">None</span></p>
         </div>
 
         <!-- Planet Menu -->
         <div id="planetMenu">
             <h2 id="planetName">Welcome to the Planet</h2>
             <div id="planetActions">
-                <!-- Action buttons dynamically added here -->
+                <!-- Dynamic buttons added here -->
             </div>
-            <button onclick="leavePlanet()">Leave Planet</button>
+            <button onclick="closePlanetMenu()">Close</button>
         </div>
 
         <!-- Alert Box -->
@@ -45,7 +40,7 @@
     </div>
 
     <!-- Footer -->
-    <footer id="footer">
+    <footer>
         <p>The Distant Future</p>
     </footer>
 
