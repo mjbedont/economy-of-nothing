@@ -94,11 +94,8 @@ function calculateFuelCost(fromPlanet, toPlanet) {
 
 // Move ship animation
 function moveShipTo(targetPlanet) {
-  const primePlanet = planets.find((planet) => planet.name === 'Prime Planet');
-  const fuelCost = calculateFuelCost(
-    planets.find((planet) => planet.x === ship.x + ship.width / 2 && planet.y === ship.y + ship.height / 2),
-    targetPlanet
-  );
+  const currentPlanet = planets.find((planet) => planet.x === ship.x + ship.width / 2 && planet.y === ship.y + ship.height / 2);
+  const fuelCost = calculateFuelCost(currentPlanet, targetPlanet);
 
   if (fuel < fuelCost) {
     showMenuMessage('Not enough fuel to travel!', 'error');
@@ -174,4 +171,61 @@ function openMenu(planet) {
 }
 
 // Show messages inside the planet menu
-function showMenuMessage(message,
+function showMenuMessage(message, type = 'info') {
+  const messageElement = document.createElement('p');
+  messageElement.textContent = message;
+  messageElement.style.color = type === 'error' ? 'red' : 'white';
+  actionsContainer.prepend(messageElement);
+}
+
+// Close planet menu
+function closeMenu() {
+  planetMenu.style.display = 'none';
+}
+
+// Buy fuel action
+function buyFuel(price) {
+  const unitsToBuy = Math.min(10, Math.floor(credits / price)); // Allow buying up to 10 units
+  if (unitsToBuy > 0) {
+    fuel += unitsToBuy;
+    credits -= unitsToBuy * price;
+    showMenuMessage(`Bought ${unitsToBuy} fuel for ${unitsToBuy * price} credits.`);
+    updateHUD();
+  } else {
+    showMenuMessage('Not enough credits to buy fuel!', 'error');
+  }
+}
+
+// Select a job
+function selectJob() {
+  const availablePlanets = planets.filter((planet) => planet.name !== 'Prime Planet');
+  currentJob = {
+    targetPlanet: availablePlanets[Math.floor(Math.random() * availablePlanets.length)],
+    reward: 100,
+  };
+  showMenuMessage(`Job assigned! Travel to ${currentJob.targetPlanet.name}.`);
+}
+
+// Complete job mission
+function completeMission() {
+  showMenuMessage(`Mission complete! You earned ${currentJob.reward} credits.`);
+  credits += currentJob.reward;
+  currentJob = null;
+  updateHUD();
+}
+
+// Click handling for planets
+canvas.addEventListener('click', (event) => {
+  const { offsetX, offsetY } = event;
+  planets.forEach((planet) => {
+    const dx = offsetX - planet.x;
+    const dy = offsetY - planet.y;
+    if (Math.sqrt(dx * dx + dy * dy) <= planet.radius) {
+      moveShipTo(planet);
+    }
+  });
+});
+
+// Initialize game
+window.addEventListener('resize', resizeCanvas);
+initializeGame();
