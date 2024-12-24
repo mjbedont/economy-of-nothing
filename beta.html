@@ -7,20 +7,15 @@
     <link rel="stylesheet" href="betastyle.css">
 </head>
 <body>
-    <!-- Header -->
-    <header id="gameHeader">
-        <a href="index.html" id="homeLink">Home</a>
-        <h1>Space Adventure</h1>
-    </header>
+    <!-- Navigation -->
+    <a id="homeLink" href="index.html">Home</a>
 
-    <!-- Game Container -->
-    <div id="gameContainer">
-        <!-- Main Game Screen -->
-        <div id="gameScreen">
-            <canvas id="gameCanvas"></canvas>
-        </div>
+    <!-- Game Box -->
+    <div id="gameBox">
+        <!-- Canvas -->
+        <canvas id="gameCanvas"></canvas>
 
-        <!-- HUD (Game Stats) -->
+        <!-- HUD -->
         <div id="hud">
             <p>Health: <span id="health">100</span></p>
             <p>Fuel: <span id="fuel">50</span></p>
@@ -29,10 +24,12 @@
         </div>
 
         <!-- Planet Menu -->
-        <div id="planetMenu" class="hidden">
+        <div id="planetMenu">
             <h2 id="planetName">Welcome to the Planet</h2>
-            <div id="planetActions"></div>
-            <button onclick="closeMenu()">Close</button>
+            <div id="planetActions">
+                <!-- Dynamic buttons added here -->
+            </div>
+            <button onclick="closePlanetMenu()">Close</button>
         </div>
 
         <!-- Alert Box -->
@@ -43,7 +40,7 @@
     </div>
 
     <!-- Footer -->
-    <footer id="gameFooter">
+    <footer>
         <p>The Distant Future</p>
     </footer>
 
