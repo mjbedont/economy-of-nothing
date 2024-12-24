@@ -14,14 +14,45 @@
       display: block;
       background: radial-gradient(circle, #1a1a1a, #000);
     }
+    #planetMenu {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      border: 2px solid white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      display: none;
+    }
+    #planetMenu button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #planetMenu button:hover {
+      background-color: #666;
+    }
   </style>
 </head>
 <body>
   <canvas id="mapCanvas"></canvas>
+  <div id="planetMenu">
+    <p id="planetName">Welcome to the Planet</p>
+    <button onclick="closeMenu()">Leave</button>
+  </div>
 
   <script>
     const canvas = document.getElementById('mapCanvas');
     const ctx = canvas.getContext('2d');
+    const planetMenu = document.getElementById('planetMenu');
+    const planetNameElement = document.getElementById('planetName');
 
     const planets = [];
     const ship = { x: 0, y: 0, radius: 10, color: 'white' };
@@ -115,6 +146,7 @@
           clearInterval(interval);
           ship.x = target.x;
           ship.y = target.y;
+          openMenu(target);
         } else {
           ship.x += stepX;
           ship.y += stepY;
@@ -136,6 +168,17 @@
         }
       });
     });
+
+    // Open menu when ship arrives at a planet
+    function openMenu(planet) {
+      planetNameElement.textContent = `Welcome to ${planet.name}`;
+      planetMenu.style.display = 'block';
+    }
+
+    // Close menu and return to map
+    function closeMenu() {
+      planetMenu.style.display = 'none';
+    }
 
     generatePlanets();
     draw();
