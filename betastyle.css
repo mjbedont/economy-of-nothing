@@ -60,7 +60,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: var(--background-dark);
-    overflow: hidden; /* Prevent anything from spilling out */
+    overflow: hidden;
     border: 2px solid var(--primary-color);
     border-radius: 10px;
     max-width: 600px;
@@ -94,6 +94,31 @@ body {
     border-bottom: 2px solid var(--primary-color);
 }
 
+/* Buttons (Blended Style) */
+button {
+    font-family: var(--font-family);
+    font-size: 1rem;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #333, #444);
+    color: var(--primary-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #444, #555);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
+}
+
+button:active {
+    background: linear-gradient(135deg, #222, #333);
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
 /* Planet Menu */
 #planetMenu {
     position: absolute;
@@ -110,6 +135,12 @@ body {
     display: none;
 }
 
+#planetMenu h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
 /* Footer */
 #gameFooter {
     text-align: center;
@@ -119,8 +150,6 @@ body {
     font-size: 1rem;
     border-top: 2px solid var(--primary-color);
     width: 100%;
-    position: sticky;
-    bottom: 0;
 }
 
 /* Responsive Adjustments */
