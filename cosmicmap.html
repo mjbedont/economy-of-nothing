@@ -9,43 +9,64 @@
       margin: 0;
       overflow: hidden;
       background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #mapContainer {
+      position: relative;
+      border: 2px solid #ffffff;
+      border-radius: 5px;
+      width: 90%;
+      height: 90%;
+      max-width: 1200px;
+      max-height: 800px;
+      overflow: hidden;
+      background-color: #000;
     }
     canvas {
       display: block;
-      background: radial-gradient(circle, #1a1a1a, #000);
+      background-color: #000;
+      width: 100%;
+      height: 100%;
     }
     #planetMenu {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.8);
-      color: white;
-      border: 2px solid white;
-      border-radius: 10px;
+      background-color: rgba(20, 20, 20, 0.9);
+      color: #ffcc00;
+      border: 2px solid #ffcc00;
+      border-radius: 5px;
       padding: 20px;
       text-align: center;
       display: none;
+      font-family: monospace;
     }
     #planetMenu button {
       margin-top: 10px;
       padding: 10px 20px;
-      background-color: #444;
-      color: white;
-      border: none;
-      border-radius: 5px;
+      background-color: #333;
+      color: #ffcc00;
+      border: 1px solid #ffcc00;
+      border-radius: 3px;
       cursor: pointer;
+      font-family: monospace;
     }
     #planetMenu button:hover {
-      background-color: #666;
+      background-color: #555;
     }
   </style>
 </head>
 <body>
-  <canvas id="mapCanvas"></canvas>
-  <div id="planetMenu">
-    <p id="planetName">Welcome to the Planet</p>
-    <button onclick="closeMenu()">Leave</button>
+  <div id="mapContainer">
+    <canvas id="mapCanvas"></canvas>
+    <div id="planetMenu">
+      <p id="planetName">Welcome to the Planet</p>
+      <button onclick="closeMenu()">Leave</button>
+    </div>
   </div>
 
   <script>
@@ -55,12 +76,13 @@
     const planetNameElement = document.getElementById('planetName');
 
     const planets = [];
-    const ship = { x: 0, y: 0, radius: 10, color: 'white' };
+    const ship = { x: 0, y: 0, radius: 10, color: '#00bfff' };
 
-    // Resize canvas to fit the screen
+    // Resize canvas to fit the container
     function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const container = document.getElementById('mapContainer');
+      canvas.width = container.offsetWidth;
+      canvas.height = container.offsetHeight;
       generatePlanets();
       draw();
     }
@@ -74,15 +96,15 @@
       const centerY = canvas.height / 2;
 
       // Prime Planet
-      planets.push({ x: centerX, y: centerY, radius: 30, color: 'yellow', name: 'Prime Planet' });
+      planets.push({ x: centerX, y: centerY, radius: 30, color: '#ff6600', name: 'Prime Planet' });
 
       // Other planets
       for (let i = 0; i < 5; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const distance = 100 + Math.random() * 200;
+        const distance = 100 + Math.random() * Math.min(canvas.width, canvas.height) * 0.3;
         const x = centerX + Math.cos(angle) * distance;
         const y = centerY + Math.sin(angle) * distance;
-        planets.push({ x, y, radius: 20, color: 'blue', name: `Planet ${i + 1}` });
+        planets.push({ x, y, radius: 20, color: '#00bfff', name: `Planet ${i + 1}` });
       }
 
       // Place ship at the Prime Planet
@@ -95,7 +117,7 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw star chart lines
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.strokeStyle = '#555555';
       ctx.lineWidth = 1;
       planets.forEach((planet, index) => {
         for (let j = index + 1; j < planets.length; j++) {
@@ -110,24 +132,17 @@
       planets.forEach(planet => {
         ctx.beginPath();
         ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
-        ctx.fillStyle = planet.color;
-        ctx.fill();
-
-        // Add glow effect
-        const gradient = ctx.createRadialGradient(planet.x, planet.y, 0, planet.x, planet.y, planet.radius * 2);
-        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(planet.x, planet.y, planet.radius * 2, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.strokeStyle = planet.color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
       });
 
       // Draw ship
       ctx.beginPath();
       ctx.arc(ship.x, ship.y, ship.radius, 0, Math.PI * 2);
-      ctx.fillStyle = ship.color;
-      ctx.fill();
+      ctx.strokeStyle = ship.color;
+      ctx.lineWidth = 2;
+      ctx.stroke();
     }
 
     // Move ship to a target planet
