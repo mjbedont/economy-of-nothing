@@ -61,9 +61,12 @@ function generatePlanets() {
   ship.y = centerY - ship.height / 2;
 }
 
-// Draw the game (planets, ship)
+// Draw the game (planets, ship, and lines)
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw connections (line art)
+  drawConnections();
 
   // Draw planets
   planets.forEach((planet) => {
@@ -82,6 +85,24 @@ function draw() {
   // Draw ship
   ctx.fillStyle = ship.color;
   ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
+}
+
+// Draw connections between planets
+function drawConnections() {
+  planets.forEach((planet, index) => {
+    for (let i = index + 1; i < planets.length; i++) {
+      const targetPlanet = planets[i];
+
+      // Line art
+      ctx.setLineDash([5, 15]); // Dashed lines
+      ctx.strokeStyle = '#555555'; // Subtle color
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(planet.x, planet.y);
+      ctx.lineTo(targetPlanet.x, targetPlanet.y);
+      ctx.stroke();
+    }
+  });
 }
 
 // Calculate fuel cost based on distance
