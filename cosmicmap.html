@@ -76,7 +76,7 @@
     const planetNameElement = document.getElementById('planetName');
 
     const planets = [];
-    const ship = { x: 0, y: 0, radius: 10, color: '#00bfff' };
+    const ship = { x: 0, y: 0, width: 15, height: 10, color: '#ffffff' }; // Changed to rectangular ship
 
     // Resize canvas to fit the container
     function resizeCanvas() {
@@ -108,8 +108,8 @@
       }
 
       // Place ship at the Prime Planet
-      ship.x = centerX;
-      ship.y = centerY;
+      ship.x = centerX - ship.width / 2;
+      ship.y = centerY - ship.height / 2;
     }
 
     // Draw everything
@@ -146,28 +146,41 @@
         ctx.strokeStyle = planet.color;
         ctx.lineWidth = 2;
         ctx.stroke();
+
+        // Draw planet label
+        ctx.font = '12px monospace';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText(planet.name, planet.x, planet.y - planet.radius - 5);
       });
 
-      // Draw ship with glow
-      const shipGlow = ctx.createRadialGradient(ship.x, ship.y, 0, ship.x, ship.y, ship.radius * 3);
-      shipGlow.addColorStop(0, '#00bfff33');
+      // Draw ship as a rectangle with glow
+      const shipGlow = ctx.createRadialGradient(
+        ship.x + ship.width / 2,
+        ship.y + ship.height / 2,
+        0,
+        ship.x + ship.width / 2,
+        ship.y + ship.height / 2,
+        Math.max(ship.width, ship.height) * 3
+      );
+      shipGlow.addColorStop(0, '#ffffff33');
       shipGlow.addColorStop(1, '#00000000');
       ctx.fillStyle = shipGlow;
-      ctx.beginPath();
-      ctx.arc(ship.x, ship.y, ship.radius * 3, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.fillRect(
+        ship.x - ship.width,
+        ship.y - ship.height,
+        ship.width * 4,
+        ship.height * 4
+      );
 
-      ctx.beginPath();
-      ctx.arc(ship.x, ship.y, ship.radius, 0, Math.PI * 2);
-      ctx.strokeStyle = ship.color;
-      ctx.lineWidth = 2;
-      ctx.stroke();
+      ctx.fillStyle = ship.color;
+      ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
     }
 
     // Move ship to a target planet
     function moveShipTo(target) {
-      const dx = target.x - ship.x;
-      const dy = target.y - ship.y;
+      const dx = target.x - (ship.x + ship.width / 2);
+      const dy = target.y - (ship.y + ship.height / 2);
       const distance = Math.sqrt(dx * dx + dy * dy);
       const speed = 2; // Adjust speed as needed
       const steps = distance / speed;
@@ -178,8 +191,8 @@
       const interval = setInterval(() => {
         if (currentStep >= steps) {
           clearInterval(interval);
-          ship.x = target.x;
-          ship.y = target.y;
+          ship.x = target.x - ship.width / 2;
+          ship.y = target.y - ship.height / 2;
           openMenu(target);
         } else {
           ship.x += stepX;
