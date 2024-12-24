@@ -104,7 +104,7 @@
         const distance = 100 + Math.random() * Math.min(canvas.width, canvas.height) * 0.3;
         const x = centerX + Math.cos(angle) * distance;
         const y = centerY + Math.sin(angle) * distance;
-        planets.push({ x, y, radius: 20, color: '#00bfff', name: `Planet ${i + 1}` });
+        planets.push({ x, y, radius: 20, color: ['#ffcc00', '#00bfff', '#ff3399'][i % 3], name: `Planet ${i + 1}` });
       }
 
       // Place ship at the Prime Planet
@@ -116,11 +116,12 @@
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw star chart lines
-      ctx.strokeStyle = '#555555';
-      ctx.lineWidth = 1;
+      // Draw star chart lines with breaks
       planets.forEach((planet, index) => {
         for (let j = index + 1; j < planets.length; j++) {
+          ctx.setLineDash([5, 15]); // Create dashed lines
+          ctx.strokeStyle = ['#555555', '#aaaaaa'][j % 2];
+          ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(planet.x, planet.y);
           ctx.lineTo(planets[j].x, planets[j].y);
@@ -128,8 +129,18 @@
         }
       });
 
-      // Draw planets
+      // Draw planets with glow effect
       planets.forEach(planet => {
+        // Glow effect
+        const gradient = ctx.createRadialGradient(planet.x, planet.y, 0, planet.x, planet.y, planet.radius * 3);
+        gradient.addColorStop(0, `${planet.color}33`); // Light glow
+        gradient.addColorStop(1, '#00000000'); // Fade to transparent
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(planet.x, planet.y, planet.radius * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Planet border
         ctx.beginPath();
         ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
         ctx.strokeStyle = planet.color;
@@ -137,7 +148,15 @@
         ctx.stroke();
       });
 
-      // Draw ship
+      // Draw ship with glow
+      const shipGlow = ctx.createRadialGradient(ship.x, ship.y, 0, ship.x, ship.y, ship.radius * 3);
+      shipGlow.addColorStop(0, '#00bfff33');
+      shipGlow.addColorStop(1, '#00000000');
+      ctx.fillStyle = shipGlow;
+      ctx.beginPath();
+      ctx.arc(ship.x, ship.y, ship.radius * 3, 0, Math.PI * 2);
+      ctx.fill();
+
       ctx.beginPath();
       ctx.arc(ship.x, ship.y, ship.radius, 0, Math.PI * 2);
       ctx.strokeStyle = ship.color;
