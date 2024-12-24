@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Space Adventure Game</title>
-  <link rel="stylesheet" href="betastyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Adventure Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Navigation Link -->
-  <a id="index.html" href="/">Home</a>
+    <!-- Navigation -->
+    <a id="homeLink" href="/">Home</a>
 
-  <!-- Map Container -->
-  <div id="mapContainer">
-    <canvas id="mapCanvas"></canvas>
+    <!-- Game Canvas Container -->
+    <div id="mapContainer">
+        <canvas id="mapCanvas"></canvas>
 
-    <!-- Planet Menu -->
-    <div id="planetMenu">
-      <h2 id="planetName">Welcome to the Planet</h2>
-      <div id="planetActions">
-        <!-- Action buttons will be dynamically added here -->
-      </div>
-      <button onclick="leavePlanet()">Leave Planet</button>
+        <!-- HUD -->
+        <div id="hud">
+            <p>Health: <span id="health">100</span></p>
+            <p>Fuel: <span id="fuel">50</span></p>
+            <p>Credits: <span id="credits">500</span></p>
+            <p id="currentMission">Mission: None</p>
+        </div>
+
+        <!-- Travel Bar -->
+        <div id="travelBar">
+            <div id="progress"></div>
+        </div>
+
+        <!-- Planet Menu -->
+        <div id="planetMenu">
+            <h2 id="planetName">Welcome to the Planet</h2>
+            <div id="planetActions">
+                <!-- Action buttons dynamically added here -->
+            </div>
+            <button onclick="leavePlanet()">Leave Planet</button>
+        </div>
     </div>
 
-    <!-- Travel Bar -->
-    <div id="travelBar">
-      <div id="progress"></div>
-    </div>
+    <!-- Footer -->
+    <footer id="footer">
+        <p>The Distant Future</p>
+    </footer>
 
-    <!-- HUD -->
-    <div id="hud">
-      <p>Health: <span id="health">100</span></p>
-      <p>Fuel: <span id="fuel">50</span></p>
-      <p>Credits: <span id="credits">500</span></p>
-      <p id="currentMission">Mission: None</p>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer id="footer">
-    The Distant Future
-  </footer>
-
-  <script src="betascript.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
