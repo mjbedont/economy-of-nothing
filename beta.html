@@ -7,18 +7,8 @@
   <link rel="stylesheet" href="betastyle.css">
 </head>
 <body>
-  <!-- HUD -->
-  <div id="hud">
-    <p>Health: <span id="health">100</span></p>
-    <p>Fuel: <span id="fuel">50</span></p>
-    <p>Credits: <span id="credits">500</span></p>
-    <p id="currentMission">Mission: None</p>
-  </div>
-
-  <!-- Travel Bar -->
-  <div id="travelBar">
-    <div id="progress"></div>
-  </div>
+  <!-- Navigation Link -->
+  <a id="index.html" href="/">Home</a>
 
   <!-- Map Container -->
   <div id="mapContainer">
@@ -33,21 +23,24 @@
       <button onclick="leavePlanet()">Leave Planet</button>
     </div>
 
-    <!-- Pause Menu -->
-    <div id="pauseMenu">
-      <h2>Game Paused</h2>
-      <button onclick="resumeGame()">Resume</button>
-      <button onclick="openSettings()">Settings</button>
+    <!-- Travel Bar -->
+    <div id="travelBar">
+      <div id="progress"></div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+      <p>Health: <span id="health">100</span></p>
+      <p>Fuel: <span id="fuel">50</span></p>
+      <p>Credits: <span id="credits">500</span></p>
+      <p id="currentMission">Mission: None</p>
     </div>
   </div>
 
-  <!-- Mute Button -->
-  <button id="muteButton" onclick="toggleMute()">Mute</button>
-
-  <!-- Background Music -->
-  <audio id="bgMusic" loop>
-    <source src="background-music.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Footer -->
+  <footer id="footer">
+    The Distant Future
+  </footer>
 
   <script src="betascript.js"></script>
 </body>
