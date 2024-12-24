@@ -72,11 +72,6 @@ function generatePlanets() {
       distanceFromPrime: Math.round(distance / 50), // Relative distance
     });
   }
-
-  // Center the ship on Prime Planet
-  const primePlanet = planets[0];
-  ship.x = primePlanet.x - ship.width / 2;
-  ship.y = primePlanet.y - ship.height / 2;
 }
 
 // Redraw planets and ship within the bounds
@@ -161,74 +156,17 @@ function showMenuMessage(message) {
   actionsContainer.prepend(messageElement);
 }
 
-// Buy fuel action
-function buyFuel(planet, fuelPrice) {
-  const unitsToBuy = Math.min(10, Math.floor(credits / fuelPrice)); // Allow buying up to 10 units
-  if (unitsToBuy > 0) {
-    fuel += unitsToBuy;
-    credits -= unitsToBuy * fuelPrice;
-    showMenuMessage(`Bought ${unitsToBuy} fuel for ${unitsToBuy * fuelPrice} credits.`);
-    updateHUD();
-  } else {
-    showMenuMessage('Not enough credits to buy fuel!');
+// Initialize the game, opening Planet Prime menu on start
+function initializeGame() {
+  resizeCanvas(); // Ensure the canvas is correctly sized
+  const primePlanet = planets.find((planet) => planet.name === 'Prime Planet');
+  if (primePlanet) {
+    ship.x = primePlanet.x - ship.width / 2; // Position the ship on Prime Planet
+    ship.y = primePlanet.y - ship.height / 2;
+    openMenu(primePlanet); // Open the menu for Planet Prime
   }
-}
-
-// Select a job
-function selectJob() {
-  const availablePlanets = planets.filter((planet) => planet.name !== 'Prime Planet');
-  currentJob = {
-    targetPlanet: availablePlanets[Math.floor(Math.random() * availablePlanets.length)],
-    reward: 100,
-  };
-  showMenuMessage(`Job assigned! Travel to ${currentJob.targetPlanet.name}.`);
-  updateHUD();
-}
-
-// Complete job mission
-function completeMission() {
-  showMenuMessage(`Mission complete! You earned ${currentJob.reward} credits.`);
-  credits += currentJob.reward;
-  currentJob = null;
-  updateHUD();
-}
-
-// Ship movement animation
-function moveShipTo(targetPlanet) {
-  const dx = targetPlanet.x - (ship.x + ship.width / 2);
-  const dy = targetPlanet.y - (ship.y + ship.height / 2);
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  const fuelCost = Math.ceil(distance / 50); // Fuel cost based on distance
-  if (fuel < fuelCost) {
-    showMenuMessage('Not enough fuel to travel!');
-    return;
-  }
-
-  fuel -= fuelCost;
-  updateHUD();
-
-  const steps = Math.ceil(distance / 5); // Adjust speed by changing the divisor
-  const stepX = dx / steps;
-  const stepY = dy / steps;
-
-  let currentStep = 0;
-
-  const interval = setInterval(() => {
-    if (currentStep >= steps) {
-      clearInterval(interval); // Stop animation
-      ship.x = targetPlanet.x - ship.width / 2; // Snap ship to target
-      ship.y = targetPlanet.y - ship.height / 2;
-
-      // Open planet menu on arrival
-      openMenu(targetPlanet);
-    } else {
-      // Move the ship incrementally
-      ship.x += stepX;
-      ship.y += stepY;
-      currentStep++;
-      draw(); // Redraw the canvas to update ship position
-    }
-  }, 16); // Approx. 60 FPS
+  updateHUD(); // Update the HUD to reflect initial stats
+  draw(); // Draw the initial game state
 }
 
 // Handle planet clicks
@@ -246,4 +184,4 @@ canvas.addEventListener('click', (event) => {
 // Initialize the game
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
-updateHUD();
+initializeGame();
