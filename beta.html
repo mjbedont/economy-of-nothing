@@ -4,22 +4,73 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Map and Movement Test</title>
-  <link rel="stylesheet" href="betastyle.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #mapContainer {
+      position: relative;
+      border: 2px solid #ffffff;
+      border-radius: 5px;
+      width: 90%;
+      height: 90%;
+      max-width: 1200px;
+      max-height: 800px;
+      overflow: hidden;
+      background-color: #000;
+    }
+    canvas {
+      display: block;
+      background-color: #000;
+      width: 100%;
+      height: 100%;
+    }
+    #planetMenu {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(20, 20, 20, 0.9);
+      color: #ffcc00;
+      border: 2px solid #ffcc00;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: center;
+      display: none;
+      font-family: monospace;
+    }
+    #planetMenu button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #ffcc00;
+      border: 1px solid #ffcc00;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: monospace;
+    }
+    #planetMenu button:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
 <body>
   <div id="mapContainer">
-    <div id="hud">
-      <p>Health: <span id="health">100</span></p>
-      <p>Cargo: <span id="cargo">10</span></p>
-      <p>Fuel: <span id="fuel">50</span></p>
-      <p>Credits: <span id="credits">500</span></p>
-    </div>
     <canvas id="mapCanvas"></canvas>
     <div id="planetMenu">
       <p id="planetName">Welcome to the Planet</p>
-      <button onclick="closeMenu()">Leave</button>
+      <div id="planetActions">
+        <!-- Buttons dynamically added here -->
+      </div>
+      <button onclick="leavePlanet()">Leave Planet</button>
     </div>
   </div>
-  <script src="betascript.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
