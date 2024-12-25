@@ -134,14 +134,14 @@ function openMenu(planet) {
   actionsContainer.innerHTML = '';
 
   // Buy fuel
-  const fuelPrice = planet.name === 'Prime Planet' ? 2 : planet.distanceFromPrime + 1;
+  const fuelPrice = planet.name === 'Planet Prime' ? 2 : planet.distanceFromPrime + 1;
   const buyFuelButton = document.createElement('button');
   buyFuelButton.textContent = `Buy Fuel (${fuelPrice} credits/unit)`;
   buyFuelButton.onclick = () => buyFuel(fuelPrice);
   actionsContainer.appendChild(buyFuelButton);
 
   // Planet Prime actions
-  if (planet.name === 'Prime Planet') {
+  if (planet.name === 'Planet Prime') {
     const chooseJobButton = document.createElement('button');
     chooseJobButton.textContent = 'Choose Job';
     chooseJobButton.onclick = chooseJob;
@@ -223,7 +223,7 @@ function chooseJob() {
   showMenuMessage('Choose a job:');
 
   planets
-    .filter((planet) => planet.name !== 'Prime Planet')
+    .filter((planet) => planet.name !== 'Planet Prime')
     .forEach((planet) => {
       const healthCost = Math.ceil(planet.distanceFromPrime / 2);
       const reward = planet.distanceFromPrime * 10 + healthCost * 10;
