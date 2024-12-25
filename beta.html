@@ -7,30 +7,57 @@
     <link rel="stylesheet" href="betastyle.css">
 </head>
 <body>
-    <!-- Moment-to-Moment Gameplay HUD -->
-    <div id="momentHUD" class="hud">
-        <p id="fuel">FUEL: 50</p>
-        <p id="health">HEALTH: 100</p>
-        <p id="credits">CREDITS: 500</p>
-        <p id="job">JOB: NONE</p>
-    </div>
+    <!-- Header -->
+    <header>
+        <h1>Galaxy Explorer</h1>
+    </header>
 
-    <!-- Meta-Game Progression HUD -->
-    <div id="metaHUD" class="hud">
-        <p id="promotions">PROMOTIONS: 0</p>
-        <p id="dispatches">DISPATCHES: 0</p>
-        <p id="followers">FOLLOWERS: 0</p>
-        <p id="planetsVisited">PLANETS VISITED: 0</p>
-        <p id="pod">POD: N/A</p>
-    </div>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Game Info</a></li>
+            <li><a href="#">Leaderboard</a></li>
+        </ul>
+    </nav>
 
-    <!-- Game Map and Ship Canvas -->
-    <div id="mapContainer">
-        <canvas id="mapCanvas"></canvas>
-    </div>
+    <!-- Main Content -->
+    <main>
+        <!-- Instructions -->
+        <section id="instructions">
+            <h2>How to Play</h2>
+            <p>Navigate the galaxy, complete jobs, and manage resources to explore new planets and climb the leaderboard.</p>
+        </section>
 
-    <!-- In-Game Notifications -->
-    <div id="messageBox"></div>
+        <!-- Gameplay Box -->
+        <div id="gameBox">
+            <!-- HUD -->
+            <div id="hud">
+                <p id="fuel">Fuel: 50</p>
+                <p id="health">Health: 100</p>
+                <p id="credits">Credits: 500</p>
+                <p id="job">Job: None</p>
+            </div>
+
+            <!-- Gameplay Canvas -->
+            <div id="mapContainer">
+                <canvas id="mapCanvas"></canvas>
+            </div>
+
+            <!-- Lower Third for Messages and Menus -->
+            <div id="lowerThird">
+                <div id="messageBox"></div>
+                <div id="menuBox">
+                    <!-- Planet Menu Content -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Galaxy Explorer. All rights reserved.</p>
+    </footer>
 
     <script src="betascript.js"></script>
 </body>
