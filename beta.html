@@ -3,24 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beta Game</title>
+    <title>Galaxy Explorer</title>
     <link rel="stylesheet" href="betastyle.css">
 </head>
 <body>
+    <!-- Moment-to-Moment HUD -->
+    <div id="momentHUD" class="hud">
+        <p id="fuel">FUEL: 50</p>
+        <p id="health">HEALTH: 100</p>
+        <p id="credits">CREDITS: 500</p>
+        <p id="job">JOB: NONE</p>
+    </div>
+
+    <!-- Meta-Game HUD -->
+    <div id="metaHUD" class="hud">
+        <p id="promotions">PROMOTIONS: 0</p>
+        <p id="dispatches">DISPATCHES: 0</p>
+        <p id="followers">FOLLOWERS: 0</p>
+        <p id="planetsVisited">PLANETS VISITED: 0</p>
+        <p id="pod">POD: N/A</p>
+    </div>
+
+    <!-- Canvas for Map and Gameplay -->
     <div id="mapContainer">
         <canvas id="mapCanvas"></canvas>
     </div>
 
-    <div id="planetMenu" class="hidden">
-        <h3 id="planetName"></h3>
-        <div id="planetActions"></div>
-    </div>
-
-    <div id="hud">
-        <p>Fuel: <span id="fuel">0</span></p>
-        <p>Credits: <span id="credits">0</span></p>
-        <p>Job: <span id="job">None</span></p>
-    </div>
+    <!-- In-Game Message Box -->
+    <div id="messageBox"></div>
 
     <script src="betascript.js"></script>
 </body>
