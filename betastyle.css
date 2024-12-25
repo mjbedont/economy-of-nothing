@@ -1,76 +1,165 @@
-/* General Styling */
+/* General Styles */
 body, html {
     margin: 0;
     padding: 0;
-    background-color: #000;
     font-family: 'Orbitron', monospace;
-    overflow: hidden;
-}
-
-/* HUD Styling */
-.hud {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 2px solid rgba(0, 255, 255, 0.5);
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-    padding: 10px;
-    z-index: 100;
     color: #fff;
+    background-color: #000;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.hud p {
-    margin: 5px 0;
-    font-size: 14px;
-    text-transform: uppercase;
+/* Header */
+header {
+    background-color: #111;
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
     text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
 }
 
-#momentHUD {
+/* Navigation Bar */
+nav {
+    background-color: #222;
+    padding: 10px 20px;
+    box-shadow: 0 0 10px #ff00ff;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    justify-content: center;
+}
+
+nav li {
+    margin: 0 10px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+}
+
+nav a:hover {
+    color: #ff00ff;
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Instructions Section */
+#instructions {
+    background-color: #111;
+    padding: 20px;
+    box-shadow: 0 0 10px #00bfff;
+}
+
+#instructions h2 {
+    margin-top: 0;
+    color: #00bfff;
+    text-shadow: 0 0 5px #00bfff;
+}
+
+/* Gameplay Box */
+#gameBox {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* HUD */
+#hud {
+    position: absolute;
     top: 10px;
     left: 10px;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #00ff00;
 }
 
-#metaHUD {
-    top: 10px;
-    right: 10px;
+#hud p {
+    margin: 5px 0;
+    font-size: 14px;
+    text-shadow: 0 0 5px #00ff00;
 }
 
-/* Canvas Styling */
+/* Canvas */
+#mapContainer {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    box-shadow: 0 0 10px #00ff00 inset;
+}
+
 #mapCanvas {
-    display: block;
     width: 100%;
     height: 100%;
-    background-image: repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.1),
-        rgba(255, 255, 255, 0.1) 1px,
-        transparent 1px,
-        transparent 20px
-    ),
-    repeating-linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.1),
-        rgba(255, 255, 255, 0.1) 1px,
-        transparent 1px,
-        transparent 20px
-    );
+}
+
+/* Lower Third */
+#lowerThird {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 10px 20px;
+    border-top: 2px solid #ff00ff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px #ff00ff;
 }
 
 /* Message Box */
 #messageBox {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 1px solid #ff00ff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-    font-size: 14px;
-    color: #ffff00;
-    padding: 10px;
-    max-height: 150px;
+    flex: 1;
     overflow-y: auto;
-    z-index: 100;
+    padding: 5px;
+    border-bottom: 1px solid #ff00ff;
+    box-shadow: 0 0 10px #ff00ff inset;
+}
+
+/* Menu Box */
+#menuBox {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px #00ff00 inset;
+}
+
+/* Footer */
+footer {
+    background-color: #111;
+    text-align: center;
+    padding: 10px 20px;
+    box-shadow: 0 0 10px #00bfff;
+}
+
+footer p {
+    margin: 0;
+    font-size: 12px;
+    text-shadow: 0 0 5px #00bfff;
 }
