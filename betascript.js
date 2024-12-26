@@ -133,14 +133,14 @@ function openMenu(planet) {
   planetNameElement.textContent = `Welcome to ${planet.name}`;
   actionsContainer.innerHTML = '';
 
-  // Buy fuel
+  // Add Buy Fuel button
   const fuelPrice = planet.name === 'Planet Prime' ? 2 : planet.distanceFromPrime + 1;
   const buyFuelButton = document.createElement('button');
   buyFuelButton.textContent = `Buy Fuel (${fuelPrice} credits/unit)`;
   buyFuelButton.onclick = () => buyFuel(fuelPrice);
   actionsContainer.appendChild(buyFuelButton);
 
-  // Planet Prime actions
+  // Planet Prime-specific actions
   if (planet.name === 'Planet Prime') {
     const chooseJobButton = document.createElement('button');
     chooseJobButton.textContent = 'Choose Job';
@@ -193,71 +193,7 @@ function buyFuel(pricePerUnit) {
   }
 }
 
-// Patch up health
-function patchUp() {
-  const maxHeal = Math.min(10, Math.floor(credits / 10));
-  if (maxHeal > 0) {
-    health += maxHeal;
-    credits -= maxHeal * 10;
-    showMenuMessage(`Patched up ${maxHeal} health for ${maxHeal * 10} credits.`);
-    updateHUD();
-  } else {
-    showMenuMessage('Not enough credits!');
-  }
-}
-
-// Buy promotion
-function buyPromotion() {
-  if (credits >= 100) {
-    credits -= 100;
-    showMenuMessage('Promotion bought! Your rank increases.');
-    updateHUD();
-  } else {
-    showMenuMessage('Not enough credits to buy a promotion!');
-  }
-}
-
-// Choose job
-function chooseJob() {
-  actionsContainer.innerHTML = '';
-  showMenuMessage('Choose a job:');
-
-  planets
-    .filter((planet) => planet.name !== 'Planet Prime')
-    .forEach((planet) => {
-      const healthCost = Math.ceil(planet.distanceFromPrime / 2);
-      const reward = planet.distanceFromPrime * 10 + healthCost * 10;
-
-      const jobButton = document.createElement('button');
-      jobButton.textContent = `Travel to ${planet.name} (${reward} credits, ${healthCost} health)`;
-      jobButton.onclick = () => {
-        currentJob = { targetPlanet: planet, reward, healthCost };
-        showMenuMessage(`Job accepted: Travel to ${planet.name}.`);
-        updateHUD();
-      };
-      actionsContainer.appendChild(jobButton);
-    });
-
-  const backButton = document.createElement('button');
-  backButton.textContent = 'Back';
-  backButton.onclick = () => openMenu(planets[0]);
-  actionsContainer.appendChild(backButton);
-}
-
-// Complete job
-function completeJob() {
-  if (health >= currentJob.healthCost) {
-    health -= currentJob.healthCost;
-    credits += currentJob.reward;
-    showMenuMessage(`Job complete: ${currentJob.reward} credits earned, ${currentJob.healthCost} health lost.`);
-    currentJob = null;
-    updateHUD();
-  } else {
-    showMenuMessage('Not enough health to complete the job!');
-  }
-}
-
-// Ship movement
+// Ship movement with animation and menu trigger
 function moveShipTo(targetPlanet) {
   const dx = targetPlanet.x - (ship.x + ship.width / 2);
   const dy = targetPlanet.y - (ship.y + ship.height / 2);
