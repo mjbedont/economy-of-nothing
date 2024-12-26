@@ -180,19 +180,6 @@ function closeMenu() {
   planetMenu.style.display = 'none';
 }
 
-// Buy fuel
-function buyFuel(pricePerUnit) {
-  const unitsToBuy = Math.min(10, Math.floor(credits / pricePerUnit));
-  if (unitsToBuy > 0) {
-    fuel += unitsToBuy;
-    credits -= unitsToBuy * pricePerUnit;
-    showMenuMessage(`Bought ${unitsToBuy} fuel for ${unitsToBuy * pricePerUnit} credits.`);
-    updateHUD();
-  } else {
-    showMenuMessage('Not enough credits!');
-  }
-}
-
 // Ship movement with animation and menu trigger
 function moveShipTo(targetPlanet) {
   const dx = targetPlanet.x - (ship.x + ship.width / 2);
@@ -201,7 +188,7 @@ function moveShipTo(targetPlanet) {
   const fuelCost = Math.ceil(distance / 50);
 
   if (fuel < fuelCost) {
-    showMenuMessage('Not enough fuel!');
+    alert('Not enough fuel!');
     return;
   }
 
