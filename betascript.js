@@ -131,16 +131,14 @@ function updateHUD() {
 // Open the planet menu
 function openMenu(planet) {
   planetNameElement.textContent = `Welcome to ${planet.name}`;
-  actionsContainer.innerHTML = '';
+  actionsContainer.innerHTML = ''; // Clear old actions
 
-  // Add Buy Fuel button
   const fuelPrice = planet.name === 'Planet Prime' ? 2 : planet.distanceFromPrime + 1;
   const buyFuelButton = document.createElement('button');
   buyFuelButton.textContent = `Buy Fuel (${fuelPrice} credits/unit)`;
   buyFuelButton.onclick = () => buyFuel(fuelPrice);
   actionsContainer.appendChild(buyFuelButton);
 
-  // Planet Prime-specific actions
   if (planet.name === 'Planet Prime') {
     const chooseJobButton = document.createElement('button');
     chooseJobButton.textContent = 'Choose Job';
@@ -158,7 +156,6 @@ function openMenu(planet) {
     actionsContainer.appendChild(promotionButton);
   }
 
-  // Job completion
   if (currentJob && planet.name === currentJob.targetPlanet.name) {
     const completeJobButton = document.createElement('button');
     completeJobButton.textContent = 'Complete Job';
@@ -166,7 +163,6 @@ function openMenu(planet) {
     actionsContainer.appendChild(completeJobButton);
   }
 
-  // Leave button
   const leaveButton = document.createElement('button');
   leaveButton.textContent = 'Leave';
   leaveButton.onclick = closeMenu;
@@ -175,48 +171,12 @@ function openMenu(planet) {
   planetMenu.style.display = 'block';
 }
 
-// Close menu
+// Close the planet menu
 function closeMenu() {
   planetMenu.style.display = 'none';
 }
 
-// Ship movement with animation and menu trigger
-function moveShipTo(targetPlanet) {
-  const dx = targetPlanet.x - (ship.x + ship.width / 2);
-  const dy = targetPlanet.y - (ship.y + ship.height / 2);
-  const distance = Math.sqrt(dx ** 2 + dy ** 2);
-  const fuelCost = Math.ceil(distance / 50);
-
-  if (fuel < fuelCost) {
-    alert('Not enough fuel!');
-    return;
-  }
-
-  fuel -= fuelCost;
-  updateHUD();
-
-  const steps = Math.ceil(distance / 5);
-  const stepX = dx / steps;
-  const stepY = dy / steps;
-
-  let currentStep = 0;
-  const interval = setInterval(() => {
-    if (currentStep >= steps) {
-      clearInterval(interval);
-      ship.x = targetPlanet.x - ship.width / 2;
-      ship.y = targetPlanet.y - ship.height / 2;
-
-      openMenu(targetPlanet);
-    } else {
-      ship.x += stepX;
-      ship.y += stepY;
-      currentStep++;
-      draw();
-    }
-  }, 16);
-}
-
-// Handle clicks
+// Handle planet clicks
 canvas.addEventListener('click', (event) => {
   const { offsetX, offsetY } = event;
   planets.forEach((planet) => {
@@ -231,7 +191,7 @@ canvas.addEventListener('click', (event) => {
 // Initialize the game
 function initializeGame() {
   resizeCanvas();
-  openMenu(planets[0]);
+  openMenu(planets[0]); // Show Planet Prime menu on load
   updateHUD();
 }
 
