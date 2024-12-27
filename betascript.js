@@ -176,9 +176,48 @@ function closeMenu() {
   planetMenu.style.display = 'none';
 }
 
-// Handle planet clicks
+// Ship movement with animation and menu trigger
+function moveShipTo(targetPlanet) {
+  const dx = targetPlanet.x - (ship.x + ship.width / 2);
+  const dy = targetPlanet.y - (ship.y + ship.height / 2);
+  const distance = Math.sqrt(dx ** 2 + dy ** 2);
+  const fuelCost = Math.ceil(distance / 50);
+
+  if (fuel < fuelCost) {
+    alert('Not enough fuel!');
+    return;
+  }
+
+  fuel -= fuelCost;
+  updateHUD();
+
+  const steps = Math.ceil(distance / 5);
+  const stepX = dx / steps;
+  const stepY = dy / steps;
+
+  let currentStep = 0;
+  const interval = setInterval(() => {
+    if (currentStep >= steps) {
+      clearInterval(interval);
+      ship.x = targetPlanet.x - ship.width / 2;
+      ship.y = targetPlanet.y - ship.height / 2;
+
+      openMenu(targetPlanet);
+    } else {
+      ship.x += stepX;
+      ship.y += stepY;
+      currentStep++;
+      draw();
+    }
+  }, 16);
+}
+
+// Handle clicks
 canvas.addEventListener('click', (event) => {
-  const { offsetX, offsetY } = event;
+  const rect = canvas.getBoundingClientRect();
+  const offsetX = event.clientX - rect.left;
+  const offsetY = event.clientY - rect.top;
+
   planets.forEach((planet) => {
     const dx = offsetX - planet.x;
     const dy = offsetY - planet.y;
