@@ -41,6 +41,7 @@ function generatePlanets() {
     color: '#ff6600',
     name: 'Planet Prime',
     distanceFromPrime: 0,
+    missionObjective: null,
   });
 
   for (let i = 0; i < 5; i++) {
@@ -66,6 +67,7 @@ function generatePlanets() {
       color: ['#ffcc00', '#00bfff', '#ff3399'][i % 3],
       name: `Planet ${i + 1}`,
       distanceFromPrime: Math.round(Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2) / 50),
+      missionObjective: `Mission ${i + 1}: Complete Task`,
     });
   }
 
@@ -139,21 +141,11 @@ function openMenu(planet) {
   buyFuelButton.onclick = () => buyFuel(fuelPrice);
   actionsContainer.appendChild(buyFuelButton);
 
-  if (planet.name === 'Planet Prime') {
-    const chooseJobButton = document.createElement('button');
-    chooseJobButton.textContent = 'Choose Job';
-    chooseJobButton.onclick = chooseJob;
-    actionsContainer.appendChild(chooseJobButton);
-
-    const patchUpButton = document.createElement('button');
-    patchUpButton.textContent = 'Patch Up (10 credits/health)';
-    patchUpButton.onclick = patchUp;
-    actionsContainer.appendChild(patchUpButton);
-
-    const promotionButton = document.createElement('button');
-    promotionButton.textContent = 'Buy Promotion (100 credits)';
-    promotionButton.onclick = buyPromotion;
-    actionsContainer.appendChild(promotionButton);
+  if (planet.missionObjective && (!currentJob || planet.name !== currentJob.targetPlanet.name)) {
+    const missionButton = document.createElement('button');
+    missionButton.textContent = `Take Mission: ${planet.missionObjective}`;
+    missionButton.onclick = () => acceptMission(planet);
+    actionsContainer.appendChild(missionButton);
   }
 
   if (currentJob && planet.name === currentJob.targetPlanet.name) {
@@ -176,7 +168,40 @@ function closeMenu() {
   planetMenu.style.display = 'none';
 }
 
-// Ship movement with animation and menu trigger
+// Accept a mission
+function acceptMission(planet) {
+  currentJob = {
+    targetPlanet: planet,
+    reward: 100 + planet.distanceFromPrime * 10,
+    healthCost: planet.distanceFromPrime * 5,
+  };
+  updateHUD();
+  closeMenu();
+}
+
+// Complete a job
+function completeJob() {
+  if (!currentJob) return;
+  credits += currentJob.reward;
+  health -= currentJob.healthCost;
+  currentJob = null;
+  updateHUD();
+  alert('Job complete! You earned credits.');
+  closeMenu();
+}
+
+// Buy fuel
+function buyFuel(price) {
+  if (credits < price) {
+    alert('Not enough credits!');
+    return;
+  }
+  credits -= price;
+  fuel++;
+  updateHUD();
+}
+
+// Handle ship movement and menu trigger
 function moveShipTo(targetPlanet) {
   const dx = targetPlanet.x - (ship.x + ship.width / 2);
   const dy = targetPlanet.y - (ship.y + ship.height / 2);
