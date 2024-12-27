@@ -57,6 +57,15 @@ header {
     background: rgba(0, 0, 0, 0.7);
 }
 
+/* Highlight the active page link */
+.sidebar a.active {
+    background-color: #FFD700; /* Highlight color */
+    color: black;             /* Text color */
+    font-weight: bold;        /* Bold text for emphasis */
+    border-color: black;      /* Change border for visibility */
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Subtle glow */
+}
+
 .sidebar a:hover {
     background: #FFD700;
     color: black;
@@ -274,5 +283,6 @@ header {
         height: auto;
     }
 }
+
 
 
