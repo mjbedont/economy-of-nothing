@@ -227,7 +227,7 @@ function moveShipTo(targetPlanet) {
       ship.x = targetPlanet.x - ship.width / 2;
       ship.y = targetPlanet.y - ship.height / 2;
 
-      openMenu(targetPlanet);
+      openMenu(targetPlanet); // Automatically open menu upon arrival
     } else {
       ship.x += stepX;
       ship.y += stepY;
@@ -255,8 +255,9 @@ canvas.addEventListener('click', (event) => {
 // Initialize the game
 function initializeGame() {
   resizeCanvas();
-  openMenu(planets[0]); // Show Planet Prime menu on load
+  draw();
   updateHUD();
+  openMenu(planets[0]); // Open Planet Prime menu on load
 }
 
 window.addEventListener('resize', resizeCanvas);
