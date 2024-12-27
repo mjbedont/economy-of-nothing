@@ -47,7 +47,11 @@
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
 
-                    const name = doc.querySelector('h1')?.textContent || "Unknown Human";
+                    const name = doc.querySelector('.subject-title')?.textContent.trim() || ""; // Updated logic
+                    if (!name) {
+                        console.warn(`Title not found for ${page}`);
+                    }
+
                     const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
                     const imageSrc = doc.querySelector('img')?.getAttribute('src') || "/media/images/coming_soon.png";
 
