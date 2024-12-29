@@ -130,6 +130,25 @@ main p, .episode-details p {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+/* Video Container */
+main .video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto; /* Centers the container and adds spacing */
+    max-width: 800px; /* Limits the container width */
+    padding: 10px; /* Optional: Adds padding around the video */
+    border: 2px solid var(--primary-color); /* Optional: Adds a border for styling */
+    border-radius: 10px; /* Optional: Rounds the corners */
+}
+
+main .video-container iframe {
+    width: 100%;
+    height: 450px; /* Adjust height to maintain aspect ratio */
+    max-width: 800px; /* Matches container width */
+    border-radius: 5px; /* Optional: Rounds the video corners */
+}
+
 /* Shared Box Styles */
 .shared-box {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
