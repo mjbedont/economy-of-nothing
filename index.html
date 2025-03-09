@@ -8,19 +8,6 @@
     <meta name="author" content="The Economy of Nothing Team">
     <title>The Economy of Nothing - A Dystopian Odyssey</title>
     <link rel="stylesheet" href="style.css">
-    <script defer>
-        document.addEventListener("DOMContentLoaded", () => {
-            fetch("/.netlify/functions/visitor-counter")
-                .then(response => response.text())
-                .then(count => {
-                    document.getElementById("visitor-count").textContent = count;
-                })
-                .catch(error => {
-                    console.error("Failed to fetch visitor count:", error);
-                    document.getElementById("visitor-count").textContent = "Error";
-                });
-        });
-    </script>
 </head>
 <body>
     <!-- Header Section -->
@@ -29,14 +16,12 @@
         <p>A Dystopian Odyssey Through the Corporate Cosmos</p>
     </header>
 
-    <!-- Navigation Section -->
+    <!-- Navigation (No Home Link on Home Page) -->
     <nav>
-        <a href="/episodes.html">Episodes</a>
+        <a href="/shows.html">Shows</a>
         <a href="/codex.html">Codex</a>
-        <a href="/pizzaparty.html">Pizza-Party</a>
-        <a href="/cosmicmap.html">Cosmic-Map</a>
-        <a href="/beta.html">beta</a>
-        <a href="/people.html">People</a>
+        <a href="/thelab.html">The Lab</a>
+        <a href="/recurrentrevenue.html">Friends & Benefits™</a>
     </nav>
 
     <!-- Main Content Section -->
@@ -44,6 +29,9 @@
         <h2>What Is <em>The Economy of Nothing</em>?</h2>
         <p>
             A satirical sci-fi series exploring life, greed, and survival in the distant future. Part biting societal critique, part intergalactic adventure, it’s a story that will make you laugh, think, and cringe—sometimes all at once.
+        </p>
+        <p>
+            If you've ever wondered what it would be like to **owe debt to a planet**, **negotiate with an AI lawyer**, or **buy a subscription to your own consciousness**, you’re in the right place.
         </p>
 
         <!-- Video Container -->
@@ -64,7 +52,7 @@
     <footer>
         <p>&copy; 56.009 Nothing Inc.</p>
         <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
-        <p class="visitor-counter">You are visitor number: <span id="visitor-count">Loading...</span></p>
+        <p class="visitor-counter">You are visitor number: <span id="visitor-count">56,009</span></p>
     </footer>
 </body>
 </html>
