@@ -69,6 +69,12 @@ header::after {
     100% { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes float {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
 /* Navigation */
 nav {
     display: flex;
@@ -97,6 +103,7 @@ nav a:hover {
 
 nav a:focus {
     outline: 2px solid var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
 }
 
 /* Main Content */
@@ -135,18 +142,56 @@ main .video-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px auto; /* Centers the container and adds spacing */
-    max-width: 800px; /* Limits the container width */
-    padding: 10px; /* Optional: Adds padding around the video */
-    border: 2px solid var(--primary-color); /* Optional: Adds a border for styling */
-    border-radius: 10px; /* Optional: Rounds the corners */
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 10px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
 }
 
 main .video-container iframe {
     width: 100%;
-    height: 450px; /* Adjust height to maintain aspect ratio */
-    max-width: 800px; /* Matches container width */
-    border-radius: 5px; /* Optional: Rounds the video corners */
+    height: 450px;
+    max-width: 800px;
+    border-radius: 5px;
+}
+
+/* External Platform Links */
+.external-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.external-links a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--background-dark-gradient);
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.external-links a:hover {
+    transform: scale(1.05);
+    background: var(--background-hover-gradient);
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.platform-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
 }
 
 /* Shared Box Styles */
@@ -158,38 +203,38 @@ main .video-container iframe {
 /* Episode Box */
 .episode-box {
     display: flex;
-    align-items: center; /* Vertically center content */
+    align-items: center;
     background: var(--background-dark-gradient);
     margin-bottom: 20px;
-    border-radius: 10px; /* Rounded corners */
-    padding: 15px; /* Inner spacing */
+    border-radius: 10px;
+    padding: 15px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .episode-box:hover {
-    transform: scale(1.05); /* Subtle scale on hover */
+    transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
     border-color: var(--secondary-color);
     background: var(--background-hover-gradient);
 }
 
 .episode-thumbnail {
-    width: 160px; /* Fixed width */
-    aspect-ratio: 16 / 9; /* Maintain 16:9 ratio */
+    width: 160px;
+    aspect-ratio: 16 / 9;
     flex-shrink: 0;
-    margin-right: 15px; /* Space between thumbnail and details */
+    margin-right: 15px;
     border-radius: 8px;
     object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-    border: 2px solid var(--primary-color); /* Add yellow border */
+    border: 2px solid var(--primary-color);
 }
 
 .episode-details {
-    flex: 1; /* Expand to fill remaining space */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center content */
+    justify-content: center;
     padding: 10px 15px;
 }
 
@@ -212,6 +257,31 @@ main .video-container iframe {
     transform: scale(1.05);
 }
 
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--background-dark);
+    color: var(--primary-color);
+    border-top: 2px solid var(--primary-color);
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: var(--secondary-color);
+}
+
+.visitor-counter span {
+    font-weight: bold;
+    color: var(--accent-color);
+    text-shadow: 0 0 5px var(--accent-color);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     body {
@@ -224,5 +294,8 @@ main .video-container iframe {
     .episode-box { flex-direction: column; }
     .episode-thumbnail { width: 100%; }
     main { padding: 20px; }
+    .external-links {
+        flex-direction: column;
+        align-items: center;
+    }
 }
-
