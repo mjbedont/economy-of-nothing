@@ -22,7 +22,7 @@
 body {
     margin: 0;
     font-family: var(--font-family);
-    background-color: #000; /* Fallback for background */
+    background-color: #000;
     background-image: url('cosmic_starfield.gif');
     background-repeat: no-repeat;
     background-position: center center;
@@ -31,7 +31,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow-y: auto; /* Allow vertical scrolling */
+    overflow-y: auto;
 }
 
 /* Header */
@@ -48,18 +48,18 @@ header h1 {
     text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--secondary-color);
     margin-bottom: 10px;
     animation: fade-in 1.5s ease-out forwards;
-    opacity: 0; /* Start hidden */
+    opacity: 0;
 }
 
 header::after {
-    content: "★"; /* Decorative element */
+    content: "★";
     display: block;
     font-size: 2rem;
     color: var(--primary-color);
     animation: float 5s ease-in-out infinite;
 }
 
-/* Fade-in animation */
+/* Fade-in Animation */
 .fade-in {
     animation: fade-in 1.5s ease-out forwards;
 }
@@ -115,7 +115,7 @@ main {
     padding: 40px;
     color: #FFFFFF;
     text-align: left;
-    overflow-y: auto; /* Allow scrolling within main content */
+    overflow-y: auto;
 }
 
 main h2, .episode-details h3 {
@@ -257,6 +257,50 @@ main .video-container iframe {
     transform: scale(1.05);
 }
 
+/* Patreon Button Styling */
+.patreon-button {
+    background: linear-gradient(135deg, #ff424d, #ff7a00);
+    color: #fff;
+    border: 2px solid #ff424d;
+    box-shadow: 0 0 20px rgba(255, 66, 77, 0.8), 0 0 40px rgba(255, 122, 0, 0.6);
+    padding: 16px 24px;
+    font-size: 1.3rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    text-align: center;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.patreon-button:hover {
+    background: linear-gradient(135deg, #ff7a00, #ff424d);
+    box-shadow: 0 0 30px rgba(255, 122, 0, 1), 0 0 60px rgba(255, 66, 77, 0.9);
+    transform: scale(1.05);
+    color: #fff;
+}
+
+/* Floating Patreon Button */
+.floating-patreon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff424d;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 0 15px rgba(255, 66, 77, 0.8), 0 0 30px rgba(255, 122, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 999;
+}
+
+.floating-patreon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 66, 77, 1), 0 0 50px rgba(255, 122, 0, 0.9);
+}
+
 /* Footer */
 footer {
     text-align: center;
@@ -285,8 +329,8 @@ footer a:hover {
 /* Responsive Design */
 @media (max-width: 768px) {
     body {
-        background-attachment: scroll; /* Fix for Safari mobile */
-        font-family: 'Arial', sans-serif; /* Avoid cursive fallback on Safari */
+        background-attachment: scroll;
+        font-family: 'Arial', sans-serif;
     }
 
     header h1 { font-size: 3rem; }
