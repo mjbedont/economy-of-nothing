@@ -5,6 +5,8 @@ body {
     font-family: 'Courier New', Courier, monospace, sans-serif;
     background-color: black;
     color: #FFD700;
+    font-size: 16px;
+    line-height: 1.6;
 }
 
 /* Starfield Background */
@@ -55,21 +57,21 @@ header {
     border-radius: 5px;
     text-align: center;
     background: rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease;
 }
 
-/* Highlight the active page link */
 .sidebar a.active {
-    background-color: #FFD700; /* Highlight color */
-    color: black;             /* Text color */
-    font-weight: bold;        /* Bold text for emphasis */
-    border-color: black;      /* Change border for visibility */
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Subtle glow */
+    background-color: #FFD700;
+    color: black;
+    font-weight: bold;
+    border-color: black;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
 }
 
 .sidebar a:hover {
     background: #FFD700;
     color: black;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.8); /* Glow effect */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
 }
 
 .sidebar a:focus {
@@ -131,92 +133,90 @@ header {
     }
 }
 
-/* Character Box for Humans Page */
+/* Character Box */
 .character-box {
     margin-bottom: 30px;
     padding: 15px;
-    background-color: #1a1a1a; /* Dark background */
-    border: 2px solid #FFD700; /* Golden border */
+    background-color: #1a1a1a;
+    border: 2px solid #FFD700;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
 }
 
-/* Character Name Hyperlinks */
 .character-box h2 a {
-    color: #FFD700; /* Golden color for the character names */
-    text-decoration: none; /* Remove the default underline */
-    font-weight: bold; /* Make the text stand out */
-    text-transform: uppercase; /* Capitalize the text */
-    letter-spacing: 1px; /* Space out the letters a bit for a sleek look */
-    transition: all 0.3s ease; /* Smooth transition for hover effect */
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
 }
 
 .character-box h2 a:hover {
-    color: #00FF00; /* Change to green on hover */
-    text-shadow: 0 0 10px #00FF00; /* Add a green glowing effect */
-    transform: scale(1.1); /* Slightly enlarge the text for emphasis */
+    color: #00FF00;
+    text-shadow: 0 0 10px #00FF00;
+    transform: scale(1.1);
 }
 
-/* Character Image Box */
 .character-box .character-image {
-    width: 120px; /* Set fixed width */
-    height: 120px; /* Set fixed height */
-    border: 2px solid #FFD700; /* Golden border around the image */
+    width: 120px;
+    height: 120px;
+    border: 2px solid #FFD700;
     border-radius: 10px;
-    margin-right: 20px; /* Space between the image and the summary */
-    overflow: hidden; /* Prevents image overflow */
-    display: flex; /* Ensures correct alignment of content */
+    margin-right: 20px;
+    overflow: hidden;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .character-box .character-image img {
-    width: 100%; /* Ensures the image fills the width of the container */
-    height: 100%; /* Ensures the image fills the height of the container */
-    object-fit: cover; /* Rescale the image to cover the box while maintaining aspect ratio */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* Character Summary */
 .character-box .character-summary {
     flex-grow: 1;
     font-size: 1rem;
     color: #FFD700;
+    line-height: 1.5;
 }
 
 /* Subject Box */
 .subject {
     margin: 20px auto;
     padding: 20px;
-    background-color: #1a1a1a; /* Dark background */
-    border: 2px solid #FFD700; /* Golden border */
+    background-color: #1a1a1a;
+    border: 2px solid #FFD700;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-    max-width: 800px; /* Center content with fixed max width */
-    color: #FFD700; /* Golden text */
-    text-align: left; /* Align text to the left */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    max-width: 800px;
+    color: #FFD700;
+    text-align: left;
 }
 
 .subject-image-container {
-    text-align: center; /* Center the image */
+    text-align: center;
     margin-bottom: 20px;
 }
 
 .subject-image-container img {
-    max-width: 100%; /* Ensure the image is responsive */
+    max-width: 100%;
     height: auto;
     border: 2px solid #FFD700;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Subtle shadow around image */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .subject-summary {
     margin-bottom: 20px;
     padding: 10px;
-    background: rgba(0, 0, 0, 0.6); /* Slightly darker background for emphasis */
+    background: rgba(0, 0, 0, 0.6);
     border-radius: 5px;
-    border-left: 4px solid #FFD700; /* Highlight section with a golden border */
+    border-left: 4px solid #FFD700;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -231,6 +231,8 @@ header {
 .subject-summary ul {
     padding-left: 20px;
     list-style-type: disc;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .key-moments ul {
@@ -259,30 +261,55 @@ header {
         border-bottom: 2px solid #FFD700;
     }
 
+    .sidebar a {
+        font-size: 1.1rem;
+        padding: 12px;
+        margin: 8px 5px;
+        flex: 1 1 45%;
+    }
+
     .content {
         width: 100%;
-        padding: 15px;
+        padding: 20px 10px;
+    }
+
+    .random-fact-box {
+        height: auto;
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 1rem;
+    }
+
+    .fact-ticker {
+        position: static;
+        animation: none;
+        white-space: normal;
+        margin-top: 10px;
     }
 
     .character-box {
         flex-direction: column;
         align-items: center;
+        text-align: center;
     }
 
     .character-box .character-image {
-        margin-right: 0; /* Remove margin on smaller screens */
-        margin-bottom: 15px; /* Add space between image and summary */
+        margin-right: 0;
+        margin-bottom: 15px;
     }
 
     .subject {
         padding: 15px;
     }
 
-    .subject-image-container img {
-        width: 100%;
-        height: auto;
+    .subject-summary h3 {
+        font-size: 1.3rem;
+    }
+
+    .subject-summary ul,
+    .key-moments ul {
+        font-size: 1rem;
+        padding-left: 15px;
     }
 }
-
-
-
