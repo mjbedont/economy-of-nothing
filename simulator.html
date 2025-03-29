@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Map and Movement Test</title>
+  <title>Corporate Simulator™</title>
   <style>
     html, body {
       margin: 0;
@@ -64,11 +64,31 @@
       display: block;
       width: 80%;
     }
+    #scoreboard {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-family: monospace;
+      color: #ffcc00;
+      background: rgba(0,0,0,0.6);
+      padding: 10px;
+      border: 1px solid #ffcc00;
+      border-radius: 5px;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
   <div id="mapContainer">
     <canvas id="mapCanvas"></canvas>
+
+    <div id="scoreboard">
+      🚀 Credits: <span id="scoreCredits">0</span><br>
+      ✅ Missions: <span id="scoreMissions">0</span><br>
+      🪙 Promotions: <span id="scorePromotions">0</span><br>
+      ⛽ Fuel: <span id="scoreFuel">100%</span>
+    </div>
+
     <div id="planetMenu">
       <p id="planetName">Welcome to the Planet</p>
       <p id="fuelStatus">Fuel: 100%</p>
@@ -76,6 +96,7 @@
       <p id="refuelCost">Refuel Cost: 0</p>
       <div id="missionsContainer"></div>
       <button onclick="refuel()">Refuel</button>
+      <button onclick="buyPromotion()">Buy Promotion (200 Credits)</button>
       <button onclick="closeMenu()">Leave</button>
     </div>
   </div>
@@ -83,6 +104,7 @@
   <script>
     const canvas = document.getElementById('mapCanvas');
     const ctx = canvas.getContext('2d');
+
     const planetMenu = document.getElementById('planetMenu');
     const planetNameElement = document.getElementById('planetName');
     const fuelStatusElement = document.getElementById('fuelStatus');
@@ -91,7 +113,19 @@
     const missionsContainer = document.getElementById('missionsContainer');
 
     const planets = [];
-    const ship = { x: 0, y: 0, width: 15, height: 10, color: '#ffffff', speed: 2, fuel: 100, credits: 0 };
+    const ship = {
+      x: 0,
+      y: 0,
+      width: 15,
+      height: 10,
+      color: '#ffffff',
+      speed: 2,
+      fuel: 100,
+      credits: 0,
+      missions: 0,
+      promotions: 0
+    };
+
     const baseRefuelCost = 50;
     let activeMission = null;
     let canvasMessage = '';
@@ -194,6 +228,15 @@
         ctx.textAlign = 'center';
         ctx.fillText(canvasMessage, canvas.width / 2, canvas.height / 2 - 50);
       }
+
+      updateScoreboard();
+    }
+
+    function updateScoreboard() {
+      document.getElementById('scoreCredits').textContent = ship.credits;
+      document.getElementById('scoreFuel').textContent = `${Math.max(0, ship.fuel.toFixed(1))}%`;
+      document.getElementById('scoreMissions').textContent = ship.missions;
+      document.getElementById('scorePromotions').textContent = ship.promotions;
     }
 
     function updateShipPosition() {
@@ -205,8 +248,7 @@
         if (distance > ship.speed) {
           ship.x += (dx / distance) * ship.speed;
           ship.y += (dy / distance) * ship.speed;
-          ship.fuel -= 0.1;
-          fuelStatusElement.textContent = `Fuel: ${Math.max(0, ship.fuel.toFixed(1))}%`;
+          ship.fuel -= 0.025;
         } else {
           ship.x = targetPosition.x - ship.width / 2;
           ship.y = targetPosition.y - ship.height / 2;
@@ -266,9 +308,9 @@
 
     function completeMission() {
       ship.credits += 100;
+      ship.missions += 1;
       activeMission = null;
       showCanvasMessage('Mission completed! You earned 100 credits.');
-      creditStatusElement.textContent = `Credits: ${ship.credits}`;
     }
 
     function selectMission(targetPlanet) {
@@ -281,11 +323,19 @@
       if (ship.credits >= currentPlanet.refuelCost) {
         ship.credits -= currentPlanet.refuelCost;
         ship.fuel = 100;
-        fuelStatusElement.textContent = `Fuel: 100%`;
-        creditStatusElement.textContent = `Credits: ${ship.credits}`;
         showCanvasMessage('Ship refueled!');
       } else {
         showCanvasMessage('Not enough credits to refuel!');
+      }
+    }
+
+    function buyPromotion() {
+      if (ship.credits >= 200) {
+        ship.credits -= 200;
+        ship.promotions += 1;
+        showCanvasMessage('Promotion acquired! 📈');
+      } else {
+        showCanvasMessage('Not enough credits for promotion.');
       }
     }
 
