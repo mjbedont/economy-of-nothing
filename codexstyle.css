@@ -1,4 +1,4 @@
-/* General Styles */
+/* ========== Base Styles ========== */
 body {
     margin: 0;
     padding: 0;
@@ -25,7 +25,6 @@ body {
     display: none;
 }
 
-/* Hamburger Icon */
 .hamburger {
     display: none;
     font-size: 2rem;
@@ -112,6 +111,20 @@ header {
     transition: margin-left 0.3s ease;
 }
 
+/* Rotate Alert */
+.rotate-alert {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #00FF00;
+    border: 2px dashed #FFD700;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
 /* Random Fact Box */
 .random-fact-box {
     position: relative;
@@ -166,6 +179,13 @@ header {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
+    transition: background 0.3s ease;
+}
+
+.character-box:hover {
+    background-color: #222;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    cursor: pointer;
 }
 
 .character-box h2 a {
@@ -199,6 +219,12 @@ header {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: filter 0.3s ease;
+}
+
+.character-box .character-image:hover img {
+    filter: brightness(1.2);
+    box-shadow: 0 0 10px #FFD700;
 }
 
 .character-box .character-summary {
@@ -268,7 +294,13 @@ header {
     color: #FFD700;
 }
 
-/* Responsive Hamburger Menu */
+/* ========== Responsive + Portrait Enhancements ========== */
+@media (max-width: 768px) and (orientation: portrait) {
+    .rotate-alert {
+        display: block;
+    }
+}
+
 @media (max-width: 768px) {
     .hamburger {
         display: block;
@@ -314,21 +346,6 @@ header {
         transition: margin-left 0.3s ease;
     }
 
-    .random-fact-box {
-        height: auto;
-        padding: 10px;
-        flex-direction: column;
-        align-items: flex-start;
-        font-size: 1rem;
-    }
-
-    .fact-ticker {
-        position: static;
-        animation: none;
-        white-space: normal;
-        margin-top: 10px;
-    }
-
     .character-box {
         flex-direction: column;
         align-items: center;
@@ -353,4 +370,62 @@ header {
         font-size: 1rem;
         padding-left: 15px;
     }
+}
+
+/* ========== Hologram Glow Mode ========== */
+body.holo-enabled {
+    background-color: #01010a;
+    color: #00faff;
+}
+
+body.holo-enabled .sidebar {
+    border-color: #00faff;
+}
+
+body.holo-enabled .sidebar a {
+    border-color: #00faff;
+    color: #00faff;
+    background: rgba(0, 0, 0, 0.6);
+    text-shadow: 0 0 5px #00faff;
+}
+
+body.holo-enabled .sidebar a.active {
+    background-color: #00faff;
+    color: #000;
+    border-color: black;
+    box-shadow: 0 0 10px #00faff;
+}
+
+body.holo-enabled .sidebar a:hover {
+    background-color: #00faff;
+    color: #000;
+    box-shadow: 0 0 10px #00faff;
+}
+
+body.holo-enabled .content,
+body.holo-enabled .subject,
+body.holo-enabled .character-box {
+    border-color: #00faff;
+    color: #00faff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+body.holo-enabled h2,
+body.holo-enabled .subject-summary h3 {
+    color: #00faff;
+    text-shadow: 0 0 10px #00faff;
+}
+
+body.holo-enabled .random-fact-box {
+    border-color: #00faff;
+    color: #00faff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+    background-color: rgba(0, 255, 255, 0.1);
+}
+
+body.holo-enabled .character-image:hover img {
+    box-shadow: 0 0 20px #00faff;
+    filter: brightness(1.3);
+    transition: 0.3s ease;
 }
