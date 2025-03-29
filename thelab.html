@@ -1,72 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="The Lab - Experimental projects, games, and prototypes from The Economy of Nothing.">
-    <meta name="keywords" content="Economy of Nothing, experimental games, corporate R&D, satirical sci-fi, prototype lab">
-    <meta name="author" content="The Economy of Nothing Team">
-    <title>The Lab - The Economy of Nothing</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Lab - Experimental projects, games, and prototypes from The Economy of Nothing.">
+  <meta name="keywords" content="Economy of Nothing, experimental games, corporate R&D, satirical sci-fi, prototype lab">
+  <meta name="author" content="The Economy of Nothing Team">
+  <title>The Lab - The Economy of Nothing</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .game-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    iframe {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      border-radius: 10px;
+      border: none;
+      display: block;
+    }
+  </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <h1>The Lab™</h1>
-        <p>Where Cutting-Edge Corporate Science™ Meets **Minimum Viable Testing**</p>
-    </header>
+  <!-- Header Section -->
+  <header>
+    <h1>The Lab™</h1>
+    <p>Where Cutting-Edge Corporate Science™ Meets <strong>Minimum Viable Testing</strong></p>
+  </header>
 
-    <!-- Navigation Section -->
-    <nav>
-        <a href="/index.html">Home</a>
-        <a href="/shows.html">Shows</a>
-        <a href="/codex.html">Codex</a>
-        <a href="/recurrentrevenue.html">Friends & Benefits™</a>
-    </nav>
+  <!-- Navigation Section -->
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/shows.html">Shows</a>
+    <a href="/codex.html">Codex</a>
+    <a href="/recurrentrevenue.html">Friends & Benefits™</a>
+  </nav>
 
-    <!-- Main Content Section -->
-    <main>
-        <h2>Welcome to The Lab™</h2>
-        <p>
-            Here at *The Economy of Nothing's* premier **corporate research division**, we develop **totally safe** experimental projects for maximum **engagement efficiency**.  
-            <strong>Are they ready for mass-market distribution?</strong> No.  
-            <strong>Will we test them on you anyway?</strong> Absolutely.
-        </p>
+  <!-- Main Content Section -->
+  <main>
+    <h2>Welcome to The Lab™</h2>
+    <p>
+      Here at <em>The Economy of Nothing's</em> premier <strong>corporate research division</strong>, we develop <strong>totally safe</strong> experimental projects for maximum <strong>engagement efficiency</strong>.<br>
+      <strong>Are they ready for mass-market distribution?</strong> No.<br>
+      <strong>Will we test them on you anyway?</strong> Absolutely.
+    </p>
 
-        <!-- Game Instructions -->
-        <section class="game-instructions">
-            <h3>Current Experiment: Cosmic Map™</h3>
-            <p>
-                As part of our **Corporate Simulation Initiative™,** we’re testing a **galactic logistics game** that may or may not teach valuable survival skills. Participants are expected to comply with all company policies, including the **mandatory purchase of in-game fuel.**
-            </p>
+    <!-- Game Instructions -->
+    <section class="game-instructions">
+      <h3>Current Experiment: Cosmic Map™</h3>
+      <p>
+        As part of our <strong>Corporate Simulation Initiative™</strong>, we’re testing a <strong>galactic logistics game</strong> that may or may not teach valuable survival skills. Participants are expected to comply with all company policies, including the <em>mandatory purchase of in-game fuel.</em>
+      </p>
+      <h4>How to Participate™:</h4>
+      <ul>
+        <li>🚀 <strong>Start at Planet Prime</strong> – Buy fuel and corporate promotions.</li>
+        <li>🌌 <strong>Navigate the Galaxy</strong> – Click planets to travel (fuel costs apply).</li>
+        <li>📈 <strong>Maximize Your POD (Promotions per Dispatch™)</strong> – Corporate efficiency is key!</li>
+        <li>⛽ <strong>Run Out of Fuel?</strong> – That’s unfortunate. Your employment status is now under review.</li>
+      </ul>
+      <p><em>Good luck, Captain. Corporate expects great things from you.</em></p>
+    </section>
 
-            <h4>How to Participate™:</h4>
-            <ul>
-                <li>🚀 **Start at Planet Prime** – Buy fuel and corporate promotions.</li>
-                <li>🌌 **Navigate the Galaxy** – Click planets to travel (fuel costs apply).</li>
-                <li>📈 **Maximize Your POD (Promotions per Dispatch™)** – Corporate efficiency is key!</li>
-                <li>⛽ **Run Out of Fuel?** – That’s unfortunate. Your employment status is now under review.</li>
-            </ul>
-            <p><em>Good luck, Captain. Corporate expects great things from you.</em></p>
-        </section>
+    <!-- Game Container -->
+    <div class="game-container">
+      <iframe 
+        src="/simulator.html" 
+        title="Corporate Training Simulator™">
+      </iframe>
+    </div>
+  </main>
 
-        <!-- Game Container -->
-        <div class="game-container">
-            <iframe 
-                src="/simulator.html" 
-                frameborder="0" 
-                allowfullscreen 
-                title="Corporate Training Simulator™"
-                style="width: 100%; height: 80vh; border-radius: 10px;">
-            </iframe>
-        </div>
-    </main>
-
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 56.009 Nothing Inc.</p>
-        <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
-        <p class="visitor-counter">You are visitor number: <span id="visitor-count">56,009</span></p>
-    </footer>
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 56.009 Nothing Inc.</p>
+    <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
+    <p class="visitor-counter">You are visitor number: <span id="visitor-count">56,009</span></p>
+  </footer>
 </body>
 </html>
