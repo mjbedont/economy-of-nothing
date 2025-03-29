@@ -20,6 +20,27 @@ body {
     background: url('../media/starfield.gif') repeat;
 }
 
+/* Hamburger Menu Toggle */
+.menu-toggle {
+    display: none;
+}
+
+/* Hamburger Icon */
+.hamburger {
+    display: none;
+    font-size: 2rem;
+    color: #FFD700;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #FFD700;
+    border-radius: 5px;
+    padding: 10px 15px;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 999;
+    cursor: pointer;
+}
+
 /* Header */
 header {
     text-align: center;
@@ -45,6 +66,7 @@ header {
     border-right: 2px solid #FFD700;
     box-shadow: 3px 0 5px rgba(0, 0, 0, 0.5);
     overflow-y: auto;
+    transition: all 0.3s ease;
 }
 
 .sidebar a {
@@ -87,6 +109,7 @@ header {
     border-left: 2px solid #FFD700;
     color: #FFD700;
     overflow-y: auto;
+    transition: margin-left 0.3s ease;
 }
 
 /* Random Fact Box */
@@ -245,32 +268,50 @@ header {
     color: #FFD700;
 }
 
-/* Responsive Design */
+/* Responsive Hamburger Menu */
 @media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
     .container {
         flex-direction: column;
     }
 
     .sidebar {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        padding: 10px;
-        border-right: none;
-        border-bottom: 2px solid #FFD700;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 75%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        padding: 20px;
+        z-index: 998;
+        transition: left 0.3s ease;
+        border-right: 2px solid #FFD700;
+        overflow-y: auto;
+    }
+
+    .menu-toggle:checked + .hamburger + .container .sidebar {
+        left: 0;
+    }
+
+    .menu-toggle:checked + .hamburger + .container .content {
+        margin-left: 75%;
     }
 
     .sidebar a {
+        display: block;
         font-size: 1.1rem;
         padding: 12px;
-        margin: 8px 5px;
-        flex: 1 1 45%;
+        margin: 10px 0;
     }
 
     .content {
         width: 100%;
-        padding: 20px 10px;
+        padding: 20px 12px;
+        overflow-y: auto;
+        transition: margin-left 0.3s ease;
     }
 
     .random-fact-box {
