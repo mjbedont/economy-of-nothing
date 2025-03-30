@@ -320,10 +320,20 @@ footer a:hover {
     color: var(--secondary-color);
 }
 
-.visitor-counter span {
-    font-weight: bold;
+.visitor-counter {
+    text-align: center;
+    margin-top: 30px;
+    font-family: monospace;
+    font-size: 1.1rem;
     color: var(--accent-color);
     text-shadow: 0 0 5px var(--accent-color);
+}
+
+.visitor-counter img {
+    vertical-align: middle;
+    margin-left: 8px;
+    height: 24px;
+    filter: drop-shadow(0 0 4px var(--accent-color));
 }
 
 /* Responsive Design */
