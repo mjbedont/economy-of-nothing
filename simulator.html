@@ -25,6 +25,7 @@
       width: 100%;
       height: 100%;
       background-color: #000;
+      cursor: crosshair;
     }
     #planetMenu {
       position: absolute;
@@ -98,6 +99,10 @@
       <button onclick="refuel()">Refuel</button>
       <button onclick="buyPromotion()">Buy Promotion (200 Credits)</button>
       <button onclick="closeMenu()">Leave</button>
+      <button onclick="resetGame()">Reset Game</button>
+      <p style="font-size: 0.8rem; margin-top: 15px;">
+        Want more fuel IRL? <a href="https://www.patreon.com/economyofnothing" target="_blank" rel="noopener" style="color: #ffcc00;">Join Friends & Benefits™</a>
+      </p>
     </div>
   </div>
 
@@ -330,6 +335,11 @@
     }
 
     function buyPromotion() {
+      if (currentPlanet.name !== 'Prime Planet') {
+        showCanvasMessage('Promotions available only on Prime Planet.');
+        return;
+      }
+
       if (ship.credits >= 200) {
         ship.credits -= 200;
         ship.promotions += 1;
@@ -337,6 +347,18 @@
       } else {
         showCanvasMessage('Not enough credits for promotion.');
       }
+    }
+
+    function resetGame() {
+      ship.fuel = 100;
+      ship.credits = 0;
+      ship.missions = 0;
+      ship.promotions = 0;
+      activeMission = null;
+      targetPosition = null;
+      closeMenu();
+      generatePlanets();
+      showCanvasMessage('Game reset.');
     }
 
     function closeMenu() {
