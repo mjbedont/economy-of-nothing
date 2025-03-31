@@ -220,14 +220,18 @@ main .video-container iframe {
 }
 
 .episode-thumbnail {
-    width: 160px;
-    aspect-ratio: 16 / 9;
-    flex-shrink: 0;
+    height: 160px;
+    width: auto;
+    max-width: 100%;
+    aspect-ratio: auto;
+    object-fit: contain;
+    background-color: #000;
+    padding: 10px;
     margin-right: 15px;
     border-radius: 8px;
-    object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
     border: 2px solid var(--primary-color);
+    flex-shrink: 0;
 }
 
 .episode-details {
@@ -346,7 +350,7 @@ footer a:hover {
     header h1 { font-size: 3rem; }
     nav { flex-direction: column; gap: 15px; }
     .episode-box { flex-direction: column; }
-    .episode-thumbnail { width: 100%; }
+    .episode-thumbnail { width: 100%; height: auto; padding: 0; }
     main { padding: 20px; }
     .external-links {
         flex-direction: column;
