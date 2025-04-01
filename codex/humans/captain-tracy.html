@@ -12,67 +12,87 @@
     <span class="subject-title">Captain Raymond B. Tracy</span>
 </header>
 
-    <div class="container">
-        <div class="sidebar">
-            <a href="/codex.html">Codex Home</a>
-            <a href="/codex/humans.html">Humans</a>
-            <a href="/codex/aliens.html">Aliens</a>
-            <a href="/codex/creatures.html">Creatures</a>
-            <a href="/codex/robots.html">Robots</a>
-            <a href="/codex/transportation.html">Transportation</a>
-            <a href="/codex/technology.html">Technology</a>
-            <a href="/codex/locations.html">Locations</a>
-            <a href="/codex/factions.html">Factions</a>
-            <a href="/codex/economics.html">Economics</a>
-            <a href="/codex/politics.html">Politics</a>
-            <a href="/codex/timeline.html">Timeline</a>
-            <a href="/codex/glossary.html">Glossary</a>
-            <a href="/index.html">Exit Codex</a>
-        </div>
-
-        <div class="content">
-            <!-- Subject Box for Captain Tracy -->
-            <div class="subject">
-                <h2>"The Captain"</h2>
-
-                <!-- Subject Image -->
-                <div class="subject-image-container">
-                    <img src="/media/images/captain-tracy-1.png" alt="Subject: Captain Raymond B. Tracy" class="subject-image">
-                </div>
-
-                <!-- Subject Summary Section -->
-                <div class="subject-summary">
-                    <h3>Summary</h3>
-                    <ul>
-                        <li><strong>Age:</strong> 36</li>
-                        <li><strong>Role:</strong> Captain of the Moonshine, Savior of Everything</li>
-                        <li><strong>Personality:</strong> Charismatic romantic pragmatist</li>
-                        <li><strong>Affiliations:</strong> Moonshine Crew, Nothing Corporation</li>
-                        <li><strong>Episode Appearances:</strong> All episodes</li>
-                    </ul>
-                </div>
-
-                <!-- Biography Section -->
-                <div class="subject-summary">
-                    <h3>Biography</h3>
-                    <p>Subject Raymond B. Tracy was once an ordinary individual from Earth in the year 20XX. His life changed drastically when he was drafted into the Robo-Human Wars...</p>
-                </div>
-
-                <!-- Key Moments Section -->
-                <h3>Key Moments</h3>
-                <ul>
-                    <li>Led the Moonshine Crew in the <strong>Battle of Brenner 7</strong></li>
-                    <li>Made peace with the <strong>Technobandits</strong> to end a long-standing war</li>
-                    <li>Defended the <strong>Nothing Corporation</strong> from corporate sabotage</li>
-                    <li>Uncovered the <strong>Hyperspace Paradox</strong> that reshaped the universe's timeline</li>
-                </ul>
-
-                <!-- Role in the Universe Section -->
-                <h3>Role in the Universe</h3>
-                <p>As Captain of the Moonshine, Tracy's leadership played a pivotal role in the formation of the <strong>Dispatch</strong>.</p>
-            </div> <!-- End of subject box -->
-        </div>
+<div class="container">
+    <div class="sidebar">
+        <a href="/codex.html">Codex Home</a>
+        <a href="/codex/humans.html" class="active">Humans</a>
+        <a href="/codex/aliens.html">Aliens</a>
+        <a href="/codex/creatures.html">Creatures</a>
+        <a href="/codex/robots.html">Robots</a>
+        <a href="/codex/transportation.html">Transportation</a>
+        <a href="/codex/technology.html">Technology</a>
+        <a href="/codex/locations.html">Locations</a>
+        <a href="/codex/factions.html">Factions</a>
+        <a href="/codex/economics.html">Economics</a>
+        <a href="/codex/politics.html">Politics</a>
+        <a href="/codex/timeline.html">Timeline</a>
+        <a href="/codex/glossary.html">Glossary</a>
+        <a href="/index.html">Exit Codex</a>
     </div>
+
+    <main class="content">
+        <!-- Subject Box for Captain Tracy -->
+        <div class="subject" data-character="tracy" data-crew="moonshine" data-affiliation="nothing-corp">
+            <h2>"The Captain"</h2>
+
+            <!-- Subject Image -->
+            <div class="subject-image-container">
+                <img src="/media/images/captain-tracy-1.png" alt="Portrait of Captain Raymond B. Tracy in uniform" class="subject-image">
+            </div>
+
+            <!-- Subject Summary Section -->
+            <div class="subject-summary">
+                <h3>Summary</h3>
+                <ul>
+                    <li><strong>Age:</strong> 36</li>
+                    <li><strong>Role:</strong> Captain of the Moonshine, Savior of Everything</li>
+                    <li><strong>Personality:</strong> Charismatic romantic pragmatist</li>
+                    <li><strong>Affiliations:</strong> Moonshine Crew, Nothing Corporation</li>
+                    <li><strong>Episode Appearances:</strong> All episodes</li>
+                </ul>
+            </div>
+
+            <!-- Biography Section -->
+            <div class="subject-bio">
+                <h3>Biography</h3>
+                <p>Subject Raymond B. Tracy was once an ordinary individual from Earth in the year 20XX. His life changed drastically when he was drafted into the Robo-Human Wars...</p>
+            </div>
+
+            <!-- Key Moments Section -->
+            <h3>Key Moments</h3>
+            <ul class="key-moments">
+                <li>
+                    <details>
+                        <summary>Led the Moonshine Crew in the <strong>Battle of Brenner 7</strong></summary>
+                        Captain Tracy turned the tide of the battle with a surprise hyperspace maneuver that broke the enemy blockade.
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>Made peace with the <strong>Technobandits</strong> to end a long-standing war</summary>
+                        His negotiations earned the trust of a generation raised to distrust humans.
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>Defended the <strong>Nothing Corporation</strong> from corporate sabotage</summary>
+                        He exposed a mole inside Dispatch, securing the company’s future and preventing civil war.
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>Uncovered the <strong>Hyperspace Paradox</strong> that reshaped the universe's timeline</summary>
+                        Tracy's intervention prevented a collapse of causality across the 4th quadrant.
+                    </details>
+                </li>
+            </ul>
+
+            <!-- Role in the Universe Section -->
+            <h3>Role in the Universe</h3>
+            <p>As Captain of the Moonshine, Tracy's leadership played a pivotal role in the formation of the <strong>Dispatch</strong>.</p>
+        </div> <!-- End of subject box -->
+    </main>
+</div>
 
 </body>
 </html>
