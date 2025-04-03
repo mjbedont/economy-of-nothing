@@ -9,7 +9,7 @@
     --heading-font-size: 2rem;
     --subheading-font-size: 1.8rem;
     --body-font-size: 1.2rem;
-    --font-family: 'Arial', sans-serif, 'Comic Sans MS', cursive;
+    --font-family: 'Comic Sans MS', 'Arial', sans-serif;
 }
 
 /* Universal Styles */
@@ -17,6 +17,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -32,6 +36,23 @@ body {
     flex-direction: column;
     min-height: 100vh;
     overflow-y: auto;
+    background-attachment: fixed;
+}
+
+/* Optional Cosmic Glow Overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(ellipse at center, rgba(255,215,0,0.05), transparent 70%);
+    animation: background-flicker 15s infinite alternate;
+    z-index: -1;
+}
+
+@keyframes background-flicker {
+    0% { opacity: 0.2; }
+    100% { opacity: 0.5; }
 }
 
 /* Header */
@@ -53,13 +74,15 @@ header h1 {
 
 header::after {
     content: "★";
-    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     font-size: 2rem;
     color: var(--primary-color);
     animation: float 5s ease-in-out infinite;
 }
 
-/* Fade-in Animation */
+/* Animations */
 .fade-in {
     animation: fade-in 1.5s ease-out forwards;
 }
@@ -70,8 +93,8 @@ header::after {
 }
 
 @keyframes float {
-    0%   { transform: translateY(0); }
-    50%  { transform: translateY(-10px); }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
 }
 
@@ -99,6 +122,7 @@ nav a {
 nav a:hover {
     color: var(--secondary-color);
     transform: scale(1.1);
+    text-shadow: 0 0 5px var(--primary-color);
 }
 
 nav a:focus {
@@ -186,6 +210,12 @@ main .video-container iframe {
     background: var(--background-hover-gradient);
     color: var(--secondary-color);
     border-color: var(--secondary-color);
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+.external-links a:active {
+    transform: scale(0.98);
+    box-shadow: none;
 }
 
 .platform-logo {
@@ -223,7 +253,6 @@ main .video-container iframe {
     height: 160px;
     width: auto;
     max-width: 100%;
-    aspect-ratio: auto;
     object-fit: contain;
     background-color: #000;
     padding: 10px;
@@ -261,6 +290,10 @@ main .video-container iframe {
     transform: scale(1.05);
 }
 
+.episode-details a:active {
+    transform: scale(0.98);
+}
+
 /* Patreon Button Styling */
 .patreon-button {
     background: linear-gradient(135deg, #ff424d, #ff7a00);
@@ -281,6 +314,11 @@ main .video-container iframe {
     box-shadow: 0 0 30px rgba(255, 122, 0, 1), 0 0 60px rgba(255, 66, 77, 0.9);
     transform: scale(1.05);
     color: #fff;
+}
+
+.patreon-button:active {
+    transform: scale(0.98);
+    box-shadow: none;
 }
 
 /* Floating Patreon Button */
@@ -305,6 +343,11 @@ main .video-container iframe {
     box-shadow: 0 0 25px rgba(255, 66, 77, 1), 0 0 50px rgba(255, 122, 0, 0.9);
 }
 
+.floating-patreon:active {
+    transform: scale(0.95);
+    box-shadow: none;
+}
+
 /* Footer */
 footer {
     text-align: center;
@@ -324,6 +367,7 @@ footer a:hover {
     color: var(--secondary-color);
 }
 
+/* Visitor Counter */
 .visitor-counter {
     text-align: center;
     margin-top: 30px;
@@ -344,16 +388,41 @@ footer a:hover {
 @media (max-width: 768px) {
     body {
         background-attachment: scroll;
-        font-family: 'Arial', sans-serif;
     }
 
-    header h1 { font-size: 3rem; }
-    nav { flex-direction: column; gap: 15px; }
-    .episode-box { flex-direction: column; }
-    .episode-thumbnail { width: 100%; height: auto; padding: 0; }
-    main { padding: 20px; }
+    header h1 {
+        font-size: 3rem;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .episode-box {
+        flex-direction: column;
+    }
+
+    .episode-thumbnail {
+        width: 100%;
+        height: auto;
+        padding: 0;
+        margin-right: 0;
+    }
+
+    main {
+        padding: 20px;
+    }
+
     .external-links {
         flex-direction: column;
         align-items: center;
+    }
+
+    .floating-patreon {
+        bottom: 10px;
+        right: 10px;
+        font-size: 0.9rem;
+        padding: 10px 14px;
     }
 }
