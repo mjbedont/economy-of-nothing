@@ -8,7 +8,7 @@
     <meta name="author" content="The Economy of Nothing Team">
     <title>Podcasts - The Economy of Nothing</title>
     <link rel="icon" type="image/png" href="/media/favicon.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <!-- Header Section -->
@@ -35,9 +35,10 @@
             <br><em>(Non-compliance may result in immediate reassignment to asteroid mining duty.)</em>
         </p>
 
-        <!-- Episode Section -->
-        <section class="episode-list">
-            <article class="episode">
+        <!-- Featured Episode -->
+        <div class="episode-box">
+            <img src="/media/images/podcast-ep01-thumb.png" alt="Podcast Episode 1 Thumbnail" class="episode-thumbnail">
+            <div class="episode-details">
                 <h3>Episode 01 – The Theme Song IS Propaganda</h3>
                 <p><em>Michael and Ryan go way too deep into the show’s theme song. Spoilers, satire, and existential dread included.</em></p>
                 <iframe 
@@ -47,26 +48,35 @@
                     width="100%" 
                     scrolling="no" 
                     allowfullscreen 
-                    webkitallowfullscreen="true" 
-                    mozallowfullscreen="true" 
-                    oallowfullscreen="true" 
-                    msallowfullscreen="true" 
-                    style="border: none;">
+                    style="border: none; margin-top: 10px;">
                 </iframe>
-                <a href="/podcast/theme-song-is-propaganda" class="episode-button">
-                              View Full Episode Page
-                        </a>
-        </section>
+                <a href="/podcast/theme-song-is-propaganda">View Full Episode Page</a>
+            </div>
+        </div>
 
+        <!-- More Episodes Placeholder -->
+        <h2>More Episodes Incoming</h2>
+        <p>Additional audio content is being cleared by the Bureau of Propaganda Review. Check back soon or risk disciplinary action.</p>
+
+        <!-- External Listening Options -->
         <h2>Subscribe & Listen Anywhere</h2>
         <p>
             Prefer to listen on your own terms? <em>The Economy of Nothing Podcast™</em> is available wherever corporate-approved media is distributed.
         </p>
-        <ul>
-            <li>🎧 <a href="https://open.spotify.com/show/5oq4FslrPyMMql9qa7s72I?si=9cb1e0b0da5f4e56" target="_blank">Listen on Spotify</a></li>
-            <li>🍏 <a href="https://podcasts.apple.com/us/podcast/the-economy-of-nothing-podcast/id1805857583" target="_blank">Listen on Apple Podcasts</a></li>
-            <li>🔊 <a href="https://feeds.libsyn.com/574135/rss" target="_blank">Subscribe via RSS</a></li>
-        </ul>
+        <div class="external-links">
+            <a href="https://open.spotify.com/show/5oq4FslrPyMMql9qa7s72I?si=9cb1e0b0da5f4e56" target="_blank">
+                <img src="/media/icons/spotify.png" alt="Spotify Logo" class="platform-logo">
+                Spotify
+            </a>
+            <a href="https://podcasts.apple.com/us/podcast/the-economy-of-nothing-podcast/id1805857583" target="_blank">
+                <img src="/media/icons/apple-podcasts.png" alt="Apple Podcasts Logo" class="platform-logo">
+                Apple Podcasts
+            </a>
+            <a href="https://feeds.libsyn.com/574135/rss" target="_blank">
+                <img src="/media/icons/rss.png" alt="RSS Logo" class="platform-logo">
+                RSS Feed
+            </a>
+        </div>
     </main>
 
     <!-- Footer Section -->
