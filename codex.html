@@ -1,159 +1,75 @@
-:root {
-  --gold: #FFD700;
-  --green: #00FF00;
-  --red: red;
-  --cyan: #00faff;
-  --dark-bg: #000000;
-  --font-terminal: 'Courier New', Courier, monospace;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explore the Codex of The Economy of Nothing—a satirical dystopian sci-fi series blending cosmic adventure with biting critique." />
+  <meta name="keywords" content="Economy of Nothing, Codex, sci-fi lore, characters, factions, episodes" />
+  <meta name="author" content="The Economy of Nothing Team" />
+  <title>Codex of Nothing</title>
+  <link rel="stylesheet" href="codexstyle.css" />
+</head>
+<body>
+  <header>
+    <h1>Codex of Nothing</h1>
+    <button id="nav-toggle">☰ Menu</button>
+  </header>
 
-body {
-  margin: 0;
-  font-family: var(--font-terminal);
-  background-color: var(--dark-bg);
-  color: var(--gold);
-  font-size: 16px;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
+  <div class="random-fact-banner">
+    📡 Intercepted: <span id="random-fact">Loading fact...</span>
+  </div>
 
-/* Header & Menu */
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  padding: 20px 10px 10px;
-  background: rgba(0, 0, 0, 0.95);
-  border-bottom: 2px solid var(--gold);
-  text-shadow: 0 0 10px var(--gold);
-  z-index: 1000;
-}
+  <nav id="mobile-nav" class="hidden">
+    <a href="/codex/">Codex Home</a>
+    <a href="/codex/humans/">Humans</a>
+    <a href="/codex/aliens/">Aliens</a>
+    <a href="/codex/creatures/">Creatures</a>
+    <a href="/codex/robots/">Robots</a>
+    <a href="/codex/technology/">Technology</a>
+    <a href="/codex/locations/">Locations</a>
+    <a href="/codex/factions/">Factions</a>
+    <a href="/codex/economics/">Economics</a>
+    <a href="/codex/politics/">Politics</a>
+    <a href="/codex/timeline/">Timeline</a>
+    <a href="/codex/glossary/">Glossary</a>
+    <a href="/index.html">Exit Codex</a>
+  </nav>
 
-header h1 {
-  margin: 0;
-  font-size: 2rem;
-  text-align: center;
-}
+  <main class="content">
+    <section>
+      <h2>Welcome to the Codex</h2>
+      <p>Explore the vast universe of <em>The Economy of Nothing</em>. Use the menu above to dive into characters, factions, locations, and more.</p>
+    </section>
 
-#nav-toggle {
-  position: absolute;
-  left: 10px;
-  top: 20px;
-  background: none;
-  border: 2px solid var(--gold);
-  color: var(--gold);
-  font-size: 1.5rem;
-  padding: 5px 10px;
-  border-radius: 5px;
-  z-index: 1001;
-}
+    <section class="character-box">
+      <input type="checkbox" id="char1" />
+      <label for="char1">Captain Tracy</label>
+      <div class="character-summary">
+        <img src="../media/tracy.jpg" alt="Captain Tracy" />
+        <p>Captain of the Moonshine. Charismatic and flawed, he leads with guts, charm, and a moral code that bends but never breaks.</p>
+      </div>
+    </section>
+  </main>
 
-#mobile-nav {
-  display: none;
-  flex-direction: column;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  padding: 10px 0;
-  border-top: 2px solid var(--gold);
-}
+  <script>
+    // Toggle mobile nav
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-nav').classList.toggle('show');
+    });
 
-#mobile-nav.show {
-  display: flex;
-}
-
-#mobile-nav a {
-  padding: 10px;
-  margin: 5px 10px;
-  text-align: center;
-  color: var(--green);
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--gold);
-  border-radius: 5px;
-  text-decoration: none;
-}
-
-#mobile-nav a:hover {
-  background: var(--gold);
-  color: #000;
-  font-weight: bold;
-}
-
-/* Fact Banner */
-.random-fact-banner {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  color: var(--green);
-  text-align: center;
-  padding: 8px 10px;
-  font-size: 0.95rem;
-  border-top: 2px solid var(--red);
-  border-bottom: 2px solid var(--red);
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-/* Main content */
-main.content {
-  padding: 20px;
-}
-
-/* Character Box */
-.character-box {
-  background-color: #1a1a1a;
-  border: 2px solid var(--gold);
-  border-radius: 10px;
-  margin-bottom: 30px;
-  padding: 15px;
-}
-
-.character-box label {
-  display: block;
-  font-weight: bold;
-  color: var(--gold);
-  cursor: pointer;
-  margin-bottom: 0.5rem;
-}
-
-.character-box input[type="checkbox"] {
-  display: none;
-}
-
-.character-summary {
-  display: none;
-}
-
-.character-box input[type="checkbox"]:checked + label + .character-summary {
-  display: block;
-}
-
-.character-summary img {
-  max-width: 100%;
-  height: auto;
-  border: 2px solid var(--gold);
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-/* Media Queries */
-@media (min-width: 768px) {
-  #mobile-nav {
-    display: flex !important;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  #mobile-nav.show {
-    display: flex !important;
-  }
-
-  #nav-toggle {
-    display: none;
-  }
-
-  header {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
+    // Load random fact
+    async function fetchRandomFact() {
+      try {
+        const response = await fetch('../data/facts.txt');
+        const text = await response.text();
+        const facts = text.split('\\n').filter(f => f.trim());
+        const randomIndex = Math.floor(Math.random() * facts.length);
+        document.getElementById('random-fact').textContent = facts[randomIndex];
+      } catch {
+        document.getElementById('random-fact').textContent = '...fact failed to load...';
+      }
+    }
+    fetchRandomFact();
+  </script>
+</body>
+</html>
