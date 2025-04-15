@@ -135,6 +135,21 @@ main.content {
   margin-bottom: 10px;
 }
 
+/* Responsive Subject Image Fix */
+.subject-image-container {
+  max-width: 100%;
+  overflow: hidden;
+  margin: 0 auto 1rem auto;
+}
+
+.subject-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+  object-fit: contain;
+}
+
 /* Media Queries */
 @media (min-width: 768px) {
   #mobile-nav {
