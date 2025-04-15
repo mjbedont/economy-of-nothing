@@ -217,4 +217,35 @@ header {
         margin-bottom: 15px; /* Add space between image and summary */
     }
 }
+body.light-mode {
+  background-color: #f4f4f4;
+  color: #111;
+}
+
+body.light-mode a {
+  color: #007acc;
+}
+
+body.light-mode header {
+  background: #ffffff;
+  border-bottom: 2px solid #ccc;
+  text-shadow: none;
+  color: #111;
+}
+
+body.light-mode .sidebar {
+  background-color: #f0f0f0;
+}
+
+body.light-mode .subject,
+body.light-mode .character-box {
+  background-color: #ffffff;
+  border: 2px solid #aaa;
+  color: #111;
+}
+
+body.light-mode .subject a,
+body.light-mode .character-box a {
+  color: #007acc;
+}
 
