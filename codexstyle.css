@@ -105,6 +105,7 @@ main.content {
   border-radius: 10px;
   margin-bottom: 30px;
   padding: 15px;
+  overflow: hidden;
 }
 
 .character-box label {
@@ -127,30 +128,19 @@ main.content {
   display: block;
 }
 
-.character-summary img {
-  max-width: 100%;
+.character-summary img,
+.character-image img {
+  width: 100%;
+  max-width: 300px;
   height: auto;
   border: 2px solid var(--gold);
   border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-/* Responsive Subject Image Fix */
-.subject-image-container {
-  max-width: 100%;
-  overflow: hidden;
-  margin: 0 auto 1rem auto;
-}
-
-.subject-image {
-  width: 100%;
-  height: auto;
   display: block;
-  max-width: 100%;
   object-fit: contain;
+  margin: 0 auto 10px auto;
 }
 
-/* Media Queries */
+/* Responsive Layout */
 @media (min-width: 768px) {
   #mobile-nav {
     display: flex !important;
@@ -171,4 +161,11 @@ main.content {
     padding-left: 20px;
     padding-right: 20px;
   }
+
+  #human-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
 }
+
