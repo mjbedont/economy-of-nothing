@@ -41,34 +41,40 @@
       padding: 10px;
       border-radius: 8px;
     }
+    #turn-button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #444;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <h1>Moonshine vs. Skulls Prototype</h1>
   <div id="board"></div>
+  <button id="turn-button">End Turn</button>
   <div id="log">Select a character to move.</div>
 
   <script>
     const boardSize = 5;
     const board = document.getElementById('board');
     const log = document.getElementById('log');
-
-    let gameState = Array(boardSize).fill().map(() => Array(boardSize).fill(null));
+    const turnButton = document.getElementById('turn-button');
 
     const playerUnits = [
-      { name: 'Tracy', hp: 3, x: 0, y: 0, type: 'blunt' },
-      { name: 'Mr. Green', hp: 2, x: 0, y: 1, type: 'tech' },
-      { name: 'Alex', hp: 2, x: 0, y: 2, type: 'ranged' },
-      { name: 'Erik', hp: 2, x: 1, y: 2, type: 'tech' },
+      { name: 'Tracy', hp: 3, x: 0, y: 0, type: 'blunt', moved: false },
+      { name: 'Mr. Green', hp: 2, x: 0, y: 1, type: 'tech', moved: false },
     ];
 
     const enemyUnits = [
       { name: 'Skulliosis', hp: 3, x: 4, y: 4, type: 'blunt' },
-      { name: 'Skullitiosis', hp: 2, x: 3, y: 4, type: 'ranged' },
-      { name: 'Marz', hp: 3, x: 4, y: 3, type: 'tech' },
     ];
 
     let selectedUnit = null;
+    let isPlayerTurn = true;
 
     function renderBoard() {
       board.innerHTML = '';
@@ -101,16 +107,19 @@
     }
 
     function handleTileClick(x, y) {
+      if (!isPlayerTurn) return;
+
       const clickedPlayer = playerUnits.find(u => u.x === x && u.y === y);
       const clickedEnemy = enemyUnits.find(u => u.x === x && u.y === y);
 
-      if (clickedPlayer) {
+      if (clickedPlayer && !clickedPlayer.moved) {
         selectedUnit = clickedPlayer;
         log.textContent = `${selectedUnit.name} selected.`;
       } else if (selectedUnit && isAdjacent(selectedUnit, x, y)) {
         if (!clickedEnemy) {
           selectedUnit.x = x;
           selectedUnit.y = y;
+          selectedUnit.moved = true;
           selectedUnit = null;
           log.textContent = `Moved.`;
         } else {
@@ -125,7 +134,6 @@
     }
 
     function resolveCombat(player, enemy) {
-      const rps = ['blunt', 'ranged', 'tech'];
       const beats = {
         blunt: 'ranged',
         ranged: 'tech',
@@ -154,9 +162,53 @@
           log.textContent = `${player.name} defeated!`;
         }
       }
+      player.moved = true;
       selectedUnit = null;
+      renderBoard();
     }
 
+    function endTurn() {
+      isPlayerTurn = !isPlayerTurn;
+      if (isPlayerTurn) {
+        playerUnits.forEach(u => u.moved = false);
+        log.textContent = "Player turn started.";
+      } else {
+        log.textContent = "Enemy turn in progress...";
+        setTimeout(enemyTurn, 500);
+      }
+      renderBoard();
+    }
+
+    function enemyTurn() {
+      enemyUnits.forEach(enemy => {
+        const target = playerUnits[0];
+        if (!target) return;
+
+        const dx = target.x - enemy.x;
+        const dy = target.y - enemy.y;
+
+        let moveX = enemy.x + Math.sign(dx);
+        let moveY = enemy.y + Math.sign(dy);
+
+        const blocked = playerUnits.concat(enemyUnits).some(u => u.x === moveX && u.y === moveY);
+        if (!blocked && isAdjacent(enemy, moveX, moveY)) {
+          enemy.x = moveX;
+          enemy.y = moveY;
+        }
+
+        if (isAdjacent(enemy, target.x, target.y)) {
+          const dummyEnemy = { ...enemy };
+          resolveCombat(dummyEnemy, target);
+        }
+      });
+
+      isPlayerTurn = true;
+      playerUnits.forEach(u => u.moved = false);
+      renderBoard();
+      log.textContent = "Player turn started.";
+    }
+
+    turnButton.addEventListener('click', endTurn);
     renderBoard();
   </script>
 </body>
