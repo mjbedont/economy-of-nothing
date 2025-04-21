@@ -13,7 +13,7 @@
     .game-container {
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto;
+      margin: 0 auto 40px auto;
       overflow: hidden;
       box-sizing: border-box;
     }
@@ -50,7 +50,7 @@
       <strong>Will we test them on you anyway?</strong> Absolutely.
     </p>
 
-    <!-- Game Instructions -->
+    <!-- Game Instructions: Cosmic Map -->
     <section class="game-instructions">
       <h3>Current Experiment: Cosmic Map™</h3>
       <p>
@@ -66,11 +66,35 @@
       <p><em>Good luck, Captain. Corporate expects great things from you.</em></p>
     </section>
 
-    <!-- Game Container -->
+    <!-- Game Container: Cosmic Map -->
     <div class="game-container">
       <iframe 
         src="/simulator.html" 
         title="Corporate Training Simulator™">
+      </iframe>
+    </div>
+
+    <!-- Game Instructions: Moonshine vs. Skulls -->
+    <section class="game-instructions">
+      <h3>New Prototype: Moonshine vs. Skulls™</h3>
+      <p>
+        Early alpha build of a tactical rock-paper-scissors board game. Choose your Moonshine Crew and face off against the Skull Pirates. Movement, matchups, and minimal instruction provided.
+      </p>
+      <h4>How to Play:</h4>
+      <ul>
+        <li>🧑‍🚀 Click a Moonshine Crew member to select them.</li>
+        <li>➡️ Click a highlighted tile to move.</li>
+        <li>⚔️ When next to an enemy, you'll trigger a rock-paper-scissors showdown.</li>
+        <li>💀 Defeat all Skull Pirates to win the encounter.</li>
+      </ul>
+      <p><em>Warning: Game balance is… theoretical.</em></p>
+    </section>
+
+    <!-- Game Container: Moonshine vs. Pirates -->
+    <div class="game-container">
+      <iframe 
+        src="/moonshine-v-pirates.html" 
+        title="Moonshine vs. Skulls™ Experimental Combat Simulator">
       </iframe>
     </div>
   </main>
