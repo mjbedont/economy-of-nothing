@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moonshine vs. Skulls Prototype</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #111;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 { margin-top: 20px; }
+    #board {
+      display: grid;
+      grid-template-columns: repeat(5, 60px);
+      gap: 4px;
+      margin-top: 20px;
+    }
+    .tile {
+      width: 60px;
+      height: 60px;
+      background-color: #333;
+      border: 1px solid #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .player { background-color: #2a9d8f; }
+    .enemy { background-color: #e76f51; }
+    .selected { border: 2px solid yellow; }
+    #log {
+      margin-top: 20px;
+      width: 300px;
+      background: #222;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Moonshine vs. Skulls Prototype</h1>
+  <div id="board"></div>
+  <div id="log">Select a character to move.</div>
+
+  <script>
+    const boardSize = 5;
+    const board = document.getElementById('board');
+    const log = document.getElementById('log');
+
+    let gameState = Array(boardSize).fill().map(() => Array(boardSize).fill(null));
+
+    const playerUnits = [
+      { name: 'Tracy', hp: 3, x: 0, y: 0, type: 'blunt' },
+      { name: 'Mr. Green', hp: 2, x: 0, y: 1, type: 'tech' },
+    ];
+
+    const enemyUnits = [
+      { name: 'Skulliosis', hp: 3, x: 4, y: 4, type: 'blunt' },
+    ];
+
+    let selectedUnit = null;
+
+    function renderBoard() {
+      board.innerHTML = '';
+      for (let y = 0; y < boardSize; y++) {
+        for (let x = 0; x < boardSize; x++) {
+          const tile = document.createElement('div');
+          tile.className = 'tile';
+          tile.dataset.x = x;
+          tile.dataset.y = y;
+
+          const player = playerUnits.find(u => u.x === x && u.y === y);
+          const enemy = enemyUnits.find(u => u.x === x && u.y === y);
+
+          if (player) {
+            tile.classList.add('player');
+            tile.textContent = player.name[0];
+          } else if (enemy) {
+            tile.classList.add('enemy');
+            tile.textContent = enemy.name[0];
+          }
+
+          if (selectedUnit && selectedUnit.x === x && selectedUnit.y === y) {
+            tile.classList.add('selected');
+          }
+
+          tile.addEventListener('click', () => handleTileClick(x, y));
+          board.appendChild(tile);
+        }
+      }
+    }
+
+    function handleTileClick(x, y) {
+      const clickedPlayer = playerUnits.find(u => u.x === x && u.y === y);
+      const clickedEnemy = enemyUnits.find(u => u.x === x && u.y === y);
+
+      if (clickedPlayer) {
+        selectedUnit = clickedPlayer;
+        log.textContent = `${selectedUnit.name} selected.`;
+      } else if (selectedUnit && isAdjacent(selectedUnit, x, y)) {
+        if (!clickedEnemy) {
+          selectedUnit.x = x;
+          selectedUnit.y = y;
+          selectedUnit = null;
+          log.textContent = `Moved.`;
+        } else {
+          resolveCombat(selectedUnit, clickedEnemy);
+        }
+      }
+      renderBoard();
+    }
+
+    function isAdjacent(unit, x, y) {
+      return Math.abs(unit.x - x) + Math.abs(unit.y - y) === 1;
+    }
+
+    function resolveCombat(player, enemy) {
+      const rps = ['blunt', 'ranged', 'tech'];
+      const beats = {
+        blunt: 'ranged',
+        ranged: 'tech',
+        tech: 'blunt',
+      };
+
+      const enemyType = enemy.type;
+      const result = beats[player.type] === enemyType ? 'win' : (player.type === enemyType ? 'draw' : 'lose');
+
+      if (result === 'win') {
+        enemy.hp--;
+        log.textContent = `${player.name} wins! ${enemy.name} HP: ${enemy.hp}`;
+        if (enemy.hp <= 0) {
+          const i = enemyUnits.indexOf(enemy);
+          if (i > -1) enemyUnits.splice(i, 1);
+          log.textContent = `${enemy.name} defeated!`;
+        }
+      } else if (result === 'draw') {
+        log.textContent = `Draw! Both survive.`;
+      } else {
+        player.hp--;
+        log.textContent = `${player.name} loses! HP: ${player.hp}`;
+        if (player.hp <= 0) {
+          const i = playerUnits.indexOf(player);
+          if (i > -1) playerUnits.splice(i, 1);
+          log.textContent = `${player.name} defeated!`;
+        }
+      }
+      selectedUnit = null;
+    }
+
+    renderBoard();
+  </script>
+</body>
+</html>
