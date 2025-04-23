@@ -21,68 +21,68 @@
       }
     }
 
-    async function loadHumans() {
-      const container = document.getElementById('human-list');
-      const humanPages = [
-        "/codex/humans/captain-tracy.html",
-        "/codex/humans/ranger-alex.html",
-        "/codex/humans/ranger-erik.html",
-        "/codex/humans/cheyenne.html",
-        "/codex/humans/officer-fist.html",
-        "/codex/humans/ranger-christina.html",
-        "/codex/humans/ranger-monica.html",
-        "/codex/humans/captain-red-hook.html",
-        "/codex/humans/james-francis.html",
-        "/codex/humans/clive-pierce-jones.html",
-        "/codex/humans/tallulah.html",
-        "/codex/humans/lance.html",
-        "/codex/humans/captain-washington.html",
-        "/codex/humans/marz.html",
-        "/codex/humans/mike-bedont.html",
-        "/codex/humans/ryan-mcdonnell.html",
-        "/codex/humans/mike-allen.html",
-        "/codex/humans/new-human.html"
-      ];
+async function loadHumans() {
+  const container = document.getElementById('human-list');
+  const humanPages = [
+    "/codex/humans/captain-tracy.html",
+    "/codex/humans/ranger-alex.html",
+    "/codex/humans/ranger-erik.html",
+    "/codex/humans/cheyenne.html",
+    "/codex/humans/officer-fist.html",
+    "/codex/humans/ranger-christina.html",
+    "/codex/humans/ranger-monica.html",
+    "/codex/humans/captain-red-hook.html",
+    "/codex/humans/james-francis.html",
+    "/codex/humans/clive-pierce-jones.html",
+    "/codex/humans/tallulah.html",
+    "/codex/humans/lance.html",
+    "/codex/humans/captain-washington.html",
+    "/codex/humans/marz.html",
+    "/codex/humans/mike-bedont.html",
+    "/codex/humans/ryan-mcdonnell.html",
+    "/codex/humans/mike-allen.html",
+    "/codex/humans/new-human.html"
+  ];
 
-      container.innerHTML = '';
+  container.innerHTML = '';
 
-      for (const page of humanPages) {
-        try {
-          const response = await fetch(page);
-          const html = await response.text();
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
+  for (const page of humanPages) {
+    try {
+      const response = await fetch(page);
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
 
-          const name = doc.querySelector('.subject-title')?.textContent.trim() || "Unnamed";
-          const imageSrc = doc.querySelector('img')?.getAttribute('src') || "/media/images/coming_soon.png";
+      const name = doc.querySelector('.subject-title')?.textContent.trim() || "Unnamed";
+      const imageSrc = doc.querySelector('img')?.getAttribute('src') || "/media/images/coming_soon.png";
 
-          // Pull just the "Role" paragraph
-          let role = "<p><em>Role unknown.</em></p>";
-          const paragraphs = doc.querySelectorAll('.character-summary p');
-          for (const p of paragraphs) {
-            const lowerText = p.textContent.toLowerCase();
-            if (lowerText.startsWith('role:')) {
-              role = `<p>${p.innerHTML}</p>`;
-              break;
-            }
-          }
-
-          const humanDiv = document.createElement('div');
-          humanDiv.classList.add('character-box');
-
-          humanDiv.innerHTML = `
-            <a href="${page}" class="character-link">
-              <img src="${imageSrc}" alt="${name}">
-              <h3>${name}</h3>
-              ${role}
-            </a>
-          `;
-          container.appendChild(humanDiv);
-        } catch (error) {
-          console.error(`Error loading human: ${page}`, error);
+      // ✔️ Pull Role from summary list
+      let role = "<p><em>Role unknown.</em></p>";
+      const listItems = doc.querySelectorAll('.subject-summary li');
+      for (const li of listItems) {
+        const label = li.querySelector('strong')?.textContent.toLowerCase();
+        if (label && label.startsWith('role')) {
+          role = `<p>${li.innerHTML}</p>`;
+          break;
         }
       }
+
+      const humanDiv = document.createElement('div');
+      humanDiv.classList.add('character-box');
+
+      humanDiv.innerHTML = `
+        <a href="${page}" class="character-link">
+          <img src="${imageSrc}" alt="${name}">
+          <h3>${name}</h3>
+          ${role}
+        </a>
+      `;
+      container.appendChild(humanDiv);
+    } catch (error) {
+      console.error(`Error loading human: ${page}`, error);
     }
+  }
+}
 
     document.addEventListener('DOMContentLoaded', () => {
       fetchRandomFact();
