@@ -8,7 +8,7 @@
   --font-terminal: 'Courier New', Courier, monospace;
 }
 
-/* Light Theme Toggle (Optional) */
+/* Light Theme */
 body.light {
   --gold: #222222;
   --green: #005500;
@@ -32,9 +32,10 @@ body {
   overflow-x: hidden;
 }
 
+/* Header */
 header {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 20px 10px;
   background: rgba(0, 0, 0, 0.95);
@@ -50,70 +51,87 @@ header h1 {
   text-align: center;
 }
 
-#nav-toggle,
 #theme-toggle {
   position: absolute;
+  right: 10px;
   top: 20px;
   background: none;
   border: 2px solid var(--gold);
   color: var(--gold);
-  font-size: 1.2rem;
-  padding: 5px 8px;
-  border-radius: 5px;
+  font-size: 1rem;
+  padding: 5px 10px;
+  border-radius: 6px;
   cursor: pointer;
-  z-index: 1001;
 }
 
-#nav-toggle {
-  left: 10px;
-}
-
-#theme-toggle {
-  right: 10px;
-}
-
-/* Always-visible nav on larger screens */
-#mobile-nav {
-  display: flex;
-  flex-direction: column;
+/* Scrolling Fact Banner */
+.random-fact-banner {
   width: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  padding: 10px 0;
-  border-top: 2px solid var(--gold);
-  gap: 5px;
-}
-
-#mobile-nav a {
-  padding: 10px;
-  margin: 0 10px;
-  text-align: center;
+  background: rgba(0, 0, 0, 0.85);
   color: var(--green);
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--gold);
-  border-radius: 5px;
-  text-decoration: none;
-  transition: all 0.2s ease;
+  font-family: var(--font-terminal);
+  font-size: 0.95rem;
+  border-top: 2px solid var(--red);
+  border-bottom: 2px solid var(--red);
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 
-#mobile-nav a:hover {
+.random-fact-banner span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollTicker 20s linear infinite;
+}
+
+@keyframes scrollTicker {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Nav Strip */
+#nav-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-top: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+#nav-strip::-webkit-scrollbar {
+  display: none;
+}
+
+#nav-strip a {
+  text-decoration: none;
+  color: var(--green);
+  padding: 6px 12px;
+  border-radius: 5px;
+  transition: background 0.2s ease;
+}
+
+#nav-strip a:hover {
   background: var(--gold);
   color: #000;
   font-weight: bold;
 }
 
-/* Fact Banner */
-.random-fact-banner {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  color: var(--green);
-  text-align: center;
-  padding: 10px;
-  font-size: 0.95rem;
-  border-top: 2px solid var(--red);
-  border-bottom: 2px solid var(--red);
-  overflow-x: auto;
-  white-space: nowrap;
-  font-family: monospace;
+/* Main content */
+main.content {
+  padding: 20px 0;
 }
 
 /* Section Headings */
@@ -146,10 +164,6 @@ header h1 {
   margin-bottom: 10px;
 }
 
-.character-box label::before {
-  content: "📂 ";
-}
-
 .character-summary {
   display: block;
   border-top: 1px dashed var(--cyan);
@@ -166,7 +180,6 @@ header h1 {
   min-width: 100px;
 }
 
-/* Images */
 .character-summary img {
   max-width: 100%;
   height: auto;
@@ -176,7 +189,7 @@ header h1 {
   display: block;
 }
 
-/* Responsive Cleanup */
+/* Responsive Tweaks */
 @media (max-width: 768px) {
   header h1 {
     font-size: 1.5rem;
@@ -192,9 +205,5 @@ header h1 {
 
   .section-title {
     font-size: 1.3rem;
-  }
-
-  #mobile-nav {
-    flex-direction: column;
   }
 }
