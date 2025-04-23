@@ -14,17 +14,12 @@
 <body>
   <header>
     <h1>Codex of Nothing</h1>
-    <button id="nav-toggle">☰ Menu</button>
     <button id="theme-toggle">☀️</button>
   </header>
 
+  <!-- 📡 Intercepted Banner -->
   <div class="random-fact-banner">
     📡 Intercepted: <span id="random-fact">Loading fact...</span>
-  </div>
-
-  <!-- 🔍 Fuzzy Find -->
-  <div id="nav-search-wrapper">
-    <input type="text" id="nav-search" placeholder="🔍 Search Codex..." />
   </div>
 
   <!-- 🧭 Nav Strip -->
@@ -47,7 +42,7 @@
   <main class="content">
     <section>
       <h2 class="section-title">📂 Welcome to the Codex</h2>
-      <p>Explore the vast universe of <em>The Economy of Nothing</em>. Use the links above or search to dive into characters, factions, locations, and more.</p>
+      <p>Explore the vast universe of <em>The Economy of Nothing</em>. Use the links above to dive into characters, factions, locations, and more.</p>
     </section>
 
     <section>
@@ -74,12 +69,12 @@
 
   <!-- 🔧 Scripts -->
   <script>
-    // Toggle theme
+    // Theme toggle
     document.getElementById('theme-toggle').addEventListener('click', () => {
       document.body.classList.toggle('light');
     });
 
-    // Random fact loader
+    // Random fact loader with scrolling banner
     async function fetchRandomFact() {
       try {
         const response = await fetch('../data/facts.txt');
@@ -92,18 +87,6 @@
       }
     }
     fetchRandomFact();
-
-    // Fuzzy find for nav
-    const searchInput = document.getElementById('nav-search');
-    const navLinks = document.querySelectorAll('#nav-strip a');
-
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.toLowerCase();
-      navLinks.forEach(link => {
-        const text = link.textContent.toLowerCase();
-        link.classList.toggle('hidden', !text.includes(query));
-      });
-    });
   </script>
 </body>
 </html>
