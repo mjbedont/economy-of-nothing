@@ -54,8 +54,18 @@
           const doc = parser.parseFromString(html, 'text/html');
 
           const name = doc.querySelector('.subject-title')?.textContent.trim() || "Unnamed";
-          const summary = doc.querySelector('ul')?.outerHTML || "<p>No summary available.</p>";
           const imageSrc = doc.querySelector('img')?.getAttribute('src') || "/media/images/coming_soon.png";
+
+          // Pull just the "Role" paragraph
+          let role = "<p><em>Role unknown.</em></p>";
+          const paragraphs = doc.querySelectorAll('.character-summary p');
+          for (const p of paragraphs) {
+            const lowerText = p.textContent.toLowerCase();
+            if (lowerText.startsWith('role:')) {
+              role = `<p>${p.innerHTML}</p>`;
+              break;
+            }
+          }
 
           const humanDiv = document.createElement('div');
           humanDiv.classList.add('character-box');
@@ -64,7 +74,7 @@
             <a href="${page}" class="character-link">
               <img src="${imageSrc}" alt="${name}">
               <h3>${name}</h3>
-              ${summary}
+              ${role}
             </a>
           `;
           container.appendChild(humanDiv);
