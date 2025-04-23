@@ -22,27 +22,32 @@
     📡 Intercepted: <span id="random-fact">Loading fact...</span>
   </div>
 
-  <nav id="mobile-nav" class="hidden">
-    <a href="/codex/">Codex Home</a>
+  <!-- 🔍 Fuzzy Find -->
+  <div id="nav-search-wrapper">
+    <input type="text" id="nav-search" placeholder="🔍 Search Codex..." />
+  </div>
+
+  <!-- 🧭 Nav Strip -->
+  <nav id="nav-strip">
+    <a href="/codex/">Home</a>
     <a href="/codex/humans/">Humans</a>
     <a href="/codex/aliens/">Aliens</a>
     <a href="/codex/creatures/">Creatures</a>
     <a href="/codex/robots/">Robots</a>
-    <a href="/codex/technology/">Technology</a>
-    <a href="/codex/transportation/">Transportation</a>
-    <a href="/codex/locations/">Locations</a>
+    <a href="/codex/technology/">Tech</a>
+    <a href="/codex/transportation/">Ships</a>
+    <a href="/codex/locations/">Map</a>
     <a href="/codex/factions/">Factions</a>
-    <a href="/codex/economics/">Economics</a>
-    <a href="/codex/politics/">Politics</a>
+    <a href="/codex/economics/">Economy</a>
     <a href="/codex/timeline/">Timeline</a>
     <a href="/codex/glossary/">Glossary</a>
-    <a href="/index.html">Exit Codex</a>
+    <a href="/index.html">Exit</a>
   </nav>
 
   <main class="content">
     <section>
       <h2 class="section-title">📂 Welcome to the Codex</h2>
-      <p>Explore the vast universe of <em>The Economy of Nothing</em>. Use the menu above to dive into characters, factions, locations, and more.</p>
+      <p>Explore the vast universe of <em>The Economy of Nothing</em>. Use the links above or search to dive into characters, factions, locations, and more.</p>
     </section>
 
     <section>
@@ -67,18 +72,14 @@
     </section>
   </main>
 
+  <!-- 🔧 Scripts -->
   <script>
-    // Toggle mobile nav
-    document.getElementById('nav-toggle').addEventListener('click', () => {
-      document.getElementById('mobile-nav').classList.toggle('show');
-    });
-
-    // Toggle light/dark theme
+    // Toggle theme
     document.getElementById('theme-toggle').addEventListener('click', () => {
       document.body.classList.toggle('light');
     });
 
-    // Load random fact
+    // Random fact loader
     async function fetchRandomFact() {
       try {
         const response = await fetch('../data/facts.txt');
@@ -91,7 +92,18 @@
       }
     }
     fetchRandomFact();
+
+    // Fuzzy find for nav
+    const searchInput = document.getElementById('nav-search');
+    const navLinks = document.querySelectorAll('#nav-strip a');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      navLinks.forEach(link => {
+        const text = link.textContent.toLowerCase();
+        link.classList.toggle('hidden', !text.includes(query));
+      });
+    });
   </script>
 </body>
 </html>
-
