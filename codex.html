@@ -15,6 +15,7 @@
   <header>
     <h1>Codex of Nothing</h1>
     <button id="nav-toggle">☰ Menu</button>
+    <button id="theme-toggle">☀️</button>
   </header>
 
   <div class="random-fact-banner">
@@ -40,31 +41,28 @@
 
   <main class="content">
     <section>
-      <h2>Welcome to the Codex</h2>
+      <h2 class="section-title">📂 Welcome to the Codex</h2>
       <p>Explore the vast universe of <em>The Economy of Nothing</em>. Use the menu above to dive into characters, factions, locations, and more.</p>
     </section>
 
-    <section class="codex-spotlight">
-      <h2>📘 Codex Pages of the Week</h2>
+    <section>
+      <h2 class="section-title">📘 Codex Pages of the Week</h2>
       <ul>
-        <li>
-          <a href="/codex/humans/cheyenne.html">Captain Cheyenne (Shyan)</a> – She technically outranks Tracy, and that’s a whole thing.
-        </li>
-        <li>
-          <a href="/codex/humans/officer-fist.html">Officer Fist</a> – He’s not subtle. He *is* very, very loud.
-        </li>
-        <li>
-          <a href="/codex/transportation/sunshine.html">The Sunshine</a> – A matryoshka-class ship piloted by Rangers. Beauty, brains, and detachable layers.
-        </li>
+        <li><a href="/codex/humans/cheyenne.html">Captain Cheyenne (Shyan)</a> – She technically outranks Tracy, and that’s a whole thing.</li>
+        <li><a href="/codex/humans/officer-fist.html">Officer Fist</a> – He’s not subtle. He *is* very, very loud.</li>
+        <li><a href="/codex/transportation/sunshine.html">The Sunshine</a> – A matryoshka-class ship piloted by Rangers. Beauty, brains, and detachable layers.</li>
       </ul>
     </section>
 
-    <section class="character-box">
-      <input type="checkbox" id="char1" />
-      <label for="char1">Captain Tracy</label>
-      <div class="character-summary">
-        <img src="../media/images/captain-tracy-1.png" alt="Captain Tracy" />
-        <p>Captain of the Moonshine. Charismatic and flawed, he leads with guts, charm, and a moral code that bends but never breaks.</p>
+    <section>
+      <h2 class="section-title">🧑‍🚀 Featured Character: Captain Tracy</h2>
+      <div class="character-box">
+        <label>Captain Tracy</label>
+        <div class="character-summary">
+          <img src="../media/images/captain-tracy-1.png" alt="Captain Tracy" />
+          <p><strong>Role:</strong> Captain of the Moonshine</p>
+          <p><strong>Description:</strong> Charismatic and flawed, he leads with guts, charm, and a moral code that bends but never breaks.</p>
+        </div>
       </div>
     </section>
   </main>
@@ -75,12 +73,17 @@
       document.getElementById('mobile-nav').classList.toggle('show');
     });
 
+    // Toggle light/dark theme
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.body.classList.toggle('light');
+    });
+
     // Load random fact
     async function fetchRandomFact() {
       try {
         const response = await fetch('../data/facts.txt');
         const text = await response.text();
-        const facts = text.split('\\n').filter(f => f.trim());
+        const facts = text.split('\n').filter(f => f.trim());
         const randomIndex = Math.floor(Math.random() * facts.length);
         document.getElementById('random-fact').textContent = facts[randomIndex];
       } catch {
@@ -91,3 +94,4 @@
   </script>
 </body>
 </html>
+
