@@ -1,113 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore the Codex of The Economy of Nothing—a satirical dystopian sci-fi series blending cosmic adventure with biting critique.">
-    <meta name="keywords" content="Economy of Nothing, Codex, sci-fi lore, characters, factions, episodes">
-    <meta name="author" content="The Economy of Nothing Team">
-    <title>Economics - Codex of Nothing</title>
-    <link rel="stylesheet" href="/codexstyle.css">
-    <script>
-        async function fetchRandomFact() {
-            try {
-                const response = await fetch('/data/facts.txt');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const text = await response.text();
-                const facts = text.split('\n').filter(fact => fact.trim() !== '');
-                if (facts.length === 0) {
-                    throw new Error('No facts available.');
-                }
-                const randomIndex = Math.floor(Math.random() * facts.length);
-                document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
-            } catch (error) {
-                console.error('Error fetching facts:', error);
-                document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
-            }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explore the Codex of The Economy of Nothing—a satirical dystopian sci-fi series blending cosmic adventure with biting critique." />
+  <meta name="keywords" content="Economy of Nothing, Economics, Currency, Ownership, Job Market, Sci-fi Lore" />
+  <meta name="author" content="The Economy of Nothing Team" />
+  <title>Economy - Codex of Nothing</title>
+  <link rel="stylesheet" href="/codexstyle.css" />
+  <link rel="icon" type="image/png" href="/media/codexicon.png" />
+  <script>
+    async function fetchRandomFact() {
+      try {
+        const response = await fetch('/data/facts.txt');
+        const text = await response.text();
+        const facts = text.split('\n').filter(f => f.trim());
+        const randomIndex = Math.floor(Math.random() * facts.length);
+        document.getElementById('random-fact').textContent = `...${facts[randomIndex]}...`;
+      } catch {
+        document.getElementById('random-fact').textContent = '...Fact retrieval failed. Try again later...';
+      }
+    }
+
+    async function loadEconomics() {
+      const container = document.getElementById('economics-list');
+      const economicsPages = [
+        "/codex/economics/currency.html",
+        "/codex/economics/contracts.html",
+        "/codex/economics/consumer-economy.html",
+        "/codex/economics/ownership.html",
+        "/codex/economics/taxation.html",
+        "/codex/economics/job-market.html",
+        "/codex/economics/black-market.html"
+      ];
+
+      container.innerHTML = '';
+
+      for (const page of economicsPages) {
+        try {
+          const response = await fetch(page);
+          const html = await response.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          const name = doc.querySelector('.subject-title, h1')?.textContent.trim() || "Unnamed Economic Topic";
+          const imageSrc = doc.querySelector('img')?.getAttribute('src') || "/media/images/coming_soon.png";
+          const summary = doc.querySelector('p')?.outerHTML || "<p>No summary available.</p>";
+
+          const econDiv = document.createElement('div');
+          econDiv.classList.add('character-box');
+
+          econDiv.innerHTML = `
+            <a href="${page}" class="character-link">
+              <img src="${imageSrc}" alt="${name}">
+              <h3>${name}</h3>
+              ${summary}
+            </a>
+          `;
+          container.appendChild(econDiv);
+        } catch (error) {
+          console.error(`Error loading economics topic: ${page}`, error);
         }
+      }
+    }
 
-        async function loadEconomics() {
-            const container = document.getElementById('economics-list');
-            const economicsPages = [
-                "/codex/economics/currency.html",
-                "/codex/economics/contracts.html",
-                "/codex/economics/consumer-economy.html",
-                "/codex/economics/ownership.html",
-                "/codex/economics/taxation.html",
-                "/codex/economics/job-market.html",
-                "/codex/economics/black-market.html"
-            ];
-
-            container.innerHTML = '<p>Accessing database of Nothing...</p>';
-
-            for (const page of economicsPages) {
-                try {
-                    const response = await fetch(page);
-                    const html = await response.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-
-                    const name = doc.querySelector('h1')?.textContent || "Unknown Economic Topic";
-                    const summary = doc.querySelector('p')?.outerHTML || "<p>No summary available.</p>";
-                    const image = doc.querySelector('img') ? doc.querySelector('img').outerHTML : "<img src='/media/images/coming_soon.png' alt='No Image' />";
-
-                    const econDiv = document.createElement('div');
-                    econDiv.classList.add('character-box');
-
-                    econDiv.innerHTML = `
-                        <div class="character">
-                            <h2><a href="${page}">${name}</a></h2>
-                            <div class="character-image">${image}</div>
-                            <div class="character-summary">${summary}</div>
-                        </div>
-                    `;
-                    container.appendChild(econDiv);
-                } catch (error) {
-                    console.error(`Error loading economic topic: ${page}`, error);
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchRandomFact();   // Load random fact
-            loadEconomics();     // Load economics data
-        });
-    </script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchRandomFact();
+      loadEconomics();
+    });
+  </script>
 </head>
 <body>
-    <div class="starfield"></div>
-    <header>
-        Codex of Nothing
-    </header>
-    <div class="container">
-        <div class="sidebar">
-            <a href="/codex.html">Codex Home</a>
-            <a href="/codex/humans.html">Humans</a>
-            <a href="/codex/aliens.html">Aliens</a>
-            <a href="/codex/creatures.html">Creatures</a>
-            <a href="/codex/robots.html">Robots</a>
-            <a href="/codex/transportation.html">Transportation</a>
-            <a href="/codex/technology.html">Technology</a>
-            <a href="/codex/locations.html">Locations</a>
-            <a href="/codex/factions.html">Factions</a>
-            <a href="/codex/economics.html" class="active">Economics</a>
-            <a href="/codex/politics.html">Politics</a>
-            <a href="/codex/timeline.html">Timeline</a>
-            <a href="/codex/glossary.html">Glossary</a>
-            <a href="/index.html">Exit Codex</a>
-        </div>
-        <div class="content">
-            <div class="random-fact-box">
-                <span class="intercepted">Message Intercepted:</span>
-                <span class="fact-ticker" id="random-fact">Loading...</span>
-            </div>
-            <h2>Economics</h2>
-            <div id="economics-list">
-                <p>Accessing database of Nothing...</p>
-            </div>
-        </div>
+  <header>
+    <h1>Codex of Nothing</h1>
+    <button id="theme-toggle">☀️</button>
+  </header>
+
+  <div class="random-fact-banner">
+    📡 Intercepted: <span id="random-fact">Loading fact...</span>
+  </div>
+
+  <nav id="nav-strip">
+    <a href="/codex/">Home</a>
+    <a href="/codex/humans/">Humans</a>
+    <a href="/codex/aliens/">Aliens</a>
+    <a href="/codex/creatures/">Creatures</a>
+    <a href="/codex/robots/">Robots</a>
+    <a href="/codex/locations/">Places</a>
+    <a href="/codex/transportation/">Ships</a>
+    <a href="/codex/technology/">Tech</a>
+    <a href="/codex/factions/">Factions</a>
+    <a href="/codex/timeline/">Timeline</a>
+    <a href="/codex/politics/">Politics</a>
+    <a href="/codex/economics/" class="active">Economy</a>
+    <a href="/codex/glossary/">Glossary</a>
+    <a href="/index.html">Exit</a>
+  </nav>
+
+  <main class="content">
+    <h2 class="section-title">💰 Codex: Economy</h2>
+    <div id="economics-list" class="character-grid">
+      <p>Accessing database of Nothing...</p>
     </div>
+  </main>
+
+  <script>
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.body.classList.toggle('light');
+    });
+  </script>
 </body>
 </html>
