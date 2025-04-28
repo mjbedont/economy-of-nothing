@@ -242,11 +242,13 @@ main .video-container iframe {
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.episode-box:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
-    border-color: var(--secondary-color);
-    background: var(--background-hover-gradient);
+/* 🔥 Added Fix for iframe in episode details */
+.episode-details iframe {
+    width: 100%;
+    height: 392px;
+    max-width: 800px;
+    border-radius: 10px;
+    margin: 10px 0;
 }
 
 .episode-thumbnail {
