@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pay to Lose™ | The Economy of Nothing</title>
+  <link rel="stylesheet" href="/codexstyle.css">
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: var(--bg-dark, #1a1a1a);
+      color: var(--text-light, #f2f2f2);
+      padding: 2em;
+      text-align: center;
+    }
+    h1 {
+      color: var(--accent-orange, #f26a2e);
+    }
+    #log {
+      margin-top: 1em;
+      height: 200px;
+      overflow-y: scroll;
+      border: 1px solid #444;
+      padding: 1em;
+      background: #111;
+    }
+    button {
+      font-size: 1.5em;
+      padding: 0.5em 1em;
+      background: var(--accent-orange, #f26a2e);
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .stat {
+      margin: 1em;
+      font-size: 1.2em;
+    }
+    #leaderboard {
+      margin-top: 2em;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pay to Lose™</h1>
+  <p><em>The official training simulator of the Nothing Corporation.</em></p>
+  <p class="stat">📍 Position: <span id="position">0</span></p>
+  <p class="stat">💵 Money: $<span id="money">100</span></p>
+  <p class="stat">📉 Debt: $<span id="debt">0</span></p>
+  <button id="rollBtn" onclick="rollDice()">🎲 ROLL</button>
+  <div id="log"></div>
+
+  <div id="leaderboard">
+    <h2>📊 Leaderboard (This Session)</h2>
+    <ol id="scoreList"></ol>
+  </div>
+
+  <script>
+    let position = 0;
+    let money = 100;
+    let debt = 0;
+    let gameOver = false;
+    let scoreList = [];
+
+    const gameOverMessages = [
+      "Jailed for Insufficient Funds.",
+      "Ejected from the Economy for Lack of Value.",
+      "Died of No Money.",
+      "Fired for Insolvency.",
+      "Your Credit Score Was Negative.",
+      "Liquidated by Dispatch.",
+      "Recycled as Emotional Nutrients."
+    ];
+
+    function log(msg) {
+      const logDiv = document.getElementById("log");
+      logDiv.innerHTML += `<p>▶ ${msg}</p>`;
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    function updateLeaderboard(finalScore) {
+      scoreList.push(finalScore);
+      scoreList.sort((a, b) => b.money - a.money);
+      const list = document.getElementById("scoreList");
+      list.innerHTML = "";
+      scoreList.forEach(s => {
+        const li = document.createElement("li");
+        li.textContent = `Space ${s.position}, $${s.money.toFixed(2)} cash, $${s.debt.toFixed(2)} debt`;
+        list.appendChild(li);
+      });
+    }
+
+    function resetGame() {
+      updateLeaderboard({ position, money, debt });
+      position = 0;
+      money = 100;
+      debt = 0;
+      gameOver = false;
+      document.getElementById("position").textContent = position;
+      document.getElementById("money").textContent = money.toFixed(2);
+      document.getElementById("debt").textContent = debt.toFixed(2);
+      document.getElementById("log").innerHTML = "";
+      document.getElementById("rollBtn").disabled = false;
+    }
+
+    function rollDice() {
+      if (gameOver) return;
+      const roll = Math.floor(Math.random() * 6) + 1;
+      position += roll;
+      const outcome = Math.random();
+      let resultMsg = `You rolled a ${roll}. Advanced to tile ${position}. `;
+
+      if (outcome < 0.2) {
+        const fee = 15;
+        money -= fee;
+        resultMsg += `"Fun Tax" deducted $${fee}. Thank you for playing.`;
+      } else if (outcome < 0.4) {
+        const raise = 10;
+        money += raise;
+        resultMsg += `Received a cost-of-living raise: +$${raise}. Inflation pending.`;
+      } else if (outcome < 0.6) {
+        const promo = 5;
+        debt += promo;
+        resultMsg += `Promoted via micro-loan. New debt: +$${promo}.`;
+      } else if (outcome < 0.8) {
+        const interest = debt * 0.1;
+        debt += interest;
+        resultMsg += `Interest compounded: +$${interest.toFixed(2)} debt.`;
+      } else {
+        resultMsg += `Nothing happened. You remain spiritually uninvested.`;
+      }
+
+      if (money < 0) {
+        const msg = gameOverMessages[Math.floor(Math.random() * gameOverMessages.length)];
+        resultMsg += `\n🛑 GAME OVER: ${msg}`;
+        gameOver = true;
+        document.getElementById("rollBtn").disabled = true;
+        setTimeout(() => {
+          log(resultMsg);
+          setTimeout(() => resetGame(), 3000);
+        }, 500);
+      }
+
+      document.getElementById("position").textContent = position;
+      document.getElementById("money").textContent = money.toFixed(2);
+      document.getElementById("debt").textContent = debt.toFixed(2);
+      log(resultMsg);
+    }
+  </script>
+</body>
+</html>
