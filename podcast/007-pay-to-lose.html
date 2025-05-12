@@ -62,13 +62,42 @@
       </iframe>
     </div>
 
-    <!-- Content Club Links -->
+    <!-- Content Club as Nested Dropdown with Embeds -->
     <h3>📀 Content Club – Show Links</h3>
-    <ul>
-      <li><a href="https://www.youtube.com/watch?v=zlJ6lDjlPmM&t=1113s" target="_blank">Scrubs – “My Jiggly Ball” (YouTube)</a></li>
-      <li><a href="https://www.dailymotion.com/video/x81uhtf" target="_blank">Scrubs – “My Jiggly Ball” (Dailymotion)</a></li>
-      <li><a href="https://www.youtube.com/watch?v=II7FdfulS2k" target="_blank">Burn Notice – Pilot (YouTube)</a></li>
-    </ul>
+    <details>
+      <summary>Scrubs</summary>
+      <details>
+        <summary>Full Episode (Dailymotion)</summary>
+        <div class="episode-details">
+          <iframe width="100%" height="315" 
+            src="https://www.dailymotion.com/embed/video/x81uhtf" 
+            frameborder="0" allowfullscreen allow="autoplay">
+          </iframe>
+        </div>
+      </details>
+      <details>
+        <summary>Clip (YouTube)</summary>
+        <div class="episode-details">
+          <iframe width="100%" height="315" 
+            src="https://www.youtube.com/embed/zlJ6lDjlPmM" 
+            frameborder="0" allowfullscreen allow="autoplay">
+          </iframe>
+        </div>
+      </details>
+    </details>
+
+    <details>
+      <summary>Burn Notice</summary>
+      <details>
+        <summary>Full Episode (YouTube)</summary>
+        <div class="episode-details">
+          <iframe width="100%" height="315" 
+            src="https://www.youtube.com/embed/II7FdfulS2k" 
+            frameborder="0" allowfullscreen allow="autoplay">
+          </iframe>
+        </div>
+      </details>
+    </details>
 
     <a href="/podcast.html" class="episode-button">← Back to All Episodes</a>
   </main>
