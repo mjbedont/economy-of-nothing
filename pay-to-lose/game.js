@@ -91,9 +91,10 @@ async function rollDice() {
   const roll = Math.floor(Math.random() * 6) + 1;
   position += roll;
 
-  // 📈 Update progress
+  // 📈 Update progress (loop after 10 tiles)
   const track = document.getElementById("careerTrack");
-  track.textContent = "🧍" + "🔸".repeat(position);
+  const marker = "🔸".repeat(position % 10);
+  track.textContent = "🧍" + marker;
 
   const event = await fetchEvent();
   let resultMsg = `You rolled a ${roll}. Advanced to tile ${position}. `;
