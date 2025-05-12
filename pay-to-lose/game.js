@@ -52,6 +52,8 @@ function resetGame() {
   document.getElementById("money").textContent = money.toFixed(2);
   document.getElementById("debt").textContent = debt.toFixed(2);
   document.getElementById("log").innerHTML = "";
+  document.getElementById("eventFlash").textContent = "";
+  document.getElementById("careerTrack").textContent = "🧍";
   document.getElementById("rollBtn").disabled = false;
   document.getElementById("rollBtn").focus();
 }
@@ -80,11 +82,22 @@ async function fetchEvent() {
 async function rollDice() {
   if (gameOver) return;
 
+  // 🎲 Dice flash
+  const dice = document.getElementById("diceFlash");
+  dice.style.opacity = 1;
+  setTimeout(() => dice.style.opacity = 0, 400);
+
+  // Roll and move
   const roll = Math.floor(Math.random() * 6) + 1;
   position += roll;
 
+  // 📈 Update progress
+  const track = document.getElementById("careerTrack");
+  track.textContent = "🧍" + "🔸".repeat(position);
+
   const event = await fetchEvent();
   let resultMsg = `You rolled a ${roll}. Advanced to tile ${position}. `;
+  document.getElementById("eventFlash").textContent = resultMsg;
 
   if (event.type === "money") {
     money += event.amount;
@@ -103,16 +116,14 @@ async function rollDice() {
     resultMsg += event.text;
   }
 
-  // Add tile flavor if it exists
   if (tileDescriptions[position]) {
     resultMsg += `\n${tileDescriptions[position]}`;
   }
 
-  // Rare special event
-  if (Math.random() < 0.02) {
-    money += 100;
-    resultMsg += `\n🧾 You glimpsed the hidden ledger. +$100. You were not supposed to see that.`;
-    flashStat("money", "gold");
+  if (Math.random() < 0.005) {
+    money += 20;
+    resultMsg += `\n🧾 You glimpsed a forgotten corporate ledger. +$20. Shhh.`;
+    flashStat("money", "lime");
   }
 
   if (money < 0) {
