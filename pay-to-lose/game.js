@@ -44,34 +44,42 @@ function flashStat(id, color) {
   setTimeout(() => { el.style.color = ""; }, 400);
 }
 
-function updateLeaderboard(finalScore) {
+function updateLocalLeaderboard(finalScore) {
   scoreList.push(finalScore);
   scoreList.sort((a, b) => b.money - a.money);
   scoreList = scoreList.slice(0, 10);
   localStorage.setItem("eonScores", JSON.stringify(scoreList));
+}
 
-  const list = document.getElementById("scoreList");
-  list.innerHTML = "";
-  scoreList.forEach(s => {
+function renderLeaderboardFromList(list) {
+  const container = document.getElementById("scoreList");
+  container.innerHTML = "";
+  list.slice(0, 10).forEach(s => {
     const li = document.createElement("li");
     li.textContent = `Space ${s.position}, $${s.money.toFixed(2)} cash, $${s.debt.toFixed(2)} debt`;
-    list.appendChild(li);
+    container.appendChild(li);
   });
 }
 
-function renderLeaderboard() {
-  const list = document.getElementById("scoreList");
-  list.innerHTML = "";
-  const topScores = scoreList.slice(0, 10);
-  topScores.forEach(s => {
-    const li = document.createElement("li");
-    li.textContent = `Space ${s.position}, $${s.money.toFixed(2)} cash, $${s.debt.toFixed(2)} debt`;
-    list.appendChild(li);
-  });
+async function loadSharedLeaderboard() {
+  try {
+    const res = await fetch('/.netlify/functions/get-scores');
+    const data = await res.json();
+
+    if (data.success && Array.isArray(data.scores)) {
+      renderLeaderboardFromList(data.scores);
+    } else {
+      console.warn("⚠️ No shared scores found, falling back to local.");
+      renderLeaderboardFromList(scoreList);
+    }
+  } catch (err) {
+    console.error("❌ Failed to load shared leaderboard:", err);
+    renderLeaderboardFromList(scoreList);
+  }
 }
 
 function resetGame() {
-  updateLeaderboard({ position, money, debt });
+  updateLocalLeaderboard({ position, money, debt });
   position = 0;
   money = 100;
   debt = 0;
@@ -149,7 +157,7 @@ async function rollDice() {
     gameOver = true;
     document.getElementById("rollBtn").disabled = true;
 
-    // Submit score to Netlify GitHub Function
+    // Submit score to GitHub via Netlify
     fetch('/.netlify/functions/save-score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -175,6 +183,5 @@ async function rollDice() {
   log(resultMsg);
 }
 
-// Render leaderboard from local storage on load
-renderLeaderboard();
-
+// 🟢 Load leaderboard from GitHub on page load
+loadSharedLeaderboard();
