@@ -2,7 +2,6 @@ let position = 0;
 let money = 100;
 let debt = 0;
 let gameOver = false;
-let scoreList = JSON.parse(localStorage.getItem("eonScores")) || [];
 
 const gameOverMessages = [
   "Jailed for Insufficient Funds.",
@@ -44,42 +43,7 @@ function flashStat(id, color) {
   setTimeout(() => { el.style.color = ""; }, 400);
 }
 
-function updateLocalLeaderboard(finalScore) {
-  scoreList.push(finalScore);
-  scoreList.sort((a, b) => b.money - a.money);
-  scoreList = scoreList.slice(0, 10);
-  localStorage.setItem("eonScores", JSON.stringify(scoreList));
-}
-
-function renderLeaderboardFromList(list) {
-  const container = document.getElementById("scoreList");
-  container.innerHTML = "";
-  list.slice(0, 10).forEach(s => {
-    const li = document.createElement("li");
-    li.textContent = `Space ${s.position}, $${s.money.toFixed(2)} cash, $${s.debt.toFixed(2)} debt`;
-    container.appendChild(li);
-  });
-}
-
-async function loadSharedLeaderboard() {
-  try {
-    const res = await fetch('/.netlify/functions/get-scores');
-    const data = await res.json();
-
-    if (data.success && Array.isArray(data.scores)) {
-      renderLeaderboardFromList(data.scores);
-    } else {
-      console.warn("⚠️ No shared scores found, falling back to local.");
-      renderLeaderboardFromList(scoreList);
-    }
-  } catch (err) {
-    console.error("❌ Failed to load shared leaderboard:", err);
-    renderLeaderboardFromList(scoreList);
-  }
-}
-
 function resetGame() {
-  updateLocalLeaderboard({ position, money, debt });
   position = 0;
   money = 100;
   debt = 0;
@@ -93,8 +57,7 @@ function resetGame() {
 }
 
 async function fetchEvent() {
-  // Weighting: 2 bad, 1 good
-  const sources = ['events/bad.json', 'events/good.json', 'events/bad.json'];
+  const sources = ['events/good.json', 'events/bad.json'];
   const allEvents = [];
 
   for (const src of sources) {
@@ -145,11 +108,11 @@ async function rollDice() {
     resultMsg += `\n${tileDescriptions[position]}`;
   }
 
-  // Rare corporate jackpot (reduced)
-  if (Math.random() < 0.005) {
-    money += 20;
-    resultMsg += `\n🧾 You glimpsed a forgotten corporate ledger. +$20. Shhh.`;
-    flashStat("money", "lime");
+  // Rare special event
+  if (Math.random() < 0.02) {
+    money += 100;
+    resultMsg += `\n🧾 You glimpsed the hidden ledger. +$100. You were not supposed to see that.`;
+    flashStat("money", "gold");
   }
 
   if (money < 0) {
@@ -157,16 +120,6 @@ async function rollDice() {
     resultMsg += `\n🛑 GAME OVER: ${msg}`;
     gameOver = true;
     document.getElementById("rollBtn").disabled = true;
-
-    // Submit score to GitHub via Netlify
-    fetch('/.netlify/functions/save-score', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ position, money, debt })
-    })
-    .then(res => res.json())
-    .then(data => console.log("✅ Score submitted:", data))
-    .catch(err => console.error("❌ Score submission failed:", err));
 
     setTimeout(() => {
       log(resultMsg);
@@ -183,7 +136,3 @@ async function rollDice() {
   document.getElementById("debt").textContent = debt.toFixed(2);
   log(resultMsg);
 }
-
-// Load shared leaderboard on page load
-loadSharedLeaderboard();
-
