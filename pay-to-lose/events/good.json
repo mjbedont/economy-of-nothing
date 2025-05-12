@@ -2,4 +2,14 @@
   { "type": "money", "amount": 20, "text": "💼 Your project was 'passable'. Bonus issued." },
   { "type": "neutral", "text": "🎉 You were not disciplined today. Progress!" },
   { "type": "money", "amount": 10, "text": "🧻 Won the supply room raffle. $10 bonus" }
+{ "type": "money", "amount": 25, "text": "🤑 Found a forgotten bonus from last quarter. +$25" },
+  { "type": "money", "amount": 10, "text": "🎉 HR accidentally awarded you 'Employee of the Month'." },
+  { "type": "neutral", "text": "☕ Enjoyed a coffee break that wasn’t tracked. Nothing happened." },
+  { "type": "money", "amount": 15, "text": "💽 You repurposed old software for personal gain. Efficiency bonus." },
+  { "type": "money", "amount": 5, "text": "💡 You had a bright idea. No one noticed, but here's $5." },
+  { "type": "neutral", "text": "📎 You survived a re-org without being noticed." },
+  { "type": "money", "amount": 30, "text": "🎲 You bet against your own team. It paid off." },
+  { "type": "money", "amount": 20, "text": "📦 Found unclaimed corporate gear. Flipped it on the grey market." },
+  { "type": "neutral", "text": "🧍 You did nothing all day and nobody cared." },
+  { "type": "money", "amount": 12, "text": "🎮 You won a sanctioned productivity contest. Weird, but profitable." }
 ]
