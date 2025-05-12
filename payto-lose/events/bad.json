@@ -1,5 +1,0 @@
-[
-  { "type": "money", "amount": -15, "text": "📉 Paid a fine for inefficient blinking." },
-  { "type": "debt", "amount": 20, "text": "💳 Your emotional outburst was monetized. Debt increased." },
-  { "type": "debtPercent", "percent": 0.15, "text": "📊 Compounded interest due to suspicious enthusiasm." }
-]
