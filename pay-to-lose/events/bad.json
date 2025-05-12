@@ -2,4 +2,14 @@
   { "type": "money", "amount": -15, "text": "📉 Paid a fine for inefficient blinking." },
   { "type": "debt", "amount": 20, "text": "💳 Your emotional outburst was monetized. Debt increased." },
   { "type": "debtPercent", "percent": 0.15, "text": "📊 Compounded interest due to suspicious enthusiasm." }
+  { "type": "money", "amount": -20, "text": "📉 Lost a bet on quarterly metrics." },
+  { "type": "debt", "amount": 15, "text": "💳 Subscribed to an internal service by accident. +$15 debt." },
+  { "type": "debtPercent", "percent": 0.2, "text": "📈 AI re-evaluated your worth. Your debt was adjusted accordingly." },
+  { "type": "money", "amount": -10, "text": "🖨️ You printed a personal document. $10 fine." },
+  { "type": "debt", "amount": 25, "text": "📡 You clicked a phishing simulation. Congratulations: you owe us." },
+  { "type": "money", "amount": -15, "text": "👞 Bought fancy shoes to impress Dispatch. They noticed — in a bad way." },
+  { "type": "debtPercent", "percent": 0.3, "text": "📊 Interest accrued while you were optimistic." },
+  { "type": "money", "amount": -5, "text": "📺 Watched 14 minutes of unsanctioned streaming." },
+  { "type": "debt", "amount": 10, "text": "🔁 You mistakenly resubmitted last month’s form. Incurred processing fee." },
+  { "type": "money", "amount": -18, "text": "🧼 Paid for emotional hygiene training. Not covered by plan." }
 ]
