@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pay to Lose™ | The Economy of Nothing</title>
-  <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Economy of Nothing Game™</title>
+  <link rel="stylesheet" href="/style.css" />
   <style>
     body {
       font-family: 'Courier New', monospace;
@@ -44,21 +43,37 @@
       margin-left: auto;
       margin-right: auto;
     }
+    footer {
+      margin-top: 3em;
+      font-size: 0.8em;
+      opacity: 0.6;
+    }
+    footer a {
+      color: #f26a2e;
+    }
   </style>
 </head>
 <body>
-  <h1>Pay to Lose™</h1>
-  <p><em>The official training simulator of the Nothing Corporation.</em></p>
+  <h1>The Economy of Nothing Game™</h1>
+  <p><em>The official compliance simulator of the Nothing Corporation. Fun is mandatory. Results are permanent.</em></p>
+
   <p class="stat">📍 Position: <span id="position">0</span></p>
   <p class="stat">💵 Money: $<span id="money">100</span></p>
   <p class="stat">📉 Debt: $<span id="debt">0</span></p>
-  <button id="rollBtn" onclick="rollDice()">🎲 ROLL</button>
+
+  <button id="rollBtn" onclick="rollDice()">🎲 ADVANCE YOUR CAREER</button>
+
   <div id="log"></div>
 
   <div id="leaderboard">
     <h2>📊 Leaderboard (This Session)</h2>
     <ol id="scoreList"></ol>
   </div>
+
+  <footer>
+    <p><a href="/podcast/007-pay-to-lose.html">← Return to Episode Page</a></p>
+    <p>© 56.009 Nothing Inc. | This simulation is for entertainment, training, and disciplinary use.</p>
+  </footer>
 
   <script>
     let position = 0;
@@ -75,6 +90,14 @@
       "Your Credit Score Was Negative.",
       "Liquidated by Dispatch.",
       "Recycled as Emotional Nutrients."
+    ];
+
+    const fallbackEvents = [
+      { type: "money", amount: -15, text: "Charged a 'vibe adjustment' fee. Deducted $15 for 'team morale'." },
+      { type: "money", amount: 10, text: "Received a merit-based micro-raise (+$10). Performance under review." },
+      { type: "debt", amount: 5, text: "Issued a promotional debt voucher (+$5). Redemption pending liquidation." },
+      { type: "debtPercent", percent: 0.1, text: "Your debt gained sentience. Compounded accordingly." },
+      { type: "neutral", text: "Nothing happened. Time was extracted for corporate use." }
     ];
 
     function log(msg) {
@@ -106,33 +129,40 @@
       document.getElementById("debt").textContent = debt.toFixed(2);
       document.getElementById("log").innerHTML = "";
       document.getElementById("rollBtn").disabled = false;
+      document.getElementById("rollBtn").focus();
     }
 
-    function rollDice() {
+    async function fetchEvent() {
+      try {
+        const res = await fetch('/events.json');
+        const events = await res.json();
+        return events[Math.floor(Math.random() * events.length)];
+      } catch (err) {
+        return fallbackEvents[Math.floor(Math.random() * fallbackEvents.length)];
+      }
+    }
+
+    async function rollDice() {
       if (gameOver) return;
+
       const roll = Math.floor(Math.random() * 6) + 1;
       position += roll;
-      const outcome = Math.random();
+
+      const event = await fetchEvent();
       let resultMsg = `You rolled a ${roll}. Advanced to tile ${position}. `;
 
-      if (outcome < 0.2) {
-        const fee = 15;
-        money -= fee;
-        resultMsg += `"Fun Tax" deducted $${fee}. Thank you for playing.`;
-      } else if (outcome < 0.4) {
-        const raise = 10;
-        money += raise;
-        resultMsg += `Received a cost-of-living raise: +$${raise}. Inflation pending.`;
-      } else if (outcome < 0.6) {
-        const promo = 5;
-        debt += promo;
-        resultMsg += `Promoted via micro-loan. New debt: +$${promo}.`;
-      } else if (outcome < 0.8) {
-        const interest = debt * 0.1;
+      if (event.type === "money") {
+        money += event.amount;
+        resultMsg += event.text;
+      } else if (event.type === "debt") {
+        debt += event.amount;
+        resultMsg += event.text;
+      } else if (event.type === "debtPercent") {
+        const interest = debt * event.percent;
         debt += interest;
-        resultMsg += `Interest compounded: +$${interest.toFixed(2)} debt.`;
+        resultMsg += `${event.text} (+$${interest.toFixed(2)} debt)`;
       } else {
-        resultMsg += `Nothing happened. You remain spiritually uninvested.`;
+        resultMsg += event.text;
       }
 
       if (money < 0) {
@@ -140,9 +170,14 @@
         resultMsg += `\n🛑 GAME OVER: ${msg}`;
         gameOver = true;
         document.getElementById("rollBtn").disabled = true;
+
         setTimeout(() => {
           log(resultMsg);
-          setTimeout(() => resetGame(), 3000);
+          log(`🏁 Final Position: ${position}, 💵 $${money.toFixed(2)}, 📉 $${debt.toFixed(2)}`);
+          setTimeout(() => {
+            log("💸 Resetting simulator...");
+            setTimeout(resetGame, 2000);
+          }, 2000);
         }, 500);
       }
 
