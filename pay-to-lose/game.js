@@ -47,11 +47,23 @@ function flashStat(id, color) {
 function updateLeaderboard(finalScore) {
   scoreList.push(finalScore);
   scoreList.sort((a, b) => b.money - a.money);
+  scoreList = scoreList.slice(0, 10);
   localStorage.setItem("eonScores", JSON.stringify(scoreList));
 
   const list = document.getElementById("scoreList");
   list.innerHTML = "";
   scoreList.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = `Space ${s.position}, $${s.money.toFixed(2)} cash, $${s.debt.toFixed(2)} debt`;
+    list.appendChild(li);
+  });
+}
+
+function renderLeaderboard() {
+  const list = document.getElementById("scoreList");
+  list.innerHTML = "";
+  const topScores = scoreList.slice(0, 10);
+  topScores.forEach(s => {
     const li = document.createElement("li");
     li.textContent = `Space ${s.position}, $${s.money.toFixed(2)} cash, $${s.debt.toFixed(2)} debt`;
     list.appendChild(li);
@@ -137,6 +149,16 @@ async function rollDice() {
     gameOver = true;
     document.getElementById("rollBtn").disabled = true;
 
+    // Submit score to Netlify GitHub Function
+    fetch('/.netlify/functions/save-score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ position, money, debt })
+    })
+    .then(res => res.json())
+    .then(data => console.log("✅ Score submitted:", data))
+    .catch(err => console.error("❌ Score submission failed:", err));
+
     setTimeout(() => {
       log(resultMsg);
       log(`🏁 Final Position: ${position}, 💵 $${money.toFixed(2)}, 📉 $${debt.toFixed(2)}`);
@@ -153,5 +175,6 @@ async function rollDice() {
   log(resultMsg);
 }
 
-// Preload leaderboard on page load
-updateLeaderboard({ position: 0, money: 100, debt: 0 });
+// Render leaderboard from local storage on load
+renderLeaderboard();
+
