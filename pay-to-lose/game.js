@@ -93,7 +93,8 @@ function resetGame() {
 }
 
 async function fetchEvent() {
-  const sources = ['events/good.json', 'events/bad.json'];
+  // Weighting: 2 bad, 1 good
+  const sources = ['events/bad.json', 'events/good.json', 'events/bad.json'];
   const allEvents = [];
 
   for (const src of sources) {
@@ -144,11 +145,11 @@ async function rollDice() {
     resultMsg += `\n${tileDescriptions[position]}`;
   }
 
-  // Rare special event
-  if (Math.random() < 0.02) {
-    money += 100;
-    resultMsg += `\n🧾 You glimpsed the hidden ledger. +$100. You were not supposed to see that.`;
-    flashStat("money", "gold");
+  // Rare corporate jackpot (reduced)
+  if (Math.random() < 0.005) {
+    money += 20;
+    resultMsg += `\n🧾 You glimpsed a forgotten corporate ledger. +$20. Shhh.`;
+    flashStat("money", "lime");
   }
 
   if (money < 0) {
@@ -183,5 +184,6 @@ async function rollDice() {
   log(resultMsg);
 }
 
-// 🟢 Load leaderboard from GitHub on page load
+// Load shared leaderboard on page load
 loadSharedLeaderboard();
+
