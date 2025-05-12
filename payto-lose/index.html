@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pay to Lose™ | The Economy of Nothing Game</title>
+  <link rel="icon" href="/media/favicon.png" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: #1a1a1a;
+      color: #f2f2f2;
+      padding: 2em;
+      text-align: center;
+    }
+    h1 {
+      color: #f26a2e;
+    }
+    #log {
+      margin-top: 1em;
+      height: 200px;
+      overflow-y: scroll;
+      border: 1px solid #444;
+      padding: 1em;
+      background: #111;
+    }
+    button {
+      font-size: 1.5em;
+      padding: 0.5em 1em;
+      background: #f26a2e;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .stat {
+      margin: 1em;
+      font-size: 1.2em;
+    }
+    #leaderboard {
+      margin-top: 2em;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    footer {
+      margin-top: 3em;
+      font-size: 0.8em;
+      opacity: 0.6;
+    }
+    footer a {
+      color: #f26a2e;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pay to Lose™</h1>
+  <p><em>The official training simulator of the Nothing Corporation. Fun is mandatory. Results are permanent.</em></p>
+
+  <p class="stat">📍 Position: <span id="position">0</span></p>
+  <p class="stat">💵 Money: $<span id="money">100</span></p>
+  <p class="stat">📉 Debt: $<span id="debt">0</span></p>
+
+  <button id="rollBtn" onclick="rollDice()">🎲 ROLL</button>
+
+  <div id="log"></div>
+
+  <div id="leaderboard">
+    <h2>📊 Leaderboard (This Session)</h2>
+    <ol id="scoreList"></ol>
+  </div>
+
+  <footer>
+    <p><a href="/lab.html">← Back to The Lab</a></p>
+    <p>© 56.009 Nothing Inc. | All debts simulated, all outcomes permanent.</p>
+  </footer>
+
+  <script src="/pay-to-lose/game.js"></script>
+</body>
+</html>
