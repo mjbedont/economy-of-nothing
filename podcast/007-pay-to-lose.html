@@ -1,53 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Playlist</title>
-    <!-- Add Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Economy of Nothing Podcast — Episode 007: Pay to Lose" />
+  <meta property="og:title" content="Pay to Lose | The Economy of Nothing Podcast" />
+  <meta property="og:description" content="What if Monopoly punished you for winning? A board game brainstorm turns existential in this week's Economy of Nothing." />
+  <meta property="og:url" content="https://economyofnothing.com/podcast/007-pay-to-lose.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="https://economyofnothing.com/media/episode07-thumbnail.png" />
+  <link rel="canonical" href="https://economyofnothing.com/podcast/007-pay-to-lose.html" />
+  <title>Pay to Lose | The Economy of Nothing Podcast</title>
+  <link rel="icon" type="image/png" href="/media/favicon.png" />
+  <link rel="apple-touch-icon" href="/media/favicon.png" />
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="embed-responsive embed-responsive-16by9" id="video-container">
-                    <iframe id="current-video" class="embed-responsive-item"
-                        src="https://www.youtube.com/embed/W-TMFzMGiiI"
-                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <ul class="list-group" id="video-playlist">
-                    <li class="list-group-item playlist-item active" data-video="W-TMFzMGiiI">
-                        Video 1: Nonverbal Communication Part 1
-                    </li>
-                    <li class="list-group-item playlist-item" data-video="CxH431oawdQ">
-                        Video 2: Nonverbal Communication Part 2
-                    </li>
-                    <li class="list-group-item playlist-item" data-video="YOUTUBE_ID">
-                        Video 3: VIDEO TITLE
-                    </li>
-                </ul>
-            </div>
-        </div>
+  <header>
+    <h1>The Economy of Nothing Podcast</h1>
+    <p>Episode 007 – Pay to Lose</p>
+  </header>
+
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/shows.html">Shows</a>
+    <a href="/codex.html">Codex</a>
+    <a href="/thelab.html">The Lab</a>
+    <a href="/recurrentrevenue.html">Friends & Benefits™</a>
+  </nav>
+
+  <main>
+    <h2>Pay to Lose</h2>
+    <p><em>A board game where the rich stay rich, the poor stay poor, and winning is the worst thing that can happen to you. Welcome to late-stage capitalism: the game night edition.</em></p>
+
+    <!-- Libsyn Audio Embed -->
+    <div class="episode-details">
+      <iframe 
+        title="Embed Player" 
+        style="border:none" 
+        src="https://play.libsyn.com/embed/episode/id/36521234/height/392/theme/modern/size/extra-large/thumbnail/yes/custom-color/000000/time-start/00:00:00/video-height/200/hide-playlist/yes/download/yes/font-color/00ff00" 
+        height="392" 
+        width="100%" 
+        scrolling="no" 
+        allowfullscreen>
+      </iframe>
     </div>
 
-    <!-- Add JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const playlistItems = document.querySelectorAll('.playlist-item');
-            const videoContainer = document.getElementById('current-video');
-            playlistItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const videoId = this.getAttribute('data-video');
-                    videoContainer.src = `https://www.youtube.com/embed/${videoId}`;
-                    playlistItems.forEach(el => el.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        });
-    </script>
+    <p><strong>🎲 Monopoly Squid Game Planet:</strong> The crew imagines a galactic board game empire where chance decides your breakfast and debt is currency. Cheyenne tries to unionize the dice. Mr. Green weaponizes luck. Tracy builds a hotel and regrets it instantly.</p>
+
+    <!-- YouTube Visual Radio -->
+    <div class="episode-details">
+      <iframe 
+        width="100%" 
+        height="392" 
+        src="https://www.youtube.com/embed/qeEg6HE2KHY" 
+        title="Pay to Lose – Visual Radio Edition" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <h3>🕒 Timecodes</h3>
+    <ul>
+      <li>00:00 – Welcome to the Game of Losing</li>
+      <li>02:10 – Why Board Games Hurt Feelings</li>
+      <li>07:45 – “What If Monopoly Had Consequences?”</li>
+      <li>13:30 – The Breakfast Lottery</li>
+      <li>21:15 – Gold-Pooping Dragons and Dream Logic</li>
+      <li>33:00 – Green’s Casino Cult Begins</li>
+      <li>42:00 – Designing the Squid Game Planet</li>
+      <li>54:00 – Should This Be Real?</li>
+      <li>01:00:00 – Outro (and rules for Not-Real Jenga)</li>
+    </ul>
+
+    <h3>🎬 Animated Clips</h3>
+    <div class="video-embed">
+      <iframe 
+        width="100%" 
+        height="392" 
+        src="https://www.youtube.com/embed/gE65_zZJ38E" 
+        title="A World Where Breakfast is a Gamble – Podcast Short" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p><em><strong>A World Where Breakfast is a Gamble</strong> – The only thing less fair than the rules is the menu.</em></p>
+
+    <details class="cast-list">
+      <summary>🎤 Voices</summary>
+      <ul>
+        <li><a href="/codex/humans/mike-bedont.html"><strong>Mike Bedont</strong></a> – Himself</li>
+        <li><a href="/codex/humans/mike-allen.html"><strong>Mike Allen</strong></a> – Himself</li>
+        <li><a href="/codex/humans/ryan-mcdonnell.html"><strong>Ryan McDonnell</strong></a> – Himself</li>
+      </ul>
+    </details>
+
+    <details class="cast-list">
+      <summary>🧠 References & Lore</summary>
+      <ul>
+        <li><a href="/codex/technology/barrel-blaster-4000.html"><strong>Barrel Blaster 4000</strong></a> – A sniper rifle that shoots explosions. Don't ask how. Ask why.</li>
+        <li><a href="/codex/glossary/dragon-poop.html"><strong>Dragon Poop Economics</strong></a> – Gold is only valuable if the baby dragon feels like it.</li>
+        <li><a href="/codex/locations/pawdora.html"><strong>Pawdora</strong></a> – A planet of sentient dogs. Different from Mississippi. Don’t overthink it.</li>
+        <li><a href="/codex/factions/the-sunshine-crew.html"><strong>The Sunshine Crew</strong></a> – They’re trying. Sometimes that’s the most dangerous thing you can do.</li>
+      </ul>
+    </details>
+
+    <h3>📡 Stay Connected</h3>
+    <ul>
+      <li>🌐 <a href="https://economyofnothing.com" target="_blank">economyofnothing.com</a></li>
+      <li>🎥 <a href="https://youtube.com/@economyofnothing" target="_blank">youtube.com/@economyofnothing</a></li>
+      <li>💸 <a href="https://patreon.com/economyofnothing" target="_blank">patreon.com/economyofnothing</a></li>
+    </ul>
+
+    <a href="/podcast.html" class="episode-button">← Back to All Episodes</a>
+  </main>
+
+  <footer>
+    <p>&copy; 56.009 Nothing Inc.</p>
+    <p class="nostalgia-note">This page was printed on a receipt. Redeem at your local OrbMart.</p>
+  </footer>
 </body>
 </html>
