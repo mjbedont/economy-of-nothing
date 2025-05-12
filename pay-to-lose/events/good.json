@@ -1,0 +1,5 @@
+[
+  { "type": "money", "amount": 20, "text": "💼 Your project was 'passable'. Bonus issued." },
+  { "type": "neutral", "text": "🎉 You were not disciplined today. Progress!" },
+  { "type": "money", "amount": 10, "text": "🧻 Won the supply room raffle. $10 bonus" }
+]
