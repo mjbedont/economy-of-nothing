@@ -64,12 +64,15 @@
 
   <button id="rollBtn" onclick="rollDice()">🎲 ADVANCE YOUR CAREER</button>
 
-  <div id="log"></div>
+  <div id="diceFlash" style="font-size: 3em; opacity: 0; transition: opacity 0.3s;">🎲</div>
 
-  <div id="leaderboard">
-    <h2>📊 Leaderboard (This Session)</h2>
-    <ol id="scoreList"></ol>
+  <div id="progressBar" style="margin: 1em auto; font-size: 1.5em;">
+    <span id="careerTrack">🧍</span>
   </div>
+
+  <div id="eventFlash" style="margin: 1em auto; padding: 1em; max-width: 600px; background: #222; color: #f26a2e; font-weight: bold;"></div>
+
+  <div id="log"></div>
 
   <footer>
     <p><a href="/lab.html">← Back to The Lab</a></p>
