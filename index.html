@@ -10,6 +10,33 @@
   <link rel="icon" type="image/png" href="/media/favicon.png" />
   <link rel="apple-touch-icon" href="/media/favicon.png" />
   <link rel="stylesheet" href="style.css">
+  <style>
+    .patreon-feed {
+      background-color: #222;
+      border: 1px solid #ff424d;
+      padding: 1em;
+      border-radius: 12px;
+      margin-top: 2em;
+    }
+
+    .patreon-feed ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .patreon-feed li {
+      margin: 0.5em 0;
+    }
+
+    .patreon-feed a {
+      color: #ff7b82;
+      text-decoration: none;
+    }
+
+    .patreon-feed a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <!-- Header Section -->
@@ -42,26 +69,38 @@
         allowfullscreen>
       </iframe>
     </div>
-      <div class="format-block">
-      
-    <iframe 
-      title="Embed Player"
-      style="border:none" 
-      src="https://play.libsyn.com/embed/episode/id/36717195/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00" 
-      height="192" 
-      width="100%" 
-      scrolling="no" 
-      allowfullscreen 
-      webkitallowfullscreen 
-      mozallowfullscreen 
-      oallowfullscreen 
-      msallowfullscreen>
-    </iframe>    
-  </div>
 
+    <div class="format-block">
+      <iframe 
+        title="Embed Player"
+        style="border:none" 
+        src="https://play.libsyn.com/embed/episode/id/36717195/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00" 
+        height="192" 
+        width="100%" 
+        scrolling="no" 
+        allowfullscreen 
+        webkitallowfullscreen 
+        mozallowfullscreen 
+        oallowfullscreen 
+        msallowfullscreen>
+      </iframe>    
+    </div>
 
     <h2>Explore More</h2>
     <p>Discover episodes, characters, and the absurdities of a corporate-controlled cosmos.</p>
+
+    <!-- Live Patreon Feed -->
+    <section class="patreon-feed">
+      <h3>🔒 Exclusive Updates from Our Patreon</h3>
+      <ul id="rss-output">
+        <li>Loading updates...</li>
+      </ul>
+      <p>
+        <a href="https://www.patreon.com/economyofnothing" target="_blank" rel="noopener">
+          Join us on Patreon for full access →
+        </a>
+      </p>
+    </section>
 
     <!-- Community & Support Links -->
     <div class="external-links">
@@ -81,23 +120,23 @@
       </a>
     </div>
 
-<!-- Listening Platforms -->
-<div class="external-links">
-  <a href="https://podcasts.apple.com/us/podcast/the-economy-of-nothing-podcast/id1805857583" target="_blank" rel="noopener">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Podcasts" class="platform-logo">
-    <span>Listen on Apple Podcasts</span>
-  </a>
+    <!-- Listening Platforms -->
+    <div class="external-links">
+      <a href="https://podcasts.apple.com/us/podcast/the-economy-of-nothing-podcast/id1805857583" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Podcasts" class="platform-logo">
+        <span>Listen on Apple Podcasts</span>
+      </a>
 
-  <a href="https://open.spotify.com/show/5oq4FslrPyMMql9qa7s72I?si=7faefcc731484ef9" target="_blank" rel="noopener">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="platform-logo">
-    <span>Listen on Spotify</span>
-  </a>
+      <a href="https://open.spotify.com/show/5oq4FslrPyMMql9qa7s72I?si=7faefcc731484ef9" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="platform-logo">
+        <span>Listen on Spotify</span>
+      </a>
 
-  <a href="https://music.amazon.com/podcasts/082f0e43-dac5-4334-a3e4-bc82e0d50f50/the-economy-of-nothing-podcast" target="_blank" rel="noopener">
-    <img src="https://img.icons8.com/color/48/amazon-music.png" alt="Amazon Music" class="platform-logo">
-    <span>Listen on Amazon Music</span>
-  </a>
-</div>
+      <a href="https://music.amazon.com/podcasts/082f0e43-dac5-4334-a3e4-bc82e0d50f50/the-economy-of-nothing-podcast" target="_blank" rel="noopener">
+        <img src="https://img.icons8.com/color/48/amazon-music.png" alt="Amazon Music" class="platform-logo">
+        <span>Listen on Amazon Music</span>
+      </a>
+    </div>
   </main>
 
   <!-- Footer -->
@@ -114,6 +153,26 @@
       </a>
     </p>
   </footer>
- <a href="https://www.patreon.com/economyofnothing" target="_blank" rel="noopener" class="floating-patreon">🪙 The Economy of Something</a>
+
+  <a href="https://www.patreon.com/economyofnothing" target="_blank" rel="noopener" class="floating-patreon">🪙 The Economy of Something</a>
+
+  <!-- Patreon Feed Script -->
+  <script>
+    fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.patreon.com/rss/economyofnothing")
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById("rss-output");
+        container.innerHTML = "";
+        data.items.slice(0, 5).forEach(post => {
+          const li = document.createElement("li");
+          li.innerHTML = `<a href="${post.link}" target="_blank" rel="noopener">${post.title}</a>`;
+          container.appendChild(li);
+        });
+      })
+      .catch(err => {
+        document.getElementById("rss-output").innerHTML = "<li>Could not load Patreon updates.</li>";
+        console.error("Patreon feed error:", err);
+      });
+  </script>
 </body>
 </html>
