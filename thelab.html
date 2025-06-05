@@ -2,18 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Lab – Scroll 3D Test</title>
+  <title>The Lab – Debug Mode</title>
   <style>
     html, body {
       margin: 0;
-      height: 5000px; /* gives us scroll room */
-      overflow-x: hidden;
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
     }
     canvas {
       display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
     }
   </style>
 </head>
@@ -21,42 +19,42 @@
 
 <script type="module">
   import * as THREE from 'https://cdn.skypack.dev/three';
-  import { GLTFLoader } from 'https://cdn.skypack.dev/three/examples/jsm/loaders/GLTFLoader.js';
 
   const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
 
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
   camera.position.z = 5;
+  camera.lookAt(0, 0, 0);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
+  // Manual cube
+  const geometry = new THREE.BoxGeometry();
+  const material = new THREE.MeshStandardMaterial({ color: 0xff00ff });
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  // Light
   const light = new THREE.DirectionalLight(0xffffff, 1);
   light.position.set(5, 5, 5);
   scene.add(light);
 
-  const loader = new GLTFLoader();
-  loader.load('model.glb', (gltf) => {
-    scene.add(gltf.scene);
-  }, undefined, (error) => {
-    console.error('GLB load error:', error);
-  });
-
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+  // Axes helper
+  const axes = new THREE.AxesHelper(5);
+  scene.add(axes);
 
   function animate() {
     requestAnimationFrame(animate);
-    const scrollY = window.scrollY || window.pageYOffset;
-    camera.position.z = 5 - scrollY / 500;
+    cube.rotation.y += 0.01;
     renderer.render(scene, camera);
   }
 
   animate();
+
+  console.log("✅ Scene loaded, cube should be visible.");
 </script>
 
 </body>
