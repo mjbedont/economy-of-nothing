@@ -2,20 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Lab – Scroll + Lighting Test</title>
+  <title>The Lab – model.glb Loader</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       background: #111;
-      overflow-x: hidden;
-      height: 5000px; /* So you can scroll */
+      overflow: hidden;
+      height: 100%;
     }
     canvas {
       display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
     }
   </style>
 </head>
@@ -23,56 +20,55 @@
 
 <script type="module">
   import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+  import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
-  // Scene
+  // Setup scene
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x111111);
 
-  // Camera
+  // Setup camera
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
   camera.position.set(0, 0, 10);
+  camera.lookAt(0, 0, 0);
 
-  // Renderer
+  // Setup renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // Lighting
+  // Add light
   const light = new THREE.DirectionalLight(0xffffff, 2);
   light.position.set(10, 10, 10);
   scene.add(light);
 
-  // Cube
-  const geometry = new THREE.BoxGeometry(3, 3, 3);
-  const material = new THREE.MeshStandardMaterial({ color: 0xff3399 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-
-  // Axes Helper
+  // Optional: axes helper
   const axes = new THREE.AxesHelper(10);
   scene.add(axes);
 
-  // Scroll-linked camera
-  function updateCameraOnScroll() {
-    const scrollY = window.scrollY || window.pageYOffset;
-    camera.position.z = 10 - scrollY / 200;
-    camera.lookAt(0, 0, 0);
-  }
+  // Load model.glb (exact name)
+  const loader = new GLTFLoader();
+  loader.load('model.glb', (gltf) => {
+    const model = gltf.scene;
+    model.position.set(0, 0, 0);
+    model.scale.set(1, 1, 1);
+    scene.add(model);
+    console.log("✅ model.glb loaded and added to scene.");
+  }, (xhr) => {
+    console.log(`📦 model.glb loading: ${(xhr.loaded / xhr.total * 100).toFixed(1)}%`);
+  }, (error) => {
+    console.error("❌ model.glb failed to load:", error);
+  });
 
-  window.addEventListener('scroll', updateCameraOnScroll);
-  updateCameraOnScroll();
-
-  // Resize
+  // Resize handler
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
-  // Animate
+  // Animation loop
   function animate() {
     requestAnimationFrame(animate);
-    cube.rotation.y += 0.01;
     renderer.render(scene, camera);
   }
 
@@ -81,4 +77,3 @@
 
 </body>
 </html>
-
