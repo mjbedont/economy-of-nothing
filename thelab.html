@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Lab – Guaranteed Visible Cube</title>
+  <title>The Lab – GLB Model Test</title>
   <style>
     html, body {
       margin: 0;
@@ -20,55 +20,59 @@
 
 <script type="module">
   import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+  import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
-  // Scene setup
+  // Setup
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x111111);
 
-  // Camera setup
   const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    100
+    75, window.innerWidth / window.innerHeight, 0.1, 100
   );
   camera.position.set(0, 0, 10);
   camera.lookAt(0, 0, 0);
 
-  // Renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // 💡 Glowing pink cube (no light needed)
-  const geometry = new THREE.BoxGeometry(3, 3, 3);
-  const material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
-  const cube = new THREE.Mesh(geometry, material);
-  cube.position.set(0, 0, 0);
-  scene.add(cube);
-  console.log("🌈 Cube added at:", cube.position);
+  const light = new THREE.DirectionalLight(0xffffff, 2);
+  light.position.set(10, 10, 10);
+  scene.add(light);
 
-  // Axes helper
+  // Axes Helper
   const axes = new THREE.AxesHelper(10);
   scene.add(axes);
 
-  // Animation loop
+  // Load model.glb
+  const loader = new GLTFLoader();
+  loader.load('model.glb', (gltf) => {
+    const model = gltf.scene;
+    model.position.set(0, 0, 0);
+    model.scale.set(1, 1, 1);
+    scene.add(model);
+    console.log("🧊 model.glb loaded successfully.");
+  }, (xhr) => {
+    console.log(`📦 model.glb loading: ${(xhr.loaded / xhr.total * 100).toFixed(1)}%`);
+  }, (error) => {
+    console.error("❌ Error loading model.glb:", error);
+  });
+
+  // Animate
   function animate() {
     requestAnimationFrame(animate);
-    cube.rotation.y += 0.01;
     renderer.render(scene, camera);
   }
 
   animate();
 
-  // Handle window resize
+  // Handle resizing
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
-  console.log("✅ Scene rendering.");
 </script>
 
 </body>
