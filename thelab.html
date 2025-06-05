@@ -1,133 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="The Lab - Experimental projects, games, and prototypes from The Economy of Nothing.">
-  <meta name="keywords" content="Economy of Nothing, experimental games, corporate R&D, satirical sci-fi, prototype lab">
-  <meta name="author" content="The Economy of Nothing Team">
-  <title>The Lab - The Economy of Nothing</title>
-  <link rel="icon" type="image/png" href="/media/favicon.png">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Scroll Test</title>
   <style>
-    .game-container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto 40px auto;
-      overflow: hidden;
-      box-sizing: border-box;
-    }
-    iframe {
-      width: 100%;
-      aspect-ratio: 3 / 2;
-      border-radius: 10px;
-      border: none;
-      display: block;
-    }
+    body, html { margin: 0; height: 5000px; } /* makes room to scroll */
+    canvas { display: block; }
   </style>
 </head>
 <body>
-  <!-- Header Section -->
-  <header>
-    <h1>The Lab™</h1>
-    <p>Where Cutting-Edge Corporate Science™ Meets <strong>Minimum Viable Testing</strong></p>
-  </header>
+  <script type="module">
+    import * as THREE from 'https://cdn.skypack.dev/three';
+    import { GLTFLoader } from 'https://cdn.skypack.dev/three/examples/jsm/loaders/GLTFLoader.js';
 
-  <!-- Navigation Section -->
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/shows.html">Shows</a>
-    <a href="/codex.html">Codex</a>
-    <a href="/recurrentrevenue.html">Friends & Benefits™</a>
-  </nav>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 5;
 
-  <!-- Main Content Section -->
-  <main>
-    <h2>Welcome to The Lab™</h2>
-    <p>
-      Here at <em>The Economy of Nothing's</em> premier <strong>corporate research division</strong>, we develop <strong>totally safe</strong> experimental projects for maximum <strong>engagement efficiency</strong>.<br>
-      <strong>Are they ready for mass-market distribution?</strong> No.<br>
-      <strong>Will we test them on you anyway?</strong> Absolutely.
-    </p>
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-   <!-- Game Instructions: Pay to Lose -->
-<section class="game-instructions">
-  <h3>Experimental Module: Pay to Lose™</h3>
-  <p>
-    The official training simulator of the Nothing Corporation. Navigate a board game where <strong>progress is punishment</strong> and the objective is to <em>break even</em>. Accumulate debt. Avoid success. Try not to get eliminated.
-  </p>
-  <h4>How to Play:</h4>
-  <ul>
-    <li>🎲 Click “ROLL” to move forward</li>
-    <li>📉 Random events will affect your money and debt</li>
-    <li>💥 Game ends when your balance hits zero</li>
-    <li>📊 A leaderboard tracks your session scores</li>
-  </ul>
-  <p><em>May induce fiscal paranoia and/or spiritual liquidity events.</em></p>
-</section>
+    const loader = new GLTFLoader();
+    loader.load('model.glb', (gltf) => {
+      scene.add(gltf.scene);
+    });
 
-<!-- Game Container: Pay to Lose -->
-<div class="game-container">
-  <iframe 
-    src="/pay-to-lose.html" 
-    title="Pay to Lose™ Experimental Board Game">
-  </iframe>
-</div>
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 5, 5);
+    scene.add(light);
 
-    <!-- Game Instructions: Cosmic Map -->
-    <section class="game-instructions">
-      <h3>Current Experiment: Cosmic Map™</h3>
-      <p>
-        As part of our <strong>Corporate Simulation Initiative™</strong>, we’re testing a <strong>galactic logistics game</strong> that may or may not teach valuable survival skills. Participants are expected to comply with all company policies, including the <em>mandatory purchase of in-game fuel.</em>
-      </p>
-      <h4>How to Participate™:</h4>
-      <ul>
-        <li>🚀 <strong>Start at Planet Prime</strong> – Buy fuel and corporate promotions.</li>
-        <li>🌌 <strong>Navigate the Galaxy</strong> – Click planets to travel (fuel costs apply).</li>
-        <li>📈 <strong>Maximize Your POD (Promotions per Dispatch™)</strong> – Corporate efficiency is key!</li>
-        <li>⛽ <strong>Run Out of Fuel?</strong> – That’s unfortunate. Your employment status is now under review.</li>
-      </ul>
-      <p><em>Good luck, Captain. Corporate expects great things from you.</em></p>
-    </section>
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
-    <!-- Game Container: Cosmic Map -->
-    <div class="game-container">
-      <iframe 
-        src="/simulator.html" 
-        title="Corporate Training Simulator™">
-      </iframe>
-    </div>
-
-    <!-- Game Instructions: Moonshine vs. Skulls -->
-    <section class="game-instructions">
-      <h3>New Prototype: Moonshine vs. Skulls™</h3>
-      <p>
-        Early alpha build of a tactical rock-paper-scissors board game. Choose your Moonshine Crew and face off against the Skull Pirates. Movement, matchups, and minimal instruction provided.
-      </p>
-      <h4>How to Play:</h4>
-      <ul>
-        <li>🧑‍🚀 Click a Moonshine Crew member to select them.</li>
-        <li>➡️ Click a highlighted tile to move.</li>
-        <li>⚔️ When next to an enemy, you'll trigger a rock-paper-scissors showdown.</li>
-        <li>💀 Defeat all Skull Pirates to win the encounter.</li>
-      </ul>
-      <p><em>Warning: Game balance is… theoretical.</em></p>
-    </section>
-
-    <!-- Game Container: Moonshine vs. Pirates -->
-    <div class="game-container">
-      <iframe 
-        src="/moonshine-v-pirates.html" 
-        title="Moonshine vs. Skulls™ Experimental Combat Simulator">
-      </iframe>
-    </div>
-  </main>
-
-  <!-- Footer Section -->
-  <footer>
-    <p>&copy; 56.009 Nothing Inc.</p>
-    <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
-    <p class="visitor-counter">You are visitor number: <span id="visitor-count">56,009</span></p>
-  </footer>
+    function animate() {
+      requestAnimationFrame(animate);
+      const scrollY = window.scrollY || window.pageYOffset;
+      camera.position.z = 5 - scrollY / 500; // scroll moves camera forward
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
 </body>
 </html>
