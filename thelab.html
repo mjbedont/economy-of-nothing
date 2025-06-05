@@ -21,50 +21,40 @@
 <script type="module">
   import * as THREE from 'https://cdn.skypack.dev/three';
 
-  // Scene
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
 
-  // Camera
   const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
     100
   );
-  camera.position.z = 5;
+  camera.position.set(0, 0, 10);
   camera.lookAt(0, 0, 0);
 
-  // Renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // Cube
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshStandardMaterial({ color: 0x00ffcc });
+  // 🟦 Bigger Cube
+  const geometry = new THREE.BoxGeometry(3, 3, 3);
+  const material = new THREE.MeshStandardMaterial({ color: 0xff33cc });
   const cube = new THREE.Mesh(geometry, material);
   cube.position.set(0, 0, 0);
   scene.add(cube);
-  console.log("📦 Cube added at:", cube.position);
+  console.log("✅ Big cube added:", cube.position);
 
-  // Light
-  const light = new THREE.DirectionalLight(0xffffff, 1);
-  light.position.set(3, 3, 3);
+  // 💡 Stronger Light
+  const light = new THREE.DirectionalLight(0xffffff, 2);
+  light.position.set(10, 10, 10);
   scene.add(light);
 
-  // Axes helper
-  const axes = new THREE.AxesHelper(5);
+  // ➕ Axes Helper
+  const axes = new THREE.AxesHelper(10);
   scene.add(axes);
 
-  // Resize handler
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-
-  // Animate
+  // 🔁 Animate
   function animate() {
     requestAnimationFrame(animate);
     cube.rotation.y += 0.01;
@@ -72,7 +62,13 @@
   }
 
   animate();
-  console.log("✅ Scene is rendering.");
+
+  // 🔁 Resize support
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
 </script>
 
 </body>
