@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Lab – Debug Cube Test</title>
+  <title>The Lab – Guaranteed Visible Cube</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: #000;
+      background: #111;
       overflow: hidden;
       height: 100%;
     }
@@ -19,11 +19,13 @@
 <body>
 
 <script type="module">
-  import * as THREE from 'https://cdn.skypack.dev/three';
+  import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
+  // Scene setup
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
+  scene.background = new THREE.Color(0x111111);
 
+  // Camera setup
   const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
@@ -33,28 +35,24 @@
   camera.position.set(0, 0, 10);
   camera.lookAt(0, 0, 0);
 
+  // Renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // 🟦 Bigger Cube
+  // 💡 Glowing pink cube (no light needed)
   const geometry = new THREE.BoxGeometry(3, 3, 3);
-  const material = new THREE.MeshStandardMaterial({ color: 0xff33cc });
+  const material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
   const cube = new THREE.Mesh(geometry, material);
   cube.position.set(0, 0, 0);
   scene.add(cube);
-  console.log("✅ Big cube added:", cube.position);
+  console.log("🌈 Cube added at:", cube.position);
 
-  // 💡 Stronger Light
-  const light = new THREE.DirectionalLight(0xffffff, 2);
-  light.position.set(10, 10, 10);
-  scene.add(light);
-
-  // ➕ Axes Helper
+  // Axes helper
   const axes = new THREE.AxesHelper(10);
   scene.add(axes);
 
-  // 🔁 Animate
+  // Animation loop
   function animate() {
     requestAnimationFrame(animate);
     cube.rotation.y += 0.01;
@@ -63,19 +61,14 @@
 
   animate();
 
-  // 🔁 Resize support
+  // Handle window resize
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
-</script>
 
-</body>
-</html>
-
-
-  console.log("✅ Scene loaded, cube should be visible.");
+  console.log("✅ Scene rendering.");
 </script>
 
 </body>
