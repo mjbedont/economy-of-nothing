@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Lab – Debug Mode</title>
+  <title>The Lab – Debug Cube Test</title>
   <style>
     html, body {
       margin: 0;
-      height: 100vh;
-      overflow: hidden;
+      padding: 0;
       background: #000;
+      overflow: hidden;
+      height: 100%;
     }
     canvas {
       display: block;
@@ -20,32 +21,50 @@
 <script type="module">
   import * as THREE from 'https://cdn.skypack.dev/three';
 
+  // Scene
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
 
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+  // Camera
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    100
+  );
   camera.position.z = 5;
   camera.lookAt(0, 0, 0);
 
+  // Renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // Manual cube
-  const geometry = new THREE.BoxGeometry();
-  const material = new THREE.MeshStandardMaterial({ color: 0xff00ff });
+  // Cube
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshStandardMaterial({ color: 0x00ffcc });
   const cube = new THREE.Mesh(geometry, material);
+  cube.position.set(0, 0, 0);
   scene.add(cube);
+  console.log("📦 Cube added at:", cube.position);
 
   // Light
   const light = new THREE.DirectionalLight(0xffffff, 1);
-  light.position.set(5, 5, 5);
+  light.position.set(3, 3, 3);
   scene.add(light);
 
   // Axes helper
   const axes = new THREE.AxesHelper(5);
   scene.add(axes);
 
+  // Resize handler
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // Animate
   function animate() {
     requestAnimationFrame(animate);
     cube.rotation.y += 0.01;
@@ -53,6 +72,12 @@
   }
 
   animate();
+  console.log("✅ Scene is rendering.");
+</script>
+
+</body>
+</html>
+
 
   console.log("✅ Scene loaded, cube should be visible.");
 </script>
