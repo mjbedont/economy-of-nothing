@@ -10,29 +10,6 @@
   <link rel="icon" type="image/png" href="/media/favicon.png" />
   <link rel="apple-touch-icon" href="/media/favicon.png" />
   <link rel="stylesheet" href="style.css">
-  <style>
-    .responsive-iframe-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-      height: 0;
-      overflow: hidden;
-      border-radius: 10px;
-      border: 2px solid var(--primary-color);
-      margin: 20px auto;
-      max-width: 800px;
-    }
-
-    .responsive-iframe-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      border: none;
-    }
-  </style>
 </head>
 <body>
   <!-- Header Section -->
@@ -54,19 +31,17 @@
     <p>
       Part space opera, part existential prank. The Economy of Nothing is what’s left when the future shows up and no one wants it.
     </p>
-    
-<div class="format-block">
-  <iframe 
-    title="Embed Player"
-    style="border:none" 
-    src="https://play.libsyn.com/embed/episode/id/36826930/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00" 
-    height="192" 
-    width="100%" 
-    scrolling="no" 
-    allowfullscreen>
-  </iframe>    
-</div>
 
+    <div class="format-block">
+      <iframe 
+        title="Embed Player"
+        src="https://play.libsyn.com/embed/episode/id/36826930/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+        height="192"
+        width="100%"
+        scrolling="no"
+        allowfullscreen>
+      </iframe>    
+    </div>
 
     <!-- YouTube Video -->
     <div class="responsive-iframe-container">
