@@ -1,4 +1,4 @@
-l<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -16,6 +16,7 @@ l<!DOCTYPE html>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+
   <header>
     <h1>The Economy of Nothing Podcast</h1>
     <p>Episode X – Dispatch, Seances, and the Queer Economy of Sailor Moon</p>
@@ -30,42 +31,50 @@ l<!DOCTYPE html>
 
   <main>
 
-    <!-- Libsyn Audio Embed -->
+    <!-- Episode Overview -->
     <section class="episode-details">
-      <h3>🎧 Dispatch, Seances, and the Queer Economy of Sailor Moon | Episode X</h3>
-      <p>We hit double digits and immediately abandoned Arabic numerals. Episode X dives deep into Dispatch culture, moral compliance, and why Sailor Moon might be the most honest economic model in the galaxy.<br><br>Also: We contact the dead via branded séance. Mississippi organizes a labor strike. The Nothing Corporation reacts with a mandatory sentiment audit. All standard procedure.<br><br>Full episode below. Extended cuts, outtakes, and emotional damage reports on <a href="https://patreon.com/economyofnothing" target="_blank">Patreon</a>.</p>
-
-      <div class="episode-details">
-        <iframe title="Embed Player" 
-          style="border:none" 
-          src="https://play.libsyn.com/embed/episode/id/36826930/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00" 
-          height="192" 
-          width="100%" 
-          scrolling="no" 
-          allowfullscreen 
-          webkitallowfullscreen="true" 
-          mozallowfullscreen="true" 
-          oallowfullscreen="true" 
-          msallowfullscreen="true">
-        </iframe>
-      </div>
-
-      <p>🎵 Featured Audio Relic:<br>
-      <a href="https://suno.com/s/aXSZIRN3ttyykLEw" target="_blank">“Elevate Your Day”</a></p>
+      <h3>🎧 Episode X: Dispatch, Seances, and the Queer Economy of Sailor Moon</h3>
+      <p>
+        We hit double digits and immediately abandoned Arabic numerals. Episode X dives deep into Dispatch culture, moral compliance, and why Sailor Moon might be the most honest economic model in the galaxy.
+      </p>
+      <p>
+        Also: We contact the dead via branded séance. Mississippi organizes a labor strike. The Nothing Corporation reacts with a mandatory sentiment audit. All standard procedure.
+      </p>
+      <p>
+        Full episode below. Extended cuts, outtakes, and emotional damage reports on 
+        <a href="https://patreon.com/economyofnothing" target="_blank" rel="noopener">Patreon</a>.
+      </p>
     </section>
 
-    <!-- Vizual Radio -->
-    <h3>📺 Vizual Radio™</h3>
-    <div class="episode-details">
-      <iframe width="100%" height="540"
-        src="https://www.youtube.com/embed/SlXijoqQf8E"
-        title="Visual Radio Cut"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    <!-- Libsyn Audio Embed -->
+    <div class="responsive-iframe-container">
+      <iframe 
+        title="Embed Player"
+        src="https://play.libsyn.com/embed/episode/id/36826930/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00" 
+        scrolling="no"
         allowfullscreen>
       </iframe>
     </div>
 
+    <p class="audio-credit">
+      🎵 Featured Audio Relic: 
+      <a href="https://suno.com/s/aXSZIRN3ttyykLEw" target="_blank" rel="noopener">“Elevate Your Day”</a>
+    </p>
+
+    <!-- Visual Radio -->
+    <section class="episode-details">
+      <h3>📺 Vizual Radio™</h3>
+      <div class="responsive-iframe-container">
+        <iframe 
+          src="https://www.youtube.com/embed/SlXijoqQf8E"
+          title="Visual Radio Cut"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <!-- Timecodes -->
     <section class="episode-details">
       <h3>⏱️ Timecodes</h3>
       <ul>
@@ -80,12 +89,18 @@ l<!DOCTYPE html>
       </ul>
     </section>
 
-    <a href="/podcast.html" class="episode-button">← Back to All Episodes</a>
+    <!-- Back Link -->
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="/podcast.html" class="episode-button">← Back to All Episodes</a>
+    </div>
   </main>
 
   <footer>
     <p>&copy; 56.010 Nothing Inc.</p>
-    <p class="nostalgia-note">Join the resistance. Or don’t. It’s not like we track morale stats or anything…</p>
+    <p class="nostalgia-note">
+      Join the resistance. Or don’t. It’s not like we track morale stats or anything…
+    </p>
   </footer>
+
 </body>
 </html>
