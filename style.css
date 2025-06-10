@@ -445,3 +445,13 @@ footer a:hover {
         padding: 10px 14px;
     }
 }
+.libsyn-embed {
+  margin: 20px auto;
+  max-width: 800px;
+  width: 100%;
+}
+
+.libsyn-embed iframe {
+  border: none;
+  width: 100%;
+}
