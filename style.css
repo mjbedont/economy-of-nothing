@@ -180,6 +180,52 @@ main .video-container iframe {
     border-radius: 5px;
 }
 
+/* Format Grid for Weekly Releases */
+.format-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+    margin: 30px 0;
+}
+
+.format-block {
+    flex: 1 1 300px;
+    background: var(--background-dark-gradient);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 20px;
+    color: var(--accent-color);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.format-block:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.8);
+    border-color: var(--secondary-color);
+}
+
+.format-block h3 {
+    font-size: var(--subheading-font-size);
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.format-block p {
+    font-size: var(--body-font-size);
+    line-height: 1.6;
+    color: var(--primary-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.format-block img {
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
 /* External Platform Links */
 .external-links {
     display: flex;
@@ -424,5 +470,10 @@ footer a:hover {
         right: 10px;
         font-size: 0.9rem;
         padding: 10px 14px;
+    }
+
+    .format-grid {
+        flex-direction: column;
+        gap: 20px;
     }
 }
