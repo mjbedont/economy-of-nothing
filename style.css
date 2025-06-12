@@ -412,6 +412,24 @@ footer a:hover {
         gap: 20px;
     }
 }
+.patreon-button,
+.merch-button {
+    display: inline-block;
+    padding: 0.8em 1.4em;
+    margin-top: 1em;
+    background: var(--primary-color);
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.patreon-button:hover,
+.merch-button:hover {
+    background: var(--secondary-color);
+    color: #fff;
+}
 
 .libsyn-embed iframe {
   width: 100%;
