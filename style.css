@@ -509,4 +509,42 @@ footer a:hover {
   color: var(--secondary-color);
   text-shadow: 0 0 6px var(--primary-color);
 }
+.playlist-embed {
+  margin: 3rem 0;
+  background: var(--background-dark-gradient);
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+.playlist-embed h3 {
+  font-size: var(--subheading-font-size);
+  color: var(--secondary-color);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.playlist-embed p {
+  font-size: var(--body-font-size);
+  color: var(--primary-color);
+  line-height: 1.7;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.playlist-embed .cta-link {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  color: var(--accent-color);
+  text-decoration: underline;
+  margin-top: 0.5rem;
+}
+
+.playlist-embed .cta-link:hover {
+  color: var(--secondary-color);
+  text-shadow: 0 0 5px var(--primary-color);
+}
 
