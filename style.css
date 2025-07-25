@@ -436,3 +436,77 @@ footer a:hover {
   height: 192px;
   border: none;
 }
+.playlist-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin: 3rem 0;
+  padding: 1rem;
+  background: var(--background-dark-gradient);
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+  color: var(--primary-color);
+}
+
+.playlist-thumb {
+  position: relative;
+  flex: 1 1 300px;
+  max-width: 360px;
+  transition: transform 0.3s ease;
+}
+
+.playlist-thumb img {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.playlist-thumb:hover {
+  transform: scale(1.03);
+}
+
+.video-count {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--accent-color);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  text-shadow: 0 0 4px var(--primary-color);
+}
+
+.playlist-info {
+  flex: 2 1 400px;
+  min-width: 250px;
+}
+
+.playlist-info h3 {
+  font-size: var(--subheading-font-size);
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.playlist-info p {
+  font-size: var(--body-font-size);
+  line-height: 1.7;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.playlist-info .cta-link {
+  color: var(--accent-color);
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.playlist-info .cta-link:hover {
+  color: var(--secondary-color);
+  text-shadow: 0 0 6px var(--primary-color);
+}
+
