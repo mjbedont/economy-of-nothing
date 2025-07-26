@@ -53,30 +53,24 @@
       </div>
     </section>
 
-  <section class="playlist-showcase">
+<section class="playlist-showcase">
   <div class="playlist-meta">
     <h3>🎞️ Early & Student Work</h3>
-    <p>A curated selection of earlier projects—student films, campus TV work, and experimental pieces. Each one taught me something about storytelling, pacing, production, or just getting things done with whatever I had on hand.</p>
+    <p>A curated collection of foundational projects—from student films and experimental edits to my first documentary upload. These were low-budget, high-effort experiments that shaped my approach to production, editing, and improvisation.</p>
   </div>
 
-  <div class="playlist-carousel">
-    <a href="https://www.youtube.com/watch?v=-YZzEPlrkNw&t=1550s" target="_blank">
-      <img src="https://img.youtube.com/vi/-YZzEPlrkNw/hqdefault.jpg" alt="Flash Drive thumbnail" title="🎬 Flash Drive (2011)">
-    </a>
-    <a href="https://www.youtube.com/watch?v=9Z6cdpRwFCo" target="_blank">
-      <img src="https://img.youtube.com/vi/9Z6cdpRwFCo/hqdefault.jpg" alt="Shockwave thumbnail" title="🎬 Shockwave: The Movie (2011)">
-    </a>
-    <a href="https://www.youtube.com/watch?v=vPr6TJxaaz0&t=1285s" target="_blank">
-      <img src="https://img.youtube.com/vi/vPr6TJxaaz0/hqdefault.jpg" alt="ECU Hidden Treasures thumbnail" title="📺 ECU Hidden Treasures – Ep 12">
-    </a>
-    <a href="https://www.youtube.com/watch?v=6Z7GZuwALFU" target="_blank">
-      <img src="https://img.youtube.com/vi/6Z7GZuwALFU/hqdefault.jpg" alt="I Never Feel Bad thumbnail" title="🎞️ I Never Feel Bad in the Morning">
-    </a>
-    <a href="https://www.youtube.com/watch?v=IjyqdHs1raM" target="_blank">
-      <img src="https://img.youtube.com/vi/IjyqdHs1raM/hqdefault.jpg" alt="Who'll Stop the Rain thumbnail" title="📹 Who’ll Stop the Rain">
-    </a>
+  <div class="video-player">
+    <iframe id="early-main" src="https://www.youtube.com/embed/-YZzEPlrkNw?start=1550" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="early-carousel">
+    <img src="https://img.youtube.com/vi/9Z6cdpRwFCo/hqdefault.jpg" alt="Shockwave" title="🎬 Shockwave: The Movie (2011)" onclick="swapVideo('early-main', '9Z6cdpRwFCo')">
+    <img src="https://img.youtube.com/vi/vPr6TJxaaz0/hqdefault.jpg" alt="Hidden Treasures" title="📺 ECU Hidden Treasures – Episode 12" onclick="swapVideo('early-main', 'vPr6TJxaaz0')">
+    <img src="https://img.youtube.com/vi/6Z7GZuwALFU/hqdefault.jpg" alt="I Never Feel Bad" title="🎞️ I Never Feel Bad in the Morning" onclick="swapVideo('early-main', '6Z7GZuwALFU')">
+    <img src="https://img.youtube.com/vi/IjyqdHs1raM/hqdefault.jpg" alt="Who'll Stop the Rain" title="📹 Who’ll Stop the Rain" onclick="swapVideo('early-main', 'IjyqdHs1raM')">
   </div>
 </section>
+
     
   </main>
 
