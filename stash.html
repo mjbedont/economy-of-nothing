@@ -63,36 +63,32 @@
       border: none;
     }
 
-    .playlist-carousel {
+    .carousel {
       display: flex;
       overflow-x: auto;
       gap: 1rem;
-      padding: 0.5rem 0;
       scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
+      padding-bottom: 1rem;
     }
 
-    .playlist-carousel .thumb {
-      flex: 0 0 auto;
+    .carousel img {
       width: 160px;
-      scroll-snap-align: start;
+      flex-shrink: 0;
       border-radius: 6px;
       border: 1px solid #ccc;
       cursor: pointer;
+      scroll-snap-align: start;
       transition: transform 0.2s ease;
     }
 
-    .playlist-carousel .thumb:hover {
-      transform: scale(1.05);
+    .carousel img:hover {
+      transform: scale(1.03);
     }
 
-    .playlist-carousel::after {
-      content: "← Scroll →";
-      font-size: 0.8rem;
-      color: #888;
-      margin-top: 0.5rem;
-      text-align: center;
-      display: block;
+    @media (max-width: 600px) {
+      .carousel img {
+        width: 120px;
+      }
     }
   </style>
 </head>
@@ -100,9 +96,9 @@
   <section class="playlist-showcase">
     <div class="playlist-meta">
       <h3>NASA Space Systems Engineering</h3>
-      <p>Introductory video series produced in partnership with NASA, covering core topics in space systems design and mission development. I led production and design for this studio mini-course series.</p>
+      <p>A full 20+ video course created in collaboration with NASA. I led the visual design, post-production, and upload QA process, bringing to life topics like mission architecture, subsystems engineering, and launch constraints.</p>
       <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" target="_blank" class="cta-link">
-        🚀 View Full Playlist on YouTube
+        ▶️ View Full Playlist on YouTube
       </a>
     </div>
 
@@ -110,36 +106,21 @@
       <iframe id="main-video" src="https://www.youtube.com/embed/JzpGiyCuT4w" allowfullscreen loading="lazy"></iframe>
     </div>
 
-    <div class="playlist-carousel">
-      <img class="thumb" src="https://i.ytimg.com/vi/JzpGiyCuT4w/hqdefault.jpg" alt="Episode 1" data-video-id="JzpGiyCuT4w" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/_gy1d4V7XzI/hqdefault.jpg" alt="Episode 2" data-video-id="_gy1d4V7XzI" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/sSbi_vWsm0c/hqdefault.jpg" alt="Episode 3" data-video-id="sSbi_vWsm0c" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/kOZRWjFzI9g/hqdefault.jpg" alt="Episode 4" data-video-id="kOZRWjFzI9g" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/8zdHDktbopA/hqdefault.jpg" alt="Episode 5" data-video-id="8zdHDktbopA" onclick="swapVideo(this)">
+    <div class="carousel">
+      <img src="https://i.ytimg.com/vi/rrBg-hTUM_Q/hqdefault.jpg" alt="Unit 1" onclick="swapVideo('rrBg-hTUM_Q')">
+      <img src="https://i.ytimg.com/vi/8_8OKeCuaF4/hqdefault.jpg" alt="Unit 2" onclick="swapVideo('8_8OKeCuaF4')">
+      <img src="https://i.ytimg.com/vi/kittbOWXuP0/hqdefault.jpg" alt="Unit 3" onclick="swapVideo('kittbOWXuP0')">
+      <img src="https://i.ytimg.com/vi/pj6g_Z6hzTs/hqdefault.jpg" alt="Unit 4" onclick="swapVideo('pj6g_Z6hzTs')">
+      <img src="https://i.ytimg.com/vi/fGmFoKuu_Ag/hqdefault.jpg" alt="Unit 5" onclick="swapVideo('fGmFoKuu_Ag')">
+      <img src="https://i.ytimg.com/vi/AlnYvHJ-GPM/hqdefault.jpg" alt="Unit 6" onclick="swapVideo('AlnYvHJ-GPM')">
     </div>
   </section>
 
   <script>
-    let currentVideoId = "JzpGiyCuT4w";
-
-    function swapVideo(clickedThumb) {
-      const newVideoId = clickedThumb.getAttribute('data-video-id');
-      if (newVideoId === currentVideoId) return;
-
+    function swapVideo(videoId) {
       const iframe = document.getElementById('main-video');
-      iframe.src = `https://www.youtube.com/embed/${newVideoId}`;
-
-      const previousThumb = document.querySelector(`.thumb[data-video-id="${currentVideoId}"]`);
-      if (previousThumb) previousThumb.style.display = "inline-block";
-
-      clickedThumb.style.display = "none";
-      currentVideoId = newVideoId;
+      iframe.src = `https://www.youtube.com/embed/${videoId}`;
     }
-
-    window.onload = () => {
-      const startingThumb = document.querySelector(`.thumb[data-video-id="${currentVideoId}"]`);
-      if (startingThumb) startingThumb.style.display = "none";
-    };
   </script>
 </body>
 </html>
