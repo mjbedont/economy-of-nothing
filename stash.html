@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interactive Playlist Viewer</title>
+  <title>NASA Space Systems Engineering</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
@@ -99,30 +99,28 @@
 <body>
   <section class="playlist-showcase">
     <div class="playlist-meta">
-      <h3>Saylor Tangents</h3>
-      <p>7 videos · Topical shorts written, hosted, and produced as a creative supplement for Saylor Academy’s core educational content. I handled concept development, scripting, visual production, and delivery.</p>
-      <a href="https://youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" target="_blank" class="cta-link">
-        ▶️ View Full Playlist on YouTube
+      <h3>NASA Space Systems Engineering</h3>
+      <p>Introductory video series produced in partnership with NASA, covering core topics in space systems design and mission development. I led production and design for this studio mini-course series.</p>
+      <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" target="_blank" class="cta-link">
+        🚀 View Full Playlist on YouTube
       </a>
     </div>
 
     <div class="video-player">
-      <iframe id="main-video" src="https://www.youtube.com/embed/l5eJsFd-Np0" allowfullscreen loading="lazy"></iframe>
+      <iframe id="main-video" src="https://www.youtube.com/embed/JzpGiyCuT4w" allowfullscreen loading="lazy"></iframe>
     </div>
 
     <div class="playlist-carousel">
-      <img class="thumb" src="https://i.ytimg.com/vi/gdkA8dnE7Ws/hqdefault.jpg" alt="Tangents #1" data-video-id="gdkA8dnE7Ws" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/xlatQp8VTtU/hqdefault.jpg" alt="Tangents #2" data-video-id="xlatQp8VTtU" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/TAwrKPym3m4/hqdefault.jpg" alt="Tangents #3" data-video-id="TAwrKPym3m4" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/l5eJsFd-Np0/hqdefault.jpg" alt="Tangents #4" data-video-id="l5eJsFd-Np0" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/rSm3JM9DTL8/hqdefault.jpg" alt="Tangents #5" data-video-id="rSm3JM9DTL8" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/EaJCAQJb6mg/hqdefault.jpg" alt="Tangents #6" data-video-id="EaJCAQJb6mg" onclick="swapVideo(this)">
-      <img class="thumb" src="https://i.ytimg.com/vi/vGYX_1CoVm8/hqdefault.jpg" alt="Tangents #7" data-video-id="vGYX_1CoVm8" onclick="swapVideo(this)">
+      <img class="thumb" src="https://i.ytimg.com/vi/JzpGiyCuT4w/hqdefault.jpg" alt="Episode 1" data-video-id="JzpGiyCuT4w" onclick="swapVideo(this)">
+      <img class="thumb" src="https://i.ytimg.com/vi/_gy1d4V7XzI/hqdefault.jpg" alt="Episode 2" data-video-id="_gy1d4V7XzI" onclick="swapVideo(this)">
+      <img class="thumb" src="https://i.ytimg.com/vi/sSbi_vWsm0c/hqdefault.jpg" alt="Episode 3" data-video-id="sSbi_vWsm0c" onclick="swapVideo(this)">
+      <img class="thumb" src="https://i.ytimg.com/vi/kOZRWjFzI9g/hqdefault.jpg" alt="Episode 4" data-video-id="kOZRWjFzI9g" onclick="swapVideo(this)">
+      <img class="thumb" src="https://i.ytimg.com/vi/8zdHDktbopA/hqdefault.jpg" alt="Episode 5" data-video-id="8zdHDktbopA" onclick="swapVideo(this)">
     </div>
   </section>
 
   <script>
-    let currentVideoId = "l5eJsFd-Np0";
+    let currentVideoId = "JzpGiyCuT4w";
 
     function swapVideo(clickedThumb) {
       const newVideoId = clickedThumb.getAttribute('data-video-id');
@@ -131,17 +129,13 @@
       const iframe = document.getElementById('main-video');
       iframe.src = `https://www.youtube.com/embed/${newVideoId}`;
 
-      // Restore the previously hidden thumb
       const previousThumb = document.querySelector(`.thumb[data-video-id="${currentVideoId}"]`);
       if (previousThumb) previousThumb.style.display = "inline-block";
 
-      // Hide the clicked thumb
       clickedThumb.style.display = "none";
-
       currentVideoId = newVideoId;
     }
 
-    // Hide the default video on load
     window.onload = () => {
       const startingThumb = document.querySelector(`.thumb[data-video-id="${currentVideoId}"]`);
       if (startingThumb) startingThumb.style.display = "none";
@@ -149,4 +143,3 @@
   </script>
 </body>
 </html>
-
