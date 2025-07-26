@@ -3,122 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NASA Space Systems Engineering</title>
+  <title>Video Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      background: #f0f2f5;
-      color: #111;
-    }
-
-    .playlist-showcase {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin: 3rem auto;
-      max-width: 960px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    }
-
-    .playlist-meta h3 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-      color: #111;
-    }
-
-    .playlist-meta p {
-      font-size: 1rem;
-      color: #444;
-      line-height: 1.6;
-    }
-
-    .cta-link {
-      display: inline-block;
-      margin-top: 0.75rem;
-      font-weight: bold;
-      color: #005eff;
-      text-decoration: underline;
-    }
-
-    .video-player {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 10px;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    .video-player iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .carousel {
-      display: flex;
-      overflow-x: auto;
-      gap: 1rem;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 1rem;
-    }
-
-    .carousel img {
-      width: 160px;
-      flex-shrink: 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      scroll-snap-align: start;
-      transition: transform 0.2s ease;
-    }
-
-    .carousel img:hover {
-      transform: scale(1.03);
-    }
-
-    @media (max-width: 600px) {
-      .carousel img {
-        width: 120px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="portfolio.css" />
 </head>
 <body>
-  <section class="playlist-showcase">
-    <div class="playlist-meta">
-      <h3>NASA Space Systems Engineering</h3>
-      <p>A full 20+ video course created in collaboration with NASA. I led the visual design, post-production, and upload QA process, bringing to life topics like mission architecture, subsystems engineering, and launch constraints.</p>
-      <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" target="_blank" class="cta-link">
-        ▶️ View Full Playlist on YouTube
-      </a>
-    </div>
+  <main>
+    <!-- Tangents Showcase -->
+    <section class="playlist-showcase">
+      <div class="playlist-meta">
+        <h3>Saylor Tangents</h3>
+        <p>7 videos · Topical shorts written, hosted, and produced as a creative supplement for Saylor Academy’s core educational content. I handled concept development, scripting, visual production, and delivery.</p>
+        <a href="https://youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" target="_blank" class="cta-link">
+          ▶️ View Full Playlist on YouTube
+        </a>
+      </div>
+      <div class="video-player">
+        <iframe id="tangents-main" src="https://www.youtube.com/embed/l5eJsFd-Np0" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="tangents-carousel">
+        <img src="https://i.ytimg.com/vi/gdkA8dnE7Ws/hqdefault.jpg" alt="Tangents #1" onclick="swapVideo('tangents-main', 'gdkA8dnE7Ws')">
+        <img src="https://i.ytimg.com/vi/xlatQp8VTtU/hqdefault.jpg" alt="Tangents #2" onclick="swapVideo('tangents-main', 'xlatQp8VTtU')">
+        <img src="https://i.ytimg.com/vi/TAwrKPym3m4/hqdefault.jpg" alt="Tangents #3" onclick="swapVideo('tangents-main', 'TAwrKPym3m4')">
+        <img src="https://i.ytimg.com/vi/rSm3JM9DTL8/hqdefault.jpg" alt="Tangents #5" onclick="swapVideo('tangents-main', 'rSm3JM9DTL8')">
+        <img src="https://i.ytimg.com/vi/EaJCAQJb6mg/hqdefault.jpg" alt="Tangents #6" onclick="swapVideo('tangents-main', 'EaJCAQJb6mg')">
+        <img src="https://i.ytimg.com/vi/vGYX_1CoVm8/hqdefault.jpg" alt="Tangents #7" onclick="swapVideo('tangents-main', 'vGYX_1CoVm8')">
+      </div>
+    </section>
 
-    <div class="video-player">
-      <iframe id="main-video" src="https://www.youtube.com/embed/JzpGiyCuT4w" allowfullscreen loading="lazy"></iframe>
-    </div>
-
-    <div class="carousel">
-      <img src="https://i.ytimg.com/vi/rrBg-hTUM_Q/hqdefault.jpg" alt="Unit 1" onclick="swapVideo('rrBg-hTUM_Q')">
-      <img src="https://i.ytimg.com/vi/8_8OKeCuaF4/hqdefault.jpg" alt="Unit 2" onclick="swapVideo('8_8OKeCuaF4')">
-      <img src="https://i.ytimg.com/vi/kittbOWXuP0/hqdefault.jpg" alt="Unit 3" onclick="swapVideo('kittbOWXuP0')">
-      <img src="https://i.ytimg.com/vi/pj6g_Z6hzTs/hqdefault.jpg" alt="Unit 4" onclick="swapVideo('pj6g_Z6hzTs')">
-      <img src="https://i.ytimg.com/vi/fGmFoKuu_Ag/hqdefault.jpg" alt="Unit 5" onclick="swapVideo('fGmFoKuu_Ag')">
-      <img src="https://i.ytimg.com/vi/AlnYvHJ-GPM/hqdefault.jpg" alt="Unit 6" onclick="swapVideo('AlnYvHJ-GPM')">
-    </div>
-  </section>
+    <!-- NASA Showcase -->
+    <section class="playlist-showcase">
+      <div class="playlist-meta">
+        <h3>NASA Space Systems Engineering</h3>
+        <p>Produced in partnership with NASA. I handled post-production, visual styling, and delivery for this full course on spacecraft and mission design.</p>
+        <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" target="_blank" class="cta-link">
+          ▶️ View Full Playlist on YouTube
+        </a>
+      </div>
+      <div class="video-player">
+        <iframe id="nasa-main" src="https://www.youtube.com/embed/JzpGiyCuT4w" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="nasa-carousel">
+        <img src="https://i.ytimg.com/vi/rrBg-hTUM_Q/hqdefault.jpg" alt="Unit 1" onclick="swapVideo('nasa-main', 'rrBg-hTUM_Q')">
+        <img src="https://i.ytimg.com/vi/8_8OKeCuaF4/hqdefault.jpg" alt="Unit 2" onclick="swapVideo('nasa-main', '8_8OKeCuaF4')">
+        <img src="https://i.ytimg.com/vi/kittbOWXuP0/hqdefault.jpg" alt="Unit 3" onclick="swapVideo('nasa-main', 'kittbOWXuP0')">
+        <img src="https://i.ytimg.com/vi/pj6g_Z6hzTs/hqdefault.jpg" alt="Unit 4" onclick="swapVideo('nasa-main', 'pj6g_Z6hzTs')">
+        <img src="https://i.ytimg.com/vi/fGmFoKuu_Ag/hqdefault.jpg" alt="Unit 5" onclick="swapVideo('nasa-main', 'fGmFoKuu_Ag')">
+        <img src="https://i.ytimg.com/vi/AlnYvHJ-GPM/hqdefault.jpg" alt="Unit 6" onclick="swapVideo('nasa-main', 'AlnYvHJ-GPM')">
+      </div>
+    </section>
+  </main>
 
   <script>
-    function swapVideo(videoId) {
-      const iframe = document.getElementById('main-video');
+    function swapVideo(playerId, videoId) {
+      const iframe = document.getElementById(playerId);
       iframe.src = `https://www.youtube.com/embed/${videoId}`;
     }
   </script>
