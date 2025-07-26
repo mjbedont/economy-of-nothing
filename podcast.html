@@ -3,145 +3,366 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mike Bedont – Portfolio Carousel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      background: #f9f9f9;
-      color: #111;
-      overflow-x: hidden;
-    }
-    header {
-      text-align: center;
-      padding: 2rem 1rem 1rem;
-    }
-    header h1 {
-      font-size: 2rem;
-      margin: 0;
-    }
-    header p {
-      margin: 0.5rem 0;
-      color: #666;
-    }
-    .carousel-wrapper {
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      max-width: 960px;
-      margin: 2rem auto;
-    }
-    .carousel-track {
-      display: flex;
-      transition: transform 0.6s ease;
-      will-change: transform;
-    }
-    .carousel-item {
-      min-width: 100%;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-    .carousel-controls {
-      display: flex;
-      justify-content: space-between;
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
-    .carousel-controls button {
-      pointer-events: all;
-      background: rgba(0,0,0,0.5);
-      border: none;
-      color: white;
-      padding: 0.75rem 1.25rem;
-      font-size: 1.25rem;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    iframe {
-      width: 100%;
-      height: 300px;
-      border: none;
-      border-radius: 8px;
-    }
-    .section-title {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .section-desc {
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      color: #555;
-    }
-    @media (min-width: 768px) {
-      iframe {
-        height: 480px;
-      }
-    }
-  </style>
+  <meta name="description" content="Listen to The Economy of Nothing Podcast - a satirical dive into intergalactic corporate chaos." />
+  <meta name="keywords" content="Economy of Nothing, podcast, dystopian sci-fi, satire, intergalactic adventure, corporate bureaucracy" />
+  <meta name="author" content="The Economy of Nothing Team" />
+  <title>Podcasts - The Economy of Nothing</title>
+  <link rel="icon" type="image/png" href="/media/favicon.png" />
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+  <!-- Header Section -->
   <header>
-    <h1>Mike Bedont</h1>
-    <p>Creative Producer · Video Editor · Storyteller</p>
+    <h1>The Economy of Nothing Podcast</h1>
+    <p>Mandatory Listening for All Employees™</p>
   </header>
 
-  <div class="carousel-wrapper">
-    <div class="carousel-track" id="carousel-track">
-      <div class="carousel-item">
-        <h2 class="section-title">🚀 NASA Space Systems</h2>
-        <p class="section-desc">Post-production and delivery for a full NASA course on spacecraft design.</p>
-        <iframe src="https://www.youtube.com/embed/rrBg-hTUM_Q" allowfullscreen></iframe>
-      </div>
-      <div class="carousel-item">
-        <h2 class="section-title">🎤 Events & Live Streams</h2>
-        <p class="section-desc">Real-time switching and delivery for launches and livestreamed academic events.</p>
-        <iframe src="https://www.youtube.com/embed/PXFNclPr-Lo" allowfullscreen></iframe>
-      </div>
-      <div class="carousel-item">
-        <h2 class="section-title">🧪 Saylor Tangents</h2>
-        <p class="section-desc">Shortform hosted explainers expanding on core academic concepts.</p>
-        <iframe src="https://www.youtube.com/embed/l5eJsFd-Np0" allowfullscreen></iframe>
-      </div>
-      <div class="carousel-item">
-        <h2 class="section-title">🔎 Apt Observations</h2>
-        <p class="section-desc">Micro-commentaries on society, culture, and storytelling. Written, voiced, and cut by me.</p>
-        <iframe src="https://www.youtube.com/embed/MiOuI0iUZ1o" allowfullscreen></iframe>
-      </div>
-      <div class="carousel-item">
-        <h2 class="section-title">📚 Saylor Academy Courses</h2>
-        <p class="section-desc">Editing, graphics, and media ops for educational course production.</p>
-        <iframe src="https://www.youtube.com/embed/PiEwgZxwPVY" allowfullscreen></iframe>
-      </div>
-      <div class="carousel-item">
-        <h2 class="section-title">🎞️ Early & Student Work</h2>
-        <p class="section-desc">Low-budget, high-effort student films, interviews, and digital experiments.</p>
-        <iframe src="https://www.youtube.com/embed/-YZzEPlrkNw" allowfullscreen></iframe>
-      </div>
-    </div>
-    <div class="carousel-controls">
-      <button onclick="moveSlide(-1)">&#8592;</button>
-      <button onclick="moveSlide(1)">&#8594;</button>
-    </div>
+  <!-- Navigation Section -->
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/shows.html">Shows</a>
+    <a href="/codex.html">Codex</a>
+    <a href="/recurrentrevenue.html">Friends & Benefits™</a>
+  </nav>
+
+  <!-- Main Content Section -->
+  <main>
+    <h2>The Officially Sanctioned Podcast</h2>
+    <p>
+      Welcome to the <strong>corporate-approved</strong> audio experience of <em>The Economy of Nothing™</em>.
+      As per company policy, all employees must listen to a minimum of <strong>one episode per cycle</strong> to maintain productivity quotas.
+      <br><em>(Non-compliance may result in immediate reassignment to asteroid mining duty.)</em>
+    </p>
+    
+<!-- Episode | 101 -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | 101</h3>
+    <p><em>The podcast reboot begins with a recliner, some lightning, and a dream. Mr. Green lays down lore from his orbital man cave. Bedont tries to do math. The crew debates capitalism, cartoon logic, and how much a Patreon tier should cost. Welcome to The Sheep of Wall Street.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 101"
+      src="https://play.libsyn.com/embed/episode/id/37407295/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/eon101">View Full Episode Page</a>
   </div>
+</div>
 
-  <script>
-    let currentIndex = 0;
-    const track = document.getElementById('carousel-track');
-    const items = document.querySelectorAll('.carousel-item');
+<!-- Episode | 015 -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | 015</h3>
+    <p><em>Burnout culture meets corporate satire as Mike returns, Dispatch spirals, and Cheyenne pitches a collectible card game to solve the economy. Mr. Green reviews movies on the moon. Ryan builds an attention meter. It’s a permanent vacation — in the most dystopian way possible.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 15"
+      src="https://play.libsyn.com/embed/episode/id/37308875/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/015-permanent-vacation.html">View Full Episode Page</a>
+  </div>
+</div>
 
-    function moveSlide(direction) {
-      currentIndex += direction;
-      if (currentIndex < 0) currentIndex = items.length - 1;
-      if (currentIndex >= items.length) currentIndex = 0;
-      track.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }
-  </script>
+<!-- Episode | 014 -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | 014</h3>
+    <p><em>We try to structure the fake TV show we’ve been improvising for 14 episodes. It doesn’t go well. Cheyenne sells out, Dispatch collapses, and The Accountant 2 somehow gets rebooted.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 14"
+      src="https://play.libsyn.com/embed/episode/id/37231450/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/014-plotting-a-show.html">View Full Episode Page</a>
+  </div>
+</div>
+
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | XIII</h3>
+    <p><em>A tank full of sharks. A truck with no brakes. Lance is immortal. Ryan pitches a utopia. The Captain spirals. Corporate fiction breaks down in real time—and Mr. Green gets a theme song.</em></p>
+    <iframe 
+      title="Embed Player"
+      style="border:none" 
+      src="https://play.libsyn.com/embed/episode/id/37106190/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00" 
+      height="192" 
+      width="100%" 
+      scrolling="no" 
+      allowfullscreen 
+      webkitallowfullscreen="true" 
+      mozallowfullscreen="true" 
+      oallowfullscreen="true" 
+      msallowfullscreen="true">
+    </iframe>
+    <a href="/podcast/013-shark-tank.html">View Full Episode Page</a>
+  </div>
+</div>
+
+    <!-- Episode | Twelve -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | Twelve</h3>
+    <p><em>Waffles. Castrati. The Captain's breaking down. Mr. Green's got thoughts on brunch. Also: a failed improv, a Batman takedown, and corporate gaslighting across the stars.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode Twelve"
+      src="https://play.libsyn.com/embed/episode/id/37020800/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/012-episode-twelve.html">View Full Episode Page</a>
+  </div>
+</div>
+
+    <!-- Episode | XI -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | XI</h3>
+    <p><em>Mike, Ryan, and Alex enter a metaphor too surreal to escape. Emotional spirals, broken friendships, and podcasting meta-crises collide in this unexpectedly raw episode. Nothing is real, but the hurt is corporate-approved™.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 11"
+      src="https://play.libsyn.com/embed/episode/id/36911380/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/011-a-surreal-metaphor.html">View Full Episode Page</a>
+  </div>
+</div>
+
+    <!-- Episode | X -->
+    <div class="episode-box">
+      <div class="episode-details">
+        <h3>Episode | X</h3>
+        <p><em>Dispatch bureaucracy. Moral Kombat. Queer seance. Magical enforcement. Mississippi leads a labor strike. Captain Tracy refuses to sign basketballs. Sailor Moon saves the economy.</em></p>
+        <iframe 
+          title="The Economy of Nothing Podcast Episode X"
+          src="https://play.libsyn.com/embed/episode/id/36826930/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+          height="192"
+          width="100%"
+          scrolling="no"
+          allowfullscreen
+          style="border: none; margin-top: 10px;">
+        </iframe>
+        <a href="/podcast/00x-lesbian-scissoring.html">View Full Episode Page</a>
+      </div>
+    </div>
+    
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | 009</h3>
+    <p><em>The crew gets stuck in Dispatch. Leaderboards update. Elevators jam. The jingle plays again. And again. And again. Also: Mr. Green fights She-Rogan in the octagon.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 9"
+      src="https://play.libsyn.com/embed/episode/id/36717195/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/009-facebook.html">View Full Episode Page</a>
+  </div>
+</div>
+
+<!-- Episode | 008 -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | 008</h3>
+    <p><em>Cheyenne becomes Bob Kelso. Captain Tracy walks like an overly sexy Moses. Mr. Green brands the ship and burns the kitchen down. Ryan tries to cook… metaphorically. Mike Allen gets cold medicine. And a trophy.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 8"
+      src="https://play.libsyn.com/embed/episode/id/36617825/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/008.html">View Full Episode Page</a>
+  </div>
+</div>
+    
+    <!-- Episode | 007 -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | 007</h3>
+    <p><em>What if capitalism was a board game? The crew invents Monopoly Squid Game™, gets distracted by TV shows, and attempts to understand what “winning” even means.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 7"
+      src="https://play.libsyn.com/embed/episode/id/36535650/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/007-pay-to-lose">View Full Episode Page</a>
+  </div>
+</div>
+
+<!-- Episode | 006 -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | 006</h3>
+    <p><em>Magic, monarchy, and multi-threaded mayhem. The Moonshine crew investigates a missing egg on the world of Dracronaria. Cheyenne attempts to do things by the book. Mr. Green brings a whip.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 6"
+      src="https://play.libsyn.com/embed/episode/id/36431120/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/006-choose-your-own-surveillance-orb">View Full Episode Page</a>
+  </div>
+</div>
+
+<!-- Episode | 005 -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | 005</h3>
+    <p><em>Deep space scurvy. Secret orphanages. Cogs in a galactic machine. Mr. Green confronts the true cost of survival in a universe where dinner doesn't come cheap.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 5"
+      src="https://play.libsyn.com/embed/episode/id/36340450/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/005-how-mr-green-learned-to-stop-worrying.html">View Full Episode Page</a>
+  </div>
+</div>
+
+    <!-- Episode | 004 -->
+<div class="episode-box">
+  <div class="episode-details">
+    <h3>Episode | 004</h3>
+    <p><em>Who's really the hero? The captain, the strategist, or the system itself? In this episode, we break the fourth wall, the fifth rule, and the sixth commandment.</em></p>
+    <iframe 
+      title="The Economy of Nothing Podcast Episode 4"
+      src="https://play.libsyn.com/embed/episode/id/36244260/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+      height="192"
+      width="100%"
+      scrolling="no"
+      allowfullscreen
+      style="border: none; margin-top: 10px;">
+    </iframe>
+    <a href="/podcast/004-captain-tracy-youre-the-problem.html">View Full Episode Page</a>
+  </div>
+</div>
+
+    <!-- Episode | 003 -->
+    <div class="episode-box">
+      <div class="episode-details">
+        <h3>Episode | 003</h3>
+        <p><em>Glitter, interns, corporate ambition, and one golden Russian nesting doll of a ship. Is Cheyenne the most competent person in space?</em></p>
+        <iframe 
+          title="The Economy of Nothing Podcast Episode 3"
+          src="https://play.libsyn.com/embed/episode/id/36099175/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+          height="192"
+          width="100%"
+          scrolling="no"
+          allowfullscreen
+          style="border: none; margin-top: 10px;">
+        </iframe>
+        <a href="/podcast/the-cheyenne-episode-003.html">View Full Episode Page</a>
+      </div>
+    </div>
+
+    <!-- Episode | 002 -->
+    <div class="episode-box">
+      <div class="episode-details">
+        <h3>Episode | 002</h3>
+        <p><em>Mike, Ryan, and Mike Allen try to untangle Episode 1 of the show. There are pirates. There are cowboys. There are robots. But are there sandwiches?</em></p>
+        <iframe 
+          title="The Economy of Nothing Podcast Episode 2"
+          src="https://play.libsyn.com/embed/episode/id/36044645/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+          height="192"
+          width="100%"
+          scrolling="no"
+          allowfullscreen
+          style="border: none; margin-top: 10px;">
+        </iframe>
+        <a href="/podcast/too-many-factions-not-enough-sandwiches-002">View Full Episode Page</a>
+      </div>
+    </div>
+
+    <!-- Episode 01 -->
+    <div class="episode-box">
+      <div class="episode-details">
+        <h3>Episode | 001</h3>
+        <p><em>Michael and Ryan go way too deep into the show’s theme song. Spoilers, satire, and existential dread included.</em></p>
+        <iframe 
+          title="The Economy of Nothing Podcast Episode 1"
+          src="https://play.libsyn.com/embed/episode/id/35945225/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+          height="192"
+          width="100%"
+          scrolling="no"
+          allowfullscreen
+          style="border: none; margin-top: 10px;">
+        </iframe>
+        <a href="/podcast/theme-song-is-propaganda">View Full Episode Page</a>
+      </div>
+    </div>
+
+    <!-- More Episodes Placeholder -->
+    <h2>More Episodes Incoming</h2>
+    <p>
+      Additional content is pending review from the Galactic Compliance Board. Stay tuned, and remember — every silence is a missed opportunity to be marketed to.
+    </p>
+    <div class="external-links">
+      <a href="https://feeds.libsyn.com/574135/rss" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg" alt="RSS Feed" class="platform-logo" />
+        <span>RSS Feed</span>
+      </a>
+    </div>
+
+    <!-- External Listening Options -->
+    <h2>Subscribe & Listen Anywhere</h2>
+    <p>
+      Prefer to listen on your own terms? <em>The Economy of Nothing Podcast™</em> is available on all major surveillance—er, streaming—platforms.
+    </p>
+    <div class="external-links">
+      <a href="https://open.spotify.com/show/5oq4FslrPyMMql9qa7s72I?si=7faefcc731484ef9" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="platform-logo" />
+        <span>Spotify</span>
+      </a>
+
+      <a href="https://podcasts.apple.com/us/podcast/the-economy-of-nothing-podcast/id1805857583" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Podcasts" class="platform-logo" />
+        <span>Apple Podcasts</span>
+      </a>
+
+      <a href="https://music.amazon.com/podcasts/082f0e43-dac5-4334-a3e4-bc82e0d50f50/the-economy-of-nothing-podcast" target="_blank" rel="noopener">
+        <img src="https://img.icons8.com/color/48/amazon-music.png" alt="Amazon Music" class="platform-logo" />
+        <span>Amazon Music</span>
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 56.009 Nothing Inc.</p>
+    <p class="nostalgia-note">Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
+  </footer>
 </body>
 </html>
