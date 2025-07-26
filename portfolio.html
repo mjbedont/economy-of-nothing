@@ -3,151 +3,144 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mike Bedont – Video Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="portfolio.css" />
+  <title>Mike Bedont – Portfolio Carousel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #111;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+    }
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+    header p {
+      margin: 0.5rem 0;
+      color: #666;
+    }
+    .carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 960px;
+      margin: 2rem auto;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s ease;
+      will-change: transform;
+    }
+    .carousel-item {
+      min-width: 100%;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+    .carousel-controls {
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .carousel-controls button {
+      pointer-events: all;
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      font-size: 1.25rem;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      border-radius: 8px;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .section-desc {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #555;
+    }
+    @media (min-width: 768px) {
+      iframe {
+        height: 480px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- Hero Section -->
-  <header class="hero">
-    <div class="hero-overlay">
-      <div class="hero-content">
-        <h1>Mike Bedont</h1>
-        <p>Creative Producer · Video Designer · Storyteller</p>
-        <a href="#grid" class="cta-button">🎬 Watch My Work</a>
-      </div>
-    </div>
-    <video autoplay muted loop id="hero-bg">
-      <source src="/media/video/looping-bg.mp4" type="video/mp4">
-    </video>
+  <header>
+    <h1>Mike Bedont</h1>
+    <p>Creative Producer · Video Editor · Storyteller</p>
   </header>
 
-  <!-- Category Cards Grid -->
-  <section id="grid" class="category-grid">
-    <div class="category-card" onclick="revealSection('tangents')">🟩 Saylor Tangents</div>
-    <div class="category-card" onclick="revealSection('nasa')">🟥 NASA Engineering</div>
-    <div class="category-card" onclick="revealSection('events')">🟦 Events & Livestreams</div>
-    <div class="category-card" onclick="revealSection('saylor')">🟨 Educational Productions</div>
-    <div class="category-card" onclick="revealSection('early')">🟪 Early & Student Work</div>
-  </section>
-
-  <!-- Showcase Sections -->
-  <section id="tangents" class="playlist-showcase hidden">
-    <div class="playlist-meta">
-      <h3>Saylor Tangents</h3>
-      <p>Topical shorts written, hosted, and produced as creative supplements for Saylor Academy. I led concept development, scripting, visuals, and delivery.</p>
-      <a href="https://youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" target="_blank" class="cta-link">▶️ Full Playlist</a>
+  <div class="carousel-wrapper">
+    <div class="carousel-track" id="carousel-track">
+      <div class="carousel-item">
+        <h2 class="section-title">🚀 NASA Space Systems</h2>
+        <p class="section-desc">Post-production and delivery for a full NASA course on spacecraft design.</p>
+        <iframe src="https://www.youtube.com/embed/rrBg-hTUM_Q" allowfullscreen></iframe>
+      </div>
+      <div class="carousel-item">
+        <h2 class="section-title">🎤 Events & Live Streams</h2>
+        <p class="section-desc">Real-time switching and delivery for launches and livestreamed academic events.</p>
+        <iframe src="https://www.youtube.com/embed/PXFNclPr-Lo" allowfullscreen></iframe>
+      </div>
+      <div class="carousel-item">
+        <h2 class="section-title">🧪 Saylor Tangents</h2>
+        <p class="section-desc">Shortform hosted explainers expanding on core academic concepts.</p>
+        <iframe src="https://www.youtube.com/embed/l5eJsFd-Np0" allowfullscreen></iframe>
+      </div>
+      <div class="carousel-item">
+        <h2 class="section-title">🔎 Apt Observations</h2>
+        <p class="section-desc">Micro-commentaries on society, culture, and storytelling. Written, voiced, and cut by me.</p>
+        <iframe src="https://www.youtube.com/embed/MiOuI0iUZ1o" allowfullscreen></iframe>
+      </div>
+      <div class="carousel-item">
+        <h2 class="section-title">📚 Saylor Academy Courses</h2>
+        <p class="section-desc">Editing, graphics, and media ops for educational course production.</p>
+        <iframe src="https://www.youtube.com/embed/PiEwgZxwPVY" allowfullscreen></iframe>
+      </div>
+      <div class="carousel-item">
+        <h2 class="section-title">🎞️ Early & Student Work</h2>
+        <p class="section-desc">Low-budget, high-effort student films, interviews, and digital experiments.</p>
+        <iframe src="https://www.youtube.com/embed/-YZzEPlrkNw" allowfullscreen></iframe>
+      </div>
     </div>
-    <div class="video-player"><iframe id="tangents-main" src="https://www.youtube.com/embed/l5eJsFd-Np0" allowfullscreen loading="lazy"></iframe></div>
-    <div class="playlist-carousel">
-      <img src="https://i.ytimg.com/vi/l5eJsFd-Np0/hqdefault.jpg" onclick="swapVideo('tangents-main','l5eJsFd-Np0')">
-      <img src="https://i.ytimg.com/vi/gdkA8dnE7Ws/hqdefault.jpg" onclick="swapVideo('tangents-main','gdkA8dnE7Ws')">
-      <img src="https://i.ytimg.com/vi/xlatQp8VTtU/hqdefault.jpg" onclick="swapVideo('tangents-main','xlatQp8VTtU')">
-      <img src="https://i.ytimg.com/vi/TAwrKPym3m4/hqdefault.jpg" onclick="swapVideo('tangents-main','TAwrKPym3m4')">
-      <img src="https://i.ytimg.com/vi/rSm3JM9DTL8/hqdefault.jpg" onclick="swapVideo('tangents-main','rSm3JM9DTL8')">
-      <img src="https://i.ytimg.com/vi/EaJCAQJb6mg/hqdefault.jpg" onclick="swapVideo('tangents-main','EaJCAQJb6mg')">
-      <img src="https://i.ytimg.com/vi/vGYX_1CoVm8/hqdefault.jpg" onclick="swapVideo('tangents-main','vGYX_1CoVm8')">
+    <div class="carousel-controls">
+      <button onclick="moveSlide(-1)">&#8592;</button>
+      <button onclick="moveSlide(1)">&#8594;</button>
     </div>
-  </section>
-
-  <section id="nasa" class="playlist-showcase hidden">
-    <div class="playlist-meta">
-      <h3>NASA Space Systems Engineering</h3>
-      <p>Produced in partnership with NASA. I led post-production, visual design, and delivery for this full course on spacecraft design and systems thinking.</p>
-      <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" target="_blank" class="cta-link">▶️ View Full Playlist</a>
-    </div>
-    <div class="video-player"><iframe id="nasa-main" src="https://www.youtube.com/embed/JzpGiyCuT4w" allowfullscreen loading="lazy"></iframe></div>
-    <div class="playlist-carousel">
-      <img src="https://img.youtube.com/vi/JzpGiyCuT4w/hqdefault.jpg" onclick="swapVideo('nasa-main','JzpGiyCuT4w')">
-      <img src="https://img.youtube.com/vi/rrBg-hTUM_Q/hqdefault.jpg" onclick="swapVideo('nasa-main','rrBg-hTUM_Q')">
-      <img src="https://img.youtube.com/vi/8_8OKeCuaF4/hqdefault.jpg" onclick="swapVideo('nasa-main','8_8OKeCuaF4')">
-      <img src="https://img.youtube.com/vi/kittbOWXuP0/hqdefault.jpg" onclick="swapVideo('nasa-main','kittbOWXuP0')">
-      <img src="https://img.youtube.com/vi/pj6g_Z6hzTs/hqdefault.jpg" onclick="swapVideo('nasa-main','pj6g_Z6hzTs')">
-      <img src="https://img.youtube.com/vi/fGmFoKuu_Ag/hqdefault.jpg" onclick="swapVideo('nasa-main','fGmFoKuu_Ag')">
-      <img src="https://img.youtube.com/vi/AlnYvHJ-GPM/hqdefault.jpg" onclick="swapVideo('nasa-main','AlnYvHJ-GPM')">
-    </div>
-  </section>
-
-  <section id="events" class="playlist-showcase hidden">
-    <div class="playlist-meta">
-      <h3>🎤 Events & Livestreams</h3>
-      <p>Panels, launches, and real-time content hosted on YouTube. I managed streaming platforms, overlays, and live switching during key academic initiatives.</p>
-    </div>
-    <div class="video-player"><iframe id="events-main" src="https://www.youtube.com/embed/PXFNclPr-Lo" allowfullscreen loading="lazy"></iframe></div>
-    <div class="playlist-carousel">
-      <img src="https://img.youtube.com/vi/XtIGA5mNG8s/hqdefault.jpg" onclick="swapVideo('events-main','XtIGA5mNG8s')">
-      <img src="https://img.youtube.com/vi/8Q4rnG5vGW0/hqdefault.jpg" onclick="swapVideo('events-main','8Q4rnG5vGW0')">
-      <img src="https://img.youtube.com/vi/1cKZXISzVng/hqdefault.jpg" onclick="swapVideo('events-main','1cKZXISzVng')">
-      <img src="https://img.youtube.com/vi/_zAizvxjHaI/hqdefault.jpg" onclick="swapVideo('events-main','_zAizvxjHaI')">
-      <img src="https://img.youtube.com/vi/ZF56FR3mGHM/hqdefault.jpg" onclick="swapVideo('events-main','ZF56FR3mGHM')">
-    </div>
-  </section>
-
-  <section id="saylor" class="playlist-showcase hidden">
-    <div class="playlist-meta">
-      <h3>📚 Saylor Academy – Educational Productions</h3>
-      <p>Course-aligned explainers and tutorials across subjects—from business ethics to calculus. Produced for Saylor Academy’s OER platform.</p>
-    </div>
-    <div class="video-player"><iframe id="saylor-main" src="https://www.youtube.com/embed/PiEwgZxwPVY?start=3" allowfullscreen loading="lazy"></iframe></div>
-    <div class="playlist-carousel">
-      <img src="https://img.youtube.com/vi/W-GEZAthjCk/hqdefault.jpg" onclick="swapVideo('saylor-main','W-GEZAthjCk')">
-      <img src="https://img.youtube.com/vi/awsyH2STuPI/hqdefault.jpg" onclick="swapVideo('saylor-main','awsyH2STuPI')">
-      <img src="https://img.youtube.com/vi/eLawX815nz0/hqdefault.jpg" onclick="swapVideo('saylor-main','eLawX815nz0')">
-      <img src="https://img.youtube.com/vi/YbDUxo79Nf4/hqdefault.jpg" onclick="swapVideo('saylor-main','YbDUxo79Nf4')">
-      <img src="https://img.youtube.com/vi/pSxY52BVH6s/hqdefault.jpg" onclick="swapVideo('saylor-main','pSxY52BVH6s')">
-      <img src="https://img.youtube.com/vi/RM8C6Ue8T5I/hqdefault.jpg" onclick="swapVideo('saylor-main','RM8C6Ue8T5I')">
-      <img src="https://img.youtube.com/vi/buPOKJ2xVF0/hqdefault.jpg" onclick="swapVideo('saylor-main','buPOKJ2xVF0')">
-    </div>
-  </section>
-
-  <section id="early" class="playlist-showcase hidden">
-    <div class="playlist-meta">
-      <h3>🎞️ Early & Student Work</h3>
-      <p>Foundational student projects, experimental edits, and low-budget films. These early works helped shape my production instincts and story sense.</p>
-    </div>
-    <div class="video-player"><iframe id="early-main" src="https://www.youtube.com/embed/-YZzEPlrkNw?start=1550" allowfullscreen loading="lazy"></iframe></div>
-    <div class="playlist-carousel">
-      <img src="https://img.youtube.com/vi/-YZzEPlrkNw/hqdefault.jpg" onclick="swapVideo('early-main','-YZzEPlrkNw?start=1550')">
-      <img src="https://img.youtube.com/vi/9Z6cdpRwFCo/hqdefault.jpg" onclick="swapVideo('early-main','9Z6cdpRwFCo')">
-      <img src="https://img.youtube.com/vi/vPr6TJxaaz0/hqdefault.jpg" onclick="swapVideo('early-main','vPr6TJxaaz0')">
-      <img src="https://img.youtube.com/vi/CfLL7KHS1Rw/hqdefault.jpg" onclick="swapVideo('early-main','CfLL7KHS1Rw')">
-      <img src="https://img.youtube.com/vi/6Z7GZuwALFU/hqdefault.jpg" onclick="swapVideo('early-main','6Z7GZuwALFU')">
-      <img src="https://img.youtube.com/vi/IjyqdHs1raM/hqdefault.jpg" onclick="swapVideo('early-main','IjyqdHs1raM')">
-    </div>
-  </section>
-
-<!-- Contact & Links -->
-<section class="contact-block">
-  <h3>Get in Touch</h3>
-  <p>Want to collaborate, commission, or just say hi? Let’s talk.</p>
-  <ul class="contact-links">
-    <li><a href="mailto:mike@bedont.com">📧 mike@bedont.com</a></li>
-    <li><a href="https://github.com/mjbedont" target="_blank">💻 GitHub</a></li>
-    <li><a href="https://linkedin.com/in/mikebedont" target="_blank">🔗 LinkedIn</a></li>
-    <li><a href="/media/files/Mike_Bedont_Resume.pdf" target="_blank">📄 Download Resume</a></li>
-  </ul>
-</section>
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <p>&copy; 2025 Mike Bedont · <a href="mailto:mike@bedont.com">mike@bedont.com</a></p>
-    <div class="footer-links">
-      <a href="/media/docs/MikeBedont_Resume.pdf" target="_blank">📄 Resume</a>
-      <a href="https://github.com/mjbedont" target="_blank">GitHub</a>
-      <a href="https://linkedin.com/in/mikebedont" target="_blank">LinkedIn</a>
-    </div>
-  </footer>
+  </div>
 
   <script>
-    function swapVideo(playerId, videoId) {
-      const iframe = document.getElementById(playerId);
-      iframe.src = `https://www.youtube.com/embed/${videoId}`;
-    }
+    let currentIndex = 0;
+    const track = document.getElementById('carousel-track');
+    const items = document.querySelectorAll('.carousel-item');
 
-    function revealSection(sectionId) {
-      document.querySelectorAll('.playlist-showcase').forEach(el => el.classList.add('hidden'));
-      document.getElementById(sectionId).classList.remove('hidden');
-      document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    function moveSlide(direction) {
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = items.length - 1;
+      if (currentIndex >= items.length) currentIndex = 0;
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
   </script>
 </body>
