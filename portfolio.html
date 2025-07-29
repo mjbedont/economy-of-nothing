@@ -5,204 +5,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mike Bedont – Video Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --max-width: 960px;
-      --section-padding: 1.5rem;
-      --highlight-color: #005eff;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 1rem;
-      background: #f0f2f5;
-      color: #111;
-      display: flex;
-      justify-content: center;
-    }
-
-    .container {
-      width: 100%;
-      max-width: var(--max-width);
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-
-    header .tagline {
-      font-size: 1rem;
-      color: #555;
-    }
-
-    .tabs {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-
-    .tab {
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .tab.active {
-      background: var(--highlight-color);
-      color: white;
-      border-color: var(--highlight-color);
-    }
-
-    .showcase {
-      display: none;
-      background: #fff;
-      border-radius: 12px;
-      padding: var(--section-padding);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .showcase.active {
-      display: block;
-    }
-
-    .playlist-meta h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .playlist-meta p {
-      font-size: 1rem;
-      color: #444;
-    }
-
-    .video-player {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 10px;
-      margin-top: 1rem;
-    }
-
-    .video-player iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .playlist-carousel {
-      display: flex;
-      overflow-x: auto;
-      gap: 0.5rem;
-      margin-top: 1rem;
-      padding-bottom: 0.5rem;
-    }
-
-    .playlist-carousel img {
-      width: 120px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 2rem;
-    }
-  </style>
+  <link rel="stylesheet" href="portfolio.css" />
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Mike Bedont</h1>
-      <p class="tagline">Creative Producer · Video Editor · Storyteller</p>
-    </header>
 
-    <div class="tabs">
-      <div class="tab active" onclick="showTab('nasa')">NASA</div>
-      <div class="tab" onclick="showTab('events')">Events</div>
-      <div class="tab" onclick="showTab('tangents')">Tangents</div>
-      <div class="tab" onclick="showTab('apt')">Apt Observations</div>
+  <header class="site-header">
+    <h1>Mike Bedont</h1>
+    <p class="tagline">Creative Producer · Video Editor · Storyteller</p>
+  </header>
+
+  <main>
+    <!-- About Section -->
+    <section class="about-block">
+      <h2>About Me</h2>
+      <p>I’m a video producer and creative technologist with over a decade of experience in educational media, livestreams, branded content, and narrative experimentation. I’ve led end-to-end production for national partnerships, internal studios, and remote teams—blending motion design, story structure, and scrappy problem-solving into every project I touch.</p>
+    </section>
+
+    <!-- Tabs Navigation -->
+    <nav class="portfolio-tabs">
+      <button class="tab-button active" onclick="showTab('nasa')">NASA</button>
+      <button class="tab-button" onclick="showTab('events')">Events</button>
+      <button class="tab-button" onclick="showTab('tangents')">Tangents</button>
+      <button class="tab-button" onclick="showTab('apt')">Apt Observations</button>
+      <button class="tab-button" onclick="showTab('saylor')">Saylor</button>
+      <button class="tab-button" onclick="showTab('early')">Early Work</button>
+    </nav>
+
+    <!-- Showcase Container -->
+    <div class="showcase-container">
+      <section id="nasa" class="playlist-showcase active-tab">[...NASA content here...]</section>
+      <section id="events" class="playlist-showcase">[...Events content here...]</section>
+      <section id="tangents" class="playlist-showcase">[...Tangents content here...]</section>
+      <section id="apt" class="playlist-showcase">[...Apt Observations content here...]</section>
+      <section id="saylor" class="playlist-showcase">[...Saylor content here...]</section>
+      <section id="early" class="playlist-showcase">[...Early Work content here...]</section>
     </div>
+  </main>
 
-    <div id="nasa" class="showcase active">
-      <div class="playlist-meta">
-        <h3>NASA Space Systems Engineering</h3>
-        <p>Produced in partnership with NASA. I handled post-production, visual styling, and delivery for this full course on spacecraft and mission design.</p>
-      </div>
-      <div class="video-player">
-        <iframe src="https://www.youtube.com/embed/JzpGiyCuT4w" allowfullscreen></iframe>
-      </div>
-      <div class="playlist-carousel">
-        <img src="https://img.youtube.com/vi/rrBg-hTUM_Q/hqdefault.jpg" onclick="swapVideo(this, 'https://www.youtube.com/embed/rrBg-hTUM_Q')" alt="NASA Unit 1">
-        <img src="https://img.youtube.com/vi/8_8OKeCuaF4/hqdefault.jpg" onclick="swapVideo(this, 'https://www.youtube.com/embed/8_8OKeCuaF4')" alt="NASA Unit 2">
-      </div>
-    </div>
-
-    <div id="events" class="showcase">
-      <div class="playlist-meta">
-        <h3>🎤 Events & Live Streams</h3>
-        <p>Livestreamed panels, launches, and event coverage produced across multiple course initiatives.</p>
-      </div>
-      <div class="video-player">
-        <iframe src="https://www.youtube.com/embed/PXFNclPr-Lo" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <div id="tangents" class="showcase">
-      <div class="playlist-meta">
-        <h3>Saylor Tangents</h3>
-        <p>Topical shorts created as supplements to core educational content. I handled scripting, graphics, and production.</p>
-      </div>
-      <div class="video-player">
-        <iframe src="https://www.youtube.com/embed/l5eJsFd-Np0" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <div id="apt" class="showcase">
-      <div class="playlist-meta">
-        <h3>🔎 Apt Observations</h3>
-        <p>Short-form visual commentary blending surrealism, economic analysis, and editing flair. Entirely self-produced.</p>
-      </div>
-      <div class="video-player">
-        <iframe src="https://www.youtube.com/embed/MiOuI0iUZ1o" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <footer>
-      <p>© 2025 Mike Bedont · <a href="mailto:mike@bedont.com">mike@bedont.com</a></p>
-    </footer>
-  </div>
+  <footer class="site-footer">
+    <p>© 2025 Mike Bedont · <a href="mailto:mike@bedont.com">mike@bedont.com</a></p>
+  </footer>
 
   <script>
     function showTab(id) {
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.showcase').forEach(showcase => showcase.classList.remove('active'));
-      document.querySelector(`.tab[onclick*='${id}']`).classList.add('active');
-      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.playlist-showcase').forEach(s => s.classList.remove('active-tab'));
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active-tab');
+      document.querySelector(`[onclick*="${id}"]`).classList.add('active');
     }
 
-    function swapVideo(el, url) {
-      const player = el.closest('.showcase').querySelector('iframe');
-      player.src = url;
+    function swapVideo(playerId, videoId) {
+      const iframe = document.getElementById(playerId);
+      iframe.src = `https://www.youtube.com/embed/${videoId}`;
     }
   </script>
+
 </body>
 </html>
