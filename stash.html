@@ -179,8 +179,18 @@
   <!-- Video Swap Script -->
 <script>
   function swapVideo(playerId, videoId) {
-    const iframe = document.getElementById(playerId);
-    iframe.src = `https://www.youtube.com/embed/${videoId}`;
+    const oldIframe = document.getElementById(playerId);
+    const newIframe = document.createElement('iframe');
+    newIframe.id = playerId;
+    newIframe.src = `https://www.youtube.com/embed/${videoId}`;
+    newIframe.allowFullscreen = true;
+    newIframe.loading = 'lazy';
+
+    // Match styles and replace
+    newIframe.style.width = '100%';
+    newIframe.style.height = '100%';
+    newIframe.style.border = 'none';
+    oldIframe.parentNode.replaceChild(newIframe, oldIframe);
   }
 
   const tabButtons = document.querySelectorAll('.tab-button');
@@ -190,23 +200,23 @@
     button.addEventListener('click', () => {
       const targetId = button.getAttribute('data-target');
 
+      // Update active tab
       tabButtons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
 
+      // Show/hide sections & stop video playback
       showcases.forEach(section => {
         const isTarget = section.id === targetId;
+        section.style.display = isTarget ? 'block' : 'none';
 
-        // Stop all videos by resetting iframe src
-        const iframe = section.querySelector('iframe');
-        if (iframe) {
-          const currentSrc = iframe.src;
-          iframe.src = '';
-          if (isTarget) {
-            setTimeout(() => iframe.src = currentSrc, 10);
+        // If hiding the section, stop its video
+        if (!isTarget) {
+          const iframe = section.querySelector('iframe');
+          if (iframe) {
+            const blank = iframe.cloneNode(false); // no src = stops playback
+            iframe.parentNode.replaceChild(blank, iframe);
           }
         }
-
-        section.style.display = isTarget ? 'block' : 'none';
       });
     });
   });
@@ -216,7 +226,6 @@
     section.style.display = index === 0 ? 'block' : 'none';
   });
 </script>
-
 
 </body>
 </html>
