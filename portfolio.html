@@ -7,163 +7,173 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
-      font-family: 'Inter', sans-serif;
       margin: 0;
-      padding: 2rem;
-      background: #f0f2f5;
-      color: #111;
+      font-family: 'Inter', sans-serif;
+      background: #0b0c10;
+      color: #fff;
     }
-    .site-header {
+
+    header {
+      background: #1f2833;
+      padding: 1.5rem;
       text-align: center;
-      margin-bottom: 2rem;
+      border-bottom: 2px solid #66fcf1;
     }
-    .tagline {
-      font-size: 1.1rem;
-      color: #555;
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
     }
+
+    header p {
+      margin: 0.5rem 0 0;
+      color: #c5c6c7;
+    }
+
     .tabs {
       display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
+      justify-content: center;
       gap: 1rem;
-      margin-bottom: 2rem;
-      border-bottom: 2px solid #ccc;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
     }
-    .tab {
+
+    .tab-button {
       padding: 0.5rem 1rem;
-      cursor: pointer;
-      background: none;
+      background: #45a29e;
       border: none;
-      border-bottom: 3px solid transparent;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #444;
-      white-space: nowrap;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
     }
-    .tab.active {
-      border-color: #005eff;
-      color: #005eff;
+
+    .tab-button.active {
+      background: #66fcf1;
+      color: #0b0c10;
     }
-    .tab:hover {
-      color: #000;
-    }
-    .showcase-container > section {
+
+    .showcase-container {
       display: none;
+      padding: 1rem;
     }
-    .showcase-container > section.active {
+
+    .showcase-container.active {
       display: block;
     }
-    .playlist-showcase {
-      background: #fff;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    }
-    .playlist-meta h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.25rem;
-      color: #111;
-    }
-    .playlist-meta p {
-      font-size: 1rem;
-      color: #444;
-    }
-    .cta-link {
-      display: inline-block;
-      margin-top: 0.75rem;
-      font-weight: bold;
-      color: #005eff;
-      text-decoration: underline;
-    }
-    .video-player {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 10px;
-      margin-top: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-    .video-player iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .playlist-carousel {
+
+    .carousel-row {
       display: flex;
       overflow-x: auto;
+      scroll-snap-type: x mandatory;
       gap: 1rem;
       padding: 1rem 0;
-      scroll-snap-type: x mandatory;
     }
-    .playlist-carousel img {
+
+    .carousel-row img {
       flex: 0 0 auto;
-      width: 160px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+      width: 200px;
+      border-radius: 8px;
       scroll-snap-align: start;
+      border: 2px solid #1f2833;
+      transition: transform 0.2s ease;
     }
-    .playlist-carousel img:hover {
-      transform: scale(1.03);
+
+    .carousel-row img:hover {
+      transform: scale(1.05);
+      border-color: #66fcf1;
     }
-    .site-footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 4rem;
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
     }
-    .site-footer a {
-      color: #005eff;
-      text-decoration: none;
+
+    iframe {
+      width: 100%;
+      max-width: 960px;
+      height: 540px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+      display: block;
+      margin: 1rem auto;
+    }
+
+    @media (max-width: 600px) {
+      iframe {
+        height: 240px;
+      }
+      .carousel-row img {
+        width: 140px;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
+  <header>
     <h1>Mike Bedont</h1>
-    <p class="tagline">Creative Producer · Video Editor · Storyteller</p>
+    <p>Creative Producer · Video Editor · Storyteller</p>
   </header>
 
-  <nav class="tabs" id="tabButtons">
-    <button class="tab active" data-target="nasa">NASA</button>
-    <button class="tab" data-target="events">Events</button>
-    <button class="tab" data-target="tangents">Tangents</button>
-    <button class="tab" data-target="apt">Apt Observations</button>
-    <button class="tab" data-target="saylor">Saylor</button>
-    <button class="tab" data-target="early">Early Work</button>
-  </nav>
+  <div class="tabs">
+    <button class="tab-button active" onclick="showTab('nasa')">NASA</button>
+    <button class="tab-button" onclick="showTab('events')">Events</button>
+    <button class="tab-button" onclick="showTab('tangents')">Tangents</button>
+    <button class="tab-button" onclick="showTab('apt')">Apt Observations</button>
+  </div>
 
-  <main class="showcase-container">
-    <!-- Inject showcase sections here as <section id="nasa" class="active">...</section> etc -->
+  <main>
+    <section id="nasa" class="showcase-container active">
+      <h2 class="section-title">NASA Showcase</h2>
+      <iframe id="nasa-player" src="https://www.youtube.com/embed/rrBg-hTUM_Q" allowfullscreen loading="lazy"></iframe>
+      <div class="carousel-row">
+        <img src="https://img.youtube.com/vi/rrBg-hTUM_Q/hqdefault.jpg" onclick="swapVideo('nasa-player','rrBg-hTUM_Q')">
+        <img src="https://img.youtube.com/vi/8_8OKeCuaF4/hqdefault.jpg" onclick="swapVideo('nasa-player','8_8OKeCuaF4')">
+        <img src="https://img.youtube.com/vi/kittbOWXuP0/hqdefault.jpg" onclick="swapVideo('nasa-player','kittbOWXuP0')">
+        <img src="https://img.youtube.com/vi/pj6g_Z6hzTs/hqdefault.jpg" onclick="swapVideo('nasa-player','pj6g_Z6hzTs')">
+      </div>
+    </section>
+
+    <section id="events" class="showcase-container">
+      <h2 class="section-title">Events & Livestreams</h2>
+      <iframe id="events-player" src="https://www.youtube.com/embed/PXFNclPr-Lo" allowfullscreen loading="lazy"></iframe>
+      <div class="carousel-row">
+        <img src="https://img.youtube.com/vi/XtIGA5mNG8s/hqdefault.jpg" onclick="swapVideo('events-player','XtIGA5mNG8s')">
+        <img src="https://img.youtube.com/vi/8Q4rnG5vGW0/hqdefault.jpg" onclick="swapVideo('events-player','8Q4rnG5vGW0')">
+        <img src="https://img.youtube.com/vi/1cKZXISzVng/hqdefault.jpg" onclick="swapVideo('events-player','1cKZXISzVng')">
+      </div>
+    </section>
+
+    <section id="tangents" class="showcase-container">
+      <h2 class="section-title">Saylor Tangents</h2>
+      <iframe id="tangents-player" src="https://www.youtube.com/embed/l5eJsFd-Np0" allowfullscreen loading="lazy"></iframe>
+      <div class="carousel-row">
+        <img src="https://img.youtube.com/vi/gdkA8dnE7Ws/hqdefault.jpg" onclick="swapVideo('tangents-player','gdkA8dnE7Ws')">
+        <img src="https://img.youtube.com/vi/xlatQp8VTtU/hqdefault.jpg" onclick="swapVideo('tangents-player','xlatQp8VTtU')">
+        <img src="https://img.youtube.com/vi/TAwrKPym3m4/hqdefault.jpg" onclick="swapVideo('tangents-player','TAwrKPym3m4')">
+      </div>
+    </section>
+
+    <section id="apt" class="showcase-container">
+      <h2 class="section-title">Apt Observations</h2>
+      <iframe id="apt-player" src="https://www.youtube.com/embed/MiOuI0iUZ1o" allowfullscreen loading="lazy"></iframe>
+      <div class="carousel-row">
+        <img src="https://img.youtube.com/vi/MiOuI0iUZ1o/hqdefault.jpg" onclick="swapVideo('apt-player','MiOuI0iUZ1o')">
+        <img src="https://img.youtube.com/vi/gIBn-GYTII0/hqdefault.jpg" onclick="swapVideo('apt-player','gIBn-GYTII0')">
+        <img src="https://img.youtube.com/vi/eABnkcVngwQ/hqdefault.jpg" onclick="swapVideo('apt-player','eABnkcVngwQ')">
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Mike Bedont · <a href="mailto:mike@bedont.com">mike@bedont.com</a></p>
-  </footer>
-
   <script>
-    const tabs = document.querySelectorAll(".tab");
-    const showcases = document.querySelectorAll(".showcase-container > section");
-
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        // Update active tab
-        tabs.forEach(t => t.classList.remove("active"));
-        tab.classList.add("active");
-
-        // Show corresponding section
-        showcases.forEach(section => {
-          section.classList.remove("active");
-        });
-        const target = tab.getAttribute("data-target");
-        document.getElementById(target).classList.add("active");
-      });
-    });
+    function showTab(id) {
+      document.querySelectorAll('.showcase-container').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
 
     function swapVideo(playerId, videoId) {
       const iframe = document.getElementById(playerId);
