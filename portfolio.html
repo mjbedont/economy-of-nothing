@@ -9,56 +9,489 @@
 </head>
 <body>
 
+  <!-- Page Header -->
   <header class="site-header">
     <h1>Mike Bedont</h1>
     <p class="tagline">Creative Producer · Video Editor · Storyteller</p>
-  </header>
-
-  <main>
+      <main>
+        
     <!-- About Section -->
-    <section class="about-block">
+    <section id="about" class="about-block">
       <h2>About Me</h2>
       <p>I’m a video producer and creative technologist with over a decade of experience in educational media, livestreams, branded content, and narrative experimentation. I’ve led end-to-end production for national partnerships, internal studios, and remote teams—blending motion design, story structure, and scrappy problem-solving into every project I touch.</p>
     </section>
 
-    <!-- Tabs Navigation -->
-    <nav class="portfolio-tabs">
-      <button class="tab-button active" onclick="showTab('nasa')">NASA</button>
-      <button class="tab-button" onclick="showTab('events')">Events</button>
-      <button class="tab-button" onclick="showTab('tangents')">Tangents</button>
-      <button class="tab-button" onclick="showTab('apt')">Apt Observations</button>
-      <button class="tab-button" onclick="showTab('saylor')">Saylor</button>
-      <button class="tab-button" onclick="showTab('early')">Early Work</button>
-    </nav>
+   <!-- NASA Showcase -->
+<section class="playlist-showcase" data-tags="educational instructional instudio saylor">
+  <h3>NASA Space Systems Engineering</h3>
 
-    <!-- Showcase Container -->
-    <div class="showcase-container">
-      <section id="nasa" class="playlist-showcase active-tab">[...NASA content here...]</section>
-      <section id="events" class="playlist-showcase">[...Events content here...]</section>
-      <section id="tangents" class="playlist-showcase">[...Tangents content here...]</section>
-      <section id="apt" class="playlist-showcase">[...Apt Observations content here...]</section>
-      <section id="saylor" class="playlist-showcase">[...Saylor content here...]</section>
-      <section id="early" class="playlist-showcase">[...Early Work content here...]</section>
-    </div>
+  <div class="video-player">
+    <iframe id="nasa-main" src="https://www.youtube.com/embed/JzpGiyCuT4w" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="nasa-carousel">
+    <img src="https://img.youtube.com/vi/JzpGiyCuT4w/hqdefault.jpg" alt="NASA Intro" onclick="swapVideo('nasa-main', 'JzpGiyCuT4w')">
+    <img src="https://img.youtube.com/vi/rrBg-hTUM_Q/hqdefault.jpg" alt="Unit 1" onclick="swapVideo('nasa-main', 'rrBg-hTUM_Q')">
+    <img src="https://img.youtube.com/vi/8_8OKeCuaF4/hqdefault.jpg" alt="Unit 2" onclick="swapVideo('nasa-main', '8_8OKeCuaF4')">
+    <img src="https://img.youtube.com/vi/kittbOWXuP0/hqdefault.jpg" alt="Unit 3" onclick="swapVideo('nasa-main', 'kittbOWXuP0')">
+    <img src="https://img.youtube.com/vi/pj6g_Z6hzTs/hqdefault.jpg" alt="Unit 4" onclick="swapVideo('nasa-main', 'pj6g_Z6hzTs')">
+    <img src="https://img.youtube.com/vi/fGmFoKuu_Ag/hqdefault.jpg" alt="Unit 5" onclick="swapVideo('nasa-main', 'fGmFoKuu_Ag')">
+    <img src="https://img.youtube.com/vi/AlnYvHJ-GPM/hqdefault.jpg" alt="Unit 6" onclick="swapVideo('nasa-main', 'AlnYvHJ-GPM')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>I worked on this project from pre-production through delivery, collaborating directly with the instructional team and NASA engineers. I handled studio coordination, editing, graphics, and visual identity — shaping the entire post-production pipeline across this six-unit course.</p>
+    <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+  <!-- Tangents Showcase -->
+<section class="playlist-showcase" data-tags="educational explainer hosted shortform instudio saylor">
+  <h3>Saylor Tangents</h3>
+
+  <div class="video-player">
+    <iframe id="tangents-main" src="https://www.youtube.com/embed/l5eJsFd-Np0" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="tangents-carousel">
+    <img src="https://i.ytimg.com/vi/l5eJsFd-Np0/hqdefault.jpg" alt="Tangents #4" onclick="swapVideo('tangents-main', 'l5eJsFd-Np0')">
+    <img src="https://i.ytimg.com/vi/gdkA8dnE7Ws/hqdefault.jpg" alt="Tangents #1" onclick="swapVideo('tangents-main', 'gdkA8dnE7Ws')">
+    <img src="https://i.ytimg.com/vi/xlatQp8VTtU/hqdefault.jpg" alt="Tangents #2" onclick="swapVideo('tangents-main', 'xlatQp8VTtU')">
+    <img src="https://i.ytimg.com/vi/TAwrKPym3m4/hqdefault.jpg" alt="Tangents #3" onclick="swapVideo('tangents-main', 'TAwrKPym3m4')">
+    <img src="https://i.ytimg.com/vi/rSm3JM9DTL8/hqdefault.jpg" alt="Tangents #5" onclick="swapVideo('tangents-main', 'rSm3JM9DTL8')">
+    <img src="https://i.ytimg.com/vi/EaJCAQJb6mg/hqdefault.jpg" alt="Tangents #6" onclick="swapVideo('tangents-main', 'EaJCAQJb6mg')">
+    <img src="https://i.ytimg.com/vi/vGYX_1CoVm8/hqdefault.jpg" alt="Tangents #7" onclick="swapVideo('tangents-main', 'vGYX_1CoVm8')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>7 videos · Topical shorts written, hosted, and produced as a creative supplement for Saylor Academy’s core educational content. I handled concept development, scripting, visual production, and delivery.</p>
+    <a href="https://youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+<!-- JavaScript Live Sessions Showcase -->
+<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+  <h3>💻 JavaScript Live Sessions</h3>
+
+  <div class="video-player">
+    <iframe id="js-main" src="https://www.youtube.com/embed/8Q4rnG5vGW0" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="js-carousel">
+    <img src="https://img.youtube.com/vi/8Q4rnG5vGW0/hqdefault.jpg" alt="JS Session 1" onclick="swapVideo('js-main', '8Q4rnG5vGW0')">
+    <img src="https://img.youtube.com/vi/uRrfV-kBeto/hqdefault.jpg" alt="JS Session 2" onclick="swapVideo('js-main', 'uRrfV-kBeto')">
+    <img src="https://img.youtube.com/vi/9hmMVQfnL5c/hqdefault.jpg" alt="JS Session 3" onclick="swapVideo('js-main', '9hmMVQfnL5c')">
+    <img src="https://img.youtube.com/vi/Td99e6GYY3w/hqdefault.jpg" alt="JS Session 4" onclick="swapVideo('js-main', 'Td99e6GYY3w')">
+    <img src="https://img.youtube.com/vi/TNGrjgF5EYw/hqdefault.jpg" alt="JS Session 5" onclick="swapVideo('js-main', 'TNGrjgF5EYw')">
+    <img src="https://img.youtube.com/vi/ICA8CeNg6fg/hqdefault.jpg" alt="JS Session 6" onclick="swapVideo('js-main', 'ICA8CeNg6fg')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>This JavaScript livestream series introduced core browser scripting techniques in a hands-on format. Each session demonstrated live code writing, explained logic flows, and fielded learner questions in real time. I hosted and produced these broadcasts to make front-end programming more accessible to beginners.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU40sO2zdDBOnY_d39_KEUO" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+        
+<!-- Strategic Management: Study Sessions Showcase -->
+<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+  <h3>📈 Strategic Management: Study Sessions</h3>
+
+  <div class="video-player">
+    <iframe id="strategic-main" src="https://www.youtube.com/embed/pIZslTsKfVs" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="strategic-carousel">
+    <img src="https://img.youtube.com/vi/pIZslTsKfVs/hqdefault.jpg" alt="Session 1" onclick="swapVideo('strategic-main', 'pIZslTsKfVs')">
+    <img src="https://img.youtube.com/vi/4ZrhpOLi46A/hqdefault.jpg" alt="Session 2" onclick="swapVideo('strategic-main', '4ZrhpOLi46A')">
+    <img src="https://img.youtube.com/vi/dXXOHb5xtQI/hqdefault.jpg" alt="Session 3" onclick="swapVideo('strategic-main', 'dXXOHb5xtQI')">
+    <img src="https://img.youtube.com/vi/C1TY8locoGk/hqdefault.jpg" alt="Session 4" onclick="swapVideo('strategic-main', 'C1TY8locoGk')">
+    <img src="https://img.youtube.com/vi/DXdfSYMadwo/hqdefault.jpg" alt="Session 5" onclick="swapVideo('strategic-main', 'DXdfSYMadwo')">
+    <img src="https://img.youtube.com/vi/2BEczxXN1wQ/hqdefault.jpg" alt="Session 6" onclick="swapVideo('strategic-main', '2BEczxXN1wQ')">
+    <img src="https://img.youtube.com/vi/oCoWPTWJZKg/hqdefault.jpg" alt="Session 7" onclick="swapVideo('strategic-main', 'oCoWPTWJZKg')">
+    <img src="https://img.youtube.com/vi/TJgM88A7dM0/hqdefault.jpg" alt="Session 8" onclick="swapVideo('strategic-main', 'TJgM88A7dM0')">
+    <img src="https://img.youtube.com/vi/lrfCEJBSrPo/hqdefault.jpg" alt="Session 9" onclick="swapVideo('strategic-main', 'lrfCEJBSrPo')">
+    <img src="https://img.youtube.com/vi/yrME8ZUfYEE/hqdefault.jpg" alt="Session 10" onclick="swapVideo('strategic-main', 'yrME8ZUfYEE')">
+    <img src="https://img.youtube.com/vi/5w_OwBS6REs/hqdefault.jpg" alt="Session 11" onclick="swapVideo('strategic-main', '5w_OwBS6REs')">
+    <img src="https://img.youtube.com/vi/ScTPGC-D56s/hqdefault.jpg" alt="Session 12" onclick="swapVideo('strategic-main', 'ScTPGC-D56s')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>These livestream study sessions focused on major themes in strategic management—competitive advantage, SWOT analysis, industry forces, and more. I hosted each session live, breaking down core frameworks and guiding learners through real-world case examples in real time.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYV6CmvOPi7GORcrDgf8L0LI" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+<!-- Marketing Management: Study Sessions Showcase -->
+<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+  <h3>📣 Marketing Management: Study Sessions</h3>
+
+  <div class="video-player">
+    <iframe id="marketing-main" src="https://www.youtube.com/embed/1cKZXISzVng" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="marketing-carousel">
+    <img src="https://img.youtube.com/vi/1cKZXISzVng/hqdefault.jpg" alt="Session 1" onclick="swapVideo('marketing-main', '1cKZXISzVng')">
+    <img src="https://img.youtube.com/vi/GGLnWMNWe5c/hqdefault.jpg" alt="Session 2" onclick="swapVideo('marketing-main', 'GGLnWMNWe5c')">
+    <img src="https://img.youtube.com/vi/7lSXf648NS4/hqdefault.jpg" alt="Session 3" onclick="swapVideo('marketing-main', '7lSXf648NS4')">
+    <img src="https://img.youtube.com/vi/rxghjybJK5s/hqdefault.jpg" alt="Session 4" onclick="swapVideo('marketing-main', 'rxghjybJK5s')">
+    <img src="https://img.youtube.com/vi/vIwk_Y11V6Q/hqdefault.jpg" alt="Session 5" onclick="swapVideo('marketing-main', 'vIwk_Y11V6Q')">
+    <img src="https://img.youtube.com/vi/-tl60tB_Ybw/hqdefault.jpg" alt="Session 6" onclick="swapVideo('marketing-main', '-tl60tB_Ybw')">
+    <img src="https://img.youtube.com/vi/LLNw4vkOQRA/hqdefault.jpg" alt="Session 7" onclick="swapVideo('marketing-main', 'LLNw4vkOQRA')">
+    <img src="https://img.youtube.com/vi/urZK_gx3wW4/hqdefault.jpg" alt="Session 8" onclick="swapVideo('marketing-main', 'urZK_gx3wW4')">
+    <img src="https://img.youtube.com/vi/qepZpuVvB8Q/hqdefault.jpg" alt="Session 9" onclick="swapVideo('marketing-main', 'qepZpuVvB8Q')">
+    <img src="https://img.youtube.com/vi/YdwH_Mip8U0/hqdefault.jpg" alt="Session 10" onclick="swapVideo('marketing-main', 'YdwH_Mip8U0')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>These livestream study sessions break down key topics in marketing management—from the 4 Ps and STP model to branding strategy, consumer behavior, and pricing decisions. I hosted these interactive sessions live to guide students through frameworks, examples, and audience Q&A.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYVkVAqovrObO1NRNoM8NJbS" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+        
+<!-- ESL Live Sessions Showcase -->
+<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+  <h3>🗣️ ESL Live Sessions</h3>
+
+  <div class="video-player">
+    <iframe id="esl-main" src="https://www.youtube.com/embed/bpBHyUnB1ws" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="esl-carousel">
+    <img src="https://img.youtube.com/vi/bpBHyUnB1ws/hqdefault.jpg" alt="ESL Session 1" onclick="swapVideo('esl-main', 'bpBHyUnB1ws')">
+    <img src="https://img.youtube.com/vi/D6QLcu8Nb7M/hqdefault.jpg" alt="ESL Session 2" onclick="swapVideo('esl-main', 'D6QLcu8Nb7M')">
+    <img src="https://img.youtube.com/vi/yrK7oi2fpO4/hqdefault.jpg" alt="ESL Session 3" onclick="swapVideo('esl-main', 'yrK7oi2fpO4')">
+    <img src="https://img.youtube.com/vi/3Xb5Hc_qUVc/hqdefault.jpg" alt="ESL Session 4" onclick="swapVideo('esl-main', '3Xb5Hc_qUVc')">
+    <img src="https://img.youtube.com/vi/PcYUz0PyeDA/hqdefault.jpg" alt="ESL Session 5" onclick="swapVideo('esl-main', 'PcYUz0PyeDA')">
+    <img src="https://img.youtube.com/vi/2uxiJWrYgtA/hqdefault.jpg" alt="ESL Session 6" onclick="swapVideo('esl-main', '2uxiJWrYgtA')">
+    <img src="https://img.youtube.com/vi/shsFEjgA2Tw/hqdefault.jpg" alt="ESL Session 7" onclick="swapVideo('esl-main', 'shsFEjgA2Tw')">
+    <img src="https://img.youtube.com/vi/zWgGLeUhRw0/hqdefault.jpg" alt="ESL Session 8" onclick="swapVideo('esl-main', 'zWgGLeUhRw0')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>This livestream series supported English language learners by focusing on everyday vocabulary, grammar tips, and practical speaking/listening skills. Sessions were interactive and scaffolded to help adult learners build confidence in real-world usage. I hosted and produced these sessions for open online audiences.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYVxWHxsZ67U-qQephk1XTek" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+<!-- Python Live Sessions Showcase -->
+<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+  <h3>🐍 Python Live Sessions</h3>
+
+  <div class="video-player">
+    <iframe id="python-main" src="https://www.youtube.com/embed/e3rvoTBYmNE" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="python-carousel">
+    <img src="https://img.youtube.com/vi/e3rvoTBYmNE/hqdefault.jpg" alt="Python Session 1" onclick="swapVideo('python-main', 'e3rvoTBYmNE')">
+    <img src="https://img.youtube.com/vi/d_mMtg9eh_g/hqdefault.jpg" alt="Python Session 2" onclick="swapVideo('python-main', 'd_mMtg9eh_g')">
+    <img src="https://img.youtube.com/vi/zzVOBLoS5nw/hqdefault.jpg" alt="Python Session 3" onclick="swapVideo('python-main', 'zzVOBLoS5nw')">
+    <img src="https://img.youtube.com/vi/rKkAgGOhvfc/hqdefault.jpg" alt="Python Session 4" onclick="swapVideo('python-main', 'rKkAgGOhvfc')">
+    <img src="https://img.youtube.com/vi/68myxVYmBzw/hqdefault.jpg" alt="Python Session 5" onclick="swapVideo('python-main', '68myxVYmBzw')">
+    <img src="https://img.youtube.com/vi/ZwZMAHFFDRM/hqdefault.jpg" alt="Python Session 6" onclick="swapVideo('python-main', 'ZwZMAHFFDRM')">
+    <img src="https://img.youtube.com/vi/Q-9-953QOuI/hqdefault.jpg" alt="Python Session 7" onclick="swapVideo('python-main', 'Q-9-953QOuI')">
+    <img src="https://img.youtube.com/vi/b0Ly696QR7c/hqdefault.jpg" alt="Python Session 8" onclick="swapVideo('python-main', 'b0Ly696QR7c')">
+    <img src="https://img.youtube.com/vi/Qxn86jG9GuQ/hqdefault.jpg" alt="Python Session 9" onclick="swapVideo('python-main', 'Qxn86jG9GuQ')">
+    <img src="https://img.youtube.com/vi/r5e171s2hs0/hqdefault.jpg" alt="Python Session 10" onclick="swapVideo('python-main', 'r5e171s2hs0')">
+    <img src="https://img.youtube.com/vi/iUwPxeItwPA/hqdefault.jpg" alt="Python Session 11" onclick="swapVideo('python-main', 'iUwPxeItwPA')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>I hosted these live Python programming sessions as part of an open learning initiative at Saylor Academy. Each session introduced a new Python skill, walked through example code, and responded to real-time student questions. I handled scripting, delivery, Q&A, and technical setup for the livestream platform.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+<!-- Bitcoin for Developers Showcase -->
+<section class="playlist-showcase" data-tags="educational explainer hosted live blockchain programming saylor">
+  <h3>💻 Bitcoin for Developers</h3>
+
+  <div class="video-player">
+    <iframe id="bitdev-main" src="https://www.youtube.com/embed/K_hy6_MdEGc" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="bitdev-carousel">
+    <img src="https://img.youtube.com/vi/K_hy6_MdEGc/hqdefault.jpg" alt="Session 1" onclick="swapVideo('bitdev-main', 'K_hy6_MdEGc')">
+    <img src="https://img.youtube.com/vi/v8LfkhqVcto/hqdefault.jpg" alt="Session 2" onclick="swapVideo('bitdev-main', 'v8LfkhqVcto')">
+    <img src="https://img.youtube.com/vi/WpiL5AjGfjY/hqdefault.jpg" alt="Session 3" onclick="swapVideo('bitdev-main', 'WpiL5AjGfjY')">
+    <img src="https://img.youtube.com/vi/87z_pJVvyT0/hqdefault.jpg" alt="Session 4" onclick="swapVideo('bitdev-main', '87z_pJVvyT0')">
+    <img src="https://img.youtube.com/vi/r3GrkFiPAzM/hqdefault.jpg" alt="Session 5" onclick="swapVideo('bitdev-main', 'r3GrkFiPAzM')">
+    <img src="https://img.youtube.com/vi/x4Ztxz_hVjE/hqdefault.jpg" alt="Session 6" onclick="swapVideo('bitdev-main', 'x4Ztxz_hVjE')">
+    <img src="https://img.youtube.com/vi/SCNa8ARaM6o/hqdefault.jpg" alt="Session 7" onclick="swapVideo('bitdev-main', 'SCNa8ARaM6o')">
+    <img src="https://img.youtube.com/vi/PuIHjWnhJYI/hqdefault.jpg" alt="Session 8" onclick="swapVideo('bitdev-main', 'PuIHjWnhJYI')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>This series breaks down the fundamentals of Bitcoin from a developer’s perspective—covering wallets, nodes, scripting, transactions, and protocol design. I produced and hosted these sessions in collaboration with industry experts, aiming to make crypto engineering concepts accessible and practical.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU60WHRBLnQ5W9y2tA50elV" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+        
+<!-- Bitcoin for Everybody: Live Sessions Showcase -->
+<section class="playlist-showcase" data-tags="educational instructional livestream shortform hosted saylor crypto bitcoin">
+  <h3>₿ Bitcoin for Everybody: Live Sessions</h3>
+
+  <div class="video-player">
+    <iframe id="bitcoin-main" src="https://www.youtube.com/embed/lrI7oM3UI6E" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="bitcoin-carousel">
+    <img src="https://img.youtube.com/vi/lrI7oM3UI6E/hqdefault.jpg" alt="Session 1" onclick="swapVideo('bitcoin-main', 'lrI7oM3UI6E')">
+    <img src="https://img.youtube.com/vi/6WxdkRk8cs4/hqdefault.jpg" alt="Session 2" onclick="swapVideo('bitcoin-main', '6WxdkRk8cs4')">
+    <img src="https://img.youtube.com/vi/fLaj-1jnKjM/hqdefault.jpg" alt="Session 3" onclick="swapVideo('bitcoin-main', 'fLaj-1jnKjM')">
+    <img src="https://img.youtube.com/vi/o9yPKArC85c/hqdefault.jpg" alt="Session 4" onclick="swapVideo('bitcoin-main', 'o9yPKArC85c')">
+    <img src="https://img.youtube.com/vi/4V0xDJuqgUs/hqdefault.jpg" alt="Session 5" onclick="swapVideo('bitcoin-main', '4V0xDJuqgUs')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>This series of livestreams introduced the basics of Bitcoin, blockchain technology, and decentralized finance. Designed for beginners, each session walked through key concepts like wallets, mining, security, and practical use cases. I hosted and moderated the live chats for real-time audience questions and examples.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYUUzl9K0OMyqygs-HKL_C8_" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+<!-- Space Systems Engineering: Hangouts Showcase -->
+<section class="playlist-showcase" data-tags="educational explainer live hosted saylor nasa space">
+  <h3>🚀 Space Systems Engineering: Hangouts</h3>
+
+  <div class="video-player">
+    <iframe id="spacehangout-main" src="https://www.youtube.com/embed/mpk_7TQmURg" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="spacehangout-carousel">
+    <img src="https://img.youtube.com/vi/mpk_7TQmURg/hqdefault.jpg" alt="Hangout 1" onclick="swapVideo('spacehangout-main', 'mpk_7TQmURg')">
+    <img src="https://img.youtube.com/vi/hXRrkmBkplM/hqdefault.jpg" alt="Hangout 2" onclick="swapVideo('spacehangout-main', 'hXRrkmBkplM')">
+    <img src="https://img.youtube.com/vi/EUmhzFMOaxQ/hqdefault.jpg" alt="Hangout 3" onclick="swapVideo('spacehangout-main', 'EUmhzFMOaxQ')">
+    <img src="https://img.youtube.com/vi/62LeCPDTTWw/hqdefault.jpg" alt="Hangout 4" onclick="swapVideo('spacehangout-main', '62LeCPDTTWw')">
+    <img src="https://img.youtube.com/vi/6pOeRjKC4SE/hqdefault.jpg" alt="Hangout 5" onclick="swapVideo('spacehangout-main', '6pOeRjKC4SE')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>These informal NASA-sponsored hangouts complemented the Space Systems Engineering course. Faculty, engineers, and students discussed mission design, project management, and real-world systems integration. I produced and hosted these sessions to foster interactive learning and expand accessibility.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYVvgVKiVGvHqS1Pwb_O5Yuu" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+        
+<section class="playlist-showcase" data-tags="events live onlocation">
+  <h3>🌐 Saylor Global Skills Gap Summit 2019</h3>
+
+  <div class="video-player">
+    <iframe id="summits-main" src="https://www.youtube.com/embed/PXFNclPr-Lo" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="summits-carousel">
+    <img src="https://img.youtube.com/vi/PXFNclPr-Lo/hqdefault.jpg" alt="Summit Opening" onclick="swapVideo('summits-main', 'PXFNclPr-Lo')">
+    <img src="https://img.youtube.com/vi/oldRNImXAnU/hqdefault.jpg" alt="Summit Session 1" onclick="swapVideo('summits-main', 'oldRNImXAnU')">
+    <img src="https://img.youtube.com/vi/vVEbXDTogVg/hqdefault.jpg" alt="Summit Session 2" onclick="swapVideo('summits-main', 'vVEbXDTogVg')">
+    <img src="https://img.youtube.com/vi/ByJeeJJlGL8/hqdefault.jpg" alt="Summit Session 3" onclick="swapVideo('summits-main', 'ByJeeJJlGL8')">
+    <img src="https://img.youtube.com/vi/sXfgEy3ocxM/hqdefault.jpg" alt="Summit Session 4" onclick="swapVideo('summits-main', 'sXfgEy3ocxM')">
+    <img src="https://img.youtube.com/vi/L9aT0TXgY7s/hqdefault.jpg" alt="Summit Interview" onclick="swapVideo('summits-main', 'L9aT0TXgY7s')">
+    <img src="https://img.youtube.com/vi/2IbhB9rVF5g/hqdefault.jpg" alt="Summit Interview 2" onclick="swapVideo('summits-main', '2IbhB9rVF5g')">
+    <img src="https://img.youtube.com/vi/N_QmN1ADFdk/hqdefault.jpg" alt="Summit Wrap-Up" onclick="swapVideo('summits-main', 'N_QmN1ADFdk')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>I produced this multi-day conference at the National Press Club, managing everything from A/V setup and live event coverage to post-production. The summit included interviews with global education leaders, panel sessions, and keynote presentations. I led on-site video capture and later delivered a polished video series for global distribution.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+<!-- Conference Interviews Showcase -->
+<section class="playlist-showcase" data-tags="documentary hosted live events onlocation saylor">
+  <h3>🎤 Conference Interviews</h3>
+
+  <div class="video-player">
+    <iframe id="events-main" src="https://www.youtube.com/embed/zdY9iA1hB4Y" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="events-carousel">
+    <img src="https://img.youtube.com/vi/zdY9iA1hB4Y/hqdefault.jpg" alt="Interview 1" onclick="swapVideo('events-main', 'zdY9iA1hB4Y')">
+    <img src="https://img.youtube.com/vi/JjdP4BLwfO8/hqdefault.jpg" alt="Interview 2" onclick="swapVideo('events-main', 'JjdP4BLwfO8')">
+    <img src="https://img.youtube.com/vi/42zMl3gKNgc/hqdefault.jpg" alt="Interview 3" onclick="swapVideo('events-main', '42zMl3gKNgc')">
+    <img src="https://img.youtube.com/vi/sxtu3zDogz8/hqdefault.jpg" alt="Interview 4" onclick="swapVideo('events-main', 'sxtu3zDogz8')">
+    <img src="https://img.youtube.com/vi/Z2lpecOiMcg/hqdefault.jpg" alt="Interview 5" onclick="swapVideo('events-main', 'Z2lpecOiMcg')">
+    <img src="https://img.youtube.com/vi/yW5Yxq5g3mQ/hqdefault.jpg" alt="Interview 6" onclick="swapVideo('events-main', 'yW5Yxq5g3mQ')">
+    <img src="https://img.youtube.com/vi/K4vzZHayMxw/hqdefault.jpg" alt="Interview 7" onclick="swapVideo('events-main', 'K4vzZHayMxw')">
+    <img src="https://img.youtube.com/vi/7l9Mzf_RZng/hqdefault.jpg" alt="Interview 8" onclick="swapVideo('events-main', '7l9Mzf_RZng')">
+    <img src="https://img.youtube.com/vi/AnTNXQd3IHs/hqdefault.jpg" alt="Interview 9" onclick="swapVideo('events-main', 'AnTNXQd3IHs')">
+    <img src="https://img.youtube.com/vi/oaIhZEtboRk/hqdefault.jpg" alt="Interview 10" onclick="swapVideo('events-main', 'oaIhZEtboRk')">
+    <img src="https://img.youtube.com/vi/cIp5re8x5HI/hqdefault.jpg" alt="Interview 11" onclick="swapVideo('events-main', 'cIp5re8x5HI')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>I conducted these interviews live on location at academic and policy-focused conferences, often immediately after a speaker’s session. I handled the entire post-session process — from prep to mic setup, directing, interviewing, and editing. These helped translate in-room moments into shareable learning objects.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+<!-- 2018 Summit Showcase -->
+<section class="playlist-showcase" data-tags="educational documentary live events onlocation saylor longform">
+  <h3>🎓 2018 Summit on the Credential Economy</h3>
+
+  <div class="video-player">
+    <iframe id="summit-main" src="https://www.youtube.com/embed/XtIGA5mNG8s" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="summit-carousel">
+    <img src="https://img.youtube.com/vi/XtIGA5mNG8s/hqdefault.jpg" alt="Session 1" onclick="swapVideo('summit-main', 'XtIGA5mNG8s')">
+    <img src="https://img.youtube.com/vi/cTGXbfDYMYs/hqdefault.jpg" alt="Session 2" onclick="swapVideo('summit-main', 'cTGXbfDYMYs')">
+    <img src="https://img.youtube.com/vi/EGhm8EkpEN8/hqdefault.jpg" alt="Session 3" onclick="swapVideo('summit-main', 'EGhm8EkpEN8')">
+    <img src="https://img.youtube.com/vi/PuXL3PLkS70/hqdefault.jpg" alt="Session 4" onclick="swapVideo('summit-main', 'PuXL3PLkS70')">
+    <img src="https://img.youtube.com/vi/uPpPr52iaXc/hqdefault.jpg" alt="Session 5" onclick="swapVideo('summit-main', 'uPpPr52iaXc')">
+    <img src="https://img.youtube.com/vi/77VnXn8pNMk/hqdefault.jpg" alt="Session 6" onclick="swapVideo('summit-main', '77VnXn8pNMk')">
+    <img src="https://img.youtube.com/vi/kc-Gi6NNW48/hqdefault.jpg" alt="Session 7" onclick="swapVideo('summit-main', 'kc-Gi6NNW48')">
+    <img src="https://img.youtube.com/vi/GzC9uUWQses/hqdefault.jpg" alt="Session 8" onclick="swapVideo('summit-main', 'GzC9uUWQses')">
+    <img src="https://img.youtube.com/vi/ELiZW7cdlGI/hqdefault.jpg" alt="Session 9" onclick="swapVideo('summit-main', 'ELiZW7cdlGI')">
+    <img src="https://img.youtube.com/vi/8Pc2B7DVykE/hqdefault.jpg" alt="Session 10" onclick="swapVideo('summit-main', '8Pc2B7DVykE')">
+    <img src="https://img.youtube.com/vi/W_LRiLWGhf4/hqdefault.jpg" alt="Session 11" onclick="swapVideo('summit-main', 'W_LRiLWGhf4')">
+    <img src="https://img.youtube.com/vi/dkSdE6zFl40/hqdefault.jpg" alt="Session 12" onclick="swapVideo('summit-main', 'dkSdE6zFl40')">
+    <img src="https://img.youtube.com/vi/_Gbofar67RY/hqdefault.jpg" alt="Session 13" onclick="swapVideo('summit-main', '_Gbofar67RY')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>This 2018 policy summit explored the growing role of alternative credentials in education and employment. From blockchain transcripts to micro-certifications, this series captures expert insights and big-picture frameworks for the evolving credential economy. I helped document the event, organize the speaker footage, and produce these videos for ongoing access.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+        
+<!-- 2017 Summit Showcase -->
+<section class="playlist-showcase" data-tags="educational documentary live events onlocation saylor longform">
+  <h3>🎓 2017 Summit on the Credential Economy</h3>
+
+  <div class="video-player">
+    <iframe id="summit2017-main" src="https://www.youtube.com/embed/XtIGA5mNG8s" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="summit2017-carousel">
+    <img src="https://img.youtube.com/vi/XtIGA5mNG8s/hqdefault.jpg" alt="Session 1" onclick="swapVideo('summit2017-main', 'XtIGA5mNG8s')">
+    <img src="https://img.youtube.com/vi/cTGXbfDYMYs/hqdefault.jpg" alt="Session 2" onclick="swapVideo('summit2017-main', 'cTGXbfDYMYs')">
+    <img src="https://img.youtube.com/vi/EGhm8EkpEN8/hqdefault.jpg" alt="Session 3" onclick="swapVideo('summit2017-main', 'EGhm8EkpEN8')">
+    <img src="https://img.youtube.com/vi/PuXL3PLkS70/hqdefault.jpg" alt="Session 4" onclick="swapVideo('summit2017-main', 'PuXL3PLkS70')">
+    <img src="https://img.youtube.com/vi/uPpPr52iaXc/hqdefault.jpg" alt="Session 5" onclick="swapVideo('summit2017-main', 'uPpPr52iaXc')">
+    <img src="https://img.youtube.com/vi/77VnXn8pNMk/hqdefault.jpg" alt="Session 6" onclick="swapVideo('summit2017-main', '77VnXn8pNMk')">
+    <img src="https://img.youtube.com/vi/kc-Gi6NNW48/hqdefault.jpg" alt="Session 7" onclick="swapVideo('summit2017-main', 'kc-Gi6NNW48')">
+    <img src="https://img.youtube.com/vi/GzC9uUWQses/hqdefault.jpg" alt="Session 8" onclick="swapVideo('summit2017-main', 'GzC9uUWQses')">
+    <img src="https://img.youtube.com/vi/ELiZW7cdlGI/hqdefault.jpg" alt="Session 9" onclick="swapVideo('summit2017-main', 'ELiZW7cdlGI')">
+    <img src="https://img.youtube.com/vi/8Pc2B7DVykE/hqdefault.jpg" alt="Session 10" onclick="swapVideo('summit2017-main', '8Pc2B7DVykE')">
+    <img src="https://img.youtube.com/vi/W_LRiLWGhf4/hqdefault.jpg" alt="Session 11" onclick="swapVideo('summit2017-main', 'W_LRiLWGhf4')">
+    <img src="https://img.youtube.com/vi/dkSdE6zFl40/hqdefault.jpg" alt="Session 12" onclick="swapVideo('summit2017-main', 'dkSdE6zFl40')">
+    <img src="https://img.youtube.com/vi/_Gbofar67RY/hqdefault.jpg" alt="Session 13" onclick="swapVideo('summit2017-main', '_Gbofar67RY')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>This playlist captures full sessions and key moments from the 2017 Summit on the Credential Economy. Topics include workforce readiness, interoperable credentialing systems, and innovations in higher ed access. I handled video documentation, editing, and publishing in collaboration with the event hosts.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
+   <!-- Apt Observations Showcase -->
+<section class="playlist-showcase" data-tags="educational storytelling hosted shortform animation apt">
+  <h3>🔎 Apt Observations</h3>
+
+  <div class="video-player">
+    <iframe id="apt-main" src="https://www.youtube.com/embed/MiOuI0iUZ1o" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="apt-carousel">
+    <img src="https://img.youtube.com/vi/MiOuI0iUZ1o/hqdefault.jpg" alt="Apt Observations 1" onclick="swapVideo('apt-main', 'MiOuI0iUZ1o')">
+    <img src="https://img.youtube.com/vi/gIBn-GYTII0/hqdefault.jpg" alt="Apt Observations 2" onclick="swapVideo('apt-main', 'gIBn-GYTII0')">
+    <img src="https://img.youtube.com/vi/eABnkcVngwQ/hqdefault.jpg" alt="Apt Observations 3" onclick="swapVideo('apt-main', 'eABnkcVngwQ')">
+    <img src="https://img.youtube.com/vi/gEn-pNCBC4E/hqdefault.jpg" alt="Apt Observations 4" onclick="swapVideo('apt-main', 'gEn-pNCBC4E')">
+    <img src="https://img.youtube.com/vi/On86zHIxBPY/hqdefault.jpg" alt="Apt Observations 5" onclick="swapVideo('apt-main', 'On86zHIxBPY')">
+    <img src="https://img.youtube.com/vi/lRYKplKhz9A/hqdefault.jpg" alt="Apt Observations 6" onclick="swapVideo('apt-main', 'lRYKplKhz9A')">
+    <img src="https://img.youtube.com/vi/KLfx6ux5QY8/hqdefault.jpg" alt="Apt Observations 7" onclick="swapVideo('apt-main', 'KLfx6ux5QY8')">
+    <img src="https://img.youtube.com/vi/-mYpwwdhMaw/hqdefault.jpg" alt="Apt Observations 8" onclick="swapVideo('apt-main', '-mYpwwdhMaw')">
+    <img src="https://img.youtube.com/vi/wfjFI5uTzZI/hqdefault.jpg" alt="Apt Observations 9" onclick="swapVideo('apt-main', 'wfjFI5uTzZI')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>Short-form visual commentary series combining surreal edits with economic, cultural, and observational storytelling. All writing, voiceover, and editing by me.</p>
+    <a href="https://youtube.com/playlist?list=PLMrpXL7ZxXYXCUyxIB8DQk7QWjfsCgUJg" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+  
+    <!-- Early & Student Work Showcase -->
+    <section id="early" section class="playlist-showcase">
+      <div class="playlist-meta">
+        <h3>🎞️ Early & Student Work</h3>
+        <p>A curated collection of foundational projects—from student films and experimental edits to my first documentary upload. These were low-budget, high-effort experiments that shaped my approach to production, editing, and improvisation.</p>
+      </div>
+
+      <div class="video-player">
+        <iframe id="early-main" src="https://www.youtube.com/embed/-YZzEPlrkNw?start=1550" allowfullscreen loading="lazy"></iframe>
+      </div>
+
+      <div class="playlist-carousel" id="early-carousel">
+        <img src="https://img.youtube.com/vi/-YZzEPlrkNw/hqdefault.jpg" alt="Flash Drive" title="🎬 Flash Drive (2011)" onclick="swapVideo('early-main', '-YZzEPlrkNw?start=1550')">
+        <img src="https://img.youtube.com/vi/9Z6cdpRwFCo/hqdefault.jpg" alt="Shockwave" title="🎬 Shockwave: The Movie (2011)" onclick="swapVideo('early-main', '9Z6cdpRwFCo')">
+        <img src="https://img.youtube.com/vi/vPr6TJxaaz0/hqdefault.jpg" alt="Hidden Treasures Ep12" title="📺 ECU Hidden Treasures – Episode 12" onclick="swapVideo('early-main', 'vPr6TJxaaz0')">
+        <img src="https://img.youtube.com/vi/CfLL7KHS1Rw/hqdefault.jpg" alt="Hidden Treasures Interview" title="📺 Hidden Treasures Interview" onclick="swapVideo('early-main', 'CfLL7KHS1Rw')">
+        <img src="https://img.youtube.com/vi/6Z7GZuwALFU/hqdefault.jpg" alt="I Never Feel Bad" title="🎞️ I Never Feel Bad in the Morning" onclick="swapVideo('early-main', '6Z7GZuwALFU')">
+        <img src="https://img.youtube.com/vi/IjyqdHs1raM/hqdefault.jpg" alt="Who'll Stop the Rain" title="📹 Who’ll Stop the Rain" onclick="swapVideo('early-main', 'IjyqdHs1raM')">
+      </div>
+    </section>
+        
   </main>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <p>© 2025 Mike Bedont · <a href="mailto:mike@bedont.com">mike@bedont.com</a></p>
   </footer>
 
-  <script>
-    function showTab(id) {
-      document.querySelectorAll('.playlist-showcase').forEach(s => s.classList.remove('active-tab'));
-      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-      document.getElementById(id).classList.add('active-tab');
-      document.querySelector(`[onclick*="${id}"]`).classList.add('active');
-    }
+  <!-- Video Swap Script -->
+<script>
+  const buttons = document.querySelectorAll('.tab-button');
+  const showcases = document.querySelectorAll('.playlist-showcase');
 
-    function swapVideo(playerId, videoId) {
-      const iframe = document.getElementById(playerId);
-      iframe.src = `https://www.youtube.com/embed/${videoId}`;
-    }
-  </script>
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-target');
+
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      showcases.forEach(showcase => {
+        const tags = showcase.dataset.tags ? showcase.dataset.tags.split(' ') : [];
+        if (target === 'all' || tags.includes(target)) {
+          showcase.style.display = 'block';
+        } else {
+          showcase.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
 
 </body>
 </html>
