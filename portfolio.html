@@ -575,8 +575,35 @@
     <p>© 2025 Mike Bedont · <a href="mailto:mike@bedont.com">mike@bedont.com</a></p>
   </footer>
 
-  <!-- Video Swap Script -->
 <script>
+  // Swap the video in a given iframe by video ID (with optional ?start= support)
+  function swapVideo(playerId, videoId) {
+    const iframe = document.getElementById(playerId);
+    if (iframe) {
+      const baseUrl = "https://www.youtube.com/embed/";
+      const parts = videoId.split('?');
+      const id = parts[0];
+      const params = parts[1] ? '?' + parts[1] : '';
+      
+      // Optional: stop all other iframes
+      resetAllIframesExcept(playerId);
+      
+      // Swap video
+      iframe.src = baseUrl + id + params;
+    }
+  }
+
+  // Reset all other iframe players to stop audio from overlapping
+  function resetAllIframesExcept(idToKeep) {
+    document.querySelectorAll('iframe').forEach(iframe => {
+      if (iframe.id !== idToKeep && iframe.src.includes("youtube.com/embed")) {
+        const currentSrc = iframe.src;
+        iframe.src = currentSrc; // forces reload to stop playback
+      }
+    });
+  }
+
+  // Filter by tab buttons (if you're using tag filters)
   const buttons = document.querySelectorAll('.tab-button');
   const showcases = document.querySelectorAll('.playlist-showcase');
 
@@ -598,6 +625,7 @@
     });
   });
 </script>
+
 
 
 </body>
