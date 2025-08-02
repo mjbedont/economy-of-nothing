@@ -746,24 +746,22 @@
 </script>
 
 <script>
-// === BACK TO TOP BUTTON ===
-const backToTopButton = document.getElementById('backToTop');
+  const backToTopButton = document.getElementById('backToTop');
 
-window.addEventListener('scroll', () => {
-  // Show the button if we've scrolled down 600px or more
-  if (window.scrollY > 600) {
-    backToTopButton.classList.add('show');
-  } else {
-    backToTopButton.classList.remove('show');
-  }
-});
-
-backToTopButton.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 600) {
+      backToTopButton.classList.add('show');
+    } else {
+      backToTopButton.classList.remove('show');
+    }
   });
-});
+
+  backToTopButton.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
 </script>
 
 
