@@ -7,40 +7,76 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="portfolio.css" />
 </head>
-  
-<button id="backToTop" title="Un-Scroll>↑ Top</button>
 
 <body>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" title="Back to top">↑ Top</button>
 
   <!-- Page Header -->
   <header class="site-header">
     <h1>Mike Bedont</h1>
     <p class="tagline">Creative Producer · Video Editor · Storyteller</p>
-      <main>
-        
-    <!-- About Section -->
-    <section id="about" class="about-block">
-      <h2>About Me</h2>
-      <p>I’m a video producer and creative technologist with over a decade of experience in educational media, livestreams, branded content, and narrative experimentation. I’ve led end-to-end production for national partnerships, internal studios, and remote teams—blending motion design, story structure, and scrappy problem-solving into every project I touch.</p>
-    </section>
+  </header>
 
-   <!-- NASA Showcase -->
-<section class="playlist-showcase" data-tags="educational instructional instudio saylor">
+  <!-- Main Content -->
+  <main>
+          
+<div class="tabs-container">
+  <button class="tab-button" data-target="highlight">Highlights</button>
+  <button class="tab-button" data-target="course">Education</button>
+  <button class="tab-button" data-target="framing">Instruction</button>
+  <button class="tab-button" data-target="promo">Promotion</button>
+  <button class="tab-button" data-target="event">Events</button>
+  <button class="tab-button" data-target="live">Livestream</button>
+  <button class="tab-button" data-target="animation">Animation</button>
+  <button class="tab-button" data-target="saylor">Saylor Academy</button>
+  <button class="tab-button" data-target="eon">EoN</button>
+  <button class="tab-button" data-target="apt">Apt Observations</button>
+</div>
+
+     <!-- NASA Showcase -->
+<section class="playlist-showcase" data-tags="highlight course studio location saylor">
   <h3>NASA Space Systems Engineering</h3>
 
   <div class="video-player">
     <iframe id="nasa-main" src="https://www.youtube.com/embed/JzpGiyCuT4w" allowfullscreen loading="lazy"></iframe>
   </div>
 
-  <div class="playlist-carousel" id="nasa-carousel">
-    <img src="https://img.youtube.com/vi/JzpGiyCuT4w/hqdefault.jpg" alt="NASA Intro" onclick="swapVideo('nasa-main', 'JzpGiyCuT4w')">
-    <img src="https://img.youtube.com/vi/rrBg-hTUM_Q/hqdefault.jpg" alt="Unit 1" onclick="swapVideo('nasa-main', 'rrBg-hTUM_Q')">
-    <img src="https://img.youtube.com/vi/8_8OKeCuaF4/hqdefault.jpg" alt="Unit 2" onclick="swapVideo('nasa-main', '8_8OKeCuaF4')">
-    <img src="https://img.youtube.com/vi/kittbOWXuP0/hqdefault.jpg" alt="Unit 3" onclick="swapVideo('nasa-main', 'kittbOWXuP0')">
-    <img src="https://img.youtube.com/vi/pj6g_Z6hzTs/hqdefault.jpg" alt="Unit 4" onclick="swapVideo('nasa-main', 'pj6g_Z6hzTs')">
-    <img src="https://img.youtube.com/vi/fGmFoKuu_Ag/hqdefault.jpg" alt="Unit 5" onclick="swapVideo('nasa-main', 'fGmFoKuu_Ag')">
-    <img src="https://img.youtube.com/vi/AlnYvHJ-GPM/hqdefault.jpg" alt="Unit 6" onclick="swapVideo('nasa-main', 'AlnYvHJ-GPM')">
-  </div>
+<div class="playlist-carousel" id="nasa-carousel">
+    <img src="https://img.youtube.com/vi/JzpGiyCuT4w/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'JzpGiyCuT4w')">
+    <img src="https://img.youtube.com/vi/y9V_Xqgg0Do/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'y9V_Xqgg0Do')">
+    <img src="https://img.youtube.com/vi/rrBg-hTUM_Q/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'rrBg-hTUM_Q')">
+    <img src="https://img.youtube.com/vi/nZA1nCKADfQ/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'nZA1nCKADfQ')">
+    <img src="https://img.youtube.com/vi/jxT7_NPFjkA/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'jxT7_NPFjkA')">
+    <img src="https://img.youtube.com/vi/Oq9GQXQk4aU/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'Oq9GQXQk4aU')">
+    <img src="https://img.youtube.com/vi/_yTa4j0E5Xw/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', '_yTa4j0E5Xw')">
+    <img src="https://img.youtube.com/vi/8_8OKeCuaF4/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', '8_8OKeCuaF4')">
+    <img src="https://img.youtube.com/vi/80csDuWS740/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', '80csDuWS740')">
+    <img src="https://img.youtube.com/vi/AJkoIxhYaDc/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'AJkoIxhYaDc')">
+    <img src="https://img.youtube.com/vi/Yhuz1rdVS5M/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'Yhuz1rdVS5M')">
+    <img src="https://img.youtube.com/vi/UkB_GBp3knk/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'UkB_GBp3knk')">
+    <img src="https://img.youtube.com/vi/kittbOWXuP0/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'kittbOWXuP0')">
+    <img src="https://img.youtube.com/vi/ZVRrTuVhbBs/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'ZVRrTuVhbBs')">
+    <img src="https://img.youtube.com/vi/lVojtECBUtQ/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'lVojtECBUtQ')">
+    <img src="https://img.youtube.com/vi/y4VrSrVN-Qw/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'y4VrSrVN-Qw')">
+    <img src="https://img.youtube.com/vi/HcJBeEJ1hxw/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'HcJBeEJ1hxw')">
+    <img src="https://img.youtube.com/vi/u5rPpICfI3s/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'u5rPpICfI3s')">
+    <img src="https://img.youtube.com/vi/IEK898VgE_Y/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'IEK898VgE_Y')">
+    <img src="https://img.youtube.com/vi/53QtBJyzGdk/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', '53QtBJyzGdk')">
+    <img src="https://img.youtube.com/vi/GHN_OoIIA_8/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'GHN_OoIIA_8')">
+    <img src="https://img.youtube.com/vi/pj6g_Z6hzTs/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'pj6g_Z6hzTs')">
+    <img src="https://img.youtube.com/vi/VmwWslWMNGU/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'VmwWslWMNGU')">
+    <img src="https://img.youtube.com/vi/FpOm3ZNM64w/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'FpOm3ZNM64w')">
+    <img src="https://img.youtube.com/vi/fGmFoKuu_Ag/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'fGmFoKuu_Ag')">
+    <img src="https://img.youtube.com/vi/Yl_BYtuLfLg/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'Yl_BYtuLfLg')">
+    <img src="https://img.youtube.com/vi/AAcuyA1gdSI/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'AAcuyA1gdSI')">
+    <img src="https://img.youtube.com/vi/AlnYvHJ-GPM/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'AlnYvHJ-GPM')">
+    <img src="https://img.youtube.com/vi/KVk-Z42xD-4/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'KVk-Z42xD-4')">
+    <img src="https://img.youtube.com/vi/RKlBfKUPlM4/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'RKlBfKUPlM4')">
+    <img src="https://img.youtube.com/vi/OvU99WKk4yE/hqdefault.jpg" alt="NASA Video" onclick="swapVideo('nasa-main', 'OvU99WKk4yE')">
+</div>
+
 
   <div class="playlist-meta">
     <p>I worked on this project from pre-production through delivery, collaborating directly with the instructional team and NASA engineers. I handled studio coordination, editing, graphics, and visual identity — shaping the entire post-production pipeline across this six-unit course.</p>
@@ -50,7 +86,7 @@
   </div>
 </section>
 
-<section class="playlist-showcase" data-tags="educational engineering explainer shortform instudio saylor">
+<section class="playlist-showcase" data-tags="hightlight course location saylor">
   <h3>Mechanical Engineering: Mechanics of Materials</h3>
 
   <div class="video-player">
@@ -102,8 +138,126 @@
     </a>
   </div>
 </section>
-        
-<section class="playlist-showcase" data-tags="events live onlocation">
+
+<section class="playlist-showcase" data-tags="course saylor">
+  <h3>Mechanical Engineering: Dynamics</h3>
+
+  <div class="video-player">
+    <iframe id="dynamics-main" src="https://www.youtube.com/embed/VQxPjcwUNZE" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel">
+    <img src="https://img.youtube.com/vi/VQxPjcwUNZE/mqdefault.jpg" alt="Dynamics 1" onclick="swapVideo('dynamics-main', 'VQxPjcwUNZE')">
+    <img src="https://img.youtube.com/vi/vQW4aT4mOoc/mqdefault.jpg" alt="Dynamics 2" onclick="swapVideo('dynamics-main', 'vQW4aT4mOoc')">
+    <img src="https://img.youtube.com/vi/4cyox1XIi-Y/mqdefault.jpg" alt="Dynamics 3" onclick="swapVideo('dynamics-main', '4cyox1XIi-Y')">
+    <img src="https://img.youtube.com/vi/stuKLBVTcmg/mqdefault.jpg" alt="Dynamics 4" onclick="swapVideo('dynamics-main', 'stuKLBVTcmg')">
+    <img src="https://img.youtube.com/vi/gjYhMS5frNI/mqdefault.jpg" alt="Dynamics 5" onclick="swapVideo('dynamics-main', 'gjYhMS5frNI')">
+    <img src="https://img.youtube.com/vi/B6BsRR2Qo3I/mqdefault.jpg" alt="Dynamics 6" onclick="swapVideo('dynamics-main', 'B6BsRR2Qo3I')">
+    <img src="https://img.youtube.com/vi/gdflfG8jjbs/mqdefault.jpg" alt="Dynamics 7" onclick="swapVideo('dynamics-main', 'gdflfG8jjbs')">
+    <img src="https://img.youtube.com/vi/TRDtVOenYTs/mqdefault.jpg" alt="Dynamics 8" onclick="swapVideo('dynamics-main', 'TRDtVOenYTs')">
+    <img src="https://img.youtube.com/vi/x3iBthzyajk/mqdefault.jpg" alt="Dynamics 9" onclick="swapVideo('dynamics-main', 'x3iBthzyajk')">
+    <img src="https://img.youtube.com/vi/mCO-fpcfwyE/mqdefault.jpg" alt="Dynamics 10" onclick="swapVideo('dynamics-main', 'mCO-fpcfwyE')">
+    <img src="https://img.youtube.com/vi/Xf0vC2gmih8/mqdefault.jpg" alt="Dynamics 11" onclick="swapVideo('dynamics-main', 'Xf0vC2gmih8')">
+    <img src="https://img.youtube.com/vi/Ub6QUTSSMqk/mqdefault.jpg" alt="Dynamics 12" onclick="swapVideo('dynamics-main', 'Ub6QUTSSMqk')">
+    <img src="https://img.youtube.com/vi/vXvcWSRN39A/mqdefault.jpg" alt="Dynamics 13" onclick="swapVideo('dynamics-main', 'vXvcWSRN39A')">
+    <img src="https://img.youtube.com/vi/A9KAGLmNf8Y/mqdefault.jpg" alt="Dynamics 14" onclick="swapVideo('dynamics-main', 'A9KAGLmNf8Y')">
+    <img src="https://img.youtube.com/vi/G4w9lt3WLXc/mqdefault.jpg" alt="Dynamics 15" onclick="swapVideo('dynamics-main', 'G4w9lt3WLXc')">
+    <img src="https://img.youtube.com/vi/QJbBIa-8iIY/mqdefault.jpg" alt="Dynamics 16" onclick="swapVideo('dynamics-main', 'QJbBIa-8iIY')">
+    <img src="https://img.youtube.com/vi/TgRRQCmsNRE/mqdefault.jpg" alt="Dynamics 17" onclick="swapVideo('dynamics-main', 'TgRRQCmsNRE')">
+    <img src="https://img.youtube.com/vi/mqE5GTokkL8/mqdefault.jpg" alt="Dynamics 18" onclick="swapVideo('dynamics-main', 'mqE5GTokkL8')">
+    <img src="https://img.youtube.com/vi/-u3tvjW5bT4/mqdefault.jpg" alt="Dynamics 19" onclick="swapVideo('dynamics-main', '-u3tvjW5bT4')">
+    <img src="https://img.youtube.com/vi/Eka4XrwVxl8/mqdefault.jpg" alt="Dynamics 20" onclick="swapVideo('dynamics-main', 'Eka4XrwVxl8')">
+    <img src="https://img.youtube.com/vi/1PsmthsqbHM/mqdefault.jpg" alt="Dynamics 21" onclick="swapVideo('dynamics-main', '1PsmthsqbHM')">
+    <img src="https://img.youtube.com/vi/-GgmZBHL7aI/mqdefault.jpg" alt="Dynamics 22" onclick="swapVideo('dynamics-main', '-GgmZBHL7aI')">
+    <img src="https://img.youtube.com/vi/kJrgyVS0q-0/mqdefault.jpg" alt="Dynamics 23" onclick="swapVideo('dynamics-main', 'kJrgyVS0q-0')">
+    <img src="https://img.youtube.com/vi/XcyAZG3HuV0/mqdefault.jpg" alt="Dynamics 24" onclick="swapVideo('dynamics-main', 'XcyAZG3HuV0')">
+    <img src="https://img.youtube.com/vi/nBcYqe0Tb2A/mqdefault.jpg" alt="Dynamics 25" onclick="swapVideo('dynamics-main', 'nBcYqe0Tb2A')">
+  </div>
+  <div class="playlist-meta">
+    <p>A full course in classical dynamics designed for Mechanical Engineering students. Topics include Newtonian mechanics, rotational dynamics, kinematics, energy principles, and system modeling—all presented in a clear and structured lecture format.</p>
+    <a href="https://youtube.com/playlist?list=PL0MjA_R3OFPOnT3nThnQOKpxQZtSNjQzk" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+    
+<section class="playlist-showcase" data-tags="framing saylor">
+  <h2>Principles of Human Communication</h2>
+  <div class="video-player">
+    <iframe id="mainVideo-comm" src="https://www.youtube.com/embed/EefIyG6Q_NQ" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="playlist-carousel">
+    <img src="https://img.youtube.com/vi/EefIyG6Q_NQ/mqdefault.jpg" alt="Communication" onclick="swapVideo('mainVideo-comm', 'EefIyG6Q_NQ')">
+    <img src="https://img.youtube.com/vi/JaQ3-cmIuQY/mqdefault.jpg" alt="Communication" onclick="swapVideo('mainVideo-comm', 'JaQ3-cmIuQY')">
+    <img src="https://img.youtube.com/vi/ChTTuXolKgY/mqdefault.jpg" alt="Communication" onclick="swapVideo('mainVideo-comm', 'ChTTuXolKgY')">
+    <img src="https://img.youtube.com/vi/0-PmsCkw-bs/mqdefault.jpg" alt="Communication" onclick="swapVideo('mainVideo-comm', '0-PmsCkw-bs')">
+    <img src="https://img.youtube.com/vi/csMzn79cvdc/mqdefault.jpg" alt="Communication" onclick="swapVideo('mainVideo-comm', 'csMzn79cvdc')">
+    <img src="https://img.youtube.com/vi/P9VcdYXrlVg/mqdefault.jpg" alt="Communication" onclick="swapVideo('mainVideo-comm', 'P9VcdYXrlVg')">
+    <img src="https://img.youtube.com/vi/k5zSDQuETRU/mqdefault.jpg" alt="Communication" onclick="swapVideo('mainVideo-comm', 'k5zSDQuETRU')">
+  </div>
+  <div class="playlist-meta">
+    <p>This series introduces the foundational principles of human communication, covering verbal and nonverbal techniques, cultural context, listening, and the power of framing in effective exchange.</p>
+  </div>
+</section>
+
+<section class="playlist-showcase" data-tags="framing saylor">
+  <h2>Small Business Management</h2>
+  <div class="video-player">
+    <iframe id="mainVideo-sbm" src="https://www.youtube.com/embed/buPOKJ2xVF0" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="playlist-carousel">
+    <img src="https://img.youtube.com/vi/buPOKJ2xVF0/mqdefault.jpg" alt="Small Business Management" onclick="swapVideo('mainVideo-sbm', 'buPOKJ2xVF0')">
+    <img src="https://img.youtube.com/vi/b9UKksTpkZ0/mqdefault.jpg" alt="Small Business Management" onclick="swapVideo('mainVideo-sbm', 'b9UKksTpkZ0')">
+    <img src="https://img.youtube.com/vi/M4Nm7w1P1JQ/mqdefault.jpg" alt="Small Business Management" onclick="swapVideo('mainVideo-sbm', 'M4Nm7w1P1JQ')">
+    <img src="https://img.youtube.com/vi/oCAFK72Brs0/mqdefault.jpg" alt="Small Business Management" onclick="swapVideo('mainVideo-sbm', 'oCAFK72Brs0')">
+    <img src="https://img.youtube.com/vi/SDFoyr9PQ24/mqdefault.jpg" alt="Small Business Management" onclick="swapVideo('mainVideo-sbm', 'SDFoyr9PQ24')">
+    <img src="https://img.youtube.com/vi/fRdL8zFFc0E/mqdefault.jpg" alt="Small Business Management" onclick="swapVideo('mainVideo-sbm', 'fRdL8zFFc0E')">
+    <img src="https://img.youtube.com/vi/HtMcyG2tHEk/mqdefault.jpg" alt="Small Business Management" onclick="swapVideo('mainVideo-sbm', 'HtMcyG2tHEk')">
+  </div>
+  <div class="playlist-meta">
+    <p>This series dives into the fundamentals of managing a small business—covering planning, operations, marketing, risk, and decision-making for aspiring entrepreneurs and business owners.</p>
+  </div>
+</section>
+
+<section class="playlist-showcase" data-tags="framing saylor">
+  <h2>Management Information Systems</h2>
+  <div class="video-player">
+    <iframe id="mainVideo-mis" src="https://www.youtube.com/embed/PiEwgZxwPVY" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="playlist-carousel">
+    <img src="https://img.youtube.com/vi/PiEwgZxwPVY/mqdefault.jpg" alt="MIS" onclick="swapVideo('mainVideo-mis', 'PiEwgZxwPVY')">
+    <img src="https://img.youtube.com/vi/uhVQCjKL4OY/mqdefault.jpg" alt="MIS" onclick="swapVideo('mainVideo-mis', 'uhVQCjKL4OY')">
+    <img src="https://img.youtube.com/vi/TFplYt8agg4/mqdefault.jpg" alt="MIS" onclick="swapVideo('mainVideo-mis', 'TFplYt8agg4')">
+    <img src="https://img.youtube.com/vi/-PzL9XurSyo/mqdefault.jpg" alt="MIS" onclick="swapVideo('mainVideo-mis', '-PzL9XurSyo')">
+    <img src="https://img.youtube.com/vi/1B6GHjkUxbw/mqdefault.jpg" alt="MIS" onclick="swapVideo('mainVideo-mis', '1B6GHjkUxbw')">
+    <img src="https://img.youtube.com/vi/je2t7q828B0/mqdefault.jpg" alt="MIS" onclick="swapVideo('mainVideo-mis', 'je2t7q828B0')">
+    <img src="https://img.youtube.com/vi/3UYkcWdM1Z0/mqdefault.jpg" alt="MIS" onclick="swapVideo('mainVideo-mis', '3UYkcWdM1Z0')">
+    <img src="https://img.youtube.com/vi/pr_jBbvAkUo/mqdefault.jpg" alt="MIS" onclick="swapVideo('mainVideo-mis', 'pr_jBbvAkUo')">
+  </div>
+  <div class="playlist-meta">
+    <p>This Management Information Systems series explores how technology supports business operations and decision-making, covering topics from data architecture to enterprise systems and IT strategy.</p>
+  </div>
+</section>
+    
+<section class="playlist-showcase" data-tags="framing saylor">
+  <h2>Corporate Communication</h2>
+  <div class="video-player">
+    <iframe id="mainVideo-corpcomm" src="https://www.youtube.com/embed/8t1XMJ2mn1s" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="playlist-carousel">
+    <img src="https://img.youtube.com/vi/8t1XMJ2mn1s/mqdefault.jpg" alt="Corporate Communication" onclick="swapVideo('mainVideo-corpcomm', '8t1XMJ2mn1s')">
+    <img src="https://img.youtube.com/vi/vo5P3IpTYig/mqdefault.jpg" alt="Corporate Communication" onclick="swapVideo('mainVideo-corpcomm', 'vo5P3IpTYig')">
+    <img src="https://img.youtube.com/vi/I__qfPYL2rs/mqdefault.jpg" alt="Corporate Communication" onclick="swapVideo('mainVideo-corpcomm', 'I__qfPYL2rs')">
+    <img src="https://img.youtube.com/vi/bJolV5jvi4Q/mqdefault.jpg" alt="Corporate Communication" onclick="swapVideo('mainVideo-corpcomm', 'bJolV5jvi4Q')">
+    <img src="https://img.youtube.com/vi/CCDNuiiwJQ0/mqdefault.jpg" alt="Corporate Communication" onclick="swapVideo('mainVideo-corpcomm', 'CCDNuiiwJQ0')">
+    <img src="https://img.youtube.com/vi/ijXSbCDVmYA/mqdefault.jpg" alt="Corporate Communication" onclick="swapVideo('mainVideo-corpcomm', 'ijXSbCDVmYA')">
+  </div>
+  <div class="playlist-meta">
+    <p>This series explores how organizations communicate internally and externally, from branding and reputation to crisis management and digital messaging. Perfect for learners interested in business, PR, and strategic communication.</p>
+  </div>
+</section>
+    
+<section class="playlist-showcase" data-tags="event saylor">
   <h3>🌐 Saylor Global Skills Gap Summit 2019</h3>
 
   <div class="video-player">
@@ -130,7 +284,7 @@
 </section>
 
 <!-- Conference Interviews Showcase -->
-<section class="playlist-showcase" data-tags="documentary hosted live events onlocation saylor">
+<section class="playlist-showcase" data-tags="event saylor">
   <h3>🎤 Conference Interviews</h3>
 
   <div class="video-player">
@@ -158,10 +312,75 @@
     </a>
   </div>
 </section>
+    
+     <!-- 2018 Summit Showcase -->
+<section class="playlist-showcase" data-tags="event saylor">
+  <h3>🎓 2018 Summit on the Credential Economy</h3>
+
+  <div class="video-player">
+    <iframe id="summit-main" src="https://www.youtube.com/embed/XtIGA5mNG8s" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="summit-carousel">
+    <img src="https://img.youtube.com/vi/XtIGA5mNG8s/hqdefault.jpg" alt="Session 1" onclick="swapVideo('summit-main', 'XtIGA5mNG8s')">
+    <img src="https://img.youtube.com/vi/cTGXbfDYMYs/hqdefault.jpg" alt="Session 2" onclick="swapVideo('summit-main', 'cTGXbfDYMYs')">
+    <img src="https://img.youtube.com/vi/EGhm8EkpEN8/hqdefault.jpg" alt="Session 3" onclick="swapVideo('summit-main', 'EGhm8EkpEN8')">
+    <img src="https://img.youtube.com/vi/PuXL3PLkS70/hqdefault.jpg" alt="Session 4" onclick="swapVideo('summit-main', 'PuXL3PLkS70')">
+    <img src="https://img.youtube.com/vi/uPpPr52iaXc/hqdefault.jpg" alt="Session 5" onclick="swapVideo('summit-main', 'uPpPr52iaXc')">
+    <img src="https://img.youtube.com/vi/77VnXn8pNMk/hqdefault.jpg" alt="Session 6" onclick="swapVideo('summit-main', '77VnXn8pNMk')">
+    <img src="https://img.youtube.com/vi/kc-Gi6NNW48/hqdefault.jpg" alt="Session 7" onclick="swapVideo('summit-main', 'kc-Gi6NNW48')">
+    <img src="https://img.youtube.com/vi/GzC9uUWQses/hqdefault.jpg" alt="Session 8" onclick="swapVideo('summit-main', 'GzC9uUWQses')">
+    <img src="https://img.youtube.com/vi/ELiZW7cdlGI/hqdefault.jpg" alt="Session 9" onclick="swapVideo('summit-main', 'ELiZW7cdlGI')">
+    <img src="https://img.youtube.com/vi/8Pc2B7DVykE/hqdefault.jpg" alt="Session 10" onclick="swapVideo('summit-main', '8Pc2B7DVykE')">
+    <img src="https://img.youtube.com/vi/W_LRiLWGhf4/hqdefault.jpg" alt="Session 11" onclick="swapVideo('summit-main', 'W_LRiLWGhf4')">
+    <img src="https://img.youtube.com/vi/dkSdE6zFl40/hqdefault.jpg" alt="Session 12" onclick="swapVideo('summit-main', 'dkSdE6zFl40')">
+    <img src="https://img.youtube.com/vi/_Gbofar67RY/hqdefault.jpg" alt="Session 13" onclick="swapVideo('summit-main', '_Gbofar67RY')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>This 2018 policy summit explored the growing role of alternative credentials in education and employment. From blockchain transcripts to micro-certifications, this series captures expert insights and big-picture frameworks for the evolving credential economy. I helped document the event, organize the speaker footage, and produce these videos for ongoing access.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+
         
+<!-- 2017 Summit Showcase -->
+<section class="playlist-showcase" data-tags="event saylor">
+  <h3>🎓 2017 Summit on the Credential Economy</h3>
+
+  <div class="video-player">
+    <iframe id="summit2017-main" src="https://www.youtube.com/embed/XtIGA5mNG8s" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="playlist-carousel" id="summit2017-carousel">
+    <img src="https://img.youtube.com/vi/XtIGA5mNG8s/hqdefault.jpg" alt="Session 1" onclick="swapVideo('summit2017-main', 'XtIGA5mNG8s')">
+    <img src="https://img.youtube.com/vi/cTGXbfDYMYs/hqdefault.jpg" alt="Session 2" onclick="swapVideo('summit2017-main', 'cTGXbfDYMYs')">
+    <img src="https://img.youtube.com/vi/EGhm8EkpEN8/hqdefault.jpg" alt="Session 3" onclick="swapVideo('summit2017-main', 'EGhm8EkpEN8')">
+    <img src="https://img.youtube.com/vi/PuXL3PLkS70/hqdefault.jpg" alt="Session 4" onclick="swapVideo('summit2017-main', 'PuXL3PLkS70')">
+    <img src="https://img.youtube.com/vi/uPpPr52iaXc/hqdefault.jpg" alt="Session 5" onclick="swapVideo('summit2017-main', 'uPpPr52iaXc')">
+    <img src="https://img.youtube.com/vi/77VnXn8pNMk/hqdefault.jpg" alt="Session 6" onclick="swapVideo('summit2017-main', '77VnXn8pNMk')">
+    <img src="https://img.youtube.com/vi/kc-Gi6NNW48/hqdefault.jpg" alt="Session 7" onclick="swapVideo('summit2017-main', 'kc-Gi6NNW48')">
+    <img src="https://img.youtube.com/vi/GzC9uUWQses/hqdefault.jpg" alt="Session 8" onclick="swapVideo('summit2017-main', 'GzC9uUWQses')">
+    <img src="https://img.youtube.com/vi/ELiZW7cdlGI/hqdefault.jpg" alt="Session 9" onclick="swapVideo('summit2017-main', 'ELiZW7cdlGI')">
+    <img src="https://img.youtube.com/vi/8Pc2B7DVykE/hqdefault.jpg" alt="Session 10" onclick="swapVideo('summit2017-main', '8Pc2B7DVykE')">
+    <img src="https://img.youtube.com/vi/W_LRiLWGhf4/hqdefault.jpg" alt="Session 11" onclick="swapVideo('summit2017-main', 'W_LRiLWGhf4')">
+    <img src="https://img.youtube.com/vi/dkSdE6zFl40/hqdefault.jpg" alt="Session 12" onclick="swapVideo('summit2017-main', 'dkSdE6zFl40')">
+    <img src="https://img.youtube.com/vi/_Gbofar67RY/hqdefault.jpg" alt="Session 13" onclick="swapVideo('summit2017-main', '_Gbofar67RY')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>This playlist captures full sessions and key moments from the 2017 Summit on the Credential Economy. Topics include workforce readiness, interoperable credentialing systems, and innovations in higher ed access. I handled video documentation, editing, and publishing in collaboration with the event hosts.</p>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf" target="_blank" class="cta-link">
+      ▶️ View Full Playlist on YouTube
+    </a>
+  </div>
+</section>
+    
   <!-- Tangents Showcase -->
-<section class="playlist-showcase" data-tags="educational explainer hosted shortform instudio saylor">
-  <h3>Saylor Tangents</h3>
+<section class="playlist-showcase" data-tags="highlight promo saylor">
+  <h3>Tangents</h3>
 
   <div class="video-player">
     <iframe id="tangents-main" src="https://www.youtube.com/embed/l5eJsFd-Np0" allowfullscreen loading="lazy"></iframe>
@@ -185,9 +404,9 @@
   </div>
 </section>
 
-   <!-- Apt Observations Showcase -->
-<section class="playlist-showcase" data-tags="educational storytelling hosted shortform animation apt">
-  <h3>🔎 Apt Observations</h3>
+   <!--  -->
+<section class="playlist-showcase" data-tags="highlight animation apt">
+  <h3>30 Second History</h3>
 
   <div class="video-player">
     <iframe id="apt-main" src="https://www.youtube.com/embed/MiOuI0iUZ1o" allowfullscreen loading="lazy"></iframe>
@@ -262,9 +481,165 @@
     </a>
   </div>
 </section>
-  
+
+    
+<section class="playlist-showcase" data-tags="highlight course apt">
+      <h3>American History </h3>
+  <div class="video-player">
+    <iframe id="mainVideo-history" src="https://www.youtube.com/embed/IMUtalADpVk" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <div class="playlist-carousel">
+<img src="https://img.youtube.com/vi/IMUtalADpVk/mqdefault.jpg" alt="Video 1" onclick="swapVideo('mainVideo-history', 'IMUtalADpVk')">
+<img src="https://img.youtube.com/vi/omoO2PLb63g/mqdefault.jpg" alt="Video 2" onclick="swapVideo('mainVideo-history', 'omoO2PLb63g')">
+<img src="https://img.youtube.com/vi/vWOiu58YAC0/mqdefault.jpg" alt="Video 3" onclick="swapVideo('mainVideo-history', 'vWOiu58YAC0')">
+<img src="https://img.youtube.com/vi/3p-d5qWpt0k/mqdefault.jpg" alt="Video 4" onclick="swapVideo('mainVideo-history', '3p-d5qWpt0k')">
+<img src="https://img.youtube.com/vi/0HeP8hMvPAM/mqdefault.jpg" alt="Video 5" onclick="swapVideo('mainVideo-history', '0HeP8hMvPAM')">
+<img src="https://img.youtube.com/vi/afCnkKAKe4g/mqdefault.jpg" alt="Video 6" onclick="swapVideo('mainVideo-history', 'afCnkKAKe4g')">
+<img src="https://img.youtube.com/vi/OGRwCcjDgB8/mqdefault.jpg" alt="Video 7" onclick="swapVideo('mainVideo-history', 'OGRwCcjDgB8')">
+<img src="https://img.youtube.com/vi/xC3NC4vWrKM/mqdefault.jpg" alt="Video 8" onclick="swapVideo('mainVideo-history', 'xC3NC4vWrKM')">
+<img src="https://img.youtube.com/vi/038PQ3GuK_8/mqdefault.jpg" alt="Video 9" onclick="swapVideo('mainVideo-history', '038PQ3GuK_8')">
+<img src="https://img.youtube.com/vi/0dE1lyqhh20/mqdefault.jpg" alt="Video 10" onclick="swapVideo('mainVideo-history', '0dE1lyqhh20')">
+<img src="https://img.youtube.com/vi/KPNN6cwgtlo/mqdefault.jpg" alt="Video 11" onclick="swapVideo('mainVideo-history', 'KPNN6cwgtlo')">
+<img src="https://img.youtube.com/vi/dD50uJx-UZg/mqdefault.jpg" alt="Video 12" onclick="swapVideo('mainVideo-history', 'dD50uJx-UZg')">
+<img src="https://img.youtube.com/vi/MsnYUk-RLf0/mqdefault.jpg" alt="Video 13" onclick="swapVideo('mainVideo-history', 'MsnYUk-RLf0')">
+<img src="https://img.youtube.com/vi/W_O0GRljA6s/mqdefault.jpg" alt="Video 14" onclick="swapVideo('mainVideo-history', 'W_O0GRljA6s')">
+<img src="https://img.youtube.com/vi/mbfCKl602JY/mqdefault.jpg" alt="Video 15" onclick="swapVideo('mainVideo-history', 'mbfCKl602JY')">
+<img src="https://img.youtube.com/vi/GE4mB6qlygs/mqdefault.jpg" alt="Video 16" onclick="swapVideo('mainVideo-history', 'GE4mB6qlygs')">
+<img src="https://img.youtube.com/vi/DsTKpN_Elwc/mqdefault.jpg" alt="Video 17" onclick="swapVideo('mainVideo-history', 'DsTKpN_Elwc')">
+<img src="https://img.youtube.com/vi/xj5Nq5unyRQ/mqdefault.jpg" alt="Video 18" onclick="swapVideo('mainVideo-history', 'xj5Nq5unyRQ')">
+  </div>
+
+  <div class="playlist-meta">
+    <p>A deep dive into U.S. history from early colonization through civil war, expansion, and modern transformation—produced as part of Saylor Academy’s open educational library.</p>
+  </div>
+</section>
+
+  <section class="playlist-showcase" data-tags="animation apt">
+  <h2>History 101</h2>
+  <div class="video-player">
+    <iframe id="mainVideo-history101" src="https://www.youtube.com/embed/sQEVy5JZhJc" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="playlist-carousel">
+    <img src="https://img.youtube.com/vi/sQEVy5JZhJc/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'sQEVy5JZhJc')">
+    <img src="https://img.youtube.com/vi/mh3Nn0PNFC8/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'mh3Nn0PNFC8')">
+    <img src="https://img.youtube.com/vi/hDT7OMjxh0g/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'hDT7OMjxh0g')">
+    <img src="https://img.youtube.com/vi/VtYca-uo2UY/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'VtYca-uo2UY')">
+    <img src="https://img.youtube.com/vi/3mcRvpLuu8M/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '3mcRvpLuu8M')">
+    <img src="https://img.youtube.com/vi/6YOOPRDxxcc/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '6YOOPRDxxcc')">
+    <img src="https://img.youtube.com/vi/lyRbobxo4k0/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'lyRbobxo4k0')">
+    <img src="https://img.youtube.com/vi/1E7HChUlQ60/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '1E7HChUlQ60')">
+    <img src="https://img.youtube.com/vi/7oR4YWiQShs/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '7oR4YWiQShs')">
+    <img src="https://img.youtube.com/vi/05HhGe8OlpQ/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '05HhGe8OlpQ')">
+    <img src="https://img.youtube.com/vi/I8g5-v69Iug/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'I8g5-v69Iug')">
+    <img src="https://img.youtube.com/vi/7xTGF5hVdUE/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '7xTGF5hVdUE')">
+    <img src="https://img.youtube.com/vi/3wUC-SjTxcQ/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '3wUC-SjTxcQ')">
+    <img src="https://img.youtube.com/vi/lDiIz8Tr_F0/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'lDiIz8Tr_F0')">
+    <img src="https://img.youtube.com/vi/YJTNnmqsZmQ/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'YJTNnmqsZmQ')">
+    <img src="https://img.youtube.com/vi/99iob3gzQwU/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '99iob3gzQwU')">
+    <img src="https://img.youtube.com/vi/QPrcPOPOpVU/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'QPrcPOPOpVU')">
+    <img src="https://img.youtube.com/vi/YbD_nHVG2AI/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'YbD_nHVG2AI')">
+    <img src="https://img.youtube.com/vi/RCYW3JuBX5U/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'RCYW3JuBX5U')">
+    <img src="https://img.youtube.com/vi/DV1yLNwSqb4/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'DV1yLNwSqb4')">
+    <img src="https://img.youtube.com/vi/5vyl_IMo2wQ/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '5vyl_IMo2wQ')">
+    <img src="https://img.youtube.com/vi/fhcmPH_ag5Y/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'fhcmPH_ag5Y')">
+    <img src="https://img.youtube.com/vi/09q5DShvPN4/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '09q5DShvPN4')">
+    <img src="https://img.youtube.com/vi/mv1ZqdqMCLg/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'mv1ZqdqMCLg')">
+    <img src="https://img.youtube.com/vi/gLuWrQZ6CY8/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'gLuWrQZ6CY8')">
+    <img src="https://img.youtube.com/vi/UdQNkM4C0pQ/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'UdQNkM4C0pQ')">
+    <img src="https://img.youtube.com/vi/CueEC0UvC5s/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'CueEC0UvC5s')">
+    <img src="https://img.youtube.com/vi/N80D89OCTLI/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'N80D89OCTLI')">
+    <img src="https://img.youtube.com/vi/0jZlr-o-LhI/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '0jZlr-o-LhI')">
+    <img src="https://img.youtube.com/vi/Ot8OMaBRRtI/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'Ot8OMaBRRtI')">
+    <img src="https://img.youtube.com/vi/2nc3xcw78dc/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', '2nc3xcw78dc')">
+    <img src="https://img.youtube.com/vi/gvPBzXksI3E/mqdefault.jpg" alt="History 101" onclick="swapVideo('mainVideo-history101', 'gvPBzXksI3E')">
+
+  </div>
+  <div class="playlist-meta">
+    <p>History 101 is a foundational series covering pivotal world events, movements, and figures—built for curious minds and lifelong learners. All videos are remastered for clarity and engagement.</p>
+  </div>
+</section>
+    
+    <section class="playlist-showcase" data-tags="course apt">
+  <h2>Art History</h2>
+  <div class="video-player">
+    <iframe id="mainVideo-art" src="https://www.youtube.com/embed/RK4d7ZHNbHg" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="playlist-carousel">
+    <img src="https://img.youtube.com/vi/RK4d7ZHNbHg/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'RK4d7ZHNbHg')">
+    <img src="https://img.youtube.com/vi/o5gGeZ--TGo/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'o5gGeZ--TGo')">
+    <img src="https://img.youtube.com/vi/Fyr_6RKX5Uw/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'Fyr_6RKX5Uw')">
+    <img src="https://img.youtube.com/vi/IIsbLNg4U2w/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'IIsbLNg4U2w')">
+    <img src="https://img.youtube.com/vi/438ngQvrDjQ/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '438ngQvrDjQ')">
+    <img src="https://img.youtube.com/vi/q0ZL6Q1h87o/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'q0ZL6Q1h87o')">
+    <img src="https://img.youtube.com/vi/pJ-UTdcyX-I/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'pJ-UTdcyX-I')">
+    <img src="https://img.youtube.com/vi/S9OA4kSFnKE/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'S9OA4kSFnKE')">
+    <img src="https://img.youtube.com/vi/eBdu_BzVqHs/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'eBdu_BzVqHs')">
+    <img src="https://img.youtube.com/vi/XF_FboiH7yc/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'XF_FboiH7yc')">
+    <img src="https://img.youtube.com/vi/KS28B_e0wIk/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'KS28B_e0wIk')">
+    <img src="https://img.youtube.com/vi/8edxB8y_9OQ/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '8edxB8y_9OQ')">
+    <img src="https://img.youtube.com/vi/VnlaRSiTqlo/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'VnlaRSiTqlo')">
+    <img src="https://img.youtube.com/vi/yR35ZuXN0oE/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'yR35ZuXN0oE')">
+    <img src="https://img.youtube.com/vi/F3zMQkRUhlY/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'F3zMQkRUhlY')">
+    <img src="https://img.youtube.com/vi/3hwmfMTiTkk/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '3hwmfMTiTkk')">
+    <img src="https://img.youtube.com/vi/_bFiwXwUm9I/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '_bFiwXwUm9I')">
+    <img src="https://img.youtube.com/vi/GzNUidDIyaE/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'GzNUidDIyaE')">
+    <img src="https://img.youtube.com/vi/-fpBv3Gssjg/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '-fpBv3Gssjg')">
+    <img src="https://img.youtube.com/vi/WHPzlofpd08/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'WHPzlofpd08')">
+    <img src="https://img.youtube.com/vi/cIMLYXngewY/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'cIMLYXngewY')">
+    <img src="https://img.youtube.com/vi/JmtJRLpKxmE/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'JmtJRLpKxmE')">
+    <img src="https://img.youtube.com/vi/QXs4c_GFqSA/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'QXs4c_GFqSA')">
+    <img src="https://img.youtube.com/vi/DxCPA2kNNO4/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'DxCPA2kNNO4')">
+    <img src="https://img.youtube.com/vi/tBrlrepsQq4/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'tBrlrepsQq4')">
+    <img src="https://img.youtube.com/vi/uHNMCsd0Q3Q/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'uHNMCsd0Q3Q')">
+    <img src="https://img.youtube.com/vi/uVPzMFBLuwg/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'uVPzMFBLuwg')">
+    <img src="https://img.youtube.com/vi/_b6p3_ypm-g/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '_b6p3_ypm-g')">
+    <img src="https://img.youtube.com/vi/8hXCrMquB34/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '8hXCrMquB34')">
+    <img src="https://img.youtube.com/vi/ztLjuSnGm2s/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'ztLjuSnGm2s')">
+    <img src="https://img.youtube.com/vi/j1NFEQtncUc/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'j1NFEQtncUc')">
+    <img src="https://img.youtube.com/vi/9yllRgl-UcU/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '9yllRgl-UcU')">
+    <img src="https://img.youtube.com/vi/8hzQPSkvbOM/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '8hzQPSkvbOM')">
+    <img src="https://img.youtube.com/vi/-JYowjmXguI/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '-JYowjmXguI')">
+    <img src="https://img.youtube.com/vi/W6X9MUFXlwU/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'W6X9MUFXlwU')">
+    <img src="https://img.youtube.com/vi/kdACmlhZe0o/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'kdACmlhZe0o')">
+    <img src="https://img.youtube.com/vi/M_yYxtFk288/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'M_yYxtFk288')">
+    <img src="https://img.youtube.com/vi/oOjUFIyKo9Y/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'oOjUFIyKo9Y')">
+    <img src="https://img.youtube.com/vi/05NBl_CwyyU/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '05NBl_CwyyU')">
+    <img src="https://img.youtube.com/vi/yJPjuUDjROo/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'yJPjuUDjROo')">
+    <img src="https://img.youtube.com/vi/VuNYJu2YDho/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'VuNYJu2YDho')">
+    <img src="https://img.youtube.com/vi/cXAGPGTcmSU/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'cXAGPGTcmSU')">
+    <img src="https://img.youtube.com/vi/6LNqrvG-c-s/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '6LNqrvG-c-s')">
+    <img src="https://img.youtube.com/vi/tGLcx7sWEvU/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'tGLcx7sWEvU')">
+    <img src="https://img.youtube.com/vi/pkynFoQCUIU/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'pkynFoQCUIU')">
+    <img src="https://img.youtube.com/vi/s061igxPDQ0/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 's061igxPDQ0')">
+    <img src="https://img.youtube.com/vi/H0nBmcv9X_E/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'H0nBmcv9X_E')">
+    <img src="https://img.youtube.com/vi/ptDv9UyWbB8/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'ptDv9UyWbB8')">
+    <img src="https://img.youtube.com/vi/JpkQPnWNlZc/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'JpkQPnWNlZc')">
+    <img src="https://img.youtube.com/vi/mE-UR43Tvxw/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'mE-UR43Tvxw')">
+    <img src="https://img.youtube.com/vi/dqEwJQmXsDE/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'dqEwJQmXsDE')">
+    <img src="https://img.youtube.com/vi/udNXk5DSS78/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'udNXk5DSS78')">
+    <img src="https://img.youtube.com/vi/MTACOILRLY8/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'MTACOILRLY8')">
+    <img src="https://img.youtube.com/vi/j5SBMtOPq-U/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'j5SBMtOPq-U')">
+    <img src="https://img.youtube.com/vi/ljd7o1nlZ2k/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'ljd7o1nlZ2k')">
+    <img src="https://img.youtube.com/vi/GBCF8IXZbcw/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'GBCF8IXZbcw')">
+    <img src="https://img.youtube.com/vi/d0CdjQgfBKI/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'd0CdjQgfBKI')">
+    <img src="https://img.youtube.com/vi/KLnrv4PrTSU/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'KLnrv4PrTSU')">
+    <img src="https://img.youtube.com/vi/gN9iOVhTJ8c/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'gN9iOVhTJ8c')">
+    <img src="https://img.youtube.com/vi/ddbM8x1zQwM/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'ddbM8x1zQwM')">
+    <img src="https://img.youtube.com/vi/3sS4tv4k-V4/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '3sS4tv4k-V4')">
+    <img src="https://img.youtube.com/vi/g_pfhmeVYoY/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'g_pfhmeVYoY')">
+    <img src="https://img.youtube.com/vi/vRChw23VVSI/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'vRChw23VVSI')">
+    <img src="https://img.youtube.com/vi/yDPINyLFvh4/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'yDPINyLFvh4')">
+    <img src="https://img.youtube.com/vi/opHu9v8y7UQ/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', 'opHu9v8y7UQ')">
+    <img src="https://img.youtube.com/vi/5wtGSAsoK0o/mqdefault.jpg" alt="Art History" onclick="swapVideo('mainVideo-art', '5wtGSAsoK0o')">
+  </div>
+  <div class="playlist-meta">
+    <p>A selection of remastered art history lessons—spanning architecture, political iconography, and the cultural propaganda of war. Originally produced for open educational platforms, these short lectures are now edited with fresh intros and transcripts.</p>
+  </div>
+</section>
+    
 <!-- JavaScript Live Sessions Showcase -->
-<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+<section class="playlist-showcase" data-tags="live saylor">
   <h3>💻 JavaScript Live Sessions</h3>
 
   <div class="video-player">
@@ -289,7 +664,7 @@
 </section>
         
 <!-- Strategic Management: Study Sessions Showcase -->
-<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+<section class="playlist-showcase" data-tags=" live saylor">
   <h3>📈 Strategic Management: Study Sessions</h3>
 
   <div class="video-player">
@@ -320,7 +695,7 @@
 </section>
 
 <!-- Marketing Management: Study Sessions Showcase -->
-<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+<section class="playlist-showcase" data-tags="live saylor">
   <h3>📣 Marketing Management: Study Sessions</h3>
 
   <div class="video-player">
@@ -347,87 +722,9 @@
     </a>
   </div>
 </section>
-
-<<section class="video-section" id="art-history">
-  <h2>Art History</h2>
-  <div class="video-player">
-    <iframe id="mainVideo-art" src="https://www.youtube.com/embed/iWUtlt2u9Sk" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel">
-  <img src="https://img.youtube.com/vi/RK4d7ZHNbHg/mqdefault.jpg" alt="Art History 1" onclick="swapVideo('art-main', 'RK4d7ZHNbHg')">
-  <img src="https://img.youtube.com/vi/o5gGeZ--TGo/mqdefault.jpg" alt="Art History 2" onclick="swapVideo('art-main', 'o5gGeZ--TGo')">
-  <img src="https://img.youtube.com/vi/Fyr_6RKX5Uw/mqdefault.jpg" alt="Art History 3" onclick="swapVideo('art-main', 'Fyr_6RKX5Uw')">
-  <img src="https://img.youtube.com/vi/IIsbLNg4U2w/mqdefault.jpg" alt="Art History 4" onclick="swapVideo('art-main', 'IIsbLNg4U2w')">
-  <img src="https://img.youtube.com/vi/438ngQvrDjQ/mqdefault.jpg" alt="Art History 5" onclick="swapVideo('art-main', '438ngQvrDjQ')">
-  <img src="https://img.youtube.com/vi/q0ZL6Q1h87o/mqdefault.jpg" alt="Art History 6" onclick="swapVideo('art-main', 'q0ZL6Q1h87o')">
-  <img src="https://img.youtube.com/vi/pJ-UTdcyX-I/mqdefault.jpg" alt="Art History 7" onclick="swapVideo('art-main', 'pJ-UTdcyX-I')">
-  <img src="https://img.youtube.com/vi/S9OA4kSFnKE/mqdefault.jpg" alt="Art History 8" onclick="swapVideo('art-main', 'S9OA4kSFnKE')">
-  <img src="https://img.youtube.com/vi/eBdu_BzVqHs/mqdefault.jpg" alt="Art History 9" onclick="swapVideo('art-main', 'eBdu_BzVqHs')">
-  <img src="https://img.youtube.com/vi/XF_FboiH7yc/mqdefault.jpg" alt="Art History 10" onclick="swapVideo('art-main', 'XF_FboiH7yc')">
-  <img src="https://img.youtube.com/vi/KS28B_e0wIk/mqdefault.jpg" alt="Art History 11" onclick="swapVideo('art-main', 'KS28B_e0wIk')">
-  <img src="https://img.youtube.com/vi/8edxB8y_9OQ/mqdefault.jpg" alt="Art History 12" onclick="swapVideo('art-main', '8edxB8y_9OQ')">
-  <img src="https://img.youtube.com/vi/VnlaRSiTqlo/mqdefault.jpg" alt="Art History 13" onclick="swapVideo('art-main', 'VnlaRSiTqlo')">
-  <img src="https://img.youtube.com/vi/yR35ZuXN0oE/mqdefault.jpg" alt="Art History 14" onclick="swapVideo('art-main', 'yR35ZuXN0oE')">
-  <img src="https://img.youtube.com/vi/F3zMQkRUhlY/mqdefault.jpg" alt="Art History 15" onclick="swapVideo('art-main', 'F3zMQkRUhlY')">
-  <img src="https://img.youtube.com/vi/3hwmfMTiTkk/mqdefault.jpg" alt="Art History 16" onclick="swapVideo('art-main', '3hwmfMTiTkk')">
-  <img src="https://img.youtube.com/vi/_bFiwXwUm9I/mqdefault.jpg" alt="Art History 17" onclick="swapVideo('art-main', '_bFiwXwUm9I')">
-  <img src="https://img.youtube.com/vi/GzNUidDIyaE/mqdefault.jpg" alt="Art History 18" onclick="swapVideo('art-main', 'GzNUidDIyaE')">
-  <img src="https://img.youtube.com/vi/-fpBv3Gssjg/mqdefault.jpg" alt="Art History 19" onclick="swapVideo('art-main', '-fpBv3Gssjg')">
-  <img src="https://img.youtube.com/vi/WHPzlofpd08/mqdefault.jpg" alt="Art History 20" onclick="swapVideo('art-main', 'WHPzlofpd08')">
-  <img src="https://img.youtube.com/vi/cIMLYXngewY/mqdefault.jpg" alt="Art History 21" onclick="swapVideo('art-main', 'cIMLYXngewY')">
-  <img src="https://img.youtube.com/vi/JmtJRLpKxmE/mqdefault.jpg" alt="Art History 22" onclick="swapVideo('art-main', 'JmtJRLpKxmE')">
-  <img src="https://img.youtube.com/vi/QXs4c_GFqSA/mqdefault.jpg" alt="Art History 23" onclick="swapVideo('art-main', 'QXs4c_GFqSA')">
-  <img src="https://img.youtube.com/vi/DxCPA2kNNO4/mqdefault.jpg" alt="Art History 24" onclick="swapVideo('art-main', 'DxCPA2kNNO4')">
-  <img src="https://img.youtube.com/vi/tBrlrepsQq4/mqdefault.jpg" alt="Art History 25" onclick="swapVideo('art-main', 'tBrlrepsQq4')">
-  <img src="https://img.youtube.com/vi/uHNMCsd0Q3Q/mqdefault.jpg" alt="Art History 26" onclick="swapVideo('art-main', 'uHNMCsd0Q3Q')">
-  <img src="https://img.youtube.com/vi/uVPzMFBLuwg/mqdefault.jpg" alt="Art History 27" onclick="swapVideo('art-main', 'uVPzMFBLuwg')">
-  <img src="https://img.youtube.com/vi/_b6p3_ypm-g/mqdefault.jpg" alt="Art History 28" onclick="swapVideo('art-main', '_b6p3_ypm-g')">
-  <img src="https://img.youtube.com/vi/8hXCrMquB34/mqdefault.jpg" alt="Art History 29" onclick="swapVideo('art-main', '8hXCrMquB34')">
-  <img src="https://img.youtube.com/vi/ztLjuSnGm2s/mqdefault.jpg" alt="Art History 30" onclick="swapVideo('art-main', 'ztLjuSnGm2s')">
-  <img src="https://img.youtube.com/vi/j1NFEQtncUc/mqdefault.jpg" alt="Art History 31" onclick="swapVideo('art-main', 'j1NFEQtncUc')">
-  <img src="https://img.youtube.com/vi/9yllRgl-UcU/mqdefault.jpg" alt="Art History 32" onclick="swapVideo('art-main', '9yllRgl-UcU')">
-  <img src="https://img.youtube.com/vi/8hzQPSkvbOM/mqdefault.jpg" alt="Art History 33" onclick="swapVideo('art-main', '8hzQPSkvbOM')">
-  <img src="https://img.youtube.com/vi/-JYowjmXguI/mqdefault.jpg" alt="Art History 34" onclick="swapVideo('art-main', '-JYowjmXguI')">
-  <img src="https://img.youtube.com/vi/W6X9MUFXlwU/mqdefault.jpg" alt="Art History 35" onclick="swapVideo('art-main', 'W6X9MUFXlwU')">
-  <img src="https://img.youtube.com/vi/kdACmlhZe0o/mqdefault.jpg" alt="Art History 36" onclick="swapVideo('art-main', 'kdACmlhZe0o')">
-  <img src="https://img.youtube.com/vi/M_yYxtFk288/mqdefault.jpg" alt="Art History 37" onclick="swapVideo('art-main', 'M_yYxtFk288')">
-  <img src="https://img.youtube.com/vi/oOjUFIyKo9Y/mqdefault.jpg" alt="Art History 38" onclick="swapVideo('art-main', 'oOjUFIyKo9Y')">
-  <img src="https://img.youtube.com/vi/05NBl_CwyyU/mqdefault.jpg" alt="Art History 39" onclick="swapVideo('art-main', '05NBl_CwyyU')">
-  <img src="https://img.youtube.com/vi/yJPjuUDjROo/mqdefault.jpg" alt="Art History 40" onclick="swapVideo('art-main', 'yJPjuUDjROo')">
-  <img src="https://img.youtube.com/vi/VuNYJu2YDho/mqdefault.jpg" alt="Art History 41" onclick="swapVideo('art-main', 'VuNYJu2YDho')">
-  <img src="https://img.youtube.com/vi/cXAGPGTcmSU/mqdefault.jpg" alt="Art History 42" onclick="swapVideo('art-main', 'cXAGPGTcmSU')">
-  <img src="https://img.youtube.com/vi/6LNqrvG-c-s/mqdefault.jpg" alt="Art History 43" onclick="swapVideo('art-main', '6LNqrvG-c-s')">
-  <img src="https://img.youtube.com/vi/tGLcx7sWEvU/mqdefault.jpg" alt="Art History 44" onclick="swapVideo('art-main', 'tGLcx7sWEvU')">
-  <img src="https://img.youtube.com/vi/pkynFoQCUIU/mqdefault.jpg" alt="Art History 45" onclick="swapVideo('art-main', 'pkynFoQCUIU')">
-  <img src="https://img.youtube.com/vi/s061igxPDQ0/mqdefault.jpg" alt="Art History 46" onclick="swapVideo('art-main', 's061igxPDQ0')">
-  <img src="https://img.youtube.com/vi/H0nBmcv9X_E/mqdefault.jpg" alt="Art History 47" onclick="swapVideo('art-main', 'H0nBmcv9X_E')">
-  <img src="https://img.youtube.com/vi/ptDv9UyWbB8/mqdefault.jpg" alt="Art History 48" onclick="swapVideo('art-main', 'ptDv9UyWbB8')">
-  <img src="https://img.youtube.com/vi/JpkQPnWNlZc/mqdefault.jpg" alt="Art History 49" onclick="swapVideo('art-main', 'JpkQPnWNlZc')">
-  <img src="https://img.youtube.com/vi/mE-UR43Tvxw/mqdefault.jpg" alt="Art History 50" onclick="swapVideo('art-main', 'mE-UR43Tvxw')">
-  <img src="https://img.youtube.com/vi/dqEwJQmXsDE/mqdefault.jpg" alt="Art History 51" onclick="swapVideo('art-main', 'dqEwJQmXsDE')">
-  <img src="https://img.youtube.com/vi/udNXk5DSS78/mqdefault.jpg" alt="Art History 52" onclick="swapVideo('art-main', 'udNXk5DSS78')">
-  <img src="https://img.youtube.com/vi/MTACOILRLY8/mqdefault.jpg" alt="Art History 53" onclick="swapVideo('art-main', 'MTACOILRLY8')">
-  <img src="https://img.youtube.com/vi/j5SBMtOPq-U/mqdefault.jpg" alt="Art History 54" onclick="swapVideo('art-main', 'j5SBMtOPq-U')">
-  <img src="https://img.youtube.com/vi/ljd7o1nlZ2k/mqdefault.jpg" alt="Art History 55" onclick="swapVideo('art-main', 'ljd7o1nlZ2k')">
-  <img src="https://img.youtube.com/vi/GBCF8IXZbcw/mqdefault.jpg" alt="Art History 56" onclick="swapVideo('art-main', 'GBCF8IXZbcw')">
-  <img src="https://img.youtube.com/vi/d0CdjQgfBKI/mqdefault.jpg" alt="Art History 57" onclick="swapVideo('art-main', 'd0CdjQgfBKI')">
-  <img src="https://img.youtube.com/vi/KLnrv4PrTSU/mqdefault.jpg" alt="Art History 58" onclick="swapVideo('art-main', 'KLnrv4PrTSU')">
-  <img src="https://img.youtube.com/vi/gN9iOVhTJ8c/mqdefault.jpg" alt="Art History 59" onclick="swapVideo('art-main', 'gN9iOVhTJ8c')">
-  <img src="https://img.youtube.com/vi/ddbM8x1zQwM/mqdefault.jpg" alt="Art History 60" onclick="swapVideo('art-main', 'ddbM8x1zQwM')">
-  <img src="https://img.youtube.com/vi/3sS4tv4k-V4/mqdefault.jpg" alt="Art History 61" onclick="swapVideo('art-main', '3sS4tv4k-V4')">
-  <img src="https://img.youtube.com/vi/g_pfhmeVYoY/mqdefault.jpg" alt="Art History 62" onclick="swapVideo('art-main', 'g_pfhmeVYoY')">
-  <img src="https://img.youtube.com/vi/vRChw23VVSI/mqdefault.jpg" alt="Art History 63" onclick="swapVideo('art-main', 'vRChw23VVSI')">
-  <img src="https://img.youtube.com/vi/yDPINyLFvh4/mqdefault.jpg" alt="Art History 64" onclick="swapVideo('art-main', 'yDPINyLFvh4')">
-  <img src="https://img.youtube.com/vi/opHu9v8y7UQ/mqdefault.jpg" alt="Art History 65" onclick="swapVideo('art-main', 'opHu9v8y7UQ')">
-  <img src="https://img.youtube.com/vi/5wtGSAsoK0o/mqdefault.jpg" alt="Art History 66" onclick="swapVideo('art-main', '5wtGSAsoK0o')">
-  </div>
-  <div class="playlist-meta">
-    <p>A selection of remastered art history lessons—spanning architecture, political iconography, and the cultural propaganda of war. Originally produced for open educational platforms, these short lectures are now edited with fresh intros and transcripts.</p>
-  </div>
-</section>
         
 <!-- ESL Live Sessions Showcase -->
-<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+<section class="playlist-showcase" data-tags="live saylor">
   <h3>🗣️ ESL Live Sessions</h3>
 
   <div class="video-player">
@@ -454,7 +751,7 @@
 </section>
 
 <!-- Python Live Sessions Showcase -->
-<section class="playlist-showcase" data-tags="educational livestream instructional onlocation saylor longform host">
+<section class="playlist-showcase" data-tags="live saylor">
   <h3>🐍 Python Live Sessions</h3>
 
   <div class="video-player">
@@ -483,51 +780,8 @@
   </div>
 </section>
         
-
-<section class="playlist-showcase" data-tags="educational lecture engineering mechanical dynamics saylor">
-  <h3>Mechanical Engineering 202: Dynamics</h3>
-
-  <div class="video-player">
-    <iframe id="dynamics-main" src="https://www.youtube.com/embed/VQxPjcwUNZE" allowfullscreen loading="lazy"></iframe>
-  </div>
-
-  <div class="playlist-carousel">
-    <img src="https://img.youtube.com/vi/VQxPjcwUNZE/mqdefault.jpg" alt="Dynamics 1" onclick="swapVideo('dynamics-main', 'VQxPjcwUNZE')">
-    <img src="https://img.youtube.com/vi/vQW4aT4mOoc/mqdefault.jpg" alt="Dynamics 2" onclick="swapVideo('dynamics-main', 'vQW4aT4mOoc')">
-    <img src="https://img.youtube.com/vi/4cyox1XIi-Y/mqdefault.jpg" alt="Dynamics 3" onclick="swapVideo('dynamics-main', '4cyox1XIi-Y')">
-    <img src="https://img.youtube.com/vi/stuKLBVTcmg/mqdefault.jpg" alt="Dynamics 4" onclick="swapVideo('dynamics-main', 'stuKLBVTcmg')">
-    <img src="https://img.youtube.com/vi/gjYhMS5frNI/mqdefault.jpg" alt="Dynamics 5" onclick="swapVideo('dynamics-main', 'gjYhMS5frNI')">
-    <img src="https://img.youtube.com/vi/B6BsRR2Qo3I/mqdefault.jpg" alt="Dynamics 6" onclick="swapVideo('dynamics-main', 'B6BsRR2Qo3I')">
-    <img src="https://img.youtube.com/vi/gdflfG8jjbs/mqdefault.jpg" alt="Dynamics 7" onclick="swapVideo('dynamics-main', 'gdflfG8jjbs')">
-    <img src="https://img.youtube.com/vi/TRDtVOenYTs/mqdefault.jpg" alt="Dynamics 8" onclick="swapVideo('dynamics-main', 'TRDtVOenYTs')">
-    <img src="https://img.youtube.com/vi/x3iBthzyajk/mqdefault.jpg" alt="Dynamics 9" onclick="swapVideo('dynamics-main', 'x3iBthzyajk')">
-    <img src="https://img.youtube.com/vi/mCO-fpcfwyE/mqdefault.jpg" alt="Dynamics 10" onclick="swapVideo('dynamics-main', 'mCO-fpcfwyE')">
-    <img src="https://img.youtube.com/vi/Xf0vC2gmih8/mqdefault.jpg" alt="Dynamics 11" onclick="swapVideo('dynamics-main', 'Xf0vC2gmih8')">
-    <img src="https://img.youtube.com/vi/Ub6QUTSSMqk/mqdefault.jpg" alt="Dynamics 12" onclick="swapVideo('dynamics-main', 'Ub6QUTSSMqk')">
-    <img src="https://img.youtube.com/vi/vXvcWSRN39A/mqdefault.jpg" alt="Dynamics 13" onclick="swapVideo('dynamics-main', 'vXvcWSRN39A')">
-    <img src="https://img.youtube.com/vi/A9KAGLmNf8Y/mqdefault.jpg" alt="Dynamics 14" onclick="swapVideo('dynamics-main', 'A9KAGLmNf8Y')">
-    <img src="https://img.youtube.com/vi/G4w9lt3WLXc/mqdefault.jpg" alt="Dynamics 15" onclick="swapVideo('dynamics-main', 'G4w9lt3WLXc')">
-    <img src="https://img.youtube.com/vi/QJbBIa-8iIY/mqdefault.jpg" alt="Dynamics 16" onclick="swapVideo('dynamics-main', 'QJbBIa-8iIY')">
-    <img src="https://img.youtube.com/vi/TgRRQCmsNRE/mqdefault.jpg" alt="Dynamics 17" onclick="swapVideo('dynamics-main', 'TgRRQCmsNRE')">
-    <img src="https://img.youtube.com/vi/mqE5GTokkL8/mqdefault.jpg" alt="Dynamics 18" onclick="swapVideo('dynamics-main', 'mqE5GTokkL8')">
-    <img src="https://img.youtube.com/vi/-u3tvjW5bT4/mqdefault.jpg" alt="Dynamics 19" onclick="swapVideo('dynamics-main', '-u3tvjW5bT4')">
-    <img src="https://img.youtube.com/vi/Eka4XrwVxl8/mqdefault.jpg" alt="Dynamics 20" onclick="swapVideo('dynamics-main', 'Eka4XrwVxl8')">
-    <img src="https://img.youtube.com/vi/1PsmthsqbHM/mqdefault.jpg" alt="Dynamics 21" onclick="swapVideo('dynamics-main', '1PsmthsqbHM')">
-    <img src="https://img.youtube.com/vi/-GgmZBHL7aI/mqdefault.jpg" alt="Dynamics 22" onclick="swapVideo('dynamics-main', '-GgmZBHL7aI')">
-    <img src="https://img.youtube.com/vi/kJrgyVS0q-0/mqdefault.jpg" alt="Dynamics 23" onclick="swapVideo('dynamics-main', 'kJrgyVS0q-0')">
-    <img src="https://img.youtube.com/vi/XcyAZG3HuV0/mqdefault.jpg" alt="Dynamics 24" onclick="swapVideo('dynamics-main', 'XcyAZG3HuV0')">
-    <img src="https://img.youtube.com/vi/nBcYqe0Tb2A/mqdefault.jpg" alt="Dynamics 25" onclick="swapVideo('dynamics-main', 'nBcYqe0Tb2A')">
-  </div>
-  <div class="playlist-meta">
-    <p>A full course in classical dynamics designed for Mechanical Engineering students. Topics include Newtonian mechanics, rotational dynamics, kinematics, energy principles, and system modeling—all presented in a clear and structured lecture format.</p>
-    <a href="https://youtube.com/playlist?list=PL0MjA_R3OFPOnT3nThnQOKpxQZtSNjQzk" target="_blank" class="cta-link">
-      ▶️ View Full Playlist on YouTube
-    </a>
-  </div>
-</section>
-        
 <!-- Bitcoin for Developers Showcase -->
-<section class="playlist-showcase" data-tags="educational explainer hosted live blockchain programming saylor">
+<section class="playlist-showcase" data-tags="live saylor">
   <h3>💻 Bitcoin for Developers</h3>
 
   <div class="video-player">
@@ -554,7 +808,7 @@
 </section>
         
 <!-- Bitcoin for Everybody: Live Sessions Showcase -->
-<section class="playlist-showcase" data-tags="educational instructional livestream shortform hosted saylor crypto bitcoin">
+<section class="playlist-showcase" data-tags="live saylor">
   <h3>₿ Bitcoin for Everybody: Live Sessions</h3>
 
   <div class="video-player">
@@ -578,7 +832,7 @@
 </section>
 
 <!-- Space Systems Engineering: Hangouts Showcase -->
-<section class="playlist-showcase" data-tags="educational explainer live hosted saylor nasa space">
+<section class="playlist-showcase" data-tags="live saylor">
   <h3>🚀 Space Systems Engineering: Hangouts</h3>
 
   <div class="video-player">
@@ -600,74 +854,40 @@
     </a>
   </div>
 </section>
-
-<!-- 2018 Summit Showcase -->
-<section class="playlist-showcase" data-tags="educational documentary live events onlocation saylor longform">
-  <h3>🎓 2018 Summit on the Credential Economy</h3>
-
+    
+ <section class="playlist-showcase" data-tags="eon animation">
+  <h3>Visual Radio | The Economy of Nothing Podcast</h3>
   <div class="video-player">
-    <iframe id="summit-main" src="https://www.youtube.com/embed/XtIGA5mNG8s" allowfullscreen loading="lazy"></iframe>
+    <iframe id="mainVideo-eon"src="https://www.youtube.com/embed/pwE_2GMv4uw" frameborder="0" allowfullscreen></iframe>
   </div>
 
-  <div class="playlist-carousel" id="summit-carousel">
-    <img src="https://img.youtube.com/vi/XtIGA5mNG8s/hqdefault.jpg" alt="Session 1" onclick="swapVideo('summit-main', 'XtIGA5mNG8s')">
-    <img src="https://img.youtube.com/vi/cTGXbfDYMYs/hqdefault.jpg" alt="Session 2" onclick="swapVideo('summit-main', 'cTGXbfDYMYs')">
-    <img src="https://img.youtube.com/vi/EGhm8EkpEN8/hqdefault.jpg" alt="Session 3" onclick="swapVideo('summit-main', 'EGhm8EkpEN8')">
-    <img src="https://img.youtube.com/vi/PuXL3PLkS70/hqdefault.jpg" alt="Session 4" onclick="swapVideo('summit-main', 'PuXL3PLkS70')">
-    <img src="https://img.youtube.com/vi/uPpPr52iaXc/hqdefault.jpg" alt="Session 5" onclick="swapVideo('summit-main', 'uPpPr52iaXc')">
-    <img src="https://img.youtube.com/vi/77VnXn8pNMk/hqdefault.jpg" alt="Session 6" onclick="swapVideo('summit-main', '77VnXn8pNMk')">
-    <img src="https://img.youtube.com/vi/kc-Gi6NNW48/hqdefault.jpg" alt="Session 7" onclick="swapVideo('summit-main', 'kc-Gi6NNW48')">
-    <img src="https://img.youtube.com/vi/GzC9uUWQses/hqdefault.jpg" alt="Session 8" onclick="swapVideo('summit-main', 'GzC9uUWQses')">
-    <img src="https://img.youtube.com/vi/ELiZW7cdlGI/hqdefault.jpg" alt="Session 9" onclick="swapVideo('summit-main', 'ELiZW7cdlGI')">
-    <img src="https://img.youtube.com/vi/8Pc2B7DVykE/hqdefault.jpg" alt="Session 10" onclick="swapVideo('summit-main', '8Pc2B7DVykE')">
-    <img src="https://img.youtube.com/vi/W_LRiLWGhf4/hqdefault.jpg" alt="Session 11" onclick="swapVideo('summit-main', 'W_LRiLWGhf4')">
-    <img src="https://img.youtube.com/vi/dkSdE6zFl40/hqdefault.jpg" alt="Session 12" onclick="swapVideo('summit-main', 'dkSdE6zFl40')">
-    <img src="https://img.youtube.com/vi/_Gbofar67RY/hqdefault.jpg" alt="Session 13" onclick="swapVideo('summit-main', '_Gbofar67RY')">
+  <div class="playlist-carousel">
+    <img src="https://img.youtube.com/vi/pwE_2GMv4uw/mqdefault.jpg" alt="Star Wars and the Search for More SEO" onclick="swapVideo('mainVideo-eon', 'pwE_2GMv4uw')">
+    <img src="https://img.youtube.com/vi/bQ9saJY6Uyw/mqdefault.jpg" alt="The Sheep of Wall Street" onclick="swapVideo('mainVideo-eon', 'bQ9saJY6Uyw')">
+    <img src="https://img.youtube.com/vi/um0J2rNx4XU/mqdefault.jpg" alt="It's Like A Metaphor: The Economy of Nothing" onclick="swapVideo('mainVideo-eon', 'um0J2rNx4XU')">
+    <img src="https://img.youtube.com/vi/srXYCD5O4GA/mqdefault.jpg" alt="We’re Plotting a Show (and Losing the Plot)" onclick="swapVideo('mainVideo-eon', 'srXYCD5O4GA')">
+    <img src="https://img.youtube.com/vi/Cwh04rnyHiY/mqdefault.jpg" alt="There is No Accountant 2 for Taste" onclick="swapVideo('mainVideo-eon', 'Cwh04rnyHiY')">
+    <img src="https://img.youtube.com/vi/6ABL0xY5x-o/mqdefault.jpg" alt="Existential Mic Check" onclick="swapVideo('mainVideo-eon', '6ABL0xY5x-o')">
+    <img src="https://img.youtube.com/vi/5qDJM5ylahg/mqdefault.jpg" alt="A Surreal Metaphor" onclick="swapVideo('mainVideo-eon', '5qDJM5ylahg')">
+    <img src="https://img.youtube.com/vi/SlXijoqQf8E/mqdefault.jpg" alt="Dislike and Unsubscribe" onclick="swapVideo('mainVideo-eon', 'SlXijoqQf8E')">
+    <img src="https://img.youtube.com/vi/9Vd236rnkbo/mqdefault.jpg" alt="Into The Facebookverse" onclick="swapVideo('mainVideo-eon', '9Vd236rnkbo')">
+    <img src="https://img.youtube.com/vi/43ukas28p_M/mqdefault.jpg" alt="Moses, Michael Westen, and Bob Kelso" onclick="swapVideo('mainVideo-eon', '43ukas28p_M')">
+    <img src="https://img.youtube.com/vi/fHSaKgNNrt4/mqdefault.jpg" alt="Pay to Lose" onclick="swapVideo('mainVideo-eon', 'fHSaKgNNrt4')">
+    <img src="https://img.youtube.com/vi/e1jB2UCS5qs/mqdefault.jpg" alt="Choose Your Own Surveillance Orb" onclick="swapVideo('mainVideo-eon', 'e1jB2UCS5qs')">
+    <img src="https://img.youtube.com/vi/kYUNxuqIlyc/mqdefault.jpg" alt="How Mr. Green Learned to Stop Worrying and Love the Economy" onclick="swapVideo('mainVideo-eon', 'kYUNxuqIlyc')">
+    <img src="https://img.youtube.com/vi/9kgr8BBC00w/mqdefault.jpg" alt="Captain Tracy, You're the Problem" onclick="swapVideo('mainVideo-eon', '9kgr8BBC00w')">
+    <img src="https://img.youtube.com/vi/_8BbdIWeBnM/mqdefault.jpg" alt="The Cheyenne Episode" onclick="swapVideo('mainVideo-eon', '_8BbdIWeBnM')">
+    <img src="https://img.youtube.com/vi/HoF9b9o439c/mqdefault.jpg" alt="Too Many Factions, Not Enough Sandwiches" onclick="swapVideo('mainVideo-eon', 'HoF9b9o439c')">
+    <img src="https://img.youtube.com/vi/rVggzeRTtsM/mqdefault.jpg" alt="The Theme Song is Propaganda" onclick="swapVideo('mainVideo-eon', 'rVggzeRTtsM')">
   </div>
 
   <div class="playlist-meta">
-    <p>This 2018 policy summit explored the growing role of alternative credentials in education and employment. From blockchain transcripts to micro-certifications, this series captures expert insights and big-picture frameworks for the evolving credential economy. I helped document the event, organize the speaker footage, and produce these videos for ongoing access.</p>
-    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf" target="_blank" class="cta-link">
-      ▶️ View Full Playlist on YouTube
-    </a>
+    <p>A weekly absurdist talk show chronicling our intergalactic descent into corporate collapse. Welcome to the flagship feed for EoN Visual Radio, where nothing is real but the playlist keeps playing.</p>
   </div>
 </section>
-
-        
-<!-- 2017 Summit Showcase -->
-<section class="playlist-showcase" data-tags="educational documentary live events onlocation saylor longform">
-  <h3>🎓 2017 Summit on the Credential Economy</h3>
-
-  <div class="video-player">
-    <iframe id="summit2017-main" src="https://www.youtube.com/embed/XtIGA5mNG8s" allowfullscreen loading="lazy"></iframe>
-  </div>
-
-  <div class="playlist-carousel" id="summit2017-carousel">
-    <img src="https://img.youtube.com/vi/XtIGA5mNG8s/hqdefault.jpg" alt="Session 1" onclick="swapVideo('summit2017-main', 'XtIGA5mNG8s')">
-    <img src="https://img.youtube.com/vi/cTGXbfDYMYs/hqdefault.jpg" alt="Session 2" onclick="swapVideo('summit2017-main', 'cTGXbfDYMYs')">
-    <img src="https://img.youtube.com/vi/EGhm8EkpEN8/hqdefault.jpg" alt="Session 3" onclick="swapVideo('summit2017-main', 'EGhm8EkpEN8')">
-    <img src="https://img.youtube.com/vi/PuXL3PLkS70/hqdefault.jpg" alt="Session 4" onclick="swapVideo('summit2017-main', 'PuXL3PLkS70')">
-    <img src="https://img.youtube.com/vi/uPpPr52iaXc/hqdefault.jpg" alt="Session 5" onclick="swapVideo('summit2017-main', 'uPpPr52iaXc')">
-    <img src="https://img.youtube.com/vi/77VnXn8pNMk/hqdefault.jpg" alt="Session 6" onclick="swapVideo('summit2017-main', '77VnXn8pNMk')">
-    <img src="https://img.youtube.com/vi/kc-Gi6NNW48/hqdefault.jpg" alt="Session 7" onclick="swapVideo('summit2017-main', 'kc-Gi6NNW48')">
-    <img src="https://img.youtube.com/vi/GzC9uUWQses/hqdefault.jpg" alt="Session 8" onclick="swapVideo('summit2017-main', 'GzC9uUWQses')">
-    <img src="https://img.youtube.com/vi/ELiZW7cdlGI/hqdefault.jpg" alt="Session 9" onclick="swapVideo('summit2017-main', 'ELiZW7cdlGI')">
-    <img src="https://img.youtube.com/vi/8Pc2B7DVykE/hqdefault.jpg" alt="Session 10" onclick="swapVideo('summit2017-main', '8Pc2B7DVykE')">
-    <img src="https://img.youtube.com/vi/W_LRiLWGhf4/hqdefault.jpg" alt="Session 11" onclick="swapVideo('summit2017-main', 'W_LRiLWGhf4')">
-    <img src="https://img.youtube.com/vi/dkSdE6zFl40/hqdefault.jpg" alt="Session 12" onclick="swapVideo('summit2017-main', 'dkSdE6zFl40')">
-    <img src="https://img.youtube.com/vi/_Gbofar67RY/hqdefault.jpg" alt="Session 13" onclick="swapVideo('summit2017-main', '_Gbofar67RY')">
-  </div>
-
-  <div class="playlist-meta">
-    <p>This playlist captures full sessions and key moments from the 2017 Summit on the Credential Economy. Topics include workforce readiness, interoperable credentialing systems, and innovations in higher ed access. I handled video documentation, editing, and publishing in collaboration with the event hosts.</p>
-    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf" target="_blank" class="cta-link">
-      ▶️ View Full Playlist on YouTube
-    </a>
-  </div>
-</section>
-  
+ 
     <!-- Early & Student Work Showcase -->
-    <section id="early" section class="playlist-showcase">
+<section class="playlist-showcase" data-tags="eon">
       <div class="playlist-meta">
         <h3>🎞️ Early & Student Work</h3>
         <p>A curated collection of foundational projects—from student films and experimental edits to my first documentary upload. These were low-budget, high-effort experiments that shaped my approach to production, editing, and improvisation.</p>
@@ -745,25 +965,24 @@
   });
 </script>
 
-<script>
-  const backToTopButton = document.getElementById('backToTop');
+ <script>
+    const backToTopButton = document.getElementById('backToTop');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 600) {
-      backToTopButton.classList.add('show');
-    } else {
-      backToTopButton.classList.remove('show');
-    }
-  });
-
-  backToTopButton.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 600) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
     });
-  });
-</script>
 
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
 
 </body>
 </html>
