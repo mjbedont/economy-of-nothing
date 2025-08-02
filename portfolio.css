@@ -1,43 +1,50 @@
-/* portfolio.css */
-
+/* Base Reset & Layout */
 body {
   font-family: 'Inter', sans-serif;
   margin: 0;
-  padding: 2rem;
-  background: linear-gradient(to bottom right, #f6f7fa, #e7e9ef);
-  color: #1e1e1e;
+  padding: 2rem 1rem;
+  background: linear-gradient(to bottom right, #f8f9fb, #e6e8f0);
+  color: #1f1f2f;
+  line-height: 1.65;
+  font-size: 16px;
 }
 
 main {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 4rem;
   max-width: 960px;
-  margin: auto;
+  margin: 0 auto;
 }
 
+/* Header */
 .site-header {
   text-align: center;
-  padding: 2rem 0 1rem;
+  padding: 3rem 1rem 2rem;
   border-bottom: 1px solid #ddd;
+  background: linear-gradient(to right, #ffffff, #f7f7ff);
 }
 
 .site-header h1 {
-  font-size: 2.8rem;
+  font-size: 3rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #292941;
+  color: #1a1a33;
+  letter-spacing: -0.5px;
 }
 
 .tagline {
-  font-size: 1.2rem;
-  color: #666681;
+  font-size: 1.15rem;
+  color: #5a5a76;
 }
 
+/* Section Styling */
+.about-block,
 .playlist-showcase {
   background: #ffffff;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   opacity: 0;
   transform: translateY(20px);
@@ -52,30 +59,33 @@ main {
 }
 
 .playlist-showcase:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.1);
 }
 
+/* Text Elements */
 .playlist-meta h3 {
-  font-size: 2rem;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #2c2c45;
   margin-bottom: 0.5rem;
-  color: #3e3e58;
 }
 
 .playlist-meta p {
-  font-size: 1rem;
-  color: #5e5e5e;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  color: #555577;
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
 }
 
 .cta-link {
   display: inline-block;
-  margin-top: 0.75rem;
+  margin-top: 1rem;
   font-weight: bold;
   color: #6c4eff;
   background: rgba(108, 78, 255, 0.08);
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
   text-decoration: none;
   transition: background 0.2s ease;
 }
@@ -84,15 +94,16 @@ main {
   background: rgba(108, 78, 255, 0.2);
 }
 
+/* Video Embed */
 .video-player {
   position: relative;
   width: 100%;
   padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
-  border-radius: 12px;
-  margin-top: 1rem;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  margin-top: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .video-player iframe {
@@ -103,6 +114,7 @@ main {
   border: none;
 }
 
+/* Carousel */
 .playlist-carousel {
   display: flex;
   overflow-x: auto;
@@ -115,108 +127,110 @@ main {
 
 .playlist-carousel img {
   flex: 0 0 auto;
-  width: 170px;
-  border-radius: 8px;
+  width: 180px;
+  border-radius: 12px;
   border: 2px solid transparent;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease;
   scroll-snap-align: start;
 }
 
 .playlist-carousel img:hover,
 .playlist-carousel img.active {
-  transform: scale(1.05);
+  transform: scale(1.06);
   border-color: #6c4eff;
   box-shadow: 0 0 0 3px rgba(108, 78, 255, 0.3);
 }
 
-/* Optional: Nav-style tabs */
+/* Tabs (Optional Filters) */
+.tabs-container,
 .nav-tabs {
   display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
+.tab-button,
 .nav-tabs button {
-  background: #eee;
-  border: none;
   padding: 0.6rem 1.2rem;
-  border-radius: 30px;
+  font-size: 1rem;
   font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  background: #e0e0f0;
+  color: #3e3e58;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.nav-tabs button.active,
+.tab-button:hover,
 .nav-tabs button:hover {
+  background: #d0d0ff;
+}
+
+.tab-button.active,
+.nav-tabs button.active {
   background: #6c4eff;
   color: white;
 }
 
-/* Responsive */
+/* Back to Top Button */
+#backToTop {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #292941;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(41, 41, 65, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: 
+    opacity 0.3s ease, 
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+#backToTop.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+#backToTop:hover {
+  background-color: #6c4eff;
+  box-shadow: 0 6px 18px rgba(108, 78, 255, 0.4);
+  transform: scale(1.08);
+}
+
+/* Responsive Tweaks */
 @media (max-width: 600px) {
   .playlist-carousel img {
     width: 130px;
   }
 
   .playlist-meta h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
   .playlist-meta p {
     font-size: 0.95rem;
   }
-}
-.tabs-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
 
-.tab-button {
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 6px;
-  background: #e0e0f0;
-  color: #3e3e58;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.tab-button:hover {
-  background: #d0d0ff;
-}
-
-.tab-button.active {
-  background: #6c4eff;
-  color: white;
-}
-#backToTop {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  padding: 10px 16px;
-  font-size: 16px;
-  background-color: #292941;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  z-index: 1000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-#backToTop.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: scale(1.05);
+  #backToTop {
+    bottom: 16px;
+    right: 16px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
 }
