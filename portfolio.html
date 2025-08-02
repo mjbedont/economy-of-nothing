@@ -7,6 +7,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="portfolio.css" />
 </head>
+  
+<button id="backToTop" title="Back to top">↑ Top</button>
+
 <body>
 
   <!-- Page Header -->
@@ -742,6 +745,26 @@
   });
 </script>
 
+<script>
+// === BACK TO TOP BUTTON ===
+const backToTopButton = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  // Show the button if we've scrolled down 600px or more
+  if (window.scrollY > 600) {
+    backToTopButton.classList.add('show');
+  } else {
+    backToTopButton.classList.remove('show');
+  }
+});
+
+backToTopButton.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+</script>
 
 
 </body>
