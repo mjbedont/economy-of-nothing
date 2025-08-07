@@ -8,6 +8,92 @@
   <title>The Economy of Nothing</title>
   <link rel="stylesheet" href="/style.css" />
   <link rel="icon" href="/media/favicon.png" />
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+    }
+
+    header {
+      text-align: center;
+      padding: 1em 1em 0.5em;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1em;
+      padding: 1em;
+      background: #111;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5em 1em;
+      border: 1px solid #444;
+      border-radius: 4px;
+    }
+
+    main {
+      padding: 1em;
+      text-align: center;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      margin: 0 auto 2em;
+      max-width: 854px;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2em 1em;
+      font-size: 0.9em;
+      background: #111;
+      color: #aaa;
+    }
+
+    .visitor-counter img {
+      vertical-align: middle;
+    }
+
+    .floating-patreon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: gold;
+      color: black;
+      padding: 0.6em 1em;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 10px #000;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -23,42 +109,22 @@
     <a href="/shows.html">Shows</a>
     <a href="/codex.html">Codex</a>
     <a href="/recurrentrevenue.html">Support</a>
-     <a href="/portfolio.html">Portfolio</a>
+    <a href="/portfolio.html">Portfolio</a>
   </nav>
 
-<!-- Main Content -->
-<main>
-
-
-<h2>The Economy of Nothing LIVE</h2>
-    <!-- YouTube Twitch -->
-<iframe
-  src="https://player.twitch.tv/?channel=economyofnothing&parent=economyofnothing.com"
-  height="480"
-  width="854"
-  frameborder="0"
-  allowfullscreen>
-</iframe>
-
+  <!-- Main Content -->
+  <main>
+    <h2>The Economy of Nothing LIVE</h2>
+    <div class="video-container">
+      <iframe
+        src="https://player.twitch.tv/?channel=economyofnothing&parent=economyofnothing.com"
+        allowfullscreen>
+      </iframe>
+    </div>
   </main>
 
   <!-- Footer -->
   <footer>
     <p>&copy; 56.009 Nothing Inc.</p>
-    <p>Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
-    <p class="visitor-counter">
-      You are visitor number:
-      <a href="https://www.hitwebcounter.com" target="_blank">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=20002530&style=0036&nbdigits=9&type=page&initCount=0" 
-             alt="Web Counter" />
-      </a>
-    </p>
-  </footer>
+    <p>Best viewed on Nets
 
-  <!-- Floating Patreon Button -->
-  <a href="https://www.patreon.com/economyofnothing" target="_blank" class="floating-patreon">
-    🪙 The Economy of Something
-  </a>
-
-</body>
-</html>
