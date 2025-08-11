@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Economy of Nothing Podcast — Episode 105: Twisted and Mental: $10 Ice Cream, Streaming Ads, and Other Crimes." />
+  <meta property="og:title" content="Episode 105 | The Economy of Nothing Podcast" />
+  <meta property="og:description" content="$10 ice cream, streaming ads (aka ‘subtracts’), Twisted Metal praise, TV writing rants, and a completely unnecessary dragons debate." />
+  <meta property="og:url" content="https://economyofnothing.com/podcast/105-twisted-and-mental.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="https://economyofnothing.com/media/episode105-thumbnail.png" />
+  <link rel="canonical" href="https://economyofnothing.com/podcast/105-twisted-and-mental.html" />
+  <title>Episode 105 | The Economy of Nothing Podcast</title>
+  <link rel="icon" type="image/png" href="/media/favicon.png" />
+  <link rel="apple-touch-icon" href="/media/favicon.png" />
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>The Economy of Nothing Podcast</h1>
+    <p>Episode 105 — Twisted and Mental: $10 Ice Cream, Ads, and Other Crimes</p>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/shows.html">Shows</a>
+    <a href="/codex.html">Codex</a>
+    <a href="/recurrentrevenue.html">Friends & Benefits™</a>
+  </nav>
+
+  <main>
+
+    <!-- Audio Player -->
+    <section class="episode-details">
+      <h2>🎧 Audio Podcast</h2>
+      <p>
+        From dragons to streaming ads in 63 minutes: the $10 ice cream rant, why “with ads” means “without mercy,”
+        Twisted Metal being way better than expected, and a love letter to episodic TV that actually feels like episodes.
+      </p>
+
+      <!-- Replace EPISODE_ID with your Libsyn ID -->
+      <iframe
+        title="Embed Player"
+        src="https://play.libsyn.com/embed/episode/id/EPISODE_ID/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+        height="192"
+        width="100%"
+        scrolling="no"
+        allowfullscreen
+        webkitallowfullscreen="true"
+        mozallowfullscreen="true"
+        oallowfullscreen="true"
+        msallowfullscreen="true">
+      </iframe>
+    </section>
+
+    <!-- Visual Radio -->
+    <section class="episode-details">
+      <h2>📺 Visual Radio™</h2>
+      <div class="responsive-iframe-container">
+        <!-- Replace YT_VIDEO_ID with your YouTube ID -->
+        <iframe
+          width="100%"
+          height="540"
+          src="https://www.youtube.com/embed/EJZrpsuV5Ko"
+          title="Visual Radio Cut — Episode 105"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <!-- Chapters / PTI-style rundown -->
+    <section class="episode-details">
+      <h2>📍 Chapters</h2>
+      <ul class="chapter-list">
+        <li>00:00 — Intro</li>
+        <li>00:28 — Meet the Hosts</li>
+        <li>01:16 — Unemployment</li>
+        <li>03:30 — The $10 Ice Cream Rant</li>
+        <li>08:53 — Streaming Services & Ads</li>
+        <li>13:04 — Pharma Ads & Medicine</li>
+        <li>24:04 — Economic Rants & Conspiracies</li>
+        <li>40:44 — Pivot / Closing Thoughts</li>
+        <li>41:11 — Twisted Metal (the show!)</li>
+        <li>45:10 — The Decline of TV Writing</li>
+        <li>52:36 — Dragons: Myth or Reality?</li>
+        <li>59:27 — “Subtracts”: What We’re Calling Ads Now</li>
+        <li>01:03:58 — Political Rants & Social Commentary</li>
+        <li>01:11:55 — Future Plans</li>
+      </ul>
+    </section>
+
+    <!-- Back Link -->
+    <a href="/podcast.html" class="episode-button">← Back to All Episodes</a>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 56.105 Nothing Inc.</p>
+    <p class="nostalgia-note">“With ads” is just “without mercy.”</p>
+  </footer>
+
+</body>
+</html>
