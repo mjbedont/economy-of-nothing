@@ -312,10 +312,11 @@ main .video-container iframe {
 .responsive-iframe-container {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%;
+    max-width: var(--media-max-width); /* ✅ new line */
+    padding-bottom: 56.25%; /* 16:9 ratio */
     height: 0;
     overflow: hidden;
-    margin: 2rem 0;
+    margin: 1.5rem auto; /* centers on the page */
     border: 2px solid var(--primary-color);
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
@@ -548,5 +549,6 @@ footer a:hover {
   color: var(--secondary-color);
   text-shadow: 0 0 5px var(--primary-color);
 }
+
 
 
