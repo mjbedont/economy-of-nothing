@@ -313,7 +313,7 @@ main .video-container iframe {
     position: relative;
     width: 100%;
     max-width: var(--media-max-width);
-    max-height: var(--media-max-height); /* 👈 add this variable */
+    height: var(--media-max-height);   /* 👈 lock height to match promo */
     margin: 1.5rem auto;
     border: 2px solid var(--primary-color);
     border-radius: 10px;
@@ -323,10 +323,11 @@ main .video-container iframe {
 
 .responsive-iframe-container iframe {
     width: 100%;
-    height: 100%; /* fills the capped box */
+    height: 100%;  /* fill the fixed box */
     border: none;
     border-radius: 10px;
 }
+
 
 /* Footer */
 footer {
@@ -546,9 +547,3 @@ footer a:hover {
   color: var(--secondary-color);
   text-shadow: 0 0 5px var(--primary-color);
 }
-
-
-
-
-
-
