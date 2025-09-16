@@ -10,6 +10,7 @@
     --subheading-font-size: 1.8rem;
     --body-font-size: 1.2rem;
     --font-family: 'Comic Sans MS', 'Arial', sans-serif;
+    --media-max-width: 600px; /* matches your Patreon image width */
 }
 
 /* Universal Styles */
@@ -547,4 +548,5 @@ footer a:hover {
   color: var(--secondary-color);
   text-shadow: 0 0 5px var(--primary-color);
 }
+
 
