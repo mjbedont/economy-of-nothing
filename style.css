@@ -10,7 +10,7 @@
     --body-font-size: 1.2rem;
     --font-family: 'Comic Sans MS', 'Arial', sans-serif;
     --media-max-width: 600px;  /* same as Patreon promo */
-    --media-max-height: 338px; /* 16:9 ratio for 600px wide */
+    --media-max-height: 400px; /* 16:9 ratio for 600px wide */
 }
 
 /* Universal Styles */
@@ -546,6 +546,7 @@ footer a:hover {
   color: var(--secondary-color);
   text-shadow: 0 0 5px var(--primary-color);
 }
+
 
 
 
