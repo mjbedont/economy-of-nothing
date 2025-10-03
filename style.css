@@ -379,6 +379,35 @@ footer a:hover {
         flex-direction: column;
         gap: 15px;
     }
+
+/* Carousel */
+.playlist-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.playlist-carousel img {
+  flex: 0 0 auto;
+  width: 180px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+  scroll-snap-align: start;
+}
+
+.playlist-carousel img:hover,
+.playlist-carousel img.active {
+  transform: scale(1.06);
+  border-color: #6c4eff;
+  box-shadow: 0 0 0 3px rgba(108, 78, 255, 0.3);
+}
     
     /* ✅ YouTube mobile fix */
     .responsive-iframe-container {
@@ -563,5 +592,6 @@ footer a:hover {
   color: var(--secondary-color);
   text-shadow: 0 0 5px var(--primary-color);
 }
+
 
 
