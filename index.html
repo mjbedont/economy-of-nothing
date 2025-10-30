@@ -41,35 +41,50 @@
 </div>
   
 <h2>Latest Video</h2>
+<h2>Latest Video</h2>
 <div class="responsive-iframe-container" id="latest-short">
   <p>Loading latest Short...</p>
 </div>
 
 <script>
-  const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww'; // The Economy of Nothing channel ID
+  const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww';
   const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
   const container = document.getElementById('latest-short');
 
   fetch(feedURL)
     .then(res => res.json())
     .then(data => {
-      // Try to find a Short first, otherwise use most recent upload
-      const latest = data.items.find(item => item.link.includes('/shorts/')) || data.items[0];
-      const videoId = latest.link.split('v=')[1];
-      container.innerHTML = `
-        <iframe 
-          title="${latest.title}"
-          src="https://www.youtube.com/embed/${videoId}"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>`;
+      // Grab first Shorts link, fallback to most recent upload
+      const latest = data.items.find(item =>
+        item.link.includes('/shorts/') || item.link.includes('v=')
+      ) || data.items[0];
+
+      // Extract ID safely for both /shorts/ and ?v= links
+      let videoId = '';
+      if (latest.link.includes('/shorts/')) {
+        videoId = latest.link.split('/shorts/')[1].split('?')[0];
+      } else if (latest.link.includes('v=')) {
+        videoId = latest.link.split('v=')[1].split('&')[0];
+      }
+
+      if (videoId) {
+        container.innerHTML = `
+          <iframe 
+            title="${latest.title}"
+            src="https://www.youtube.com/embed/${videoId}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>`;
+      } else {
+        container.innerHTML = `<p>Could not determine video ID.</p>`;
+      }
     })
     .catch(err => {
       console.error('Failed to load latest short:', err);
       container.innerHTML = '<p>Could not load latest video.</p>';
     });
 </script>
-
+  
       <!-- External Links -->
     <div class="external-links">
       <a href="https://www.youtube.com/@economyofnothing" target="_blank">
@@ -142,6 +157,7 @@
   </footer>
 </body>
 </html>
+
 
 
 
