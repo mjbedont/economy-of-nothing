@@ -112,12 +112,21 @@ fetch(feedURL)
  
   <!-- Podcast Block -->
 <h2>Latest Audio</h2>
-<div class="responsive-iframe-container" id="latest-audio">
+<div class="audio-container" id="latest-audio">
   <p>Loading latest episode...</p>
 </div>
 
+<style>
+  .audio-container iframe {
+    width: 100%;
+    max-width: 600px; /* optional: keeps it from getting ridiculously wide on huge screens */
+    height: 192px;     /* keeps Libsyn player height correct */
+    border: none;
+  }
+</style>
+
 <script>
-  const rssURL = 'https://feeds.libsyn.com/574135/rss'; // Your Libsyn RSS
+  const rssURL = 'https://feeds.libsyn.com/574135/rss';
   const audioContainer = document.getElementById('latest-audio');
 
   fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssURL)}`)
@@ -129,18 +138,13 @@ fetch(feedURL)
       }
 
       const latest = data.items[0];
-      // Extract the Libsyn episode ID from the enclosure link
-      // Libsyn links usually look like: https://traffic.libsyn.com/username/episode-title.mp3
-      // The embed ID is already in your system, so you could store it manually if needed
-      // Or we can use a simpler approach: pull the first item and embed using Libsyn's standard URL pattern
-      const episodeId = latest.guid.match(/\/(\d+)\//)?.[1] || '38898695'; // fallback if parsing fails
+      const episodeId = latest.guid.match(/\/(\d+)\//)?.[1] || '38898695';
 
       audioContainer.innerHTML = `
         <iframe 
           title="${latest.title}"
           src="https://play.libsyn.com/embed/episode/id/${episodeId}/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
-          height="192" width="100%" scrolling="no" allowfullscreen
-          style="border:none;">
+          scrolling="no" allowfullscreen>
         </iframe>
       `;
     })
@@ -149,6 +153,7 @@ fetch(feedURL)
       audioContainer.innerHTML = '<p>Could not load latest episode.</p>';
     });
 </script>
+
   
  <!-- External Links -->
     <div class="external-links">
@@ -187,6 +192,7 @@ fetch(feedURL)
   </footer>
 </body>
 </html>
+
 
 
 
