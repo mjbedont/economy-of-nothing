@@ -30,15 +30,48 @@
   <p>
     Part space opera, part existential prank. The Economy of Nothing is what’s left when the future shows up and no one wants it.
   </p>
-<!-- This Weeks Show -->
-<div class="responsive-iframe-container">
-  <iframe 
-    title="YouTube Intro"
-    src="https://www.youtube.com/embed/u5MsG2nQIA8"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen>
-  </iframe>
-</div>
+  
+<script>
+  const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww';
+  const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+  const container = document.getElementById('latest-short');
+
+  fetch(feedURL)
+    .then(res => res.json())
+    .then(data => {
+      // Filter OUT shorts
+      const regularVideos = data.items.filter(item => !item.link.includes('/shorts/'));
+
+      if (regularVideos.length === 0) {
+        container.innerHTML = `<p>No regular videos found.</p>`;
+        return;
+      }
+
+      // Get most recent regular video
+      const latest = regularVideos[0];
+
+      // Extract ID safely from ?v= style links
+      const videoId = latest.link.split('v=')[1]?.split('&')[0];
+
+      if (videoId) {
+        container.innerHTML = `
+          <iframe
+            title="${latest.title}"
+            src="https://www.youtube.com/embed/${videoId}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        `;
+      } else {
+        container.innerHTML = `<p>Could not determine video ID.</p>`;
+      }
+    })
+    .catch(err => {
+      console.error('Failed to load latest video:', err);
+      container.innerHTML = '<p>Could not load latest video.</p>';
+    });
+</script>
+
    
 <h2>Latest Video</h2>
 <div class="responsive-iframe-container" id="latest-short">
@@ -152,6 +185,7 @@
   </footer>
 </body>
 </html>
+
 
 
 
