@@ -53,18 +53,14 @@
   fetch(feedURL)
     .then(res => res.json())
     .then(data => {
-      // Grab first Shorts link, fallback to most recent upload
+      // Find first Shorts video, fallback to any video
       const latest = data.items.find(item =>
-        item.link.includes('/shorts/') || item.link.includes('v=')
+        item.link.includes('/shorts/') || item.link.includes('watch?v=')
       ) || data.items[0];
 
-      // Extract ID safely for both /shorts/ and ?v= links
-      let videoId = '';
-      if (latest.link.includes('/shorts/')) {
-        videoId = latest.link.split('/shorts/')[1].split('?')[0];
-      } else if (latest.link.includes('v=')) {
-        videoId = latest.link.split('v=')[1].split('&')[0];
-      }
+      // Extract the video ID cleanly using regex
+      const match = latest.link.match(/(?:shorts\/|v=)([A-Za-z0-9_-]{6,})/);
+      const videoId = match ? match[1] : null;
 
       if (videoId) {
         container.innerHTML = `
@@ -73,7 +69,9 @@
             src="https://www.youtube.com/embed/${videoId}"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen>
-          </iframe>`;
+          </iframe>
+          <p style="font-size:0.9em; opacity:0.8;">${latest.title}</p>
+        `;
       } else {
         container.innerHTML = `<p>Could not determine video ID.</p>`;
       }
@@ -156,6 +154,7 @@
   </footer>
 </body>
 </html>
+
 
 
 
