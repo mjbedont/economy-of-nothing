@@ -112,15 +112,15 @@ fetch(feedURL)
  
   <!-- Podcast Block -->
 <h2>Latest Audio</h2>
-<div id="latest-audio" class="responsive-iframe-container">
+<div class="responsive-iframe-container" id="latest-audio">
   <p>Loading latest episode...</p>
 </div>
 
 <script>
-  const audioFeedURL = 'https://feeds.libsyn.com/574135/rss'; // replace with your feed URL
+  const rssURL = 'https://feeds.libsyn.com/574135/rss'; // Your Libsyn RSS
   const audioContainer = document.getElementById('latest-audio');
 
-  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(audioFeedURL)}`)
+  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssURL)}`)
     .then(res => res.json())
     .then(data => {
       if (!data.items || data.items.length === 0) {
@@ -128,17 +128,20 @@ fetch(feedURL)
         return;
       }
 
-      const latest = data.items[0]; // latest episode
-      const embedURL = latest.enclosure.link; // direct mp3 or media link
+      const latest = data.items[0];
+      // Extract the Libsyn episode ID from the enclosure link
+      // Libsyn links usually look like: https://traffic.libsyn.com/username/episode-title.mp3
+      // The embed ID is already in your system, so you could store it manually if needed
+      // Or we can use a simpler approach: pull the first item and embed using Libsyn's standard URL pattern
+      const episodeId = latest.guid.match(/\/(\d+)\//)?.[1] || '38898695'; // fallback if parsing fails
 
-      // Embed using <audio> tag
       audioContainer.innerHTML = `
-        <h3>${latest.title}</h3>
-        <audio controls>
-          <source src="${embedURL}" type="audio/mpeg">
-          Your browser does not support the audio element.
-        </audio>
-        <p>${latest.pubDate}</p>
+        <iframe 
+          title="${latest.title}"
+          src="https://play.libsyn.com/embed/episode/id/${episodeId}/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+          height="192" width="100%" scrolling="no" allowfullscreen
+          style="border:none;">
+        </iframe>
       `;
     })
     .catch(err => {
@@ -146,7 +149,6 @@ fetch(feedURL)
       audioContainer.innerHTML = '<p>Could not load latest episode.</p>';
     });
 </script>
-
   
  <!-- External Links -->
     <div class="external-links">
@@ -185,6 +187,7 @@ fetch(feedURL)
   </footer>
 </body>
 </html>
+
 
 
 
