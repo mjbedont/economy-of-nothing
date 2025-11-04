@@ -112,46 +112,45 @@ fetch(feedURL)
  
   <!-- Podcast Block -->
 <h2>Latest Audio</h2>
-<div class="audio-container" id="latest-audio">
+<div class="libsyn-embed" id="latest-audio">
   <p>Loading latest episode...</p>
 </div>
 
-<style>
-  .audio-container iframe {
-    width: 100%;
-    max-width: 600px; /* optional: keeps it from getting ridiculously wide on huge screens */
-    height: 192px;     /* keeps Libsyn player height correct */
-    border: none;
-  }
-</style>
-
 <script>
-  const rssURL = 'https://feeds.libsyn.com/574135/rss';
-  const audioContainer = document.getElementById('latest-audio');
+const libsynFeedUrl = 'https://feeds.libsyn.com/574135/rss'; // replace with your feed URL
+const container = document.getElementById('latest-audio');
 
-  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssURL)}`)
-    .then(res => res.json())
-    .then(data => {
-      if (!data.items || data.items.length === 0) {
-        audioContainer.innerHTML = '<p>No episodes found.</p>';
-        return;
-      }
+fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(libsynFeedUrl)}`)
+  .then(res => res.json())
+  .then(data => {
+    if (!data.items || data.items.length === 0) {
+      container.innerHTML = '<p>No episodes found.</p>';
+      return;
+    }
 
-      const latest = data.items[0];
-      const episodeId = latest.guid.match(/\/(\d+)\//)?.[1] || '38898695';
+    // Grab the latest episode
+    const latest = data.items[0];
 
-      audioContainer.innerHTML = `
+    // Extract the mp3/audio URL from enclosure
+    const audioUrl = latest.enclosure?.link;
+    const title = latest.title;
+
+    if (audioUrl) {
+      container.innerHTML = `
         <iframe 
-          title="${latest.title}"
-          src="https://play.libsyn.com/embed/episode/id/${episodeId}/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
+          title="${title}"
+          src="https://play.libsyn.com/embed/episode/id/${audioUrl.split('/').pop()}/height/192/theme/modern/size/large/thumbnail/yes/custom-color/000000/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/00ff00"
           scrolling="no" allowfullscreen>
         </iframe>
       `;
-    })
-    .catch(err => {
-      console.error('Failed to load latest audio:', err);
-      audioContainer.innerHTML = '<p>Could not load latest episode.</p>';
-    });
+    } else {
+      container.innerHTML = '<p>Could not load latest episode.</p>';
+    }
+  })
+  .catch(err => {
+    console.error('Failed to load latest Libsyn episode:', err);
+    container.innerHTML = '<p>Could not load latest episode.</p>';
+  });
 </script>
 
   
@@ -192,6 +191,7 @@ fetch(feedURL)
   </footer>
 </body>
 </html>
+
 
 
 
