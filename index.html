@@ -53,34 +53,32 @@
   fetch(feedURL)
     .then(res => res.json())
     .then(data => {
-      // Find first Shorts video, fallback to any video
-      const latest = data.items.find(item =>
-        item.link.includes('/shorts/') || item.link.includes('watch?v=')
-      ) || data.items[0];
+      // Find only Shorts
+      const shorts = data.items.filter(item => item.link.includes('/shorts/'));
 
-      // Extract the video ID cleanly using regex
-      const match = latest.link.match(/(?:shorts\/|v=)([A-Za-z0-9_-]{6,})/);
-      const videoId = match ? match[1] : null;
-
-      if (videoId) {
-        container.innerHTML = `
-          <iframe 
-            title="${latest.title}"
-            src="https://www.youtube.com/embed/${videoId}"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-          </iframe>
-          <p style="font-size:0.9em; opacity:0.8;">${latest.title}</p>
-        `;
-      } else {
-        container.innerHTML = `<p>Could not determine video ID.</p>`;
+      if (shorts.length === 0) {
+        container.innerHTML = `<p>No recent Shorts found.</p>`;
+        return;
       }
+
+      // Get most recent Short
+      const latest = shorts[0];
+      const videoId = latest.link.split('/shorts/')[1].split('?')[0];
+
+      container.innerHTML = `
+        <iframe
+          title="${latest.title}"
+          src="https://www.youtube.com/embed/${videoId}"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      `;
     })
     .catch(err => {
       console.error('Failed to load latest short:', err);
-      container.innerHTML = '<p>Could not load latest video.</p>';
+      container.innerHTML = '<p>Could not load latest Short.</p>';
     });
 </script>
+
   
       <!-- External Links -->
     <div class="external-links">
@@ -154,6 +152,7 @@
   </footer>
 </body>
 </html>
+
 
 
 
