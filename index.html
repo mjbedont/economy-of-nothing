@@ -31,88 +31,61 @@
     Part space opera, part existential prank. The Economy of Nothing is what’s left when the future shows up and no one wants it.
   </p>
   
-<script>
-  const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww';
-  const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-  const container = document.getElementById('latest-short');
+<div class="responsive-iframe-container" id="latest-full-video">
+  <p>Loading latest full video...</p>
+</div>
 
-  fetch(feedURL)
-    .then(res => res.json())
-    .then(data => {
-      // Filter OUT shorts
-      const regularVideos = data.items.filter(item => !item.link.includes('/shorts/'));
-
-      if (regularVideos.length === 0) {
-        container.innerHTML = `<p>No regular videos found.</p>`;
-        return;
-      }
-
-      // Get most recent regular video
-      const latest = regularVideos[0];
-
-      // Extract ID safely from ?v= style links
-      const videoId = latest.link.split('v=')[1]?.split('&')[0];
-
-      if (videoId) {
-        container.innerHTML = `
-          <iframe
-            title="${latest.title}"
-            src="https://www.youtube.com/embed/${videoId}"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        `;
-      } else {
-        container.innerHTML = `<p>Could not determine video ID.</p>`;
-      }
-    })
-    .catch(err => {
-      console.error('Failed to load latest video:', err);
-      container.innerHTML = '<p>Could not load latest video.</p>';
-    });
-</script>
-
-   
-<h2>Latest Video</h2>
+<h2>Latest Short</h2>
 <div class="responsive-iframe-container" id="latest-short">
   <p>Loading latest Short...</p>
 </div>
 
 <script>
-  const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww';
-  const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-  const container = document.getElementById('latest-short');
+const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww';
+const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
 
-  fetch(feedURL)
-    .then(res => res.json())
-    .then(data => {
-      // Find only Shorts
-      const shorts = data.items.filter(item => item.link.includes('/shorts/'));
+// Latest full video
+fetch(feedURL)
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById('latest-full-video');
+    const fullVideos = data.items.filter(item => !item.link.includes('/shorts/'));
+    if(fullVideos.length === 0){
+      container.innerHTML = '<p>No full videos found.</p>';
+      return;
+    }
+    const latest = fullVideos[0];
+    const videoId = latest.link.split('v=')[1]?.split('&')[0];
+    if(videoId){
+      container.innerHTML = `<iframe title="${latest.title}" src="https://www.youtube.com/embed/${videoId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    } else {
+      container.innerHTML = '<p>Could not determine video ID.</p>';
+    }
+  })
+  .catch(err => {
+    console.error('Failed to load latest full video:', err);
+    document.getElementById('latest-full-video').innerHTML = '<p>Could not load latest full video.</p>';
+  });
 
-      if (shorts.length === 0) {
-        container.innerHTML = `<p>No recent Shorts found.</p>`;
-        return;
-      }
-
-      // Get most recent Short
-      const latest = shorts[0];
-      const videoId = latest.link.split('/shorts/')[1].split('?')[0];
-
-      container.innerHTML = `
-        <iframe
-          title="${latest.title}"
-          src="https://www.youtube.com/embed/${videoId}"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
-      `;
-    })
-    .catch(err => {
-      console.error('Failed to load latest short:', err);
-      container.innerHTML = '<p>Could not load latest Short.</p>';
-    });
-</script>
-
-  
+// Latest Short
+fetch(feedURL)
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById('latest-short');
+    const shorts = data.items.filter(item => item.link.includes('/shorts/'));
+    if(shorts.length === 0){
+      container.innerHTML = '<p>No Shorts found.</p>';
+      return;
+    }
+    const latest = shorts[0];
+    const videoId = latest.link.split('/shorts/')[1].split('?')[0];
+    container.innerHTML = `<iframe title="${latest.title}" src="https://www.youtube.com/embed/${videoId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  })
+  .catch(err => {
+    console.error('Failed to load latest Short:', err);
+    document.getElementById('latest-short').innerHTML = '<p>Could not load latest Short.</p>';
+  });
+</script>  
       <!-- External Links -->
     <div class="external-links">
       <a href="https://www.youtube.com/@economyofnothing" target="_blank">
@@ -185,6 +158,7 @@
   </footer>
 </body>
 </html>
+
 
 
 
