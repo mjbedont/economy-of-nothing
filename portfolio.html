@@ -1142,7 +1142,7 @@
 </div>
 
 <!-- Carousel -->
-<div class="carousel" id="carousel">
+<div class="playlist-carousel" id="carousel">
   <p>Loading thumbnails…</p>
 </div>
 
@@ -1172,7 +1172,7 @@ fetch(feedURL)
 
       // On click → change main video
       img.addEventListener("click", () => {
-        document.querySelectorAll(".carousel img").forEach(el =>
+        document.querySelectorAll(".playlist-carousel img").forEach(el =>
           el.classList.remove("active-thumb")
         );
         img.classList.add("active-thumb");
@@ -1199,85 +1199,7 @@ fetch(feedURL)
     console.error("Failed to load playlist:", err);
     document.getElementById("carousel").innerHTML = "<p>Error loading playlist.</p>";
   });
-
 </script>
-    
-  </main>
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <p>© 2025 Mike Bedont · <a href=https://www.linkedin.com/in/mikebedont/">mike@bedont.com</a></p>
-  </footer>
-
-<script>
-  // Swap the video in a given iframe by video ID (with optional ?start= support)
-  function swapVideo(playerId, videoId) {
-    const iframe = document.getElementById(playerId);
-    if (iframe) {
-      const baseUrl = "https://www.youtube.com/embed/";
-      const parts = videoId.split('?');
-      const id = parts[0];
-      const params = parts[1] ? '?' + parts[1] : '';
-      
-      // Optional: stop all other iframes
-      resetAllIframesExcept(playerId);
-      
-      // Swap video
-      iframe.src = baseUrl + id + params;
-    }
-  }
-
-  // Reset all other iframe players to stop audio from overlapping
-  function resetAllIframesExcept(idToKeep) {
-    document.querySelectorAll('iframe').forEach(iframe => {
-      if (iframe.id !== idToKeep && iframe.src.includes("youtube.com/embed")) {
-        const currentSrc = iframe.src;
-        iframe.src = currentSrc; // forces reload to stop playback
-      }
-    });
-  }
-
-  // Filter by tab buttons (if you're using tag filters)
-  const buttons = document.querySelectorAll('.tab-button');
-  const showcases = document.querySelectorAll('.playlist-showcase');
-
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      const target = button.getAttribute('data-target');
-
-      buttons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-
-      showcases.forEach(showcase => {
-        const tags = showcase.dataset.tags ? showcase.dataset.tags.split(' ') : [];
-        if (target === 'all' || tags.includes(target)) {
-          showcase.style.display = 'block';
-        } else {
-          showcase.style.display = 'none';
-        }
-      });
-    });
-  });
-</script>
-
- <script>
-    const backToTopButton = document.getElementById('backToTop');
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 600) {
-        backToTopButton.classList.add('show');
-      } else {
-        backToTopButton.classList.remove('show');
-      }
-    });
-
-    backToTopButton.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-  </script>
 
 </body>
 </html>
