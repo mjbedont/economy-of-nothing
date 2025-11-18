@@ -5,30 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Playlist Carousel Test</title>
 
-<!-- Link to your full, existing CSS -->
-<link rel="stylesheet" href="/portfolio.css" />
+<!-- Your existing big CSS file -->
+<link rel="stylesheet" href="/style.css" />
 
 </head>
 <body>
 
-<h1>Playlist Carousel Test</h1>
+<main>
 
-<!-- Main video player -->
-<div class="video-player" id="mainPlayer">
-  <p>Loading...</p>
-</div>
+  <section class="playlist-showcase">
 
-<!-- Carousel -->
-<div class="playlist-carousel" id="carousel">
-  <p>Loading thumbnails…</p>
-</div>
+    <div class="playlist-meta">
+      <h3>Playlist Carousel Test</h3>
+      <p>Auto-loaded thumbnails with Catseoul styling.</p>
+    </div>
+
+    <!-- Video Player -->
+    <div class="video-player" id="mainPlayer">
+      <p>Loading...</p>
+    </div>
+
+    <!-- Carousel -->
+    <div class="playlist-carousel" id="carousel">
+      <p>Loading thumbnails…</p>
+    </div>
+
+  </section>
+
+</main>
 
 <script>
-// YOUR PLAYLIST
+// PLAYLIST ID
 const playlistId = "PLPrT6qMbooEln6PRnPvdR2WgUX7R-AwmN";
 
-// RSS2JSON feed endpoint
-const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
+// RSS2JSON feed
+const feedURL =
+  `https://api.rss2json.com/v1/api.json?rss_url=` +
+  `https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
 
 fetch(feedURL)
   .then(res => res.json())
@@ -36,36 +49,36 @@ fetch(feedURL)
     const carousel = document.getElementById("carousel");
     const player = document.getElementById("mainPlayer");
 
-    carousel.innerHTML = ""; // clear loading message
+    carousel.innerHTML = ""; // Clear loading message
 
     data.items.forEach((item, i) => {
       const videoId = item.link.split("v=")[1];
       const thumb = item.thumbnail;
 
-      // Create thumbnail
+      // Thumbnail element
       const img = document.createElement("img");
       img.src = thumb;
       img.dataset.video = videoId;
 
-      // On click → change main video
+      // Click behavior
       img.addEventListener("click", () => {
-        document.querySelectorAll(".playlist-carousel img").forEach(el =>
-          el.classList.remove("active-thumb")
-        );
-        img.classList.add("active-thumb");
+        document.querySelectorAll(".playlist-carousel img")
+          .forEach(el => el.classList.remove("active"));
+
+        img.classList.add("active");
 
         player.innerHTML = `
           <iframe src="https://www.youtube.com/embed/${videoId}"
-                  allowfullscreen></iframe>
+              allowfullscreen></iframe>
         `;
       });
 
-      // First video auto-loads
+      // First video loads automatically
       if (i === 0) {
-        img.classList.add("active-thumb");
+        img.classList.add("active");
         player.innerHTML = `
           <iframe src="https://www.youtube.com/embed/${videoId}"
-                  allowfullscreen></iframe>
+              allowfullscreen></iframe>
         `;
       }
 
@@ -74,10 +87,10 @@ fetch(feedURL)
   })
   .catch(err => {
     console.error("Failed to load playlist:", err);
-    document.getElementById("carousel").innerHTML = "<p>Error loading playlist.</p>";
+    document.getElementById("carousel").innerHTML =
+      "<p>Error loading playlist.</p>";
   });
 </script>
 
 </body>
 </html>
-
