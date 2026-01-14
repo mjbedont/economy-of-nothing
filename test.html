@@ -1,95 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Playlist Carousel Test</title>
-
-<!-- Your existing big CSS file -->
-<link rel="stylesheet" href="/portfolio.css" />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mike Bedont – Video Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="portfolio.css" />
 </head>
 <body>
 
+<button id="backToTop" title="Back to top">↑ Top</button>
+
+<header class="site-header">
+  <h1>Mike Bedont</h1>
+  <p class="tagline">Content Wiz</p>
+</header>
+
 <main>
 
-  <section class="playlist-showcase">
+  <div class="tabs-container">
+    <button class="tab-button active" data-target="all">All</button>
+    <button class="tab-button" data-target="eon">Visual Radio</button>
+    <button class="tab-button" data-target="course">Education</button>
+    <button class="tab-button" data-target="highlight">Highlights</button>
+  </div>
 
+  <!-- VISUAL RADIO -->
+  <section
+    class="playlist-showcase"
+    data-tags="eon highlight"
+    data-playlist="PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA"
+    data-carousel="carousel-eon"
+    data-player="player-eon"
+  >
     <div class="playlist-meta">
-      <h3>Playlist Carousel Test</h3>
-      <p>Auto-loaded thumbnails with Catseoul styling.</p>
+      <h3>Visual Radio | The Economy of Nothing</h3>
+      <p>A weekly absurdist talk show chronicling corporate collapse.</p>
     </div>
-
-    <!-- Video Player -->
-    <div class="video-player" id="mainPlayer">
-      <p>Loading...</p>
+    <div class="video-player">
+      <iframe id="player-eon" src="about:blank" allowfullscreen loading="lazy"></iframe>
     </div>
+    <div class="playlist-carousel" id="carousel-eon"></div>
+    <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" target="_blank" class="cta-link">▶️ View Full Playlist</a>
+  </section>
 
-    <!-- Carousel -->
-    <div class="playlist-carousel" id="carousel">
-      <p>Loading thumbnails…</p>
+  <!-- NASA -->
+  <section
+    class="playlist-showcase"
+    data-tags="course highlight"
+    data-playlist="PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA"
+    data-carousel="carousel-nasa"
+    data-player="player-nasa"
+  >
+    <div class="playlist-meta">
+      <h3>NASA | Space Systems Engineering</h3>
+      <p>Educational series developed for Saylor Academy with NASA professionals.</p>
     </div>
+    <div class="video-player">
+      <iframe id="player-nasa" src="about:blank" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <div class="playlist-carousel" id="carousel-nasa"></div>
+    <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" target="_blank" class="cta-link">▶️ View Full Playlist</a>
+  </section>
 
+  <!-- SCRIPTED TANGENTS -->
+  <section
+    class="playlist-showcase"
+    data-tags="eon highlight"
+    data-playlist="PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc"
+    data-carousel="carousel-tangents"
+    data-player="player-tangents"
+  >
+    <div class="playlist-meta">
+      <h3>Scripted Tangents | Infotainment</h3>
+      <p>Full-cycle short-form: scripting, hosting, and editing.</p>
+    </div>
+    <div class="video-player">
+      <iframe id="player-tangents" src="about:blank" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <div class="playlist-carousel" id="carousel-tangents"></div>
+    <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" target="_blank" class="cta-link">▶️ View Playlist</a>
   </section>
 
 </main>
 
 <script>
-// PLAYLIST ID
-const playlistId = "PLPrT6qMbooEln6PRnPvdR2WgUX7R-AwmN";
+/* PLAYLIST LOADER */
+function loadYouTubePlaylist(playlistId, carouselId, playerId) {
+  const carousel = document.getElementById(carouselId);
+  const player = document.getElementById(playerId);
+  if (!carousel || !player) return;
 
-// RSS2JSON feed
-const feedURL =
-  `https://api.rss2json.com/v1/api.json?rss_url=` +
-  `https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
+  const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
 
-fetch(feedURL)
-  .then(res => res.json())
-  .then(data => {
-    const carousel = document.getElementById("carousel");
-    const player = document.getElementById("mainPlayer");
+  fetch(feedURL)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.items || !data.items.length) return;
+      carousel.innerHTML = "";
 
-    carousel.innerHTML = ""; // Clear loading message
+      data.items.forEach((item, index) => {
+        const videoId = item.link.match(/([a-zA-Z0-9_-]{11})$/)[1];
+        const img = document.createElement("img");
 
-    data.items.forEach((item, i) => {
-      const videoId = item.link.split("v=")[1];
-      const thumb = item.thumbnail;
+        img.src = item.thumbnail;
+        img.alt = item.title;
 
-      // Thumbnail element
-      const img = document.createElement("img");
-      img.src = thumb;
-      img.dataset.video = videoId;
+        img.onclick = () => {
+          carousel.querySelectorAll("img").forEach(i => i.classList.remove("active-thumb"));
+          img.classList.add("active-thumb");
+          player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        };
 
-      // Click behavior
-      img.addEventListener("click", () => {
-        document.querySelectorAll(".playlist-carousel img")
-          .forEach(el => el.classList.remove("active"));
+        if (index === 0) {
+          img.classList.add("active-thumb");
+          player.src = `https://www.youtube.com/embed/${videoId}`;
+        }
 
-        img.classList.add("active");
-
-        player.innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${videoId}"
-              allowfullscreen></iframe>
-        `;
+        carousel.appendChild(img);
       });
-
-      // First video loads automatically
-      if (i === 0) {
-        img.classList.add("active");
-        player.innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${videoId}"
-              allowfullscreen></iframe>
-        `;
-      }
-
-      carousel.appendChild(img);
+    })
+    .catch(() => {
+      carousel.innerHTML = "<p>Error loading playlist.</p>";
     });
-  })
-  .catch(err => {
-    console.error("Failed to load playlist:", err);
-    document.getElementById("carousel").innerHTML =
-      "<p>Error loading playlist.</p>";
-  });
+}
+
+/* AUTO INIT ALL PLAYLISTS */
+document.querySelectorAll('.playlist-showcase').forEach(section => {
+  const { playlist, carousel, player } = section.dataset;
+  if (playlist && carousel && player) {
+    loadYouTubePlaylist(playlist, carousel, player);
+  }
+});
+
+/* TAB FILTERING */
+const tabButtons = document.querySelectorAll('.tab-button');
+const sections = document.querySelectorAll('.playlist-showcase');
+
+tabButtons.forEach(button => {
+  button.onclick = () => {
+    const target = button.dataset.target;
+
+    tabButtons.forEach(b => b.classList.remove('active'));
+    button.classList.add('active');
+
+    // stop all videos
+    sections.forEach(section => {
+      const iframe = section.querySelector('iframe');
+      if (iframe) iframe.src = iframe.src;
+    });
+
+    sections.forEach(section => {
+      const tags = section.dataset.tags.split(' ');
+      section.style.display =
+        target === 'all' || tags.includes(target)
+          ? 'block'
+          : 'none';
+    });
+  };
+});
+
+/* BACK TO TOP */
+const btt = document.getElementById("backToTop");
+window.onscroll = () => btt.classList.toggle("show", window.scrollY > 300);
+btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 </script>
 
 </body>
