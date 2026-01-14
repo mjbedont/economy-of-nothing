@@ -1,110 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual Radio Portfolio</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-    <link rel="stylesheet" href="portfolio.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mike Bedont – Video Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="portfolio.css" />
 </head>
 <body>
 
-<header class="site-header">
+  <button id="backToTop" title="Back to top">↑ Top</button>
+
+  <header class="site-header">
     <h1>Mike Bedont</h1>
-    <p class="tagline">movenment illusionist / audio wizard</p>
-</header>
+    <p class="tagline">Creative Producer · Video Editor · Storyteller</p>
+  </header>
 
-<main>
-    <section class="playlist-showcase">
-        <div class="playlist-meta">
-            <h3>Visual Radio | Podcast Feed</h3>
-            <p>Welcome to the flagship feed for EoN Visual Radio.</p>
-        </div>
-        <div class="video-player">
-            <iframe id="player-eon" src="" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="playlist-carousel" id="carousel-eon">
-            <p>Scanning frequencies...</p>
-        </div>
-        <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" target="_blank" class="cta-link">▶️ View Full Playlist</a>
+  <main>
+    <div class="tabs-container">
+      <button class="tab-button active" data-target="all">All</button>
+      <button class="tab-button" data-target="eon">Visual Radio</button>
+      <button class="tab-button" data-target="course">Education</button>
+      <button class="tab-button" data-target="highlight">Highlights</button>
+    </div>
+
+    <section class="playlist-showcase" data-tags="eon highlight">
+      <div class="playlist-meta">
+        <h3>Visual Radio | The Economy of Nothing</h3>
+        <p>A weekly absurdist talk show chronicling corporate collapse. Welcome to the flagship feed where nothing is real but the playlist keeps playing.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-eon" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-eon">
+        <p>Scanning intergalactic frequencies...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" target="_blank" class="cta-link">▶️ View Full Playlist</a>
     </section>
 
-    <section class="playlist-showcase">
-        <div class="playlist-meta">
-            <h3>Creative Portfolio | Featured Works</h3>
-            <p>A collection of animations, short films, and visual experiments.</p>
-        </div>
-        <div class="video-player">
-            <iframe id="player-portfolio" src="" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="playlist-carousel" id="carousel-portfolio">
-            <p>Loading portfolio...</p>
-        </div>
-        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" target="_blank" class="cta-link">▶️ View Full Playlist</a>
+    <section class="playlist-showcase" data-tags="course highlight">
+      <div class="playlist-meta">
+        <h3>NASA | Space Systems Engineering</h3>
+        <p>Educational series developed for Saylor Academy in collaboration with NASA professionals, focusing on complex systems engineering.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-nasa" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-nasa">
+        <p>Loading NASA archives...</p>
+      </div>
+      <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" target="_blank" class="cta-link">▶️ View Full Playlist</a>
     </section>
-</main>
 
-<button id="backToTop">↑ Top</button>
+  </main>
 
-<script>
+  <script>
     /**
-     * Reusable function to load YouTube playlists
-     * @param {string} playlistId - The YouTube Playlist ID
-     * @param {string} carouselId - ID of the div to hold thumbnails
-     * @param {string} playerId - ID of the iframe for playback
+     * Reusable Playlist Loader
      */
     function loadYouTubePlaylist(playlistId, carouselId, playerId) {
-        const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
-        const carousel = document.getElementById(carouselId);
-        const player = document.getElementById(playerId);
+      const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
+      const carousel = document.getElementById(carouselId);
+      const player = document.getElementById(playerId);
 
-        fetch(feedURL)
-            .then(res => res.json())
-            .then(data => {
-                if (!data.items || data.items.length === 0) return;
-                
-                carousel.innerHTML = "";
+      fetch(feedURL)
+        .then(res => res.json())
+        .then(data => {
+          if (!data.items || data.items.length === 0) return;
+          carousel.innerHTML = "";
 
-                data.items.forEach((item, index) => {
-                    const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
-                    const img = document.createElement("img");
-                    img.src = item.thumbnail;
-                    img.alt = item.title;
+          data.items.forEach((item, index) => {
+            const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
+            const img = document.createElement("img");
+            img.src = item.thumbnail;
+            img.alt = item.title;
 
-                    img.addEventListener("click", () => {
-                        // Remove active class from this specific carousel only
-                        carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
-                        img.classList.add("active-thumb");
-                        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                    });
-
-                    // Set default video
-                    if (index === 0) {
-                        img.classList.add("active-thumb");
-                        player.src = `https://www.youtube.com/embed/${videoId}`;
-                    }
-
-                    carousel.appendChild(img);
-                });
-            })
-            .catch(err => {
-                console.error("Error loading playlist:", playlistId, err);
-                carousel.innerHTML = "<p>Error loading content.</p>";
+            img.addEventListener("click", () => {
+              carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
+              img.classList.add("active-thumb");
+              player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             });
+
+            if (index === 0) {
+              img.classList.add("active-thumb");
+              player.src = `https://www.youtube.com/embed/${videoId}`;
+            }
+            carousel.appendChild(img);
+          });
+        })
+        .catch(err => {
+          carousel.innerHTML = "<p>Error loading playlist.</p>";
+        });
     }
 
-    // INITIALIZE PLAYLISTS
-    // Visual Radio Playlist
+    // Initialize Playlists
     loadYouTubePlaylist("PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA", "carousel-eon", "player-eon");
-    
-    // New Portfolio Playlist
-    loadYouTubePlaylist("PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc", "carousel-portfolio", "player-portfolio");
+    loadYouTubePlaylist("PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA", "carousel-nasa", "player-nasa");
 
-    // Back to Top logic
+    /**
+     * Filter Logic
+     */
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const sections = document.querySelectorAll('.playlist-showcase');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const target = button.getAttribute('data-target');
+        
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        sections.forEach(section => {
+          const tags = section.getAttribute('data-tags');
+          if (target === 'all' || tags.includes(target)) {
+            section.style.display = "block";
+          } else {
+            section.style.display = "none";
+          }
+        });
+      });
+    });
+
+    /**
+     * Back to Top
+     */
     const btt = document.getElementById("backToTop");
-    window.onscroll = () => btt.classList.toggle("show", window.scrollY > 200);
+    window.onscroll = () => btt.classList.toggle("show", window.scrollY > 300);
     btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-</script>
 
+  </script>
 </body>
 </html>
