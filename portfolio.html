@@ -1224,5 +1224,68 @@ fetch(feedURL)
   });
 </script>
 
+    <section class="playlist-showcase" data-tags="eon animation">
+  <h3>Visual Radio | The Economy of Nothing Podcast</h3>
+
+  <!-- Main Video -->
+  <div class="video-player">
+    <iframe id="mainVideo-eon" src="" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <!-- Dynamic Playlist Carousel -->
+  <div class="playlist-carousel" id="carousel-eon">
+    <p>Loading…</p>
+  </div>
+
+  <div class="playlist-meta">
+    <p>A weekly absurdist talk show chronicling our intergalactic descent into corporate collapse. Welcome to the flagship feed for EoN Visual Radio, where nothing is real but the playlist keeps playing.</p>
+    <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" target="_blank" class="cta-link">▶️ View Full Playlist on YouTube</a>
+  </div>
+</section>
+
+<script>
+// AUTO-LOADED PLAYLIST
+const playlistId_eon = "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA";
+
+const feedURL_eon = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId_eon}`;
+
+fetch(feedURL_eon)
+  .then(res => res.json())
+  .then(data => {
+    const carousel = document.getElementById("carousel-eon");
+    const player = document.getElementById("mainVideo-eon");
+
+    carousel.innerHTML = "";
+
+    data.items.forEach((item, index) => {
+      const videoId = item.link.split("v=")[1];
+      const thumb = item.thumbnail;
+
+      const img = document.createElement("img");
+      img.src = thumb;
+      img.dataset.video = videoId;
+
+      img.addEventListener("click", () => {
+        document.querySelectorAll("#carousel-eon img").forEach(el =>
+          el.classList.remove("active-thumb")
+        );
+        img.classList.add("active-thumb");
+        player.src = `https://www.youtube.com/embed/${videoId}`;
+      });
+
+      if (index === 0) {
+        img.classList.add("active-thumb");
+        player.src = `https://www.youtube.com/embed/${videoId}`;
+      }
+
+      carousel.appendChild(img);
+    });
+  })
+  .catch(() => {
+    document.getElementById("carousel-eon").innerHTML = "<p>Error loading playlist.</p>";
+  });
+</script>
+</section>
+
 </body>
 </html>
