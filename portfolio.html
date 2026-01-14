@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual Radio | The Economy of Nothing</title>
+    <title>Visual Radio Portfolio</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="portfolio.css">
 </head>
@@ -11,72 +11,98 @@
 
 <header class="site-header">
     <h1>The Economy of Nothing</h1>
-    <p class="tagline">Chronicling corporate collapse through absurdist radio.</p>
+    <p class="tagline">Intergalactic descent into corporate collapse.</p>
 </header>
 
 <main>
-    <section class="playlist-showcase" data-tags="eon animation">
+    <section class="playlist-showcase">
         <div class="playlist-meta">
             <h3>Visual Radio | Podcast Feed</h3>
-            <p>Welcome to the flagship feed for EoN Visual Radio, where nothing is real but the playlist keeps playing.</p>
+            <p>Welcome to the flagship feed for EoN Visual Radio.</p>
         </div>
-
         <div class="video-player">
-            <iframe id="mainVideo-eon" src="" allowfullscreen loading="lazy"></iframe>
+            <iframe id="player-eon" src="" allowfullscreen loading="lazy"></iframe>
         </div>
-
         <div class="playlist-carousel" id="carousel-eon">
             <p>Scanning frequencies...</p>
         </div>
+        <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" target="_blank" class="cta-link">▶️ View Full Playlist</a>
+    </section>
 
-        <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" target="_blank" class="cta-link">
-            ▶️ View Full Playlist on YouTube
-        </a>
+    <section class="playlist-showcase">
+        <div class="playlist-meta">
+            <h3>Creative Portfolio | Featured Works</h3>
+            <p>A collection of animations, short films, and visual experiments.</p>
+        </div>
+        <div class="video-player">
+            <iframe id="player-portfolio" src="" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="playlist-carousel" id="carousel-portfolio">
+            <p>Loading portfolio...</p>
+        </div>
+        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" target="_blank" class="cta-link">▶️ View Full Playlist</a>
     </section>
 </main>
 
 <button id="backToTop">↑ Top</button>
 
 <script>
-    const playlistId_eon = "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA";
-    const feedURL_eon = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId_eon}`;
+    /**
+     * Reusable function to load YouTube playlists
+     * @param {string} playlistId - The YouTube Playlist ID
+     * @param {string} carouselId - ID of the div to hold thumbnails
+     * @param {string} playerId - ID of the iframe for playback
+     */
+    function loadYouTubePlaylist(playlistId, carouselId, playerId) {
+        const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
+        const carousel = document.getElementById(carouselId);
+        const player = document.getElementById(playerId);
 
-    fetch(feedURL_eon)
-        .then(res => res.json())
-        .then(data => {
-            const carousel = document.getElementById("carousel-eon");
-            const player = document.getElementById("mainVideo-eon");
-            
-            carousel.innerHTML = "";
+        fetch(feedURL)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.items || data.items.length === 0) return;
+                
+                carousel.innerHTML = "";
 
-            data.items.forEach((item, index) => {
-                const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
-                const img = document.createElement("img");
-                img.src = item.thumbnail;
-                img.alt = item.title;
+                data.items.forEach((item, index) => {
+                    const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
+                    const img = document.createElement("img");
+                    img.src = item.thumbnail;
+                    img.alt = item.title;
 
-                img.addEventListener("click", () => {
-                    document.querySelectorAll("#carousel-eon img").forEach(el => el.classList.remove("active-thumb"));
-                    img.classList.add("active-thumb");
-                    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                    img.addEventListener("click", () => {
+                        // Remove active class from this specific carousel only
+                        carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
+                        img.classList.add("active-thumb");
+                        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                    });
+
+                    // Set default video
+                    if (index === 0) {
+                        img.classList.add("active-thumb");
+                        player.src = `https://www.youtube.com/embed/${videoId}`;
+                    }
+
+                    carousel.appendChild(img);
                 });
-
-                if (index === 0) {
-                    img.classList.add("active-thumb");
-                    player.src = `https://www.youtube.com/embed/${videoId}`;
-                }
-                carousel.appendChild(img);
+            })
+            .catch(err => {
+                console.error("Error loading playlist:", playlistId, err);
+                carousel.innerHTML = "<p>Error loading content.</p>";
             });
-        })
-        .catch(() => {
-            document.getElementById("carousel-eon").innerHTML = "<p>Error loading feed.</p>";
-        });
+    }
 
-    // Back to Top Button Logic
+    // INITIALIZE PLAYLISTS
+    // Visual Radio Playlist
+    loadYouTubePlaylist("PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA", "carousel-eon", "player-eon");
+    
+    // New Portfolio Playlist
+    loadYouTubePlaylist("PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc", "carousel-portfolio", "player-portfolio");
+
+    // Back to Top logic
     const btt = document.getElementById("backToTop");
-    window.onscroll = () => {
-        btt.classList.toggle("show", window.scrollY > 200);
-    };
+    window.onscroll = () => btt.classList.toggle("show", window.scrollY > 200);
     btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 </script>
 
