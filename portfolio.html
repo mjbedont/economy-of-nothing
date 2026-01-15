@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mike Bedont – Video Portfolio</title>
+  <title>Mike Bedont | Video Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="portfolio.css" />
 </head>
@@ -13,21 +13,25 @@
 
   <header class="site-header">
     <h1>Mike Bedont</h1>
-    <p class="tagline">Content Wiz </p>
+    <p class="tagline">Creative Producer • Technical Director • Content Strategist</p>
   </header>
 
   <main>
     <div class="tabs-container">
-      <button class="tab-button active" data-target="all">All</button>
-      <button class="tab-button" data-target="eon">EoN</button>
-      <button class="tab-button" data-target="course">Saylor</button>
-      <button class="tab-button" data-target="highlight">Promo</button>
+      <button class="tab-button active" data-target="all">All Work</button>
+      <button class="tab-button" data-target="producer">Producer</button>
+      <button class="tab-button" data-target="host">Hosting/On-Camera</button>
+      <button class="tab-button" data-target="animation">Animation</button>
+      <button class="tab-button" data-target="live">Live/Technical</button>
+      <button class="tab-button" data-target="short-form">Short-Form/Social</button>
+      <button class="tab-button" data-target="saylor">Saylor Academy</button>
+      <button class="tab-button" data-target="eon">Economy of Nothing</button>
     </div>
 
-    <section class="playlist-showcase" data-tags="eon host animation">
+    <section class="playlist-showcase" data-tags="eon producer animation creative">
       <div class="playlist-meta">
         <h3>Visual Radio | The Economy of Nothing</h3>
-        <p>A weekly absurdist talk show chronicling corporate collapse. Welcome to the flagship feed where nothing is real but the playlist keeps playing.</p>
+        <p>Flagship talk show featuring <strong>absurdist world-building</strong> and corporate satire. I serve as the lead producer and creative director, managing visual identity and long-form technical delivery.</p>
       </div>
       <div class="video-player">
         <iframe id="player-eon" src="" allowfullscreen loading="lazy"></iframe>
@@ -37,29 +41,25 @@
       </div>
       <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" target="_blank" class="cta-link">▶️ View Full Playlist</a>
     </section>
-    
-<section class="playlist-showcase" data-tags="eon scriptwriting infotainment self-produced educational short-form hosting highlight">
-  <div class="playlist-meta">
-    <h3>Scripted Tangents</h3>
-    <p>
-      These segments represent a full-cycle production process: <strong>I wrote the scripts, presented the content, and performed the final edit.</strong> Designed to be both entertaining and educational, these tangents showcase an ability to 
-      distill complex ideas into fast-paced, engaging short-form video.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-tangents" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-tangents">
-    <p>Loading scripted content...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" target="_blank" class="cta-link">▶️ View Full Tangents Playlist
-  </a>
-</section>
-    
-<section class="playlist-showcase" data-tags="course highlight">
+
+    <section class="playlist-showcase" data-tags="eon host short-form producer writer animation">
+      <div class="playlist-meta">
+        <h3>Scripted Tangents</h3>
+        <p>A <strong>full-cycle production</strong> showcase: I handled scripting, on-camera presentation, and the final edit. These high-energy segments distill complex topics into engaging infotainment for social audiences.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-tangents" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-tangents">
+        <p>Loading scripted content...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" target="_blank" class="cta-link">▶️ View Full Tangents Playlist</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor producer educational technical live">
       <div class="playlist-meta">
         <h3>NASA | Space Systems Engineering</h3>
-        <p>Educational series developed for Saylor Academy in collaboration with NASA professionals, focusing on complex systems engineering.</p>
+        <p><strong>Instructional Design</strong> collaboration with NASA professionals. I managed production for this high-level technical series, focusing on complex systems engineering and academic integrity.</p>
       </div>
       <div class="video-player">
         <iframe id="player-nasa" src="" allowfullscreen loading="lazy"></iframe>
@@ -69,245 +69,160 @@
       </div>
       <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" target="_blank" class="cta-link">▶️ View Full Playlist</a>
     </section>
-    
-  <section class="playlist-showcase" data-tags="eon short-form editing social-media highlight">
-  <div class="playlist-meta">
-    <h3>Podcast Highlights | The Economy of Nothing</h3>
-    <p>
-      High-retention social media clips curated from the long-form Visual Radio feed. 
-      These shorts demonstrate <strong>precision editing, pacing, and subtitle design</strong> 
-      aimed at stopping the scroll and converting casual viewers into podcast listeners.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-eon-clips" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-eon-clips">
-    <p>Curation in progress...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7" target="_blank" class="cta-link">
-    ▶️ View All Podcast Clips
-  </a>
-</section>
-    
-<section class="playlist-showcase" data-tags="saylor education short-form promo social-media highlight">
-  <div class="playlist-meta">
-    <h3>History of Everything (in 30 Seconds)</h3>
-    <p>
-      A series of <strong>micro-learning shorts</strong> designed for social media engagement. 
-      These promos demonstrate my ability to distill massive, complex historical narratives 
-      into 30-second high-retention segments. This showcases a mastery of 
-      <strong>rapid-fire editing, visual economy, and educational marketing</strong>.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-history-shorts" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-history-shorts">
-    <p>Loading the timeline...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP" target="_blank" class="cta-link">
-    ▶️ View History Shorts
-  </a>
-</section>  
-    
-  <section class="playlist-showcase" data-tags="live event broadcast professional saylor long-form">
-  <div class="playlist-meta">
-    <h3>Closing the Global Skills Gap | Saylor Summit</h3>
-    <p>
-      I served as the <strong>Technical Lead and Producer</strong> for this series of live-streamed 
-      keynotes and panel discussions. Managing the real-time broadcast of a global summit 
-      required overseeing multi-input feeds, audio engineering, and live switching for 
-      high-profile speakers. These recordings demonstrate my ability to manage 
-      <strong>technical high-pressure environments</strong> where there is no room for error.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-summit" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-summit">
-    <p>Buffering live archives...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-" target="_blank" class="cta-link">
-    ▶️ View Full Summit Playlist
-  </a>
-</section>
 
-  <section class="playlist-showcase" data-tags="producer directing professional saylor mid-form highlight">
-  <div class="playlist-meta">
-    <h3>Expert Interviews | Closing the Global Skills Gap</h3>
-    <p>
-      I served as the <strong>off-camera interviewer and field producer</strong> for this 
-      series of global leader discussions. My role involved researching the subject 
-      matter and <strong>directing the conversation</strong> to extract key insights 
-      and high-impact soundbites. This demonstrates a deep understanding of 
-      <strong>storytelling through interview</strong> and the ability to manage 
-      high-profile guests to meet production goals.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-interviews" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-interviews">
-    <p>Loading interviews...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4" target="_blank" class="cta-link">
-    ▶️ View All Summit Interviews
-  </a>
-</section>
-    
-<section class="playlist-showcase" data-tags="saylor scriptwriting hosting educational professional full-cycle mid-form">
-  <div class="playlist-meta">
-    <h3>Small Business Management | Full-Cycle Production</h3>
-    <p>
-      For this course series, I managed the <strong>entire production lifecycle</strong>: from 
-      scripting the introductory and review segments to hosting the sessions on-camera. 
-      These videos demonstrate my ability to translate academic curriculum into 
-      <strong>approachable, host-led video content</strong> while maintaining 
-      professional educational standards.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-bus305" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-bus305">
-    <p>Loading course modules...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc" target="_blank" class="cta-link">
-    ▶️ View Full Course Playlist
-  </a>
-</section>
-    
-  <section class="playlist-showcase" data-tags="saylor animation promo short-form professional highlight">
-  <div class="playlist-meta">
-    <h3>Saylor Academy | Motion Promos</h3>
-    <p>
-      A collection of <strong>animated promotional shorts</strong> created to communicate 
-      Saylor Academy's mission and course offerings. These pieces focus on 
-      <strong>motion graphics, typography, and clean visual storytelling</strong> 
-      to distill complex educational paths into digestible, high-impact marketing content 
-      suitable for social media and web distribution.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-saylor-animation" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-saylor-animation">
-    <p>Rendering motion graphics...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU" target="_blank" class="cta-link">
-    ▶️ View Animation Promos
-  </a>
-</section>
-    
-<section class="playlist-showcase" data-tags="saylor professional producer highlight mid-form">
-  <div class="playlist-meta">
-    <h3>Partnerships & Student Success Stories</h3>
-    <p>
-      I produced this series of <strong>organizational spotlights and student testimonials</strong> 
-      to highlight the real-world impact of Saylor Academy’s global partnerships. These videos 
-      demonstrate my ability to manage <strong>stakeholder relationships</strong> and translate 
-      complex institutional collaborations into compelling, human-centric success stories.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-partners" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-partners">
-    <p>Connecting with partners...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE" target="_blank" class="cta-link">
-    ▶️ View Partnership Videos
-  </a>
-</section>
-    
-<section class="playlist-showcase" data-tags="eon animation creative character-voice mid-form highlight">
-  <div class="playlist-meta">
-    <h3>Mr. Green's Silver Screen Critiques</h3>
-    <p>
-      Character-driven animation featuring excerpts from the <em>Economy of Nothing</em> podcast. 
-      In this series, I utilized <strong>dynamic motion graphics and character sequencing</strong> 
-      to transform audio-only movie reviews into a cohesive visual brand. This showcases 
-      my ability to build a visual identity around a specific persona and comedic voice.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-mr-green" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-mr-green">
-    <p>Loading the projection room...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV" target="_blank" class="cta-link">
-    ▶️ View All Mr. Green Critiques
-  </a>
-</section>
-    
-    <section class="playlist-showcase" data-tags="saylor professional education technical long-form">
-  <div class="playlist-meta">
-    <h3>Mechanical Engineering | Mechanics of Materials</h3>
-    <p>
-      This comprehensive 33-video series showcases my ability to produce <strong>high-level technical and academic content</strong>. 
-      Managing the production of complex engineering curriculum required precise attention to detail, 
-      ensuring that dense mathematical proofs and technical diagrams were delivered with 
-      <strong>clarity and instructional integrity</strong>. This is a prime example of 
-      long-form educational media management.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-mech-eng" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-mech-eng">
-    <p>Assembling engineering modules...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj" target="_blank" class="cta-link">
-    ▶️ View Engineering Series
-  </a>
-</section>
-    
-  <section class="playlist-showcase" data-tags="live education moderation hosting saylor long-form professional">
-  <div class="playlist-meta">
-    <h3>Python Study Sessions | Live Showrunner</h3>
-    <p>
-      I served as the <strong>Live Host and Technical Producer</strong> for this 11-part 
-      Python course series. My role involved managing the broadcast stream, 
-      <strong>moderating live audience Q&A</strong>, and acting as the liaison between 
-      the students and the instructor. This showcases my ability to manage 
-      interactive live environments and keep high-level technical sessions on track.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-python" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-python">
-    <p>Loading course archives...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR" target="_blank" class="cta-link">
-    ▶️ View Full Python Series
-  </a>
-</section>
-    
-<section class="playlist-showcase" data-tags="saylor professional education foundational long-form">
-  <div class="playlist-meta">
-    <h3>ECON101: Principles of Microeconomics</h3>
-    <p>
-      Production management for a <strong>foundational academic series</strong>. 
-      Microeconomics requires a careful balance of data-driven charts and 
-      accessible narrative. This series demonstrates my ability to produce 
-      <strong>core curriculum content</strong> that remains engaging for high-volume 
-      audiences (11k+ views) while maintaining strict academic accuracy.
-    </p>
-  </div>
-  <div class="video-player">
-    <iframe id="player-econ" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <div class="playlist-carousel" id="carousel-econ">
-    <p>Analyzing the market...</p>
-  </div>
-  <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEnSgA_OayN38N_m7wH9n7_6" target="_blank" class="cta-link">
-    ▶️ View ECON101 Series
-  </a>
-</section>
-    
+    <section class="playlist-showcase" data-tags="eon short-form producer animation high-retention">
+      <div class="playlist-meta">
+        <h3>Podcast Highlights | The Economy of Nothing</h3>
+        <p><strong>High-retention social media clips</strong> curated for maximum engagement. Features precision editing, rapid pacing, and custom subtitle design to convert casual viewers into listeners.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-eon-clips" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-eon-clips">
+        <p>Curation in progress...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7" target="_blank" class="cta-link">▶️ View All Podcast Clips</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor short-form educational animation host">
+      <div class="playlist-meta">
+        <h3>History of Everything (in 30 Seconds)</h3>
+        <p>A series of <strong>micro-learning shorts</strong>. These promos demonstrate the ability to distill massive historical narratives into high-impact, visual-first segments for rapid social consumption.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-history-shorts" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-history-shorts">
+        <p>Loading the timeline...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP" target="_blank" class="cta-link">▶️ View History Shorts</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor live producer technical professional">
+      <div class="playlist-meta">
+        <h3>Global Skills Gap | Saylor Summit</h3>
+        <p>Technical Lead and Producer for a <strong>multi-input live broadcast</strong>. Managed real-time switching, audio engineering, and technical troubleshooting for a global audience and high-profile speakers.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-summit" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-summit">
+        <p>Buffering live archives...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-" target="_blank" class="cta-link">▶️ View Full Summit Playlist</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor producer host professional directing">
+      <div class="playlist-meta">
+        <h3>Expert Interviews | Field Production</h3>
+        <p>I served as the <strong>off-camera interviewer and director</strong> for this series, conducting research and directing conversations with global leaders to extract key insights and soundbites.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-interviews" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-interviews">
+        <p>Loading interviews...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4" target="_blank" class="cta-link">▶️ View All Summit Interviews</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor host educational producer writer">
+      <div class="playlist-meta">
+        <h3>Small Business Management | Host-Led Production</h3>
+        <p>Managed the <strong>entire content lifecycle</strong>, from scripting academic intros to on-camera hosting. Effectively translates curriculum into approachable, professional video modules.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-bus305" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-bus305">
+        <p>Loading course modules...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc" target="_blank" class="cta-link">▶️ View Full Course Playlist</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor animation short-form producer promo">
+      <div class="playlist-meta">
+        <h3>Saylor Academy | Motion Promos</h3>
+        <p>A suite of <strong>animated promotional shorts</strong> created to communicate brand value. Features motion graphics, typography, and clean visual storytelling to distill complex educational missions.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-saylor-animation" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-saylor-animation">
+        <p>Rendering motion graphics...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU" target="_blank" class="cta-link">▶️ View Animation Promos</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor producer professional stakeholder">
+      <div class="playlist-meta">
+        <h3>Partnerships & Student Success Stories</h3>
+        <p>Produced <strong>B2B marketing spotlights</strong> featuring global institutional partners. Managed stakeholder relationships and translated collaborations into human-centric testimonials.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-partners" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-partners">
+        <p>Connecting with partners...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE" target="_blank" class="cta-link">▶️ View Partnership Videos</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="eon animation host creative">
+      <div class="playlist-meta">
+        <h3>Mr. Green's Silver Screen Critiques</h3>
+        <p>Character-driven <strong>motion graphics</strong> series. Transformed podcast audio into a distinct visual brand using dynamic sequencing and character animation to build a unique comedic persona.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-mr-green" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-mr-green">
+        <p>Loading the projection room...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV" target="_blank" class="cta-link">▶️ View All Mr. Green Critiques</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor educational technical long-form producer">
+      <div class="playlist-meta">
+        <h3>Mechanical Engineering | Technical Production</h3>
+        <p>Massive 33-video series requiring <strong>precise instructional integrity</strong>. Managed production of dense proofs and diagrams for professional engineering curriculum modules.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-mech-eng" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-mech-eng">
+        <p>Assembling engineering modules...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj" target="_blank" class="cta-link">▶️ View Engineering Series</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor live host technical producer educational">
+      <div class="playlist-meta">
+        <h3>Python Study Sessions | Live Showrunner</h3>
+        <p>Served as <strong>Live Host and Technical Producer</strong>. Managed live Q&A moderation, broadcast stability, and real-time student engagement for technical coding sessions.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-python" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-python">
+        <p>Loading course archives...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR" target="_blank" class="cta-link">▶️ View Full Python Series</a>
+    </section>
+
+    <section class="playlist-showcase" data-tags="saylor educational producer series">
+      <div class="playlist-meta">
+        <h3>ECON101: Principles of Microeconomics</h3>
+        <p>Production management for <strong>foundational academic curriculum</strong>. Balanced data-driven visualizations with narrative clarity to drive high-volume student engagement (11k+ views).</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-econ" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-econ">
+        <p>Analyzing the market...</p>
+      </div>
+      <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEnSgA_OayN38N_m7wH9n7_6" target="_blank" class="cta-link">▶️ View ECON101 Series</a>
+    </section>
   </main>
 
   <script>
@@ -349,22 +264,22 @@
         });
     }
 
-    // Initialize Playlists
+    // Initialize in your manual order
     loadYouTubePlaylist("PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA", "carousel-eon", "player-eon");
-    loadYouTubePlaylist("PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA", "carousel-nasa", "player-nasa");
     loadYouTubePlaylist("PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc", "carousel-tangents", "player-tangents");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4", "carousel-interviews", "player-interviews");
+    loadYouTubePlaylist("PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA", "carousel-nasa", "player-nasa");
     loadYouTubePlaylist("PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7", "carousel-eon-clips", "player-eon-clips");
-    loadYouTubePlaylist("PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV", "carousel-mr-green", "player-mr-green");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-", "carousel-summit", "player-summit");
-    loadYouTubePlaylist("PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR", "carousel-python", "player-python");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc", "carousel-bus305", "player-bus305");
     loadYouTubePlaylist("PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP", "carousel-history-shorts", "player-history-shorts");
+    loadYouTubePlaylist("PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-", "carousel-summit", "player-summit");
+    loadYouTubePlaylist("PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4", "carousel-interviews", "player-interviews");
+    loadYouTubePlaylist("PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc", "carousel-bus305", "player-bus305");
     loadYouTubePlaylist("PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU", "carousel-saylor-animation", "player-saylor-animation");
-    loadYouTubePlaylist("PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj", "carousel-mech-eng", "player-mech-eng");
-    loadYouTubePlaylist("PLMrpXL7ZxXYXIStJLFOAoYv2hPDhXMNQB", "carousel-econ", "player-econ");
     loadYouTubePlaylist("PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE", "carousel-partners", "player-partners");
-    
+    loadYouTubePlaylist("PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV", "carousel-mr-green", "player-mr-green");
+    loadYouTubePlaylist("PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj", "carousel-mech-eng", "player-mech-eng");
+    loadYouTubePlaylist("PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR", "carousel-python", "player-python");
+    loadYouTubePlaylist("PLPrT6qMbooEnSgA_OayN38N_m7wH9n7_6", "carousel-econ", "player-econ");
+
     /**
      * Filter Logic
      */
@@ -374,12 +289,12 @@
     tabButtons.forEach(button => {
       button.addEventListener('click', () => {
         const target = button.getAttribute('data-target');
-        
         tabButtons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
 
         sections.forEach(section => {
-          const tags = section.getAttribute('data-tags');
+          const tags = section.getAttribute('data-tags').split(' ');
+          // Matches if target is 'all' or if the target exists in the array of tags
           if (target === 'all' || tags.includes(target)) {
             section.style.display = "block";
           } else {
@@ -395,7 +310,6 @@
     const btt = document.getElementById("backToTop");
     window.onscroll = () => btt.classList.toggle("show", window.scrollY > 300);
     btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
   </script>
 </body>
 </html>
