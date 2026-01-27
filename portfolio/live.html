@@ -124,97 +124,90 @@
     </section>
   </main>
 
-  <script>
-    const playlistObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const section = entry.target;
-          const pId = section.getAttribute('data-playlist');
-          const cId = section.getAttribute('data-carousel');
-          const plId = section.getAttribute('data-player');
-          if (pId && cId && plId) { fetchPlaylist(pId, cId, plId); }
-          observer.unobserve(section);
-        }
-      });
-    }, { rootMargin: '0px 0px 400px 0px' });
-
-    async function fetchPlaylist(playlistId, carouselId, playerId) {
-      const carousel = document.getElementById(carouselId);
-      const player = document.getElementById(playerId);
-      const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
-      try {
-        const res = await fetch(feedURL);
-        const data = await res.json();
-        if (data.items) {
-          carousel.innerHTML = "";
-          data.items.forEach((item, index) => {
-            const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
-            const img = document.createElement("img");
-            img.src = item.thumbnail;
-            img.onclick = () => {
-              carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
-              img.classList.add("active-thumb");
-              player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            };
-            if (index === 0) { img.classList.add("active-thumb"); player.src = `https://www.youtube.com/embed/${videoId}`; }
-            carousel.appendChild(img);
-          });
-        }
-      } catch (err) { console.error(err); }
-    }
-
-    const playlistMap = {
-      "carousel-summit19": "PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-",
-      "carousel-nasa": "PLMrpXL7ZxXYVvgVKiVGvHqS1Pwb_O5Yuu",
-      "carousel-cred": "PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf",
-      "carousel-partners": "PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE",
-      "carousel-summit17": "PLMrpXL7ZxXYVv5GqXl-ep8QM1WyIhA-sw",
-      "carousel-diged": "PLMrpXL7ZxXYX3pZYMo7BhjK2Oq0wcJU8Q",
-      "carousel-interviews": "PLMrpXL7ZxXYWwmjwwjevOGOmFc-SBvjLL",
-      "carousel-shorts": "PLMrpXL7ZxXYWSjGq9DHtihsebOLNxacos",
-      "carousel-btc-dev": "PLMrpXL7ZxXYU60WHRBLnQ5W9y2tA50elV",
-      "carousel-btc-everybody": "PLMrpXL7ZxXYUUzl9K0OMyqygs-HKL_C8_",
-      "carousel-python": "PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR",
-      "carousel-js": "PLMrpXL7ZxXYU40sO2zdDBOnY_d39_KEUO",
-      "carousel-marketing": "PLMrpXL7ZxXYVkVAqovrObO1NRNoM8NJbS",
-      "carousel-finance": "PLMrpXL7ZxXYWuDsoZ0dsje_bKE4YKkJsN",
-      "carousel-strat": "PLMrpXL7ZxXYV6CmvOPi7GORcrDgf8L0LI",
-      "carousel-esl": "PLMrpXL7ZxXYVxWHxsZ67U-qQephk1XTek"
-    };
-
-    document.querySelectorAll('.playlist-showcase').forEach(section => {
-      const cId = section.querySelector('.playlist-carousel')?.id;
-      if (cId && playlistMap[cId]) {
-        section.setAttribute('data-playlist', playlistMap[cId]);
-        section.setAttribute('data-carousel', cId);
-        section.setAttribute('data-player', section.querySelector('iframe').id);
-        playlistObserver.observe(section);
+<script>
+  // 1. Intersection Observer for Lazy Loading
+  const playlistObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const section = entry.target;
+        const pId = section.getAttribute('data-playlist');
+        const cId = section.getAttribute('data-carousel');
+        const plId = section.getAttribute('data-player');
+        if (pId && cId && plId) { fetchPlaylist(pId, cId, plId); }
+        observer.unobserve(section);
       }
     });
+  }, { rootMargin: '0px 0px 400px 0px' });
 
-    const btt = document.getElementById("backToTop");
-    window.onscroll = () => btt.style.display = window.scrollY > 300 ? "block" : "none";
-    btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  // 2. The Fetch Function
+  async function fetchPlaylist(playlistId, carouselId, playerId) {
+    const carousel = document.getElementById(carouselId);
+    const player = document.getElementById(playerId);
+    const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
+    try {
+      const res = await fetch(feedURL);
+      const data = await res.json();
+      if (data.items) {
+        carousel.innerHTML = "";
+        data.items.forEach((item, index) => {
+          const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
+          const img = document.createElement("img");
+          img.src = item.thumbnail;
+          img.onclick = () => {
+            carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
+            img.classList.add("active-thumb");
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          };
+          if (index === 0) { img.classList.add("active-thumb"); player.src = `https://www.youtube.com/embed/${videoId}`; }
+          carousel.appendChild(img);
+        });
+      }
+    } catch (err) { console.error("Load failed:", playlistId); }
+  }
 
-    // 4. Existing Tab & Back to Top logic...
-  const tabButtons = document.querySelectorAll('.tab-button');
-  const sections = document.querySelectorAll('.playlist-showcase');
+  // 3. Initialize Map
+  const playlistMap = {
+    "carousel-summit19": "PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-",
+    "carousel-nasa": "PLMrpXL7ZxXYVvgVKiVGvHqS1Pwb_O5Yuu",
+    "carousel-cred": "PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf",
+    "carousel-partners": "PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE",
+    "carousel-summit17": "PLMrpXL7ZxXYVv5GqXl-ep8QM1WyIhA-sw",
+    "carousel-diged": "PLMrpXL7ZxXYX3pZYMo7BhjK2Oq0wcJU8Q",
+    "carousel-interviews": "PLMrpXL7ZxXYWwmjwwjevOGOmFc-SBvjLL",
+    "carousel-shorts": "PLMrpXL7ZxXYWSjGq9DHtihsebOLNxacos",
+    "carousel-btc-dev": "PLMrpXL7ZxXYU60WHRBLnQ5W9y2tA50elV",
+    "carousel-btc-everybody": "PLMrpXL7ZxXYUUzl9K0OMyqygs-HKL_C8_",
+    "carousel-python": "PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR",
+    "carousel-js": "PLMrpXL7ZxXYU40sO2zdDBOnY_d39_KEUO",
+    "carousel-marketing": "PLMrpXL7ZxXYVkVAqovrObO1NRNoM8NJbS",
+    "carousel-finance": "PLMrpXL7ZxXYWuDsoZ0dsje_bKE4YKkJsN",
+    "carousel-strat": "PLMrpXL7ZxXYV6CmvOPi7GORcrDgf8L0LI",
+    "carousel-esl": "PLMrpXL7ZxXYVxWHxsZ67U-qQephk1XTek"
+  };
 
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const target = button.getAttribute('data-target');
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-      sections.forEach(section => {
-        const tags = section.getAttribute('data-tags').split(' ');
-        section.style.display = (target === 'all' || tags.includes(target)) ? "block" : "none";
-      });
-    });
+  // Assign attributes and start observer
+  document.querySelectorAll('.playlist-showcase').forEach(section => {
+    const cId = section.querySelector('.playlist-carousel')?.id;
+    if (cId && playlistMap[cId]) {
+      section.setAttribute('data-playlist', playlistMap[cId]);
+      section.setAttribute('data-carousel', cId);
+      section.setAttribute('data-player', section.querySelector('iframe').id);
+      playlistObserver.observe(section);
+    }
   });
 
+  // 4. Back to Top Logic (Fixed Conflicts)
   const btt = document.getElementById("backToTop");
-  window.onscroll = () => btt.classList.toggle("show", window.scrollY > 300);
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      btt.style.display = "block";
+      btt.classList.add("show");
+    } else {
+      btt.style.display = "none";
+      btt.classList.remove("show");
+    }
+  });
   btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-  </script>
+</script>
 </body>
 </html>
