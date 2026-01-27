@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Director | Mike Bedont Portfolio</title>
+  <link rel="stylesheet" href="../style.css"> <style>
+    .portfolio-header { text-align: center; padding: 40px 20px; background: #002b36; color: white; }
+    .category-badge { background: #268bd2; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 10px; display: inline-block; }
+    .section-divider { border-bottom: 2px solid #eee; margin: 40px 0; padding-bottom: 10px; font-weight: bold; color: #555; text-transform: uppercase; letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+
+  <header class="portfolio-header">
+    <h1>Technical Director</h1>
+    <p>Live Broadcast, Remote Engineering, and Event Production</p>
+    <nav class="portfolio-nav">
+        <a href="/portfolio">⭐ Featured</a>
+        <a href="/portfolio/creative">🎨 Creative</a>
+        <a href="/portfolio/live" class="active">📡 Live</a>
+        <a href="/portfolio/academic">📚 Academic</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <div class="section-divider">High-Stakes Events & Summits</div>
+
+    <section class="playlist-showcase" data-tags="live technical">
+      <div class="playlist-meta">
+        <span class="category-badge">Live Production</span>
+        <h3>Closing the Global Skills Gap #SaylorSummit19</h3>
+        <p>Technical direction for a multi-camera international summit featuring global leaders in education and policy.</p>
+      </div>
+      <div class="video-player-container"><iframe id="player-summit19" src="" frameborder="0" allowfullscreen></iframe></div>
+      <div class="playlist-carousel" id="carousel-summit19"><p>Loading...</p></div>
+    </section>
+
+    <section class="playlist-showcase" data-tags="live technical host">
+      <div class="playlist-meta">
+        <span class="category-badge">Remote Broadcast / Hosting</span>
+        <h3>Space Systems Engineering: NASA Hangouts</h3>
+        <p>Managing remote feeds and live Q&A with NASA engineers. A masterclass in high-stakes guest management and technical stability.</p>
+      </div>
+      <div class="video-player-container"><iframe id="player-nasa-hangouts" src="" frameborder="0" allowfullscreen></iframe></div>
+      <div class="playlist-carousel" id="carousel-nasa-hangouts"><p>Loading...</p></div>
+    </section>
+
+    <section class="playlist-showcase" data-tags="live technical">
+      <div class="playlist-meta">
+        <span class="category-badge">Live Production</span>
+        <h3>Summit on the Credentialing Economy (#CredEconomy)</h3>
+        <p>Directing the live stream and recording of industry experts discussing the future of digital credentials.</p>
+      </div>
+      <div class="video-player-container"><iframe id="player-credeconomy" src="" frameborder="0" allowfullscreen></iframe></div>
+      <div class="playlist-carousel" id="carousel-credeconomy"><p>Loading...</p></div>
+    </section>
+
+    <section class="playlist-showcase" data-tags="live technical">
+      <div class="playlist-meta">
+        <span class="category-badge">Technical Direction</span>
+        <h3>#DigEdCon: Digital Education Conference</h3>
+        <p>Broadcasting panels on the intersection of technology and pedagogy.</p>
+      </div>
+      <div class="video-player-container"><iframe id="player-digedcon" src="" frameborder="0" allowfullscreen></iframe></div>
+      <div class="playlist-carousel" id="carousel-digedcon"><p>Loading...</p></div>
+    </section>
+
+    <div class="section-divider">Live Course Instruction & Technical Sessions</div>
+
+    <section class="playlist-showcase" data-tags="live technical educational">
+      <div class="playlist-meta">
+        <span class="category-badge">Technical Instruction</span>
+        <h3>Bitcoin for Developers: Live Sessions</h3>
+        <p>Showcasing the ability to manage complex technical streams involving live coding and high-level software theory.</p>
+      </div>
+      <div class="video-player-container"><iframe id="player-btc-dev" src="" frameborder="0" allowfullscreen></iframe></div>
+      <div class="playlist-carousel" id="carousel-btc-dev"><p>Loading...</p></div>
+    </section>
+
+    <section class="playlist-showcase" data-tags="live technical educational">
+      <div class="playlist-meta">
+        <span class="category-badge">Live Learning</span>
+        <h3>Introduction to Python: Study Sessions</h3>
+        <p>Facilitating live, interactive learning environments for thousands of global students simultaneously.</p>
+      </div>
+      <div class="video-player-container"><iframe id="player-python" src="" frameborder="0" allowfullscreen></iframe></div>
+      <div class="playlist-carousel" id="carousel-python"><p>Loading...</p></div>
+    </section>
+
+    <section class="playlist-showcase" data-tags="live technical educational">
+      <div class="playlist-meta">
+        <span class="category-badge">Live Learning</span>
+        <h3>JavaScript Live Sessions</h3>
+        <p>End-to-end management of live web-development study streams.</p>
+      </div>
+      <div class="video-player-container"><iframe id="player-js" src="" frameborder="0" allowfullscreen></iframe></div>
+      <div class="playlist-carousel" id="carousel-js"><p>Loading...</p></div>
+    </section>
+
+  </main>
+
+  <script>
+    // THE OPTIMIZED LOADER
+    async function loadYouTubePlaylist(playlistId, carouselId, playerId) {
+      const carousel = document.getElementById(carouselId);
+      const player = document.getElementById(playerId);
+      const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
+
+      try {
+        const res = await fetch(feedURL);
+        const data = await res.json();
+        if (!data.items || data.items.length === 0) return;
+        
+        carousel.innerHTML = "";
+        data.items.forEach((item, index) => {
+          const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
+          const img = document.createElement("img");
+          img.src = item.thumbnail;
+          img.className = "thumb";
+          img.onclick = () => {
+            carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
+            img.classList.add("active-thumb");
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          };
+          if (index === 0) {
+            img.classList.add("active-thumb");
+            player.src = `https://www.youtube.com/embed/${videoId}`;
+          }
+          carousel.appendChild(img);
+        });
+      } catch (e) { carousel.innerHTML = "Error loading."; }
+    }
+
+    // SEQUENTIAL LOADING TO AVOID API BLOCKS
+    async function init() {
+      const playlists = [
+        ["PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-", "carousel-summit19", "player-summit19"],
+        ["PLMrpXL7ZxXYVvgVKiVGvHqS1Pwb_O5Yuu", "carousel-nasa-hangouts", "player-nasa-hangouts"],
+        ["PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf", "carousel-credeconomy", "player-credeconomy"],
+        ["PLMrpXL7ZxXYX3pZYMo7BhjK2Oq0wcJU8Q", "carousel-digedcon", "player-digedcon"],
+        ["PLMrpXL7ZxXYU60WHRBLnQ5W9y2tA50elV", "carousel-btc-dev", "player-btc-dev"],
+        ["PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR", "carousel-python", "player-python"],
+        ["PLMrpXL7ZxXYU40sO2zdDBOnY_d39_KEUO", "carousel-js", "player-js"]
+      ];
+
+      for (const p of playlists) {
+        await loadYouTubePlaylist(p[0], p[1], p[2]);
+        await new Promise(r => setTimeout(r, 250)); // Tiny gap between loads
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
