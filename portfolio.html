@@ -368,92 +368,114 @@
     
   </main>
 
-  <script>
-    function loadYouTubePlaylist(playlistId, carouselId, playerId) {
-      const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
-      const carousel = document.getElementById(carouselId);
-      const player = document.getElementById(playerId);
+<script>
+  // 1. Centralized list of all your playlists
+  const playlists = [
+    ["PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA", "carousel-eon", "player-eon"],
+    ["PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc", "carousel-tangents", "player-tangents"],
+    ["PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA", "carousel-nasa", "player-nasa"],
+    ["PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7", "carousel-eon-clips", "player-eon-clips"],
+    ["PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP", "carousel-history-shorts", "player-history-shorts"],
+    ["PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-", "carousel-summit", "player-summit"],
+    ["PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4", "carousel-interviews", "player-interviews"],
+    ["PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc", "carousel-bus305", "player-bus305"],
+    ["PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU", "carousel-saylor-animation", "player-saylor-animation"],
+    ["PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE", "carousel-partners", "player-partners"],
+    ["PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV", "carousel-mr-green", "player-mr-green"],
+    ["PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj", "carousel-mech-eng", "player-mech-eng"],
+    ["PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR", "carousel-python", "player-python"],
+    ["PLMrpXL7ZxXYXIStJLFOAoYv2hPDhXMNQB", "carousel-econ", "player-econ"],
+    ["PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc", "carousel-bus305-new", "player-bus305-new"],
+    ["PLMrpXL7ZxXYXFqi_RQZAYa1a4YT8Z0mFp", "carousel-comm001", "player-comm001"],
+    ["PLMrpXL7ZxXYU40sO2zdDBOnY_d39_KEUO", "carousel-js-live", "player-js-live"],
+    ["PLMrpXL7ZxXYU60WHRBLnQ5W9y2tA50elV", "carousel-btc-dev", "player-btc-dev"],
+    ["PLMrpXL7ZxXYVc1RCzl3xEqnUjiDdiqmmG", "carousel-dynamics", "player-dynamics"],
+    ["PLMrpXL7ZxXYVkVAqovrObO1NRNoM8NJbS", "carousel-marketing", "player-marketing"],
+    ["PLMrpXL7ZxXYWEpuBboaUkvjFtDiqKrNiz", "carousel-bus605", "player-bus605"],
+    ["PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf", "carousel-credeconomy", "player-credeconomy"],
+    ["PLMrpXL7ZxXYVv5GqXl-ep8QM1WyIhA-sw", "carousel-summit2017", "player-summit2017"],
+    ["PLMrpXL7ZxXYX3pZYMo7BhjK2Oq0wcJU8Q", "carousel-digedcon", "player-digedcon"],
+    ["PLMrpXL7ZxXYVvgVKiVGvHqS1Pwb_O5Yuu", "carousel-nasa-hangouts", "player-nasa-hangouts"],
+    ["PLMrpXL7ZxXYWSjGq9DHtihsebOLNxacos", "carousel-saylor-shorts", "player-saylor-shorts"]
+  ];
 
-      fetch(feedURL)
-        .then(res => res.json())
-        .then(data => {
-          if (!data.items || data.items.length === 0) return;
-          carousel.innerHTML = "";
-
-          data.items.forEach((item, index) => {
-            const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
-            const img = document.createElement("img");
-            img.src = item.thumbnail;
-            img.alt = item.title;
-
-            img.addEventListener("click", () => {
-              carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
-              img.classList.add("active-thumb");
-              player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            });
-
-            if (index === 0) {
-              img.classList.add("active-thumb");
-              player.src = `https://www.youtube.com/embed/${videoId}`;
-            }
-            carousel.appendChild(img);
-          });
-        })
-        .catch(err => {
-          carousel.innerHTML = "<p>Error loading playlist.</p>";
-        });
+  // 2. The Loading Function (Now Async)
+  async function initPortfolio() {
+    for (const [pId, cId, plId] of playlists) {
+      await loadYouTubePlaylist(pId, cId, plId);
+      // Wait 150ms between requests to avoid rate limits
+      await new Promise(resolve => setTimeout(resolve, 150));
     }
+  }
 
-    loadYouTubePlaylist("PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA", "carousel-eon", "player-eon");
-    loadYouTubePlaylist("PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc", "carousel-tangents", "player-tangents");
-    loadYouTubePlaylist("PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA", "carousel-nasa", "player-nasa");
-    loadYouTubePlaylist("PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7", "carousel-eon-clips", "player-eon-clips");
-    loadYouTubePlaylist("PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP", "carousel-history-shorts", "player-history-shorts");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-", "carousel-summit", "player-summit");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4", "carousel-interviews", "player-interviews");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc", "carousel-bus305", "player-bus305");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU", "carousel-saylor-animation", "player-saylor-animation");
-    loadYouTubePlaylist("PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE", "carousel-partners", "player-partners");
-    loadYouTubePlaylist("PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV", "carousel-mr-green", "player-mr-green");
-    loadYouTubePlaylist("PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj", "carousel-mech-eng", "player-mech-eng");
-    loadYouTubePlaylist("PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR", "carousel-python", "player-python");
-    loadYouTubePlaylist("PLMrpXL7ZxXYXIStJLFOAoYv2hPDhXMNQB", "carousel-econ", "player-econ");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc", "carousel-bus305-new", "player-bus305-new");
-    loadYouTubePlaylist("PLMrpXL7ZxXYXFqi_RQZAYa1a4YT8Z0mFp", "carousel-comm001", "player-comm001");
-    loadYouTubePlaylist("PLMrpXL7ZxXYU40sO2zdDBOnY_d39_KEUO", "carousel-js-live", "player-js-live");
-    loadYouTubePlaylist("PLMrpXL7ZxXYU60WHRBLnQ5W9y2tA50elV", "carousel-btc-dev", "player-btc-dev");
-    loadYouTubePlaylist("PLMrpXL7ZxXYVc1RCzl3xEqnUjiDdiqmmG", "carousel-dynamics", "player-dynamics");
-    loadYouTubePlaylist("PLMrpXL7ZxXYVkVAqovrObO1NRNoM8NJbS", "carousel-marketing", "player-marketing");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWEpuBboaUkvjFtDiqKrNiz", "carousel-bus605", "player-bus605");
-    loadYouTubePlaylist("PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf", "carousel-credeconomy", "player-credeconomy");
-    loadYouTubePlaylist("PLMrpXL7ZxXYVv5GqXl-ep8QM1WyIhA-sw", "carousel-summit2017", "player-summit2017");
-    loadYouTubePlaylist("PLMrpXL7ZxXYX3pZYMo7BhjK2Oq0wcJU8Q", "carousel-digedcon", "player-digedcon");
-    loadYouTubePlaylist("PLMrpXL7ZxXYVvgVKiVGvHqS1Pwb_O5Yuu", "carousel-nasa-hangouts", "player-nasa-hangouts");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWSjGq9DHtihsebOLNxacos", "carousel-saylor-shorts", "player-saylor-shorts");
+  async function loadYouTubePlaylist(playlistId, carouselId, playerId) {
+    const carousel = document.getElementById(carouselId);
+    const player = document.getElementById(playerId);
 
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const sections = document.querySelectorAll('.playlist-showcase');
+    // Skip if elements don't exist in HTML
+    if (!carousel || !player) return;
 
-    tabButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const target = button.getAttribute('data-target');
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+    const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
 
-        sections.forEach(section => {
-          const tags = section.getAttribute('data-tags').split(' ');
-          if (target === 'all' || tags.includes(target)) {
-            section.style.display = "block";
-          } else {
-            section.style.display = "none";
-          }
+    try {
+      const res = await fetch(feedURL);
+      const data = await res.json();
+      
+      if (!data.items || data.items.length === 0) return;
+      
+      carousel.innerHTML = "";
+      data.items.forEach((item, index) => {
+        const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
+        const img = document.createElement("img");
+        img.src = item.thumbnail;
+        img.alt = item.title;
+
+        img.addEventListener("click", () => {
+          carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
+          img.classList.add("active-thumb");
+          player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
         });
+
+        if (index === 0) {
+          img.classList.add("active-thumb");
+          player.src = `https://www.youtube.com/embed/${videoId}`;
+        }
+        carousel.appendChild(img);
+      });
+    } catch (err) {
+      console.error(`Failed to load ${playlistId}:`, err);
+      carousel.innerHTML = "<p>Error loading playlist.</p>";
+    }
+  }
+
+  // 3. Tab Filtering Logic
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const sections = document.querySelectorAll('.playlist-showcase');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-target');
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      sections.forEach(section => {
+        const tags = section.getAttribute('data-tags').split(' ');
+        if (target === 'all' || tags.includes(target)) {
+          section.style.display = "block";
+        } else {
+          section.style.display = "none";
+        }
       });
     });
+  });
 
-    const btt = document.getElementById("backToTop");
-    window.onscroll = () => btt.classList.toggle("show", window.scrollY > 300);
-    btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-  </script>
+  // 4. Back to Top Logic
+  const btt = document.getElementById("backToTop");
+  window.onscroll = () => btt.classList.toggle("show", window.scrollY > 300);
+  btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Start the loading process
+  initPortfolio();
+</script>
 </body>
 </html>
