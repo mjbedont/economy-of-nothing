@@ -197,6 +197,26 @@
     const btt = document.getElementById("backToTop");
     window.onscroll = () => btt.style.display = window.scrollY > 300 ? "block" : "none";
     btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 4. Existing Tab & Back to Top logic...
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const sections = document.querySelectorAll('.playlist-showcase');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-target');
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      sections.forEach(section => {
+        const tags = section.getAttribute('data-tags').split(' ');
+        section.style.display = (target === 'all' || tags.includes(target)) ? "block" : "none";
+      });
+    });
+  });
+
+  const btt = document.getElementById("backToTop");
+  window.onscroll = () => btt.classList.toggle("show", window.scrollY > 300);
+  btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   </script>
 </body>
 </html>
