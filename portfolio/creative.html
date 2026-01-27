@@ -5,44 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Creative Producer | Mike Bedont</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../portfolio.css" /> </head>
+  <link rel="stylesheet" href="../portfolio.css" />
+</head>
 <body>
 
   <button id="backToTop" title="Back to top">↑ Top</button>
 
   <header class="site-header">
     <h1>Mike Bedont</h1>
-    <p class="tagline">Creative Producer</p>
-    <nav class="portfolio-nav" style="text-align:center; margin-top:20px;">
-        <a href="../index.html" style="margin:0 10px; color:#666; text-decoration:none;">⭐ Featured</a>
-        <a href="creative.html" style="margin:0 10px; color:#fff; font-weight:bold; text-decoration:underline;">🎨 Creative</a>
-        <a href="live.html" style="margin:0 10px; color:#666; text-decoration:none;">📡 Live</a>
-        <a href="academic.html" style="margin:0 10px; color:#666; text-decoration:none;">📚 Academic</a>
+    <p class="tagline">Creative Producer • Technical Director • Content Strategist</p>
+    <nav class="portfolio-nav">
+        <a href="../portfolio.html">Featured</a>
+        <a href="creative.html" class="active">Creative</a>
+        <a href="live.html">Technical</a>
+        <a href="academic.html">Strategy</a>
     </nav>
   </header>
 
   <main>
-    <div class="tabs-container">
-      <button class="tab-button active" data-target="all">All Creative</button>
-      <button class="tab-button" data-target="animation">Animation</button>
-      <button class="tab-button" data-target="short-form">Short-Form/Social</button>
-      <button class="tab-button" data-target="eon">Economy of Nothing</button>
-    </div>
-
-    <section class="playlist-showcase" data-tags="eon animation creative">
+    <section class="playlist-showcase">
       <div class="playlist-meta">
         <h3>Visual Radio | The Economy of Nothing</h3>
-        <p>Flagship talk show featuring <strong>absurdist world-building</strong> and corporate satire. I serve as lead producer and creative director.</p>
+        <p>Flagship talk show featuring <strong>absurdist world-building</strong> and corporate satire. I serve as the lead producer and creative director.</p>
       </div>
       <div class="video-player">
         <iframe id="player-eon" src="" allowfullscreen loading="lazy"></iframe>
       </div>
-      <div class="playlist-carousel" id="carousel-eon">
-        <p>Scanning intergalactic frequencies...</p>
-      </div>
+      <div class="playlist-carousel" id="carousel-eon"><p>Loading...</p></div>
     </section>
 
-    <section class="playlist-showcase" data-tags="saylor host short-form">
+    <section class="playlist-showcase">
       <div class="playlist-meta">
         <h3>Academy Tangents</h3>
         <p>A <strong>full-cycle production</strong> showcase: I handled scripting, on-camera presentation, and the final edit.</p>
@@ -50,25 +42,32 @@
       <div class="video-player">
         <iframe id="player-tangents" src="" allowfullscreen loading="lazy"></iframe>
       </div>
-      <div class="playlist-carousel" id="carousel-tangents">
-        <p>Loading scripted content...</p>
-      </div>
+      <div class="playlist-carousel" id="carousel-tangents"><p>Loading...</p></div>
     </section>
 
-    <section class="playlist-showcase" data-tags="short-form animation">
+    <section class="playlist-showcase">
       <div class="playlist-meta">
         <h3>History of Everything (in 30 Seconds)</h3>
-        <p>High-impact, visual-first segments designed for rapid social consumption and micro-learning.</p>
+        <p>A series of <strong>micro-learning shorts</strong> distilling massive historical narratives into high-impact segments.</p>
       </div>
       <div class="video-player">
         <iframe id="player-history-shorts" src="" allowfullscreen loading="lazy"></iframe>
       </div>
-      <div class="playlist-carousel" id="carousel-history-shorts">
-        <p>Loading the timeline...</p>
-      </div>
+      <div class="playlist-carousel" id="carousel-history-shorts"><p>Loading...</p></div>
     </section>
 
-    <section class="playlist-showcase" data-tags="eon short-form animation">
+    <section class="playlist-showcase">
+      <div class="playlist-meta">
+        <h3>Mr. Green's Silver Screen Critiques</h3>
+        <p>Character-driven <strong>motion graphics</strong> series building a unique comedic persona through dynamic sequencing.</p>
+      </div>
+      <div class="video-player">
+        <iframe id="player-mr-green" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="playlist-carousel" id="carousel-mr-green"><p>Loading...</p></div>
+    </section>
+
+    <section class="playlist-showcase">
       <div class="playlist-meta">
         <h3>Podcast Highlights | The Economy of Nothing</h3>
         <p><strong>High-retention social media clips</strong> featuring precision editing and custom subtitle design.</p>
@@ -76,40 +75,11 @@
       <div class="video-player">
         <iframe id="player-eon-clips" src="" allowfullscreen loading="lazy"></iframe>
       </div>
-      <div class="playlist-carousel" id="carousel-eon-clips">
-        <p>Curation in progress...</p>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="eon animation short-form">
-      <div class="playlist-meta">
-        <h3>Mr. Green's Silver Screen Critiques</h3>
-        <p>Character-driven <strong>motion graphics</strong> series building a unique comedic persona.</p>
-      </div>
-      <div class="video-player">
-        <iframe id="player-mr-green" src="" allowfullscreen loading="lazy"></iframe>
-      </div>
-      <div class="playlist-carousel" id="carousel-mr-green">
-        <p>Loading the projection room...</p>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor animation short-form">
-      <div class="playlist-meta">
-        <h3>Saylor Academy | Motion Promos</h3>
-        <p>A suite of <strong>animated promotional shorts</strong> created to communicate brand value.</p>
-      </div>
-      <div class="video-player">
-        <iframe id="player-saylor-animation" src="" allowfullscreen loading="lazy"></iframe>
-      </div>
-      <div class="playlist-carousel" id="carousel-saylor-animation">
-        <p>Rendering motion graphics...</p>
-      </div>
+      <div class="playlist-carousel" id="carousel-eon-clips"><p>Loading...</p></div>
     </section>
   </main>
 
   <script>
-    // 1. INTERSECTION OBSERVER
     const playlistObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -123,76 +93,48 @@
       });
     }, { rootMargin: '0px 0px 200px 0px' });
 
-    // 2. FETCH FUNCTION
     async function fetchPlaylist(playlistId, carouselId, playerId) {
       const carousel = document.getElementById(carouselId);
       const player = document.getElementById(playerId);
-      if (!carousel || !player) return;
       const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
       try {
         const res = await fetch(feedURL);
         const data = await res.json();
-        if (data.items && data.items.length > 0) {
+        if (data.items) {
           carousel.innerHTML = "";
           data.items.forEach((item, index) => {
             const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
             const img = document.createElement("img");
             img.src = item.thumbnail;
-            img.addEventListener("click", () => {
+            img.onclick = () => {
               carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
               img.classList.add("active-thumb");
               player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            });
-            if (index === 0) {
-              img.classList.add("active-thumb");
-              player.src = `https://www.youtube.com/embed/${videoId}`;
-            }
+            };
+            if (index === 0) { img.classList.add("active-thumb"); player.src = `https://www.youtube.com/embed/${videoId}`; }
             carousel.appendChild(img);
           });
         }
-      } catch (err) { console.error("Load failed:", playlistId); }
+      } catch (err) { console.error(err); }
     }
 
-    // 3. PLAYLIST MAP (Filtered for Creative Page)
     const playlistMap = {
       "carousel-eon": "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA",
       "carousel-tangents": "PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc",
       "carousel-history-shorts": "PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP",
-      "carousel-eon-clips": "PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7",
       "carousel-mr-green": "PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV",
-      "carousel-saylor-animation": "PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU"
+      "carousel-eon-clips": "PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7"
     };
 
     document.querySelectorAll('.playlist-showcase').forEach(section => {
-      const carouselId = section.querySelector('.playlist-carousel')?.id;
-      const playerId = section.querySelector('iframe')?.id;
-      if (carouselId && playlistMap[carouselId]) {
-        section.setAttribute('data-playlist', playlistMap[carouselId]);
-        section.setAttribute('data-carousel', carouselId);
-        section.setAttribute('data-player', playerId);
+      const cId = section.querySelector('.playlist-carousel')?.id;
+      if (cId && playlistMap[cId]) {
+        section.setAttribute('data-playlist', playlistMap[cId]);
+        section.setAttribute('data-carousel', cId);
+        section.setAttribute('data-player', section.querySelector('iframe').id);
         playlistObserver.observe(section);
       }
     });
-
-    // 4. TAB LOGIC
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const sections = document.querySelectorAll('.playlist-showcase');
-    tabButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const target = button.getAttribute('data-target');
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        sections.forEach(section => {
-          const tags = section.getAttribute('data-tags').split(' ');
-          section.style.display = (target === 'all' || tags.includes(target)) ? "block" : "none";
-        });
-      });
-    });
-
-    // 5. BACK TO TOP
-    const btt = document.getElementById("backToTop");
-    window.onscroll = () => btt.style.display = window.scrollY > 300 ? "block" : "none";
-    btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   </script>
 </body>
 </html>
