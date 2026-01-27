@@ -369,8 +369,8 @@
   </main>
 
 <script>
-  // 1. Centralized list of all your playlists
-  const playlists = [
+  // 1. Array of all playlist data
+  const playlistRegistry = [
     ["PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA", "carousel-eon", "player-eon"],
     ["PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc", "carousel-tangents", "player-tangents"],
     ["PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA", "carousel-nasa", "player-nasa"],
@@ -399,30 +399,32 @@
     ["PLMrpXL7ZxXYWSjGq9DHtihsebOLNxacos", "carousel-saylor-shorts", "player-saylor-shorts"]
   ];
 
-  // 2. The Loading Function (Now Async)
-  async function initPortfolio() {
-    for (const [pId, cId, plId] of playlists) {
-      await loadYouTubePlaylist(pId, cId, plId);
-      // Wait 150ms between requests to avoid rate limits
-      await new Promise(resolve => setTimeout(resolve, 150));
+  // 2. Optimized Sequential Loader
+  async function loadAllPlaylists() {
+    for (const [id, car, play] of playlistRegistry) {
+      try {
+        await fetchPlaylist(id, car, play);
+        // Add a 200ms pause between requests to stay under the rate limit
+        await new Promise(res => setTimeout(res, 200));
+      } catch (e) {
+        console.error("Failed to load:", id);
+      }
     }
   }
 
-  async function loadYouTubePlaylist(playlistId, carouselId, playerId) {
+  async function fetchPlaylist(playlistId, carouselId, playerId) {
     const carousel = document.getElementById(carouselId);
     const player = document.getElementById(playerId);
-
-    // Skip if elements don't exist in HTML
+    
+    // Safety check: if the HTML section doesn't exist, skip it
     if (!carousel || !player) return;
 
     const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
 
-    try {
-      const res = await fetch(feedURL);
-      const data = await res.json();
-      
-      if (!data.items || data.items.length === 0) return;
-      
+    const response = await fetch(feedURL);
+    const data = await response.json();
+
+    if (data.items && data.items.length > 0) {
       carousel.innerHTML = "";
       data.items.forEach((item, index) => {
         const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
@@ -442,13 +444,10 @@
         }
         carousel.appendChild(img);
       });
-    } catch (err) {
-      console.error(`Failed to load ${playlistId}:`, err);
-      carousel.innerHTML = "<p>Error loading playlist.</p>";
     }
   }
 
-  // 3. Tab Filtering Logic
+  // 3. Keep your existing Tab and Scroll Logic
   const tabButtons = document.querySelectorAll('.tab-button');
   const sections = document.querySelectorAll('.playlist-showcase');
 
@@ -457,25 +456,19 @@
       const target = button.getAttribute('data-target');
       tabButtons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
-
       sections.forEach(section => {
         const tags = section.getAttribute('data-tags').split(' ');
-        if (target === 'all' || tags.includes(target)) {
-          section.style.display = "block";
-        } else {
-          section.style.display = "none";
-        }
+        section.style.display = (target === 'all' || tags.includes(target)) ? "block" : "none";
       });
     });
   });
 
-  // 4. Back to Top Logic
   const btt = document.getElementById("backToTop");
   window.onscroll = () => btt.classList.toggle("show", window.scrollY > 300);
   btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Start the loading process
-  initPortfolio();
+  // 4. Start the chain reaction
+  loadAllPlaylists();
 </script>
 </body>
 </html>
