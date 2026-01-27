@@ -369,85 +369,110 @@
   </main>
 
 <script>
-  // 1. Array of all playlist data
-  const playlistRegistry = [
-    ["PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA", "carousel-eon", "player-eon"],
-    ["PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc", "carousel-tangents", "player-tangents"],
-    ["PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA", "carousel-nasa", "player-nasa"],
-    ["PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7", "carousel-eon-clips", "player-eon-clips"],
-    ["PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP", "carousel-history-shorts", "player-history-shorts"],
-    ["PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-", "carousel-summit", "player-summit"],
-    ["PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4", "carousel-interviews", "player-interviews"],
-    ["PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc", "carousel-bus305", "player-bus305"],
-    ["PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU", "carousel-saylor-animation", "player-saylor-animation"],
-    ["PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE", "carousel-partners", "player-partners"],
-    ["PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV", "carousel-mr-green", "player-mr-green"],
-    ["PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj", "carousel-mech-eng", "player-mech-eng"],
-    ["PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR", "carousel-python", "player-python"],
-    ["PLMrpXL7ZxXYXIStJLFOAoYv2hPDhXMNQB", "carousel-econ", "player-econ"],
-    ["PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc", "carousel-bus305-new", "player-bus305-new"],
-    ["PLMrpXL7ZxXYXFqi_RQZAYa1a4YT8Z0mFp", "carousel-comm001", "player-comm001"],
-    ["PLMrpXL7ZxXYU40sO2zdDBOnY_d39_KEUO", "carousel-js-live", "player-js-live"],
-    ["PLMrpXL7ZxXYU60WHRBLnQ5W9y2tA50elV", "carousel-btc-dev", "player-btc-dev"],
-    ["PLMrpXL7ZxXYVc1RCzl3xEqnUjiDdiqmmG", "carousel-dynamics", "player-dynamics"],
-    ["PLMrpXL7ZxXYVkVAqovrObO1NRNoM8NJbS", "carousel-marketing", "player-marketing"],
-    ["PLMrpXL7ZxXYWEpuBboaUkvjFtDiqKrNiz", "carousel-bus605", "player-bus605"],
-    ["PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf", "carousel-credeconomy", "player-credeconomy"],
-    ["PLMrpXL7ZxXYVv5GqXl-ep8QM1WyIhA-sw", "carousel-summit2017", "player-summit2017"],
-    ["PLMrpXL7ZxXYX3pZYMo7BhjK2Oq0wcJU8Q", "carousel-digedcon", "player-digedcon"],
-    ["PLMrpXL7ZxXYVvgVKiVGvHqS1Pwb_O5Yuu", "carousel-nasa-hangouts", "player-nasa-hangouts"],
-    ["PLMrpXL7ZxXYWSjGq9DHtihsebOLNxacos", "carousel-saylor-shorts", "player-saylor-shorts"]
-  ];
+  // 1. The Intersection Observer Logic
+  const playlistObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const section = entry.target;
+        const pId = section.getAttribute('data-playlist');
+        const cId = section.getAttribute('data-carousel');
+        const plId = section.getAttribute('data-player');
 
-  // 2. Optimized Sequential Loader
-  async function loadAllPlaylists() {
-    for (const [id, car, play] of playlistRegistry) {
-      try {
-        await fetchPlaylist(id, car, play);
-        // Add a 200ms pause between requests to stay under the rate limit
-        await new Promise(res => setTimeout(res, 200));
-      } catch (e) {
-        console.error("Failed to load:", id);
+        if (pId && cId && plId) {
+          fetchPlaylist(pId, cId, plId);
+        }
+        
+        // Once loaded, stop observing this section
+        observer.unobserve(section);
       }
-    }
-  }
+    });
+  }, { rootMargin: '0px 0px 200px 0px' }); // Starts loading 200px before it hits the screen
 
+  // 2. The Fetch Function
   async function fetchPlaylist(playlistId, carouselId, playerId) {
     const carousel = document.getElementById(carouselId);
     const player = document.getElementById(playerId);
-    
-    // Safety check: if the HTML section doesn't exist, skip it
     if (!carousel || !player) return;
 
     const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
 
-    const response = await fetch(feedURL);
-    const data = await response.json();
+    try {
+      const res = await fetch(feedURL);
+      const data = await res.json();
 
-    if (data.items && data.items.length > 0) {
-      carousel.innerHTML = "";
-      data.items.forEach((item, index) => {
-        const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
-        const img = document.createElement("img");
-        img.src = item.thumbnail;
-        img.alt = item.title;
+      if (data.items && data.items.length > 0) {
+        carousel.innerHTML = "";
+        data.items.forEach((item, index) => {
+          const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
+          const img = document.createElement("img");
+          img.src = item.thumbnail;
+          img.alt = item.title;
 
-        img.addEventListener("click", () => {
-          carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
-          img.classList.add("active-thumb");
-          player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          img.addEventListener("click", () => {
+            carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
+            img.classList.add("active-thumb");
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          });
+
+          if (index === 0) {
+            img.classList.add("active-thumb");
+            player.src = `https://www.youtube.com/embed/${videoId}`;
+          }
+          carousel.appendChild(img);
         });
-
-        if (index === 0) {
-          img.classList.add("active-thumb");
-          player.src = `https://www.youtube.com/embed/${videoId}`;
-        }
-        carousel.appendChild(img);
-      });
+      }
+    } catch (err) {
+      console.error("Load failed:", playlistId);
     }
   }
 
-  // 3. Keep your existing Tab and Scroll Logic
+  // 3. Initialize: Link HTML to the Observer
+  // Add these attributes to your HTML <section> tags to make this work automatically:
+  // <section class="playlist-showcase" data-playlist="ID" data-carousel="ID" data-player="ID">
+  document.querySelectorAll('.playlist-showcase').forEach(section => {
+    // We map your manual calls to the observer
+    // Find the specific ID from your existing script calls
+    const playlistMap = {
+      "carousel-eon": "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA",
+      "carousel-tangents": "PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc",
+      "carousel-nasa": "PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA",
+      "carousel-eon-clips": "PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7",
+      "carousel-history-shorts": "PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP",
+      "carousel-summit": "PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-",
+      "carousel-interviews": "PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4",
+      "carousel-bus305": "PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc",
+      "carousel-saylor-animation": "PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU",
+      "carousel-partners": "PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE",
+      "carousel-mr-green": "PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV",
+      "carousel-mech-eng": "PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj",
+      "carousel-python": "PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR",
+      "carousel-econ": "PLMrpXL7ZxXYXIStJLFOAoYv2hPDhXMNQB",
+      "carousel-bus305-new": "PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc",
+      "carousel-comm001": "PLMrpXL7ZxXYXFqi_RQZAYa1a4YT8Z0mFp",
+      "carousel-js-live": "PLMrpXL7ZxXYU40sO2zdDBOnY_d39_KEUO",
+      "carousel-btc-dev": "PLMrpXL7ZxXYU60WHRBLnQ5W9y2tA50elV",
+      "carousel-dynamics": "PLMrpXL7ZxXYVc1RCzl3xEqnUjiDdiqmmG",
+      "carousel-marketing": "PLMrpXL7ZxXYVkVAqovrObO1NRNoM8NJbS",
+      "carousel-bus605": "PLMrpXL7ZxXYWEpuBboaUkvjFtDiqKrNiz",
+      "carousel-credeconomy": "PLMrpXL7ZxXYU-5euu93NKMHyRJjBboAEf",
+      "carousel-summit2017": "PLMrpXL7ZxXYVv5GqXl-ep8QM1WyIhA-sw",
+      "carousel-digedcon": "PLMrpXL7ZxXYX3pZYMo7BhjK2Oq0wcJU8Q",
+      "carousel-nasa-hangouts": "PLMrpXL7ZxXYVvgVKiVGvHqS1Pwb_O5Yuu",
+      "carousel-saylor-shorts": "PLMrpXL7ZxXYWSjGq9DHtihsebOLNxacos"
+    };
+
+    const carouselId = section.querySelector('.playlist-carousel')?.id;
+    const playerId = section.querySelector('iframe')?.id;
+
+    if (carouselId && playlistMap[carouselId]) {
+      section.setAttribute('data-playlist', playlistMap[carouselId]);
+      section.setAttribute('data-carousel', carouselId);
+      section.setAttribute('data-player', playerId);
+      playlistObserver.observe(section);
+    }
+  });
+
+  // 4. Existing Tab & Back to Top logic...
   const tabButtons = document.querySelectorAll('.tab-button');
   const sections = document.querySelectorAll('.playlist-showcase');
 
@@ -466,9 +491,6 @@
   const btt = document.getElementById("backToTop");
   window.onscroll = () => btt.classList.toggle("show", window.scrollY > 300);
   btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // 4. Start the chain reaction
-  loadAllPlaylists();
 </script>
 </body>
 </html>
