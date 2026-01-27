@@ -2,7 +2,7 @@
 body {
   font-family: 'Inter', sans-serif;
   margin: 0;
-  padding: 2rem 1rem;
+  padding: 0; /* Removed padding to let header touch edges */
   background: linear-gradient(to bottom right, #f8f9fb, #e6e8f0);
   color: #1f1f2f;
   line-height: 1.65;
@@ -15,31 +15,120 @@ main {
   gap: 4rem;
   max-width: 960px;
   margin: 0 auto;
+  padding: 2rem 1rem; /* Moved padding here */
 }
 
-/* Header */
+/* --- TIER 1: GLOBAL HEADER (The "Who I Am" Nav) --- */
 .site-header {
   text-align: center;
-  padding: 3rem 1rem 2rem;
-  border-bottom: 1px solid #ddd;
-  background: linear-gradient(to right, #ffffff, #f7f7ff);
+  padding: 3rem 1rem 0; /* Removed bottom padding for nav alignment */
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .site-header h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
   color: #1a1a33;
   letter-spacing: -0.5px;
 }
 
-.tagline {
-  font-size: 1.15rem;
-  color: #5a5a76;
+.site-header h1 a {
+  text-decoration: none;
+  color: inherit;
 }
 
-/* Section Styling */
-.about-block,
+.tagline {
+  font-size: 1rem;
+  color: #5a5a76;
+  margin-bottom: 2rem;
+}
+
+/* Tier 1 Navigation Links */
+.portfolio-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding-bottom: 0;
+}
+
+.portfolio-nav a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 18px; /* Spacing for the underline */
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.portfolio-nav a:hover {
+  color: #000;
+}
+
+/* The Active Page Underline */
+.portfolio-nav a.active {
+  color: #000;
+  font-weight: 700;
+}
+
+.portfolio-nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px; /* Thickness of the active line */
+  background-color: #6c4eff; /* Your Brand Color */
+}
+
+/* --- TIER 2: STICKY FILTER BAR (The "What I Made" Nav) --- */
+.tabs-container {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(248, 249, 251, 0.85); /* Semi-transparent */
+  backdrop-filter: blur(12px); /* Glass blur effect */
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 15px 0;
+  margin: 0 -1rem 2rem -1rem; /* Negative margin to span full width */
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* The "Pill" Buttons */
+.tab-button, .filter-pill {
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #e0e0e0; /* Subtle border */
+  border-radius: 50px; /* Pill Shape */
+  background: rgba(255, 255, 255, 0.8);
+  color: #555;
+  cursor: pointer;
+  white-space: nowrap; /* Prevents text wrap on mobile */
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover, .filter-pill:hover {
+  background: #fff;
+  border-color: #b0b0b0;
+  transform: translateY(-1px);
+}
+
+/* Active Pill State */
+.tab-button.active, .filter-pill.active {
+  background: #222; /* High Contrast Dark */
+  color: #fff;
+  border-color: #222;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* --- SHOWCASE SECTIONS --- */
 .playlist-showcase {
   background: #ffffff;
   border-radius: 20px;
@@ -52,129 +141,76 @@ main {
 }
 
 @keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.playlist-showcase:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.1);
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Text Elements */
 .playlist-meta h3 {
-  font-size: 2.2rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 700;
   color: #2c2c45;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem 0;
 }
 
 .playlist-meta p {
   font-size: 1.05rem;
-  color: #555577;
-  line-height: 1.7;
-  margin-bottom: 0.5rem;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
 }
 
-.cta-link {
-  display: inline-block;
-  margin-top: 1rem;
-  font-weight: bold;
-  color: #6c4eff;
-  background: rgba(108, 78, 255, 0.08);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background 0.2s ease;
-}
-
-.cta-link:hover {
-  background: rgba(108, 78, 255, 0.2);
-}
-
-/* Video Embed */
+/* Video Player */
 .video-player {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
   height: 0;
-  overflow: hidden;
-  border-radius: 14px;
+  background: #000;
+  border-radius: 12px;
   margin-top: 1.5rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
 }
 
 .video-player iframe {
   position: absolute;
   top: 0; left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   border: none;
 }
 
-/* Carousel */
+/* Carousel / Thumbnails */
 .playlist-carousel {
   display: flex;
   overflow-x: auto;
-  gap: 1rem;
-  padding: 1.2rem 0;
+  gap: 12px;
+  padding: 1.5rem 0 0.5rem;
   scroll-snap-type: x mandatory;
-  scroll-padding-left: 1rem;
   -webkit-overflow-scrolling: touch;
 }
 
 .playlist-carousel img {
   flex: 0 0 auto;
-  width: 180px;
-  border-radius: 12px;
+  width: 160px;
+  border-radius: 8px;
   border: 2px solid transparent;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition: all 0.2s ease;
+  opacity: 0.8;
   scroll-snap-align: start;
 }
 
-.playlist-carousel img:hover,
-.playlist-carousel img.active {
-  transform: scale(1.06);
-  border-color: #6c4eff;
-  box-shadow: 0 0 0 3px rgba(108, 78, 255, 0.3);
+.playlist-carousel img:hover {
+  opacity: 1;
+  transform: scale(1.02);
 }
 
-/* Tabs (Optional Filters) */
-.tabs-container,
-.nav-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.tab-button,
-.nav-tabs button {
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 30px;
-  background: #e0e0f0;
-  color: #3e3e58;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.tab-button:hover,
-.nav-tabs button:hover {
-  background: #d0d0ff;
-}
-
-.tab-button.active,
-.nav-tabs button.active {
-  background: #6c4eff;
-  color: white;
+/* Active Thumbnail Visual Feedback */
+.playlist-carousel img.active-thumb {
+  opacity: 1;
+  border-color: #6c4eff; /* Brand Color Border */
+  box-shadow: 0 0 0 4px rgba(108, 78, 255, 0.15); /* Glow Effect */
+  transform: scale(1.05);
 }
 
 /* Back to Top Button */
@@ -182,23 +218,20 @@ main {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  padding: 10px 14px;
+  padding: 12px 18px;
   font-size: 14px;
-  font-weight: 600;
-  background-color: #292941;
+  font-weight: 700;
+  background-color: #1a1a1a;
   color: #fff;
   border: none;
-  border-radius: 24px;
+  border-radius: 50px;
   cursor: pointer;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(41, 41, 65, 0.2);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   opacity: 0;
+  transform: translateY(10px);
   pointer-events: none;
-  transition: 
-    opacity 0.3s ease, 
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 #backToTop.show {
@@ -209,28 +242,37 @@ main {
 
 #backToTop:hover {
   background-color: #6c4eff;
-  box-shadow: 0 6px 18px rgba(108, 78, 255, 0.4);
-  transform: scale(1.08);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(108, 78, 255, 0.4);
 }
 
-/* Responsive Tweaks */
-@media (max-width: 600px) {
-  .playlist-carousel img {
-    width: 130px;
+/* --- MOBILE RESPONSIVE TWEAKS --- */
+@media (max-width: 768px) {
+  /* Allow Tier 1 Nav to wrap if needed */
+  .portfolio-nav {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .portfolio-nav a {
+    font-size: 0.85rem;
+    padding-bottom: 12px;
   }
 
-  .playlist-meta h3 {
-    font-size: 1.6rem;
+  /* Make Filter Pills Scroll Horizontally (YouTube Style) */
+  .tabs-container {
+    justify-content: flex-start; /* Aligns start for scrolling */
+    overflow-x: auto; /* Enables scroll */
+    padding-left: 1rem; /* Breathing room */
+    padding-right: 1rem;
+    margin: 0 -1rem 2rem -1rem; /* Full bleed width */
+    -webkit-overflow-scrolling: touch; /* Momentum scroll */
+  }
+  
+  .tabs-container::-webkit-scrollbar {
+    display: none; /* Hides scrollbar for cleaner look */
   }
 
-  .playlist-meta p {
-    font-size: 0.95rem;
-  }
-
-  #backToTop {
-    bottom: 16px;
-    right: 16px;
-    padding: 8px 12px;
-    font-size: 13px;
-  }
+  .playlist-meta h3 { font-size: 1.5rem; }
+  .playlist-carousel img { width: 140px; }
 }
