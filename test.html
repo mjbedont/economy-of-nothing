@@ -62,6 +62,7 @@
       padding: 1rem 0; 
       scroll-behavior: smooth; 
       min-height: 100px; 
+      align-items: center;
     }
     .playlist-carousel img { 
       height: 80px; 
@@ -77,6 +78,32 @@
       opacity: 1; 
       border-color: var(--gold); 
       transform: scale(1.05); 
+    }
+
+    /* Watch More Card */
+    .more-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      height: 80px;
+      background: #222;
+      border: 2px dashed #444;
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--gold);
+      font-size: 0.65rem;
+      font-weight: bold;
+      text-align: center;
+      transition: 0.3s;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+    .more-card:hover {
+      background: #333;
+      border-color: var(--gold);
+      color: #fff;
     }
 
     .status-msg { 
@@ -107,7 +134,6 @@
   <div class="playlist-carousel" id="carousel">Connecting...</div>
 
   <script>
-    // --- 1. UPDATED CHANNEL CONFIG ---
     const CHANNELS = [
       { name: "MAIN FEED", id: "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" },
       { name: "SEASON 1",  id: "PLPrT6qMbooEkg5emEYwACBuhh74adPnM8" },
@@ -120,7 +146,6 @@
     window.currentChannelId = CHANNELS[0].id;
     window.isPlaylistLoaded = false;
 
-    // --- 2. THE TUNER ---
     function buildTuner() {
       const tunerDiv = document.getElementById('tuner');
       CHANNELS.forEach(ch => {
@@ -136,17 +161,15 @@
 
     async function switchChannel(playlistId) {
       if (window.currentChannelId === playlistId && window.videos.length > 0) return;
-      
       window.currentChannelId = playlistId;
       window.isPlaylistLoaded = false;
 
-      // Reset UI
       document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
       const activeBtn = document.getElementById(`btn-${playlistId}`);
       if(activeBtn) activeBtn.classList.add('active');
 
       document.getElementById('status').innerText = "Tuning... Searching Frequency";
-      document.getElementById('carousel').innerHTML = ""; // Clear immediately
+      document.getElementById('carousel').innerHTML = ""; 
 
       await loadPlaylist(playlistId);
       
@@ -155,7 +178,6 @@
       }
     }
 
-    // --- 3. PLAYER ENGINE ---
     window.checkAndStart = function() {
       if (window.YT && window.YT.Player && window.isPlaylistLoaded && !window.player) {
         window.player = new YT.Player("player", {
@@ -176,7 +198,9 @@
       if (!window.videos[index] || !window.player) return;
       window.currentIndex = index;
       
-      Array.from(document.getElementById("carousel").children).forEach((img, i) => {
+      const carousel = document.getElementById("carousel");
+      const thumbnails = carousel.querySelectorAll('img');
+      thumbnails.forEach((img, i) => {
         img.classList.toggle("active", i === index);
       });
 
@@ -189,7 +213,6 @@
 
     window.onYouTubeIframeAPIReady = function() { window.checkAndStart(); };
 
-    // --- 4. DATA ENGINE ---
     async function loadPlaylist(playlistId) {
       try {
         window.videos = [];
@@ -202,6 +225,7 @@
         const carousel = document.getElementById("carousel");
         carousel.innerHTML = "";
         
+        // Add Video Thumbnails
         data.items.forEach((item, index) => {
           const videoId = item.link.split('v=')[1] || item.link.split('/').pop();
           window.videos.push({ videoId });
@@ -212,6 +236,14 @@
           carousel.appendChild(img);
         });
 
+        // --- ADD "WATCH FULL PLAYLIST" CARD AT THE END ---
+        const moreCard = document.createElement("a");
+        moreCard.className = "more-card";
+        moreCard.href = `https://www.youtube.com/playlist?list=${playlistId}`;
+        moreCard.target = "_blank";
+        moreCard.innerHTML = `<span>📺</span>WATCH FULL<br>PLAYLIST ➔`;
+        carousel.appendChild(moreCard);
+
         window.isPlaylistLoaded = true;
         document.getElementById('status').innerText = "Broadcasting Clear";
         window.checkAndStart(); 
@@ -220,7 +252,6 @@
       }
     }
 
-    // Initialize
     buildTuner();
     loadPlaylist(window.currentChannelId);
   </script>
@@ -228,7 +259,6 @@
   <script src="https://www.youtube.com/iframe_api"></script>
   
   <script>
-    // Refresh Safety
     let checkCount = 0;
     const safetyCheck = setInterval(() => {
       checkCount++;
