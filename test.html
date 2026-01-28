@@ -2,51 +2,137 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Explore The Economy of Nothing—a dystopian sci-fi satire." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Economy of Nothing | Visual Radio Tuner</title>
-  
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="icon" href="/media/favicon.png" />
+  <style>
+    :root {
+      --gold: #ffd700;
+      --bg: #0a0a0a;
+      --panel: #1a1a1a;
+    }
+    body { 
+      font-family: 'Courier New', Courier, monospace; 
+      background: var(--bg); 
+      color: #eee; 
+      padding: 1rem; 
+      max-width: 1000px; 
+      margin: auto; 
+    }
+    
+    /* Header & Tuner */
+    .radio-header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border-bottom: 2px solid #333; 
+      padding-bottom: 1rem; 
+      margin-bottom: 1rem; 
+    }
+    .tuner-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+    
+    .channel-btn { 
+      background: #222; color: #666; border: 1px solid #444; padding: 8px 15px; 
+      cursor: pointer; border-radius: 4px; transition: 0.3s; font-weight: bold; 
+      font-size: 0.75rem; letter-spacing: 1px;
+    }
+    .channel-btn:hover { background: #333; color: #fff; }
+    .channel-btn.active { 
+      background: var(--gold); 
+      color: #000; 
+      border-color: var(--gold); 
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); 
+    }
+
+    /* Player Area */
+    .video-player { 
+      position: relative; 
+      padding-top: 56.25%; 
+      background: #000; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
+    }
+    .video-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    
+    /* Playlist Carousel */
+    .playlist-carousel { 
+      display: flex; 
+      gap: 10px; 
+      overflow-x: auto; 
+      padding: 1rem 0; 
+      scroll-behavior: smooth; 
+      min-height: 100px; 
+      align-items: center;
+    }
+    .playlist-carousel img { 
+      height: 80px; 
+      cursor: pointer; 
+      opacity: 0.3; 
+      transition: 0.2s; 
+      border-radius: 4px; 
+      border: 2px solid transparent; 
+      flex-shrink: 0;
+    }
+    .playlist-carousel img:hover { opacity: 0.7; }
+    .playlist-carousel img.active { 
+      opacity: 1; 
+      border-color: var(--gold); 
+      transform: scale(1.05); 
+    }
+
+    /* Watch More Card */
+    .more-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      height: 80px;
+      background: #222;
+      border: 2px dashed #444;
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--gold);
+      font-size: 0.65rem;
+      font-weight: bold;
+      text-align: center;
+      transition: 0.3s;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+    .more-card:hover {
+      background: #333;
+      border-color: var(--gold);
+      color: #fff;
+    }
+
+    .status-msg { 
+      font-size: 0.7rem; 
+      color: var(--gold); 
+      margin-top: 10px; 
+      text-transform: uppercase; 
+      letter-spacing: 2px;
+    }
+    
+    ::-webkit-scrollbar { height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+  </style>
 </head>
 <body>
 
-  <header>
-    <h1>Economy of Nothing</h1>
-    <p>A Dystopian Odyssey Through the Corporate Cosmos</p>
-  </header>
+  <div class="radio-header">
+    <h1 style="margin:0; font-size: 1.1rem;">ECONOMY OF NOTHING <span style="color:var(--gold)">VR-1</span></h1>
+    <div class="tuner-controls" id="tuner"></div>
+  </div>
 
-  <nav>
-    <a href="/podcast.html">Podcast</a>
-    <a href="/codex.html">Codex</a>
-    <a href="/portfolio.html">Portfolio</a>
-    <a href="/patreon.html">Support</a>
-  </nav>
+  <div class="video-player">
+      <div id="player"></div>
+  </div>
 
-  <main>
-    <div class="radio-header">
-      <h1 style="margin:0; font-size: 1.1rem;">ECONOMY OF NOTHING <span style="color:var(--primary-color)">VR-1</span></h1>
-      <div class="tuner-controls" id="tuner"></div>
-    </div>
+  <div id="status" class="status-msg">Booting Signal...</div>
 
-    <div class="video-player">
-        <div id="player"></div>
-    </div>
+  <div class="playlist-carousel" id="carousel">Connecting...</div>
 
-    <div id="status" class="status-msg">Booting Signal...</div>
-
-    <div class="playlist-carousel" id="carousel">Connecting...</div>
-  </main>
-
-  <footer>
-    <p>© 56.009 Nothing Inc.</p>
-    <p class="visitor-counter">
-      You are visitor number: 
-      <img src="https://hitwebcounter.com/counter/counter.php?page=20002530&style=0036&nbdigits=9&type=page&initCount=0" alt="Counter" />
-    </p>
-  </footer>
-
-  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     const CHANNELS = [
       { name: "MAIN FEED", id: "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" },
@@ -139,6 +225,7 @@
         const carousel = document.getElementById("carousel");
         carousel.innerHTML = "";
         
+        // Add Video Thumbnails
         data.items.forEach((item, index) => {
           const videoId = item.link.split('v=')[1] || item.link.split('/').pop();
           window.videos.push({ videoId });
@@ -149,6 +236,7 @@
           carousel.appendChild(img);
         });
 
+        // --- ADD "WATCH FULL PLAYLIST" CARD AT THE END ---
         const moreCard = document.createElement("a");
         moreCard.className = "more-card";
         moreCard.href = `https://www.youtube.com/playlist?list=${playlistId}`;
@@ -168,6 +256,8 @@
     loadPlaylist(window.currentChannelId);
   </script>
 
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
   <script>
     let checkCount = 0;
     const safetyCheck = setInterval(() => {
