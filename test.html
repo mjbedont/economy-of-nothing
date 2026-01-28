@@ -2,275 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mike Bedont | Creative Producer Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Visual Radio Playlist – Test</title>
+
   <style>
-    /* CSS QUICK-FIX FOR MASTER LAYOUT */
-    :root { --accent: #007bff; --dark: #1a1a1a; --light: #f4f4f4; }
-    body { font-family: 'Inter', sans-serif; background: var(--light); color: var(--dark); margin: 0; }
-    .filter-group { padding: 10px 20px; background: white; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-    .tabs-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
-    .tab-button { padding: 8px 16px; border-radius: 20px; border: 1px solid #ddd; background: white; cursor: pointer; transition: 0.3s; }
-    .tab-button.active { background: var(--accent); color: white; border-color: var(--accent); }
-    .playlist-showcase { padding: 60px 20px; max-width: 1100px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-    /* Alternate Layout */
-    .playlist-showcase:nth-child(even) { direction: rtl; }
-    .playlist-showcase:nth-child(even) .playlist-meta { direction: ltr; }
-    .video-player iframe { width: 100%; aspect-ratio: 16/9; border: none; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    .playlist-carousel { display: flex; gap: 10px; overflow-x: auto; margin-top: 15px; padding-bottom: 10px; }
-    .playlist-carousel img { width: 100px; height: 60px; object-fit: cover; cursor: pointer; border-radius: 4px; opacity: 0.6; transition: 0.3s; }
-    .playlist-carousel img.active-thumb { opacity: 1; border: 2px solid var(--accent); }
-    .cta-link { display: inline-block; margin-top: 20px; text-decoration: none; color: var(--accent); font-weight: bold; }
-    @media (max-width: 768px) { .playlist-showcase { grid-template-columns: 1fr; direction: ltr !important; } }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #111;
+      color: #eee;
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .video-player {
+      position: relative;
+      padding-top: 56.25%;
+      margin-bottom: 1rem;
+      background: #000;
+    }
+
+    .video-player iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .playlist-carousel {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .playlist-carousel img {
+      height: 90px;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.2s, transform 0.2s;
+      border-radius: 6px;
+    }
+
+    .playlist-carousel img:hover {
+      opacity: 0.8;
+      transform: scale(1.03);
+    }
+
+    .playlist-carousel img.active {
+      opacity: 1;
+      outline: 2px solid #ffd700;
+    }
   </style>
 </head>
 <body>
 
-  <header style="padding: 40px 20px; text-align: center; background: white;">
-    <h1>Mike Bedont</h1>
-    <p>Creative Producer • Technical Director • Content Strategist</p>
-  </header>
+  <h1>🎙️ Visual Radio Playlist (Test)</h1>
 
-  <div class="filter-group">
-    <div class="tabs-container">
-      <button class="tab-button active" data-target="all">All Work</button>
-      <button class="tab-button" data-target="producer">Producer</button>
-      <button class="tab-button" data-target="host">Hosting/On-Camera</button>
-      <button class="tab-button" data-target="animator">Animation</button>
-      <button class="tab-button" data-target="live">Live/Technical</button>
-      <button class="tab-button" data-target="short-form">Short-Form/Social</button>
-      <button class="tab-button" data-target="saylor">Saylor Academy</button>
-      <button class="tab-button" data-target="eon">Economy of Nothing</button>
-    </div>
+  <div class="video-player">
+    <iframe id="player" allowfullscreen></iframe>
   </div>
 
-  <main id="portfolio-grid">
-    <section class="playlist-showcase" data-tags="saylor professional education technical-lead long-form">
-      <div class="playlist-meta">
-        <h3>NASA | Space Systems Engineering</h3>
-        <p>Managed full-cycle production for NASA-collaborated courseware. Focused on translating complex engineering requirements into accessible video modules.</p>
-        <a href="https://youtube.com/playlist?list=PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-nasa"></iframe></div>
-        <div class="playlist-carousel" id="carousel-nasa"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor live technical-lead producer professional long-form">
-      <div class="playlist-meta">
-        <h3>Saylor Summit | Live Technical Lead</h3>
-        <p>Produced and live-switched a global conference. Handled multi-cam feeds and real-time broadcast management for high-profile speakers.</p>
-        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-summit"></iframe></div>
-        <div class="playlist-carousel" id="carousel-summit"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor producer professional directing">
-      <div class="playlist-meta">
-        <h3>Expert Interviews | Field Producer</h3>
-        <p>Directed off-camera interviews with global leaders, focusing on narrative extraction and high-impact soundbites.</p>
-        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-interviews"></iframe></div>
-        <div class="playlist-carousel" id="carousel-interviews"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor live host technical-lead educational">
-      <div class="playlist-meta">
-        <h3>Python Study Sessions | Live Showrunner</h3>
-        <p>Hosted and technical produced live coding sessions, bridging the gap between instructors and live audience Q&A.</p>
-        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-python"></iframe></div>
-        <div class="playlist-carousel" id="carousel-python"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="eon host writer animator short-form high-retention">
-      <div class="playlist-meta">
-        <h3>Scripted Tangents | Full-Cycle</h3>
-        <p>Wrote, hosted, and animated short-form educational deep-dives. Designed for rapid-fire engagement and high-retention social sharing.</p>
-        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-tangents"></iframe></div>
-        <div class="playlist-carousel" id="carousel-tangents"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="eon animator creative short-form">
-      <div class="playlist-meta">
-        <h3>Mr. Green's Silver Screen Critiques</h3>
-        <p>Character animation and brand building for a comedic persona. Transformed podcast audio into a cohesive visual series.</p>
-        <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-mr-green"></iframe></div>
-        <div class="playlist-carousel" id="carousel-mr-green"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor short-form educational high-retention editor">
-      <div class="playlist-meta">
-        <h3>History in 30 Seconds | Micro-Learning</h3>
-        <p>Distilled massive historical timelines into 30-second social promos. High-retention editing focused on educational marketing.</p>
-        <a href="https://www.youtube.com/playlist?list=PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-history-shorts"></iframe></div>
-        <div class="playlist-carousel" id="carousel-history-shorts"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor host writer educational series">
-      <div class="playlist-meta">
-        <h3>Small Business Management | Intro Series</h3>
-        <p>Full-cycle production of course introductions and review modules. Bridging academic curriculum with host-led video.</p>
-        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-bus305"></iframe></div>
-        <div class="playlist-carousel" id="carousel-bus305"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor producer professional mid-form">
-      <div class="playlist-meta">
-        <h3>Saylor Partnerships | Testimonials</h3>
-        <p>Produced spotlight videos for global partners and students. Focused on brand storytelling and institutional trust-building.</p>
-        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-partners"></iframe></div>
-        <div class="playlist-carousel" id="carousel-partners"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor educational long-form series">
-      <div class="playlist-meta">
-        <h3>ECON101 | Principles of Microeconomics</h3>
-        <p>Managed the production of foundational economics curriculum, ensuring academic accuracy across a high-volume series.</p>
-        <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEnSgA_OayN38N_m7wH9n7_6" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-econ"></iframe></div>
-        <div class="playlist-carousel" id="carousel-econ"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor educational long-form technical">
-      <div class="playlist-meta">
-        <h3>Mechanical Engineering | Mechanics of Materials</h3>
-        <p>Coordinated production for 33+ dense engineering modules. Focused on technical clarity and complex diagram visualization.</p>
-        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-mech-eng"></iframe></div>
-        <div class="playlist-carousel" id="carousel-mech-eng"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="eon producer creative series long-form">
-      <div class="playlist-meta">
-        <h3>The Economy of Nothing | Visual Radio</h3>
-        <p>Showrunner for a weekly long-form talk show. Managed full visual identity and production pipeline.</p>
-        <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-eon"></iframe></div>
-        <div class="playlist-carousel" id="carousel-eon"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="eon short-form editor high-retention">
-      <div class="playlist-meta">
-        <h3>EoN | High-Retention Clips</h3>
-        <p>Curation and editing of long-form audio into scroll-stopping social video clips.</p>
-        <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-eon-clips"></iframe></div>
-        <div class="playlist-carousel" id="carousel-eon-clips"></div>
-      </div>
-    </section>
-
-    <section class="playlist-showcase" data-tags="saylor animator short-form professional promo">
-      <div class="playlist-meta">
-        <h3>Saylor Academy | Motion Graphic Promos</h3>
-        <p>Clean, professional animation designed to communicate brand value and mission-led initiatives.</p>
-        <a href="https://www.youtube.com/playlist?list=PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU" class="cta-link">View Playlist</a>
-      </div>
-      <div class="player-container">
-        <div class="video-player"><iframe id="player-saylor-animation"></iframe></div>
-        <div class="playlist-carousel" id="carousel-saylor-animation"></div>
-      </div>
-    </section>
-
-  </main>
+  <div class="playlist-carousel" id="carousel">
+    Loading playlist…
+  </div>
 
   <script>
-    function loadYouTubePlaylist(playlistId, carouselId, playerId) {
-      const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
-      const carousel = document.getElementById(carouselId);
-      const player = document.getElementById(playerId);
+    const PLAYLIST_ID = "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA"; // Economy of Nothing
 
-      fetch(feedURL).then(res => res.json()).then(data => {
-        if (!data.items || data.items.length === 0) return;
+    async function loadPlaylist() {
+      const carousel = document.getElementById("carousel");
+      const player = document.getElementById("player");
+
+      const feedURL =
+        "https://api.rss2json.com/v1/api.json?rss_url=" +
+        encodeURIComponent(
+          `https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}`
+        );
+
+      try {
+        const res = await fetch(feedURL);
+        const data = await res.json();
+
         carousel.innerHTML = "";
+
         data.items.forEach((item, index) => {
-          const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
+          const match = item.link.match(/([0-9A-Za-z_-]{11})$/);
+          if (!match) return;
+
+          const videoId = match[1];
           const img = document.createElement("img");
+
           img.src = item.thumbnail;
-          img.addEventListener("click", () => {
-            carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
-            img.classList.add("active-thumb");
+          img.title = item.title;
+
+          img.onclick = () => {
+            carousel.querySelectorAll("img").forEach(i =>
+              i.classList.remove("active")
+            );
+            img.classList.add("active");
             player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-          });
-          if (index === 0) { img.classList.add("active-thumb"); player.src = `https://www.youtube.com/embed/${videoId}`; }
+          };
+
+          if (index === 0) {
+            img.classList.add("active");
+            player.src = `https://www.youtube.com/embed/${videoId}`;
+          }
+
           carousel.appendChild(img);
         });
-      });
+      } catch (err) {
+        carousel.innerHTML = "Failed to load playlist.";
+        console.error(err);
+      }
     }
 
-    // Initialize All 14 Playlists
-    loadYouTubePlaylist("PLY4x9w5iGP-4lRHF5g5Ta4KptYYZLofTA", "carousel-nasa", "player-nasa");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWqrFwbx4DvVHz6SmjxqDm-", "carousel-summit", "player-summit");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWv9i0_mtQEkCQkvRm-G8l4", "carousel-interviews", "player-interviews");
-    loadYouTubePlaylist("PLMrpXL7ZxXYW1BY4W95btAg124tBCf-cR", "carousel-python", "player-python");
-    loadYouTubePlaylist("PLMrpXL7ZxXYW_Sqcr6f1ujqI5UwlW2-uc", "carousel-tangents", "player-tangents");
-    loadYouTubePlaylist("PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV", "carousel-mr-green", "player-mr-green");
-    loadYouTubePlaylist("PLY4x9w5iGP-7FV3w60svPNSam_IzrC-XP", "carousel-history-shorts", "player-history-shorts");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWYOK1ulSAQTCb2-h3LaKjc", "carousel-bus305", "player-bus305");
-    loadYouTubePlaylist("PLMrpXL7ZxXYUFDCW9_ipjmRj_LuhUx1BE", "carousel-partners", "player-partners");
-    loadYouTubePlaylist("PLPrT6qMbooEnSgA_OayN38N_m7wH9n7_6", "carousel-econ", "player-econ");
-    loadYouTubePlaylist("PLMrpXL7ZxXYU7lqnLGgkpbG22K9dv-fUj", "carousel-mech-eng", "player-mech-eng");
-    loadYouTubePlaylist("PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA", "carousel-eon", "player-eon");
-    loadYouTubePlaylist("PLPrT6qMbooElcHXTZOFjSZJiu3m2XKi-7", "carousel-eon-clips", "player-eon-clips");
-    loadYouTubePlaylist("PLMrpXL7ZxXYWJW1RxP40AoHixcB-_xhfU", "carousel-saylor-animation", "player-saylor-animation");
-
-    // Filter Logic
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const sections = document.querySelectorAll('.playlist-showcase');
-
-    tabButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const target = button.getAttribute('data-target');
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        sections.forEach(section => {
-          const tags = section.getAttribute('data-tags').split(' ');
-          section.style.display = (target === 'all' || tags.includes(target)) ? "grid" : "none";
-        });
-      });
-    });
+    loadPlaylist();
   </script>
+
 </body>
 </html>
