@@ -71,59 +71,100 @@
   <div class="playlist-carousel" id="carousel">
     Loading playlist…
   </div>
+<script>
+  const PLAYLIST_ID = "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA";
 
-  <script>
-    const PLAYLIST_ID = "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA"; // Economy of Nothing
+  let videos = [];
+  let currentIndex = 0;
 
-    async function loadPlaylist() {
-      const carousel = document.getElementById("carousel");
-      const player = document.getElementById("player");
+  const carousel = document.getElementById("carousel");
+  const player = document.getElementById("player");
 
-      const feedURL =
-        "https://api.rss2json.com/v1/api.json?rss_url=" +
-        encodeURIComponent(
-          `https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}`
-        );
+  function tuneTo(index, autoplay = true) {
+    if (!videos[index]) return;
 
-      try {
-        const res = await fetch(feedURL);
-        const data = await res.json();
+    currentIndex = index;
 
-        carousel.innerHTML = "";
+    carousel.querySelectorAll("img").forEach(img =>
+      img.classList.remove("active")
+    );
 
-        data.items.forEach((item, index) => {
-          const match = item.link.match(/([0-9A-Za-z_-]{11})$/);
-          if (!match) return;
+    const activeImg = carousel.children[index];
+    activeImg.classList.add("active");
+    activeImg.scrollIntoView({ behavior: "smooth", inline: "center" });
 
-          const videoId = match[1];
-          const img = document.createElement("img");
+    const videoId = videos[index].videoId;
+    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay ? 1 : 0}&enablejsapi=1`;
+  }
 
-          img.src = item.thumbnail;
-          img.title = item.title;
+  function next() {
+    tuneTo((currentIndex + 1) % videos.length);
+  }
 
-          img.onclick = () => {
-            carousel.querySelectorAll("img").forEach(i =>
-              i.classList.remove("active")
-            );
-            img.classList.add("active");
-            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-          };
+  function prev() {
+    tuneTo((currentIndex - 1 + videos.length) % videos.length);
+  }
 
-          if (index === 0) {
-            img.classList.add("active");
-            player.src = `https://www.youtube.com/embed/${videoId}`;
-          }
+  async function loadPlaylist() {
+    const feedURL =
+      "https://api.rss2json.com/v1/api.json?rss_url=" +
+      encodeURIComponent(
+        `https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}`
+      );
 
-          carousel.appendChild(img);
-        });
-      } catch (err) {
-        carousel.innerHTML = "Failed to load playlist.";
-        console.error(err);
+    const res = await fetch(feedURL);
+    const data = await res.json();
+
+    carousel.innerHTML = "";
+    videos = [];
+
+    data.items.forEach((item, index) => {
+      const match = item.link.match(/([0-9A-Za-z_-]{11})$/);
+      if (!match) return;
+
+      const videoId = match[1];
+
+      videos.push({ videoId, title: item.title });
+
+      const img = document.createElement("img");
+      img.src = item.thumbnail;
+      img.title = item.title;
+
+      img.onclick = () => tuneTo(index);
+
+      carousel.appendChild(img);
+    });
+
+    tuneTo(0, false);
+  }
+
+  // 🎧 Keyboard tuning
+  window.addEventListener("keydown", e => {
+    if (e.key === "ArrowRight") next();
+    if (e.key === "ArrowLeft") prev();
+  });
+
+  // 🖱️ Mouse wheel tuning
+  carousel.addEventListener("wheel", e => {
+    e.preventDefault();
+    e.deltaY > 0 ? next() : prev();
+  }, { passive: false });
+
+  // ▶️ Auto-advance when video ends
+  window.addEventListener("message", event => {
+    if (!event.data || typeof event.data !== "string") return;
+
+    try {
+      const data = JSON.parse(event.data);
+      if (data.event === "onStateChange" && data.info === 0) {
+        next();
       }
-    }
+    } catch {}
+  });
 
-    loadPlaylist();
-  </script>
+  loadPlaylist();
+</script>
+
 
 </body>
 </html>
