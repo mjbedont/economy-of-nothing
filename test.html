@@ -3,75 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visual Radio – Refresh Fix</title>
+  <title>Visual Radio – Multi-Channel Tuner</title>
   <style>
-    body { font-family: system-ui, sans-serif; background: #111; color: #eee; padding: 2rem; max-width: 900px; margin: auto; }
-    .video-player { position: relative; padding-top: 56.25%; margin-bottom: 1rem; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    :root {
+      --gold: #ffd700;
+      --bg: #111;
+      --panel: #222;
+    }
+    body { font-family: 'Courier New', Courier, monospace; background: var(--bg); color: #eee; padding: 1rem; max-width: 1000px; margin: auto; }
+    
+    /* Header & Tuner */
+    .radio-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; }
+    .tuner-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+    
+    .channel-btn { 
+      background: #333; color: #888; border: 1px solid #444; padding: 8px 15px; 
+      cursor: pointer; border-radius: 4px; transition: 0.3s; font-weight: bold; font-size: 0.8rem;
+    }
+    .channel-btn:hover { background: #444; color: #fff; }
+    .channel-btn.active { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+
+    /* Player Area */
+    .video-player { position: relative; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
     .video-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-    .playlist-carousel { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; scroll-behavior: smooth; min-height: 90px; }
-    .playlist-carousel img { height: 90px; cursor: pointer; opacity: 0.5; transition: 0.2s; border-radius: 6px; flex-shrink: 0; }
-    .playlist-carousel img.active { opacity: 1; outline: 2px solid #ffd700; transform: scale(1.03); }
-    .status-msg { font-size: 0.85rem; color: #888; margin-bottom: 1rem; }
+    
+    /* Playlist Carousel */
+    .playlist-carousel { display: flex; gap: 10px; overflow-x: auto; padding: 1rem 0; scroll-behavior: smooth; min-height: 100px; }
+    .playlist-carousel img { height: 80px; cursor: pointer; opacity: 0.4; transition: 0.2s; border-radius: 4px; border: 2px solid transparent; }
+    .playlist-carousel img:hover { opacity: 0.7; }
+    .playlist-carousel img.active { opacity: 1; border-color: var(--gold); transform: scale(1.05); }
+
+    .status-msg { font-size: 0.75rem; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
   </style>
 </head>
 <body>
 
-  <h1>🎙️ Visual Radio</h1>
+  <div class="radio-header">
+    <h1 style="margin:0; font-size: 1.2rem;">ECONOMY OF NOTHING <span style="color:var(--gold)">VR</span></h1>
+    <div class="tuner-controls" id="tuner">
+      </div>
+  </div>
 
   <div class="video-player">
       <div id="player"></div>
   </div>
 
-  <div id="status" class="status-msg">Initializing...</div>
+  <div id="status" class="status-msg">System Booting...</div>
 
-  <div class="playlist-carousel" id="carousel">Loading playlist...</div>
+  <div class="playlist-carousel" id="carousel">Initializing stations...</div>
 
   <script>
-    // --- 1. GLOBAL SETTINGS ---
-    const PLAYLIST_ID = "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA";
+    // --- 1. CHANNEL CONFIGURATION ---
+    const CHANNELS = [
+      { name: "MAIN FEED", id: "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" },
+      { name: "SEASON 1", id: "PLPrT6qMbooEn5o2XzM5A-nQp8t58u_rS7" },
+      { name: "LIVE SESSIONS", id: "PLPrT6qMbooEn_TshH_D9yUe0Fm6TzO-P_" } // Example 3rd channel
+    ];
+
     window.videos = [];
     window.currentIndex = 0;
     window.player = null;
-    window.isPlaylistLoaded = false;
+    window.currentChannelId = CHANNELS[0].id; // Start with the first channel
 
-    // --- 2. THE START LOGIC ---
-    // This is called whenever a piece of the puzzle is ready
+    // --- 2. TUNER UI ---
+    function buildTuner() {
+      const tunerDiv = document.getElementById('tuner');
+      CHANNELS.forEach(ch => {
+        const btn = document.createElement('button');
+        btn.className = 'channel-btn';
+        btn.innerText = ch.name;
+        btn.id = `btn-${ch.id}`;
+        btn.onclick = () => switchChannel(ch.id);
+        tunerDiv.appendChild(btn);
+      });
+      document.getElementById(`btn-${window.currentChannelId}`).classList.add('active');
+    }
+
+    // --- 3. CHANNEL SWITCHING LOGIC ---
+    async function switchChannel(playlistId) {
+      if (window.currentChannelId === playlistId && window.videos.length > 0) return;
+      
+      console.log("Tuning to station:", playlistId);
+      window.currentChannelId = playlistId;
+
+      // Update UI buttons
+      document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(`btn-${playlistId}`).classList.add('active');
+
+      document.getElementById('status').innerText = "Tuning... Fetching Data";
+      document.getElementById('carousel').innerHTML = "Receiving signal...";
+
+      await loadPlaylist(playlistId);
+      
+      if (window.player && window.videos.length > 0) {
+        window.tuneTo(0); // Auto-start first video of new channel
+      }
+    }
+
+    // --- 4. PLAYER CORE ---
     window.checkAndStart = function() {
-      const status = document.getElementById("status");
-      // If YT is ready AND data is ready, but player isn't built yet
-      if (window.YT && window.YT.Player && window.isPlaylistLoaded && !window.player) {
-        console.log("Building Player...");
-        status.innerText = "Building player...";
-        
+      if (window.YT && window.YT.Player && window.videos.length > 0 && !window.player) {
         window.player = new YT.Player("player", {
-          width: "100%",
-          height: "100%",
-          playerVars: { 
-            autoplay: 1, 
-            mute: 1, 
-            rel: 0, 
-            modestbranding: 1, 
-            playsinline: 1 
-          },
+          width: "100%", height: "100%",
+          playerVars: { autoplay: 1, mute: 1, rel: 0, modestbranding: 1, playsinline: 1 },
           events: {
             onReady: () => {
-              status.innerText = "▶️ Playing (Muted - Click to unmute)";
-              tuneTo(0);
+              document.getElementById('status').innerText = "Signal Locked | Muted";
+              window.tuneTo(0);
             },
-            onStateChange: (event) => {
-              if (event.data === YT.PlayerState.ENDED) nextVideo();
-            }
+            onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED) nextVideo(); }
           }
         });
       }
     };
 
-    // --- 3. PLAYER FUNCTIONS ---
     window.tuneTo = function(index) {
       if (!window.videos[index] || !window.player) return;
       window.currentIndex = index;
-
-      // Update Carousel UI
+      
       const carousel = document.getElementById("carousel");
       Array.from(carousel.children).forEach((img, i) => {
         img.classList.toggle("active", i === index);
@@ -84,18 +137,15 @@
       window.tuneTo((window.currentIndex + 1) % window.videos.length);
     };
 
-    // --- 4. YOUTUBE CALLBACK ---
-    // Define this BEFORE the script tag loads
-    window.onYouTubeIframeAPIReady = function() {
-      console.log("YouTube API Ready");
-      window.checkAndStart();
-    };
+    window.onYouTubeIframeAPIReady = function() { window.checkAndStart(); };
 
-    // --- 5. DATA LOADER ---
-    async function loadPlaylist() {
+    // --- 5. DATA FETCH ---
+    async function loadPlaylist(playlistId) {
       try {
+        window.videos = []; // Clear current list
         const cacheBuster = Date.now();
-        const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}&t=${cacheBuster}`;
+        const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}&t=${cacheBuster}`;
+        
         const res = await fetch(feedURL);
         const data = await res.json();
 
@@ -112,32 +162,18 @@
           carousel.appendChild(img);
         });
 
-        window.isPlaylistLoaded = true;
-        console.log("Playlist Data Ready");
-        window.checkAndStart();
+        document.getElementById('status').innerText = "Signal Clear";
+        window.checkAndStart(); 
       } catch (e) {
-        document.getElementById("status").innerText = "Error loading data.";
+        document.getElementById("status").innerText = "Signal Lost (Error)";
       }
     }
 
-    // Start data loading immediately
-    loadPlaylist();
+    // Initialize
+    buildTuner();
+    loadPlaylist(window.currentChannelId);
   </script>
 
   <script src="https://www.youtube.com/iframe_api"></script>
-
-  <script>
-    // FINAL SAFETY CHECK: If the script was cached, the callback might have been missed.
-    // We check every 500ms for a few seconds just in case.
-    let checkCount = 0;
-    const safetyCheck = setInterval(() => {
-      checkCount++;
-      if (window.YT && window.YT.loaded) {
-        window.checkAndStart();
-        clearInterval(safetyCheck);
-      }
-      if (checkCount > 10) clearInterval(safetyCheck); // Stop trying after 5 seconds
-    }, 500);
-  </script>
 </body>
 </html>
