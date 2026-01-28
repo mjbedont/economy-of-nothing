@@ -3,90 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Economy of Nothing | Visual Radio Tuner</title>
+  <title>Economy of Nothing | Visual Radio</title>
   <style>
     :root {
       --gold: #ffd700;
       --bg: #0a0a0a;
-      --panel: #1a1a1a;
     }
-    body { 
-      font-family: 'Courier New', Courier, monospace; 
-      background: var(--bg); 
-      color: #eee; 
-      padding: 1rem; 
-      max-width: 1000px; 
-      margin: auto; 
-    }
+    body { font-family: 'Courier New', Courier, monospace; background: var(--bg); color: #eee; padding: 1rem; max-width: 1000px; margin: auto; }
     
-    /* Header & Tuner */
-    .radio-header { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      border-bottom: 2px solid #333; 
-      padding-bottom: 1rem; 
-      margin-bottom: 1rem; 
-    }
+    .radio-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; }
     .tuner-controls { display: flex; gap: 10px; flex-wrap: wrap; }
     
     .channel-btn { 
       background: #222; color: #666; border: 1px solid #444; padding: 8px 15px; 
-      cursor: pointer; border-radius: 4px; transition: 0.3s; font-weight: bold; 
-      font-size: 0.75rem; letter-spacing: 1px;
+      cursor: pointer; border-radius: 4px; transition: 0.3s; font-weight: bold; font-size: 0.75rem;
     }
-    .channel-btn:hover { background: #333; color: #fff; }
-    .channel-btn.active { 
-      background: var(--gold); 
-      color: #000; 
-      border-color: var(--gold); 
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); 
-    }
+    .channel-btn.active { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
 
-    /* Player Area */
-    .video-player { 
-      position: relative; 
-      padding-top: 56.25%; 
-      background: #000; 
-      border-radius: 12px; 
-      overflow: hidden; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
-    }
+    .video-player { position: relative; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
     .video-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
     
-    /* Playlist Carousel */
-    .playlist-carousel { 
-      display: flex; 
-      gap: 10px; 
-      overflow-x: auto; 
-      padding: 1rem 0; 
-      scroll-behavior: smooth; 
-      min-height: 100px; 
-    }
-    .playlist-carousel img { 
-      height: 80px; 
-      cursor: pointer; 
-      opacity: 0.3; 
-      transition: 0.2s; 
-      border-radius: 4px; 
-      border: 2px solid transparent; 
+    .playlist-carousel { display: flex; gap: 10px; overflow-x: auto; padding: 1rem 0; scroll-behavior: smooth; min-height: 100px; align-items: center; }
+    .playlist-carousel img { height: 80px; cursor: pointer; opacity: 0.3; transition: 0.2s; border-radius: 4px; flex-shrink: 0; border: 2px solid transparent; }
+    .playlist-carousel img.active { opacity: 1; border-color: var(--gold); transform: scale(1.05); }
+
+    /* The "Watch More" Card */
+    .more-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      height: 80px;
+      background: #222;
+      border: 2px dashed #444;
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--gold);
+      font-size: 0.65rem;
+      font-weight: bold;
+      text-align: center;
+      transition: 0.3s;
       flex-shrink: 0;
     }
-    .playlist-carousel img:hover { opacity: 0.7; }
-    .playlist-carousel img.active { 
-      opacity: 1; 
-      border-color: var(--gold); 
-      transform: scale(1.05); 
-    }
+    .more-card:hover { background: #333; border-color: var(--gold); transform: scale(1.05); }
+    .more-card span { font-size: 1.2rem; margin-bottom: 4px; }
 
-    .status-msg { 
-      font-size: 0.7rem; 
-      color: var(--gold); 
-      margin-top: 10px; 
-      text-transform: uppercase; 
-      letter-spacing: 2px;
-    }
-    
+    .status-msg { font-size: 0.7rem; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; }
     ::-webkit-scrollbar { height: 6px; }
     ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
   </style>
@@ -98,16 +61,11 @@
     <div class="tuner-controls" id="tuner"></div>
   </div>
 
-  <div class="video-player">
-      <div id="player"></div>
-  </div>
-
-  <div id="status" class="status-msg">Booting Signal...</div>
-
-  <div class="playlist-carousel" id="carousel">Connecting...</div>
+  <div class="video-player"><div id="player"></div></div>
+  <div id="status" class="status-msg">Signal Processing...</div>
+  <div class="playlist-carousel" id="carousel"></div>
 
   <script>
-    // --- 1. UPDATED CHANNEL CONFIG ---
     const CHANNELS = [
       { name: "MAIN FEED", id: "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" },
       { name: "SEASON 1",  id: "PLPrT6qMbooEkg5emEYwACBuhh74adPnM8" },
@@ -120,7 +78,6 @@
     window.currentChannelId = CHANNELS[0].id;
     window.isPlaylistLoaded = false;
 
-    // --- 2. THE TUNER ---
     function buildTuner() {
       const tunerDiv = document.getElementById('tuner');
       CHANNELS.forEach(ch => {
@@ -136,26 +93,15 @@
 
     async function switchChannel(playlistId) {
       if (window.currentChannelId === playlistId && window.videos.length > 0) return;
-      
       window.currentChannelId = playlistId;
       window.isPlaylistLoaded = false;
-
-      // Reset UI
       document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById(`btn-${playlistId}`);
-      if(activeBtn) activeBtn.classList.add('active');
-
-      document.getElementById('status').innerText = "Tuning... Searching Frequency";
-      document.getElementById('carousel').innerHTML = ""; // Clear immediately
-
+      document.getElementById(`btn-${playlistId}`).classList.add('active');
+      document.getElementById('carousel').innerHTML = "";
       await loadPlaylist(playlistId);
-      
-      if (window.player && window.videos.length > 0) {
-        window.tuneTo(0); 
-      }
+      if (window.player && window.videos.length > 0) window.tuneTo(0);
     }
 
-    // --- 3. PLAYER ENGINE ---
     window.checkAndStart = function() {
       if (window.YT && window.YT.Player && window.isPlaylistLoaded && !window.player) {
         window.player = new YT.Player("player", {
@@ -163,7 +109,7 @@
           playerVars: { autoplay: 1, mute: 1, rel: 0, modestbranding: 1, playsinline: 1 },
           events: {
             onReady: () => {
-              document.getElementById('status').innerText = "Frequency Locked | Muted";
+              document.getElementById('status').innerText = "Signal Locked | Muted";
               window.tuneTo(0);
             },
             onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED) nextVideo(); }
@@ -175,66 +121,53 @@
     window.tuneTo = function(index) {
       if (!window.videos[index] || !window.player) return;
       window.currentIndex = index;
-      
-      Array.from(document.getElementById("carousel").children).forEach((img, i) => {
-        img.classList.toggle("active", i === index);
-      });
-
+      const imgs = document.querySelectorAll("#carousel img");
+      imgs.forEach((img, i) => img.classList.toggle("active", i === index));
       window.player.loadVideoById(window.videos[index].videoId);
     };
 
-    window.nextVideo = function() {
-      window.tuneTo((window.currentIndex + 1) % window.videos.length);
-    };
-
+    window.nextVideo = function() { window.tuneTo((window.currentIndex + 1) % window.videos.length); };
     window.onYouTubeIframeAPIReady = function() { window.checkAndStart(); };
 
-    // --- 4. DATA ENGINE ---
     async function loadPlaylist(playlistId) {
       try {
         window.videos = [];
         const cacheBuster = Date.now();
-        const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}&t=${cacheBuster}`;
+        const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}&t=${cacheBuster}&count=15`;
         
         const res = await fetch(feedURL);
         const data = await res.json();
-
         const carousel = document.getElementById("carousel");
         carousel.innerHTML = "";
         
         data.items.forEach((item, index) => {
           const videoId = item.link.split('v=')[1] || item.link.split('/').pop();
           window.videos.push({ videoId });
-
           const img = document.createElement("img");
           img.src = item.thumbnail;
           img.onclick = () => window.tuneTo(index);
           carousel.appendChild(img);
         });
 
+        // ADD "WATCH MORE ON YT" CARD
+        const moreCard = document.createElement("a");
+        moreCard.className = "more-card";
+        moreCard.href = `https://www.youtube.com/playlist?list=${playlistId}`;
+        moreCard.target = "_blank";
+        moreCard.innerHTML = `<span>📺</span>WATCH FULL<br>PLAYLIST`;
+        carousel.appendChild(moreCard);
+
         window.isPlaylistLoaded = true;
-        document.getElementById('status').innerText = "Broadcasting Clear";
+        document.getElementById('status').innerText = "Broadcast Active";
         window.checkAndStart(); 
       } catch (e) {
-        document.getElementById("status").innerText = "Signal Interference (Error)";
+        document.getElementById("status").innerText = "Signal Error";
       }
     }
 
-    // Initialize
     buildTuner();
     loadPlaylist(window.currentChannelId);
   </script>
-
   <script src="https://www.youtube.com/iframe_api"></script>
-  
-  <script>
-    // Refresh Safety
-    let checkCount = 0;
-    const safetyCheck = setInterval(() => {
-      checkCount++;
-      if (window.YT && window.YT.loaded) { window.checkAndStart(); clearInterval(safetyCheck); }
-      if (checkCount > 20) clearInterval(safetyCheck);
-    }, 500);
-  </script>
 </body>
 </html>
