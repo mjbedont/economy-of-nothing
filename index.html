@@ -3,46 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Explore The Economy of Nothing—a dystopian sci-fi satire of intergalactic capitalism." />
   <title>Economy of Nothing | Official Terminal</title>
   <link rel="stylesheet" href="/style.css" />
   <link rel="icon" href="/media/favicon.png" />
 </head>
 <body>
 
-  <header>
+  <header class="site-header">
     <h1>Economy of Nothing</h1>
-    <p>A Dystopian Odyssey Through the Corporate Cosmos</p>
+    <p class="tagline">A Dystopian Odyssey Through the Corporate Cosmos</p>
+    
+    <nav class="portfolio-nav">
+      <a href="/podcast.html">Podcast</a>
+      <a href="/codex.html">Codex</a>
+      <a href="/portfolio.html">Portfolio</a>
+      <a href="/patreon.html">Support</a>
+    </nav>
   </header>
 
-  <nav>
-    <a href="/podcast.html">Podcast</a>
-    <a href="/codex.html">Codex</a>
-    <a href="/portfolio.html">Portfolio</a>
-    <a href="/patreon.html">Support</a>
-  </nav>
-
   <main>
-    <h2>What Is <em>Economy of Nothing</em>?</h2>
-    <p>
-      Part space opera, part existential prank. The Economy of Nothing is what’s left when the future shows up and no one wants it.
-    </p>
+    <section class="about-block">
+      <h2>Transmission Received</h2>
+      <p>
+        Part space opera, part existential prank. <strong>The Economy of Nothing</strong> is what’s left when the future shows up and no one wants it.
+      </p>
+    </section>
 
     <section class="playlist-showcase">
       <div class="playlist-meta">
-        <h3>Visual Radio | The Archive</h3>
-        <p>Flagship talk show featuring <strong>absurdist world-building</strong> and corporate satire. Managed and Produced by Mike Bedont.</p>
+        <h3>Visual Radio | The Terminal</h3>
+        <p>Flagship talk show featuring absurdist world-building and corporate satire. Managed and Produced by Mike Bedont.</p>
       </div>
-
+      
       <div class="video-player">
         <iframe id="player-eon" src="" allowfullscreen loading="lazy"></iframe>
       </div>
-
+      
       <div class="playlist-carousel" id="carousel-eon">
         <p>Scanning intergalactic frequencies...</p>
       </div>
-
-      <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" target="_blank" class="cta-link">▶️ View Full YouTube Archive</a>
+      
+      <a href="https://www.youtube.com/playlist?list=PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" target="_blank" class="cta-link">▶️ View Full Archive</a>
     </section>
 
     <section class="about-block">
@@ -57,89 +58,68 @@
     </section>
 
     <section class="about-block">
-      <h2>Latest Audio Entries</h2>
+      <h2>Audio Log Entries</h2>
       <div class="libsyn-embed">
-        <iframe 
-          style="border: none" 
-          src="//html5-player.libsyn.com/embed/episode/id/39892420/height/192/theme/modern/size/large/thumbnail/yes/render-playlist/no/custom-color/00ff00/time-start/00:00:00/download/no/direction/backward/" 
-          height="192" 
-          width="100%" 
-          scrolling="no" 
-          allowfullscreen>
-        </iframe>
+        <iframe title="Episode 117" width="100%" height="192" src="https://play.libsyn.com/embed/episode/id/39892420/theme/modern/custom-color/00ff00" allowfullscreen></iframe>
       </div>
 
       <div class="external-links">
-        <a href="https://podcasts.apple.com/us/podcast/the-economy-of-nothing-podcast/id1805857583" target="_blank" class="filter-pill">Apple Podcasts</a>
-        <a href="http://spotify.com/..." target="_blank" class="filter-pill">Spotify</a>
-        <a href="https://www.patreon.com/economyofnothing" target="_blank" class="filter-pill active">Support on Patreon</a>
+        <a href="https://podcasts.apple.com/us/podcast/the-economy-of-nothing-podcast/id1805857583" class="filter-pill">Apple Podcasts</a>
+        <a href="https://open.spotify.com/show/..." class="filter-pill">Spotify</a>
+        <a href="https://www.patreon.com/economyofnothing" class="filter-pill active">Support on Patreon</a>
       </div>
     </section>
   </main>
 
   <footer>
     <p>© 56.009 Nothing Inc.</p>
-    <p>Best viewed on Netscape Navigator. Join our <a href="#">web ring</a>!</p>
-    <p class="visitor-counter">
-      You are visitor number:
-      <img src="https://hitwebcounter.com/counter/counter.php?page=20002530&style=0036&nbdigits=9&type=page&initCount=0" alt="Web Counter" />
-    </p>
+    <p class="visitor-counter">Visitor: 00025301</p>
   </footer>
 
   <script>
     const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww';
     const eonPlaylistId = 'PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA';
-    const rssApiBase = 'https://api.rss2json.com/v1/api.json?rss_url=';
+    const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
 
-    // 1. CAROUSEL ENGINE
-    async function initCarousel(pId, carouselId, playerId) {
-      const carousel = document.getElementById(carouselId);
-      const player = document.getElementById(playerId);
-      
-      try {
-        const res = await fetch(`${rssApiBase}https://www.youtube.com/feeds/videos.xml?playlist_id=${pId}`);
-        const data = await res.json();
-        
-        if (data.items) {
-          carousel.innerHTML = ""; // Clear loader
-          data.items.forEach((item, index) => {
-            const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
-            const img = document.createElement("img");
-            img.src = item.thumbnail;
-            img.onclick = () => {
-              carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
-              img.classList.add("active-thumb");
-              player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            };
-            if (index === 0) { 
-              img.classList.add("active-thumb"); 
-              player.src = `https://www.youtube.com/embed/${videoId}`; 
-            }
-            carousel.appendChild(img);
-          });
-        }
-      } catch (err) { console.error("Carousel Error:", err); }
+    // 1. CAROUSEL ENGINE: Visual Radio
+    async function initCarousel(pId, cId, plId) {
+      const carousel = document.getElementById(cId);
+      const player = document.getElementById(plId);
+      const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${pId}`);
+      const data = await res.json();
+      if (data.items) {
+        carousel.innerHTML = "";
+        data.items.forEach((item, index) => {
+          const videoId = item.link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/)[1];
+          const img = document.createElement("img");
+          img.src = item.thumbnail;
+          img.onclick = () => {
+            carousel.querySelectorAll("img").forEach(el => el.classList.remove("active-thumb"));
+            img.classList.add("active-thumb");
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          };
+          if (index === 0) { img.classList.add("active-thumb"); player.src = `https://www.youtube.com/embed/${videoId}`; }
+          carousel.appendChild(img);
+        });
+      }
     }
 
-    // 2. LATEST VIDEO & SHORTS ENGINE
-    fetch(`${rssApiBase}https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`)
+    // 2. LATEST FEED ENGINE: Full Video & Shorts
+    fetch(feedURL)
       .then(res => res.json())
       .then(data => {
-        // Full Videos
-        const fullVideo = data.items.find(v => !v.link.includes('/shorts/'));
-        if(fullVideo) {
-          const fId = fullVideo.link.split('v=')[1]?.split('&')[0];
-          document.getElementById('latest-full-video').innerHTML = `<iframe src="https://www.youtube.com/embed/${fId}" allowfullscreen></iframe>`;
-        }
+        // Full Video
+        const full = data.items.filter(v => !v.link.includes('/shorts/'))[0];
+        const fullId = full.link.split('v=')[1]?.split('&')[0];
+        document.getElementById('latest-full-video').innerHTML = `<iframe src="https://www.youtube.com/embed/${fullId}" allowfullscreen></iframe>`;
+        
         // Shorts
-        const shortVideo = data.items.find(v => v.link.includes('/shorts/'));
-        if(shortVideo) {
-          const sId = shortVideo.link.split('/shorts/')[1].split('?')[0];
-          document.getElementById('latest-short').innerHTML = `<iframe src="https://www.youtube.com/embed/${sId}" allowfullscreen></iframe>`;
-        }
+        const short = data.items.filter(v => v.link.includes('/shorts/'))[0];
+        const shortId = short.link.split('/shorts/')[1].split('?')[0];
+        document.getElementById('latest-short').innerHTML = `<iframe src="https://www.youtube.com/embed/${shortId}" allowfullscreen></iframe>`;
       });
 
-    // Run Visual Radio Carousel
+    // Run Carousel
     initCarousel(eonPlaylistId, 'carousel-eon', 'player-eon');
   </script>
 </body>
