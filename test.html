@@ -65,7 +65,7 @@
   <h1>🎙️ Visual Radio Playlist (Test)</h1>
 
   <div class="video-player">
-    <iframe id="player" allowfullscreen></iframe>
+      <div id="player"></div>
   </div>
 
   <div class="playlist-carousel" id="carousel">
@@ -76,12 +76,12 @@
 
   let videos = [];
   let currentIndex = 0;
+  let player;
 
   const carousel = document.getElementById("carousel");
-  const player = document.getElementById("player");
 
   function tuneTo(index, autoplay = true) {
-    if (!videos[index]) return;
+    if (!videos[index] || !player) return;
 
     currentIndex = index;
 
@@ -93,8 +93,14 @@
     activeImg.classList.add("active");
     activeImg.scrollIntoView({ behavior: "smooth", inline: "center" });
 
-    const videoId = videos[index].videoId;
-    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay ? 1 : 0}&enablejsapi=1`;
+    player.loadVideoById({
+      videoId: videos[index].videoId,
+      suggestedQuality: "hd720"
+    });
+
+    if (!autoplay) {
+      player.pauseVideo();
+    }
   }
 
   function next() {
@@ -123,47 +129,40 @@
       if (!match) return;
 
       const videoId = match[1];
-
-      videos.push({ videoId, title: item.title });
+      videos.push({ videoId });
 
       const img = document.createElement("img");
       img.src = item.thumbnail;
       img.title = item.title;
-
       img.onclick = () => tuneTo(index);
 
       carousel.appendChild(img);
     });
-
-    tuneTo(0, false);
   }
 
-  // 🎧 Keyboard tuning
-  window.addEventListener("keydown", e => {
-    if (e.key === "ArrowRight") next();
-    if (e.key === "ArrowLeft") prev();
-  });
-
-  // 🖱️ Mouse wheel tuning
-  carousel.addEventListener("wheel", e => {
-    e.preventDefault();
-    e.deltaY > 0 ? next() : prev();
-  }, { passive: false });
-
-  // ▶️ Auto-advance when video ends
-  window.addEventListener("message", event => {
-    if (!event.data || typeof event.data !== "string") return;
-
-    try {
-      const data = JSON.parse(event.data);
-      if (data.event === "onStateChange" && data.info === 0) {
-        next();
+  // 🎬 YouTube API ready
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player("player", {
+      width: "100%",
+      height: "100%",
+      playerVars: {
+        rel: 0,
+        modestbranding: 1
+      },
+      events: {
+        onReady: () => tuneTo(0, false),
+        onStateChange: event => {
+          if (event.data === YT.PlayerState.ENDED) {
+            next();
+          }
+        }
       }
-    } catch {}
-  });
+    });
+  }
 
   loadPlaylist();
 </script>
+
 
 
 </body>
