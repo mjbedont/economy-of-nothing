@@ -3,72 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visual Radio – AutoPlay Fix</title>
-
+  <title>Visual Radio – Refresh Fix</title>
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: #111;
-      color: #eee;
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-
-    /* Video Container */
-    .video-player {
-      position: relative;
-      padding-top: 56.25%; /* 16:9 Aspect Ratio */
-      margin-bottom: 1rem;
-      background: #000;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .video-player iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Carousel */
-    .playlist-carousel {
-      display: flex;
-      gap: 0.5rem;
-      overflow-x: auto;
-      padding-bottom: 0.5rem;
-      scroll-behavior: smooth;
-      min-height: 90px; /* Prevents collapse while loading */
-    }
-    
-    /* Scrollbar styling */
-    .playlist-carousel::-webkit-scrollbar { height: 8px; }
-    .playlist-carousel::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-
-    .playlist-carousel img {
-      height: 90px;
-      cursor: pointer;
-      opacity: 0.5;
-      transition: opacity 0.2s, transform 0.2s;
-      border-radius: 6px;
-      flex-shrink: 0; /* Prevents squishing */
-    }
-
-    .playlist-carousel img:hover { opacity: 0.8; transform: scale(1.03); }
-    .playlist-carousel img.active {
-      opacity: 1;
-      outline: 2px solid #ffd700;
-      transform: scale(1.03);
-    }
-    
-    /* Status Messages */
+    body { font-family: system-ui, sans-serif; background: #111; color: #eee; padding: 2rem; max-width: 900px; margin: auto; }
+    .video-player { position: relative; padding-top: 56.25%; margin-bottom: 1rem; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .video-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .playlist-carousel { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; scroll-behavior: smooth; min-height: 90px; }
+    .playlist-carousel img { height: 90px; cursor: pointer; opacity: 0.5; transition: 0.2s; border-radius: 6px; flex-shrink: 0; }
+    .playlist-carousel img.active { opacity: 1; outline: 2px solid #ffd700; transform: scale(1.03); }
     .status-msg { font-size: 0.85rem; color: #888; margin-bottom: 1rem; }
-    .error-msg { color: #ff5555; }
   </style>
 </head>
 <body>
@@ -81,137 +24,120 @@
 
   <div id="status" class="status-msg">Initializing...</div>
 
-  <div class="playlist-carousel" id="carousel">
-    </div>
+  <div class="playlist-carousel" id="carousel">Loading playlist...</div>
+
+  <script>
+    // --- 1. GLOBAL SETTINGS ---
+    const PLAYLIST_ID = "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA";
+    window.videos = [];
+    window.currentIndex = 0;
+    window.player = null;
+    window.isPlaylistLoaded = false;
+
+    // --- 2. THE START LOGIC ---
+    // This is called whenever a piece of the puzzle is ready
+    window.checkAndStart = function() {
+      const status = document.getElementById("status");
+      // If YT is ready AND data is ready, but player isn't built yet
+      if (window.YT && window.YT.Player && window.isPlaylistLoaded && !window.player) {
+        console.log("Building Player...");
+        status.innerText = "Building player...";
+        
+        window.player = new YT.Player("player", {
+          width: "100%",
+          height: "100%",
+          playerVars: { 
+            autoplay: 1, 
+            mute: 1, 
+            rel: 0, 
+            modestbranding: 1, 
+            playsinline: 1 
+          },
+          events: {
+            onReady: () => {
+              status.innerText = "▶️ Playing (Muted - Click to unmute)";
+              tuneTo(0);
+            },
+            onStateChange: (event) => {
+              if (event.data === YT.PlayerState.ENDED) nextVideo();
+            }
+          }
+        });
+      }
+    };
+
+    // --- 3. PLAYER FUNCTIONS ---
+    window.tuneTo = function(index) {
+      if (!window.videos[index] || !window.player) return;
+      window.currentIndex = index;
+
+      // Update Carousel UI
+      const carousel = document.getElementById("carousel");
+      Array.from(carousel.children).forEach((img, i) => {
+        img.classList.toggle("active", i === index);
+      });
+
+      window.player.loadVideoById(window.videos[index].videoId);
+    };
+
+    window.nextVideo = function() {
+      window.tuneTo((window.currentIndex + 1) % window.videos.length);
+    };
+
+    // --- 4. YOUTUBE CALLBACK ---
+    // Define this BEFORE the script tag loads
+    window.onYouTubeIframeAPIReady = function() {
+      console.log("YouTube API Ready");
+      window.checkAndStart();
+    };
+
+    // --- 5. DATA LOADER ---
+    async function loadPlaylist() {
+      try {
+        const cacheBuster = Date.now();
+        const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}&t=${cacheBuster}`;
+        const res = await fetch(feedURL);
+        const data = await res.json();
+
+        const carousel = document.getElementById("carousel");
+        carousel.innerHTML = "";
+        
+        data.items.forEach((item, index) => {
+          const videoId = item.link.split('v=')[1] || item.link.split('/').pop();
+          window.videos.push({ videoId });
+
+          const img = document.createElement("img");
+          img.src = item.thumbnail;
+          img.onclick = () => window.tuneTo(index);
+          carousel.appendChild(img);
+        });
+
+        window.isPlaylistLoaded = true;
+        console.log("Playlist Data Ready");
+        window.checkAndStart();
+      } catch (e) {
+        document.getElementById("status").innerText = "Error loading data.";
+      }
+    }
+
+    // Start data loading immediately
+    loadPlaylist();
+  </script>
 
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
-  // --- CONFIGURATION ---
-  const PLAYLIST_ID = "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA";
-  
-  // --- STATE MANAGEMENT ---
-  let videos = [];
-  let currentIndex = 0;
-  let player;
-  
-  // Flags to prevent race conditions
-  let isPlayerReady = false;
-  let isPlaylistLoaded = false;
-
-  const carousel = document.getElementById("carousel");
-  const statusMsg = document.getElementById("status");
-
-  // --- 1. THE GATEKEEPER ---
-  // This ensures we never play before everything is ready
-  function tryStartRadio() {
-    if (isPlayerReady && isPlaylistLoaded) {
-      statusMsg.innerText = "▶️ Autoplaying (Muted by browser policy - Click video to unmute)";
-      console.log("🚀 Everything ready. Starting radio...");
-      tuneTo(0, true);
-    } else {
-      console.log(`Waiting... Player Ready: ${isPlayerReady}, Playlist Loaded: ${isPlaylistLoaded}`);
-    }
-  }
-
-  // --- 2. PLAYER CONTROL ---
-  function tuneTo(index, shouldPlay = true) {
-    if (!videos[index] || !player) return;
-
-    currentIndex = index;
-
-    // Update UI
-    carousel.querySelectorAll("img").forEach(img => img.classList.remove("active"));
-    const activeImg = carousel.children[index];
-    if (activeImg) {
-        activeImg.classList.add("active");
-        activeImg.scrollIntoView({ behavior: "smooth", inline: "center" });
-    }
-
-    // Load Video
-    player.loadVideoById({
-      videoId: videos[index].videoId,
-      suggestedQuality: "hd720"
-    });
-
-    if (shouldPlay) player.playVideo();
-  }
-
-  function next() { tuneTo((currentIndex + 1) % videos.length); }
-
-  // --- 3. LOAD DATA ---
-  async function loadPlaylist() {
-    statusMsg.innerText = "Loading playlist data...";
-    try {
-      // Add a timestamp to prevent caching issues on refresh
-      const cacheBuster = new Date().getTime();
-      const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}&t=${cacheBuster}`;
-
-      const res = await fetch(feedURL);
-      const data = await res.json();
-
-      if (data.status !== 'ok') throw new Error("API Limit or Error");
-
-      carousel.innerHTML = "";
-      videos = [];
-
-      data.items.forEach((item, index) => {
-        const match = item.link.match(/([0-9A-Za-z_-]{11})$/);
-        if (!match) return;
-
-        videos.push({ videoId: match[1] });
-
-        const img = document.createElement("img");
-        img.src = item.thumbnail;
-        img.title = item.title;
-        img.onclick = () => tuneTo(index, true);
-        carousel.appendChild(img);
-      });
-
-      console.log("✅ Playlist Data Loaded");
-      isPlaylistLoaded = true;
-      tryStartRadio(); // CHECK IF WE CAN START
-
-    } catch (e) {
-      console.error(e);
-      statusMsg.innerHTML = "<span class='error-msg'>⚠️ Error loading playlist. Refresh the page.</span>";
-      carousel.innerHTML = "Failed to load.";
-    }
-  }
-
-  // --- 4. YOUTUBE API SETUP ---
-  function onYouTubeIframeAPIReady() {
-    console.log("✅ YouTube API Ready");
-    player = new YT.Player("player", {
-      width: "100%",
-      height: "100%",
-      playerVars: {
-        autoplay: 1,
-        mute: 1,       // CRITICAL: Must be muted to autoplay consistently
-        rel: 0,
-        modestbranding: 1,
-        playsinline: 1
-      },
-      events: {
-        onReady: () => {
-          isPlayerReady = true;
-          tryStartRadio(); // CHECK IF WE CAN START
-        },
-        onStateChange: (event) => {
-          if (event.data === YT.PlayerState.ENDED) next();
-          
-          // Remove "Muted" warning if user un-mutes
-          if (event.data === YT.PlayerState.PLAYING && !player.isMuted()) {
-             statusMsg.innerText = "🎙️ Now Playing";
-          }
-        }
+    // FINAL SAFETY CHECK: If the script was cached, the callback might have been missed.
+    // We check every 500ms for a few seconds just in case.
+    let checkCount = 0;
+    const safetyCheck = setInterval(() => {
+      checkCount++;
+      if (window.YT && window.YT.loaded) {
+        window.checkAndStart();
+        clearInterval(safetyCheck);
       }
-    });
-  }
-
-  // Kick off the data load immediately
-  loadPlaylist();
+      if (checkCount > 10) clearInterval(safetyCheck); // Stop trying after 5 seconds
+    }, 500);
   </script>
-
 </body>
 </html>
