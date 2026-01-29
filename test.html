@@ -20,8 +20,7 @@
   </nav>
 
   <main>
-
-        <h2>What Is <em>Economy of Nothing</em>?</h2>
+    <h2>What Is <em>Economy of Nothing</em>?</h2>
     <p>
       Part space opera, part existential prank. The Economy of Nothing is what’s left when the future shows up and no one wants it.
     </p>
@@ -37,11 +36,10 @@
       </div>
 
       <div id="status" class="vr-status">INITIALIZING...</div>
-
       <div class="vr-carousel" id="carousel">CONNECTING...</div>
     </div>
 
-<h2>Latest Patreon</h2>
+    <h2>Latest Patreon</h2>
     <section style="text-align: center; margin: 40px 0;">
       <a href="https://www.patreon.com/economyofnothing" target="_blank" rel="noopener" class="promo-thumbnail-link">
         <img src="/media/images/eon203_promo.png" alt="Episode 203 Thumbnail" style="width: 100%; max-width: 600px; border: 3px solid var(--primary-color); border-radius: 10px;" />
@@ -49,10 +47,9 @@
       <p style="margin-top: 10px;"><em>Access the extended archives and early transmissions on Patreon.</em></p>
     </section>
     
-      <h2>Daily* Shorts</h2>
-         
+    <h2>Daily* Shorts</h2>
     <div class="responsive-iframe-container" id="latest-short">
-      <p>Loading latest Short...</p>
+      <p style="text-align: center; padding: 20px;">Scanning for latest short-form signal...</p>
     </div>
 
     <h2>Latest Audio</h2>
@@ -68,47 +65,48 @@
     </div>
   
     <h2>Leave the Site, but not the economy</h2> 
-    
     <div class="external-links">
       <a href="https://www.teepublic.com/user/economyofnothing" target="_blank">
-        <img src="/media/images/waffle-shirt.webp" alt="YouTube" class="platform-logo" />
+        <img src="/media/images/waffle-shirt.webp" alt="Merch" class="platform-logo" />
         <span>Browse Merch on TeePublic</span>
       </a>
     </div>
-    
   </main>
- <footer>
+
+  <footer>
     <p>© 56.009 Nothing Inc.</p>
     <p class="visitor-counter">
       You are visitor number: 
-      <img src="https://hitwebcounter.com/counter/counter.php?page=20002530&style=0036&nbdigits=9&type=page&initCount=0" alt="Counter" />
+      <img src="https://hitwebcounter.com/counter/counter.php?page=20002530&style=0036&nbdigits=9&type=page&initCount=0" alt="Counter" style="vertical-align: middle;" />
     </p>
   </footer>
 
+  <script src="https://www.youtube.com/iframe_api"></script>
+
   <script>
+    /* --- SHORTS AUTOMATION --- */
     const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww';
-    const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+    const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}&t=${Date.now()}`;
 
     fetch(feedURL)
       .then(res => res.json())
       .then(data => {
-        // Full Video
-        const full = data.items.filter(item => !item.link.includes('/shorts/'))[0];
-        if(full) {
-          const fId = full.link.split('v=')[1]?.split('&')[0];
-          document.getElementById('latest-full-video').innerHTML = `<iframe src="https://www.youtube.com/embed/${fId}" allowfullscreen></iframe>`;
-        }
-        // Short
+        // Look for the newest Short
         const short = data.items.filter(item => item.link.includes('/shorts/'))[0];
         if(short) {
           const sId = short.link.split('/shorts/')[1].split('?')[0];
           document.getElementById('latest-short').innerHTML = `<iframe src="https://www.youtube.com/embed/${sId}" allowfullscreen></iframe>`;
+        } else {
+          // Fallback to newest video if no short is found in the latest items
+          const newest = data.items[0];
+          if(newest) {
+            const nId = newest.link.split('v=')[1]?.split('&')[0];
+            document.getElementById('latest-short').innerHTML = `<iframe src="https://www.youtube.com/embed/${nId}" allowfullscreen></iframe>`;
+          }
         }
       });
-  </script>
 
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script>
+    /* --- VR-1 VISUAL RADIO SYSTEM --- */
     const CHANNELS = [
       { name: "MAIN FEED", id: "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" },
       { name: "SEASON 1",  id: "PLPrT6qMbooEkg5emEYwACBuhh74adPnM8" },
