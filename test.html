@@ -77,10 +77,35 @@
     </div>
     
   </main>
-
-  <footer>
+ <footer>
     <p>© 56.009 Nothing Inc.</p>
+    <p class="visitor-counter">
+      You are visitor number: 
+      <img src="https://hitwebcounter.com/counter/counter.php?page=20002530&style=0036&nbdigits=9&type=page&initCount=0" alt="Counter" />
+    </p>
   </footer>
+
+  <script>
+    const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww';
+    const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+
+    fetch(feedURL)
+      .then(res => res.json())
+      .then(data => {
+        // Full Video
+        const full = data.items.filter(item => !item.link.includes('/shorts/'))[0];
+        if(full) {
+          const fId = full.link.split('v=')[1]?.split('&')[0];
+          document.getElementById('latest-full-video').innerHTML = `<iframe src="https://www.youtube.com/embed/${fId}" allowfullscreen></iframe>`;
+        }
+        // Short
+        const short = data.items.filter(item => item.link.includes('/shorts/'))[0];
+        if(short) {
+          const sId = short.link.split('/shorts/')[1].split('?')[0];
+          document.getElementById('latest-short').innerHTML = `<iframe src="https://www.youtube.com/embed/${sId}" allowfullscreen></iframe>`;
+        }
+      });
+  </script>
 
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
