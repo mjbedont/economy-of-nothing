@@ -3,240 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RPS Tactical Grid</title>
+    <title>9x9 Tactical RPS</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #2c3e50;
-            color: white;
+            background-color: #1a1a1a;
+            color: #ddd;
+            margin: 0;
+            padding: 20px;
         }
 
-        #status-area {
-            margin: 20px;
+        #ui-layer {
             text-align: center;
+            margin-bottom: 15px;
         }
 
+        /* 9x9 Grid: 9 columns of 55px */
         #board {
             display: grid;
-            grid-template-columns: repeat(10, 50px);
-            grid-template-rows: repeat(10, 50px);
-            gap: 2px;
+            grid-template-columns: repeat(9, 55px);
+            grid-template-rows: repeat(9, 55px);
+            gap: 3px;
             background-color: #444;
-            border: 4px solid #000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 6px solid #111;
+            padding: 3px;
         }
 
         .cell {
-            width: 50px;
-            height: 50px;
-            background-color: #ecf0f1;
+            width: 55px;
+            height: 55px;
+            background-color: #2c3e50;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: background 0.2s;
+            border-radius: 2px;
         }
 
-        .cell:hover {
-            background-color: #bdc3c7;
-        }
+        .cell:hover { background-color: #34495e; }
 
-        /* Piece Styles */
         .piece {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px; /* Slightly squared circles */
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             user-select: none;
-            box-shadow: 0 4px 5px rgba(0,0,0,0.3);
+            transition: transform 0.1s;
         }
 
-        .p1 { background: #3498db; color: white; border: 2px solid #2980b9; }
-        .p2 { background: #e74c3c; color: white; border: 2px solid #c0392b; }
+        .p1 { background: #00a8ff; color: #fff; box-shadow: 0 0 10px rgba(0, 168, 255, 0.4); }
+        .p2 { background: #ff4757; color: #fff; box-shadow: 0 0 10px rgba(255, 71, 87, 0.4); }
 
         .selected {
-            outline: 4px solid #f1c40f;
-            outline-offset: -4px;
-            background-color: #f39c12 !important;
+            background-color: #f1c40f !important;
+            box-shadow: 0 0 15px #f1c40f;
+            transform: scale(1.1);
         }
 
         #log {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 10px;
-            background: #34495e;
+            background: #000;
             width: 500px;
-            height: 100px;
+            height: 80px;
             overflow-y: auto;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            border: 1px solid #555;
+            font-family: monospace;
+            border: 1px solid #333;
+            color: #0f0;
         }
     </style>
 </head>
 <body>
 
-    <div id="status-area">
-        <h1>Tactical RPS</h1>
-        <h2 id="turn-indicator">Player 1's Turn (Blue)</h2>
-        <p>Goal: Reach the opposite side or eliminate the enemy.</p>
+    <div id="ui-layer">
+        <h2>Tactical RPS (9x9)</h2>
+        <h3 id="turn-indicator" style="color: #00a8ff;">Player 1's Turn</h3>
     </div>
 
     <div id="board"></div>
 
-    <div id="log">
-        <div>Game Started. Move one piece per turn.</div>
-    </div>
+    <div id="log">Welcome Commander. Eliminate the enemy or cross the line.</div>
 
     <script>
-        const boardElement = document.getElementById('board');
-        const turnIndicator = document.getElementById('turn-indicator');
-        const logElement = document.getElementById('log');
+        const boardElem = document.getElementById('board');
+        const turnElem = document.getElementById('turn-indicator');
+        const logElem = document.getElementById('log');
 
-        let selectedCoord = null; // {r, c}
-        let currentTurn = 'p1';
-        
-        // Matchup Logic
-        const winsAgainst = { 'R': 'S', 'S': 'P', 'P': 'R' };
-        const fullName = { 'R': 'Rock', 'P': 'Paper', 'S': 'Scissors' };
+        let selected = null;
+        let turn = 'p1';
+        const matchups = { 'R': 'S', 'S': 'P', 'P': 'R' };
 
-        // Game State: 10x10 Grid
-        // Pieces: 4 per side
+        // 2 of each type per side (6 pieces total per player)
         let pieces = {
-            "0-3": { owner: 'p1', type: 'R' },
-            "0-4": { owner: 'p1', type: 'P' },
-            "0-5": { owner: 'p1', type: 'S' },
-            "0-6": { owner: 'p1', type: 'R' },
-
-            "9-3": { owner: 'p2', type: 'R' },
-            "9-4": { owner: 'p2', type: 'P' },
-            "9-5": { owner: 'p2', type: 'S' },
-            "9-6": { owner: 'p2', type: 'R' }
+            // Player 1 (Top)
+            "0-1": { owner: 'p1', type: 'R' }, "0-2": { owner: 'p1', type: 'R' },
+            "0-3": { owner: 'p1', type: 'P' }, "0-4": { owner: 'p1', type: 'P' },
+            "0-5": { owner: 'p1', type: 'S' }, "0-6": { owner: 'p1', type: 'S' },
+            
+            // Player 2 (Bottom)
+            "8-2": { owner: 'p2', type: 'R' }, "8-3": { owner: 'p2', type: 'R' },
+            "8-4": { owner: 'p2', type: 'P' }, "8-5": { owner: 'p2', type: 'P' },
+            "8-6": { owner: 'p2', type: 'S' }, "8-7": { owner: 'p2', type: 'S' }
         };
 
-        function addToLog(msg) {
-            const entry = document.createElement('div');
-            entry.textContent = `> ${msg}`;
-            logElement.prepend(entry);
-        }
-
-        function renderBoard() {
-            boardElement.innerHTML = '';
-            for (let r = 0; r < 10; r++) {
-                for (let c = 0; c < 10; c++) {
+        function draw() {
+            boardElem.innerHTML = '';
+            for (let r = 0; r < 9; r++) {
+                for (let c = 0; c < 9; c++) {
                     const cell = document.createElement('div');
                     cell.className = 'cell';
                     const coord = `${r}-${c}`;
                     
                     if (pieces[coord]) {
-                        const pData = pieces[coord];
+                        const p = pieces[coord];
                         const pDiv = document.createElement('div');
-                        pDiv.className = `piece ${pData.owner}`;
-                        pDiv.textContent = pData.type;
+                        pDiv.className = `piece ${p.owner}`;
+                        pDiv.textContent = p.type;
+                        if (selected && selected.r === r && selected.c === c) pDiv.classList.add('selected');
                         cell.appendChild(pDiv);
                     }
-
-                    if (selectedCoord && selectedCoord.r === r && selectedCoord.c === c) {
-                        cell.classList.add('selected');
-                    }
-
-                    cell.onclick = () => handleSquareClick(r, c);
-                    boardElement.appendChild(cell);
+                    cell.onclick = () => clicked(r, c);
+                    boardElem.appendChild(cell);
                 }
             }
         }
 
-        function handleSquareClick(r, c) {
+        function clicked(r, c) {
             const coord = `${r}-${c}`;
-            const clickedPiece = pieces[coord];
+            const p = pieces[coord];
 
-            // 1. SELECTING A PIECE
-            if (clickedPiece && clickedPiece.owner === currentTurn) {
-                selectedCoord = { r, c };
-                renderBoard();
-                return;
-            }
+            if (p && p.owner === turn) {
+                selected = { r, c, p };
+                draw();
+            } else if (selected) {
+                const distR = Math.abs(r - selected.r);
+                const distC = Math.abs(c - selected.c);
 
-            // 2. MOVING A PIECE
-            if (selectedCoord) {
-                const dr = Math.abs(r - selectedCoord.r);
-                const dc = Math.abs(c - selectedCoord.c);
-
-                // Move rule: 1 square in any direction (including diagonals)
-                if (dr <= 1 && dc <= 1 && !(dr === 0 && dc === 0)) {
-                    executeMove(selectedCoord.r, selectedCoord.c, r, c);
-                } else {
-                    addToLog("Invalid move! You can only move 1 square.");
+                if (distR <= 1 && distC <= 1 && (distR + distC > 0)) {
+                    move(selected.r, selected.c, r, c);
                 }
             }
         }
 
-        function executeMove(fromR, fromC, toR, toC) {
-            const attacker = pieces[`${fromR}-${fromC}`];
-            const defender = pieces[`${toR}-${toC}`];
-            const toCoord = `${toR}-${toC}`;
+        function move(fr, fc, tr, tc) {
+            const att = pieces[`${fr}-${fc}`];
+            const def = pieces[`${tr}-${tc}`];
+            const target = `${tr}-${tc}`;
 
-            if (defender) {
-                // Same team check
-                if (defender.owner === attacker.owner) {
-                    addToLog("Can't attack your own team!");
-                    return;
-                }
-
-                // Combat logic
-                if (attacker.type === defender.type) {
-                    addToLog(`Tie! ${fullName[attacker.type]} vs ${fullName[defender.type]}. Both survive.`);
-                    // In this version, we'll just cancel the move on a tie
-                    selectedCoord = null;
-                    renderBoard();
-                    return;
-                } else if (winsAgainst[attacker.type] === defender.type) {
-                    addToLog(`Victory! ${fullName[attacker.type]} beats ${fullName[defender.type]}.`);
-                    pieces[toCoord] = attacker;
+            if (def) {
+                if (def.owner === att.owner) return;
+                
+                if (att.type === def.type) {
+                    log(`Clash! Both ${att.type}s hold their ground.`);
+                    selected = null; draw(); return;
+                } else if (matchups[att.type] === def.type) {
+                    log(`P1 ${att.type} destroys P2 ${def.type}!`);
+                    pieces[target] = att;
                 } else {
-                    addToLog(`Defeat! ${fullName[attacker.type]} lost to ${fullName[defender.type]}.`);
+                    log(`P1 ${att.type} was countered by P2 ${def.type}!`);
                 }
             } else {
-                // Simple move to empty square
-                pieces[toCoord] = attacker;
+                pieces[target] = att;
             }
 
-            // Remove piece from old position
-            delete pieces[`${fromR}-${fromC}`];
+            delete pieces[`${fr}-${fc}`];
             
-            // Check Win Conditions
-            if (attacker.owner === 'p1' && toR === 9) endGame("Player 1 (Blue) reached the end!");
-            else if (attacker.owner === 'p2' && toR === 0) endGame("Player 2 (Red) reached the end!");
+            // Win check
+            if (att.owner === 'p1' && tr === 8) win("Player 1 reached the end!");
+            if (att.owner === 'p2' && tr === 0) win("Player 2 reached the end!");
 
-            // Finalize Turn
-            selectedCoord = null;
-            currentTurn = currentTurn === 'p1' ? 'p2' : 'p1';
-            turnIndicator.textContent = `Player ${currentTurn === 'p1' ? '1 (Blue)' : '2 (Red)'}'s Turn`;
-            renderBoard();
-            
-            checkElimination();
+            turn = turn === 'p1' ? 'p2' : 'p1';
+            turnElem.textContent = turn === 'p1' ? "Player 1's Turn" : "Player 2's Turn";
+            turnElem.style.color = turn === 'p1' ? "#00a8ff" : "#ff4757";
+            selected = null;
+            draw();
+            checkEmpty();
         }
 
-        function checkElimination() {
-            const p1count = Object.values(pieces).filter(p => p.owner === 'p1').length;
-            const p2count = Object.values(pieces).filter(p => p.owner === 'p2').length;
-            
-            if (p1count === 0) endGame("Player 2 wins by elimination!");
-            if (p2count === 0) endGame("Player 1 wins by elimination!");
+        function log(m) {
+            const d = document.createElement('div');
+            d.textContent = "> " + m;
+            logElem.prepend(d);
         }
 
-        function endGame(msg) {
-            alert(msg);
-            location.reload(); // Refresh the page to reset
+        function checkEmpty() {
+            const counts = { p1: 0, p2: 0 };
+            Object.values(pieces).forEach(p => counts[p.owner]++);
+            if (counts.p1 === 0) win("Player 2 wins by total elimination!");
+            if (counts.p2 === 0) win("Player 1 wins by total elimination!");
         }
 
-        renderBoard();
+        function win(m) { alert(m); location.reload(); }
+
+        draw();
     </script>
 </body>
 </html>
