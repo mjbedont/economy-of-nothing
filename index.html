@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Explore The Economy of Nothing—a dystopian sci-fi satire." />
   <title>Economy of Nothing</title>
@@ -27,7 +27,27 @@
     <p>
       Part space opera, part existential prank. The Economy of Nothing is what’s left when the future shows up and no one wants it.
     </p>
+    
+    <div class="vr-container">
+      <div class="vr-header">
+        <div style="font-weight: bold; font-size: 0.9rem;">EoN | Visual Radio </div>
+        <div class="vr-tuner" id="tuner"></div>
+      </div>
 
+      <div class="vr-player-wrap">
+          <div id="player"></div>
+      </div>
+
+      <div id="status" class="vr-status">INITIALIZING...</div>
+      <div class="vr-carousel" id="carousel">CONNECTING...</div>
+    </div>
+   
+    <h2>Daily* Shorts</h2>
+    <div class="responsive-iframe-container" id="latest-short">
+      <p style="text-align: center; padding: 20px;">Scanning for latest short-form signal...</p>
+    </div>
+    
+    <h2>Latest Patreon</h2>
     <section style="text-align: center; margin: 40px 0;">
       <a href="https://www.patreon.com/economyofnothing" target="_blank" rel="noopener" class="promo-thumbnail-link">
         <img src="/media/images/eon203_promo.png" alt="Episode 203 Thumbnail" style="width: 100%; max-width: 600px; border: 3px solid var(--primary-color); border-radius: 10px;" />
@@ -35,63 +55,210 @@
       <p style="margin-top: 10px;"><em>Access the extended archives and early transmissions on Patreon.</em></p>
     </section>
 
-    <h2>Latest Feeds</h2>
-    <div class="responsive-iframe-container" id="latest-full-video">
-      <p>Loading latest video...</p>
-    </div>
-         
-    <div class="responsive-iframe-container" id="latest-short">
-      <p>Loading latest Short...</p>
-    </div>
-
-    <h2>Latest Audio</h2>
-    <div class="libsyn-embed">
-      <iframe 
-        style="border: none" 
-        src="//html5-player.libsyn.com/embed/episode/id/39892420/height/192/theme/modern/size/large/thumbnail/yes/render-playlist/no/custom-color/00ff00/time-start/00:00:00/" 
-        height="192" 
-        width="100%" 
-        scrolling="no" 
+<h2>Latest Audio</h2>
+<div class="libsyn-embed-container">
+    <iframe 
+        title="Embed Player"
+        style="border:none"
+        src="https://play.libsyn.com/embed/episode/id/39892420/height/192/theme/modern/size/large/thumbnail/yes/custom-color/00ff00/time-start/00:00:00/hide-playlist/yes/download/yes/font-color/ffffff"
+        height="192"
+        width="100%"
+        scrolling="no"
         allowfullscreen>
-      </iframe>
+    </iframe>
+</div>
+  
+    <h2>Leave Our Site, Not Our Economy</h2> 
+    
+<div class="external-links">
+  <a href="https://www.patreon.com/economyofnothing" target="_blank" rel="noopener">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Patreon_logo.svg" alt="Patreon" class="platform-logo" />
+    <span>Patreon</span>
+  </a>
+
+  <a href="https://www.youtube.com/@economyofnothing" target="_blank" rel="noopener">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="platform-logo" />
+    <span>YouTube</span>
+  </a>
+
+  <a href="https://www.instagram.com/economyofnothing/" target="_blank" rel="noopener">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="platform-logo" />
+    <span>Instagram</span>
+  </a>
+</div>
+    
+    <div class="external-links">
+      <a href="https://open.spotify.com/show/5oq4FslrPyMMql9qa7s72I?si=7faefcc731484ef9" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="platform-logo" />
+        <span>Spotify</span>
+      </a>
+
+      <a href="https://podcasts.apple.com/us/podcast/the-economy-of-nothing-podcast/id1805857583" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Podcasts" class="platform-logo" />
+        <span>Apple Podcasts</span>
+      </a>
+
+      <a href="https://music.amazon.com/podcasts/082f0e43-dac5-4334-a3e4-bc82e0d50f50/the-economy-of-nothing-podcast" target="_blank" rel="noopener">
+        <img src="https://img.icons8.com/color/48/amazon-music.png" alt="Amazon Music" class="platform-logo" />
+        <span>Amazon Music</span>
+      </a>
+    </div>
+    
+    <div class="external-links">
+      <a href="https://www.teepublic.com/user/economyofnothing" target="_blank">
+        <img src="/media/images/waffle-shirt.webp" alt="Merch" class="platform-logo" />
+        <span>Browse Merch on TeePublic</span>
+      </a>
     </div>
 
-    <div class="external-links">
-      <a href="https://podcasts.apple.com/us/podcast/the-economy-of-nothing-podcast/id1805857583" target="_blank">Apple Podcasts</a>
-      <a href="https://open.spotify.com/show/5oq4FslrPyMMql9qa7s72I" target="_blank">Spotify</a>
-      <a href="https://www.patreon.com/economyofnothing" target="_blank" style="background: var(--secondary-color); color: #fff;">Patreon</a>
-    </div>
+     <h2>Contact</h2>
+<p>
+      send an old fashion email to economyofnoting@gmail.com
+    </p>
   </main>
 
   <footer>
     <p>© 56.009 Nothing Inc.</p>
     <p class="visitor-counter">
       You are visitor number: 
-      <img src="https://hitwebcounter.com/counter/counter.php?page=20002530&style=0036&nbdigits=9&type=page&initCount=0" alt="Counter" />
+      <img src="https://hitwebcounter.com/counter/counter.php?page=20002530&style=0036&nbdigits=9&type=page&initCount=0" alt="Counter" style="vertical-align: middle;" />
     </p>
   </footer>
 
+  <script src="https://www.youtube.com/iframe_api"></script>
+
   <script>
+    /* --- SHORTS AUTOMATION --- */
     const channelId = 'UCSQun-kKmhoJ9K9VPlTP0ww';
-    const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+    const feedURL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}&t=${Date.now()}`;
 
     fetch(feedURL)
       .then(res => res.json())
       .then(data => {
-        // Full Video
-        const full = data.items.filter(item => !item.link.includes('/shorts/'))[0];
-        if(full) {
-          const fId = full.link.split('v=')[1]?.split('&')[0];
-          document.getElementById('latest-full-video').innerHTML = `<iframe src="https://www.youtube.com/embed/${fId}" allowfullscreen></iframe>`;
-        }
-        // Short
+        // Look for the newest Short
         const short = data.items.filter(item => item.link.includes('/shorts/'))[0];
         if(short) {
           const sId = short.link.split('/shorts/')[1].split('?')[0];
           document.getElementById('latest-short').innerHTML = `<iframe src="https://www.youtube.com/embed/${sId}" allowfullscreen></iframe>`;
+        } else {
+          // Fallback to newest video if no short is found in the latest items
+          const newest = data.items[0];
+          if(newest) {
+            const nId = newest.link.split('v=')[1]?.split('&')[0];
+            document.getElementById('latest-short').innerHTML = `<iframe src="https://www.youtube.com/embed/${nId}" allowfullscreen></iframe>`;
+          }
         }
       });
+
+/* --- VR-1 VISUAL RADIO SYSTEM --- */
+const CHANNELS = [
+  { name: "LATEST",   id: "PLPrT6qMbooEmOi60hDqeFKFDgmO1lRfWA" },
+  { name: "SEASON 2", id: "PLPrT6qMbooElVLLejX7V5EDLCRnj4waA4" },
+  { name: "SEASON 1", id: "PLPrT6qMbooEkg5emEYwACBuhh74adPnM8" },
+  { name: "SEASON 0", id: "PLPrT6qMbooEm1_f50pO6jw087yTNVkio4" },
+  { name: "MGSSC", id: "PLPrT6qMbooEkl1D5Vhjo0AfJkchM0yHtV" },
+  { name: "Pre-Vis",      id: "PLPrT6qMbooEln6PRnPvdR2WgUX7R-AwmN" }
+];
+
+    window.videos = [];
+    window.currentIndex = 0;
+    window.player = null;
+    window.currentChannelId = CHANNELS[0].id;
+    window.isPlaylistLoaded = false;
+
+    function buildTuner() {
+      const tunerDiv = document.getElementById('tuner');
+      CHANNELS.forEach(ch => {
+        const btn = document.createElement('button');
+        btn.className = 'vr-btn';
+        btn.innerText = ch.name;
+        btn.id = `btn-${ch.id}`;
+        btn.onclick = () => switchChannel(ch.id);
+        tunerDiv.appendChild(btn);
+      });
+      document.getElementById(`btn-${window.currentChannelId}`).classList.add('active');
+    }
+
+    async function switchChannel(playlistId) {
+      if (window.currentChannelId === playlistId && window.videos.length > 0) return;
+      window.currentChannelId = playlistId;
+      window.isPlaylistLoaded = false;
+
+      document.querySelectorAll('.vr-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`btn-${playlistId}`);
+      if(activeBtn) activeBtn.classList.add('active');
+
+      document.getElementById('status').innerText = "TUNING FREQUENCY...";
+      document.getElementById('carousel').innerHTML = ""; 
+
+      await loadPlaylist(playlistId);
+      if (window.player && window.videos.length > 0) window.tuneTo(0);
+    }
+
+    window.checkAndStart = function() {
+      if (window.YT && window.YT.Player && window.isPlaylistLoaded && !window.player) {
+        window.player = new YT.Player("player", {
+          width: "100%", height: "100%",
+          playerVars: { autoplay: 1, mute: 1, rel: 0, modestbranding: 1, playsinline: 1 },
+          events: {
+            onReady: () => {
+              document.getElementById('status').innerText = "SIGNAL LOCKED | AUDIO MUTED";
+              window.tuneTo(0);
+            },
+            onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED) nextVideo(); }
+          }
+        });
+      }
+    };
+
+    window.tuneTo = function(index) {
+      if (!window.videos[index] || !window.player) return;
+      window.currentIndex = index;
+      const thumbnails = document.querySelectorAll('.vr-carousel img');
+      thumbnails.forEach((img, i) => img.classList.toggle("active", i === index));
+      window.player.loadVideoById(window.videos[index].videoId);
+    };
+
+    window.nextVideo = function() {
+      window.tuneTo((window.currentIndex + 1) % window.videos.length);
+    };
+
+    window.onYouTubeIframeAPIReady = function() { window.checkAndStart(); };
+
+    async function loadPlaylist(playlistId) {
+      try {
+        window.videos = [];
+        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}&t=${Date.now()}`);
+        const data = await res.json();
+        const carousel = document.getElementById("carousel");
+        carousel.innerHTML = "";
+        
+        data.items.forEach((item, index) => {
+          const videoId = item.link.split('v=')[1] || item.link.split('/').pop();
+          window.videos.push({ videoId });
+          const img = document.createElement("img");
+          img.src = item.thumbnail;
+          img.onclick = () => window.tuneTo(index);
+          carousel.appendChild(img);
+        });
+
+        const moreCard = document.createElement("a");
+        moreCard.className = "vr-more-card";
+        moreCard.href = `https://www.youtube.com/playlist?list=${playlistId}`;
+        moreCard.target = "_blank";
+        moreCard.innerHTML = `WATCH FULL<br>SIGNAL ➔`;
+        carousel.appendChild(moreCard);
+
+        window.isPlaylistLoaded = true;
+        document.getElementById('status').innerText = "BROADCAST CLEAR";
+        window.checkAndStart(); 
+      } catch (e) {
+        document.getElementById("status").innerText = "SIGNAL INTERFERENCE";
+      }
+    }
+
+    buildTuner();
+    loadPlaylist(window.currentChannelId);
   </script>
 </body>
 </html>
-
