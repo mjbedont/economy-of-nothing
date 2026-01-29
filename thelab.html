@@ -1,236 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galaxy Explorer</title>
-<style>
-  /* Global Styles */
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
-  body { background: #111; color: #fff; display: flex; flex-direction: column; height: 100vh; }
+    <meta charset="UTF-8">
+    <title>VOID / RPS</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #1a1a1a;
+            --p1: #00f2ff;
+            --p2: #ff0055;
+            --text: #ffffff;
+            --border: #333;
+        }
 
-  header, footer { background: #222; padding: 10px; text-align: center; font-weight: bold; }
-  nav { background: #333; padding: 5px; text-align: center; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
-  #mainContainer { flex: 1; display: flex; flex-direction: column; }
-  #mapContainer { flex: 1; position: relative; background: radial-gradient(circle at center, #000 0%, #111 100%); }
-  canvas { width: 100%; height: 100%; display: block; }
+        #ui { text-align: center; margin-bottom: 20px; }
+        
+        #board {
+            display: grid;
+            grid-template-columns: repeat(9, 45px);
+            grid-template-rows: repeat(9, 45px);
+            gap: 1px;
+            background-color: var(--border);
+            border: 1px solid var(--border);
+        }
 
-  /* HUD Styles */
-  #hud { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; }
-  #metaHud { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; text-align: right; }
+        .cell {
+            width: 45px;
+            height: 45px;
+            background-color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: crosshair;
+        }
 
-  /* Menu / Message Styles */
-  #menuBox { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); padding: 15px; border-radius: 10px; max-width: 90%; }
-  #menuBox h3 { margin-bottom: 10px; text-align: center; }
-  #menuBox button { margin: 3px; padding: 5px 10px; background: #444; border: 1px solid #fff; color: #fff; cursor: pointer; }
-  #menuBox button:hover { background: #666; }
+        .piece {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.1s;
+        }
 
-  #messageBox { position: absolute; bottom: 150px; left: 50%; transform: translateX(-50%); max-width: 90%; }
-  #messageBox div { margin: 2px 0; padding: 5px 10px; background: rgba(255,255,255,0.1); border-radius: 5px; }
-</style>
+        .p1 { color: var(--p1); }
+        .p2 { color: var(--p2); }
+
+        .selected {
+            background-color: var(--surface);
+            box-shadow: inset 0 0 10px var(--p1);
+        }
+
+        #log {
+            margin-top: 20px;
+            width: 414px;
+            height: 60px;
+            font-size: 10px;
+            color: #666;
+            overflow: hidden;
+            border-left: 1px solid var(--border);
+            padding-left: 10px;
+        }
+
+        .win-p1 { color: var(--p1); }
+        .win-p2 { color: var(--p2); }
+    </style>
 </head>
 <body>
 
-<header>Galaxy Explorer</header>
-<nav>Navigate the stars, complete jobs, and climb the POD leaderboard!</nav>
-
-<div id="mainContainer">
-  <div id="mapContainer">
-    <canvas id="mapCanvas"></canvas>
-    <div id="hud">
-      <div id="fuel">Fuel: 0</div>
-      <div id="health">Health: 0</div>
-      <div id="credits">Credits: 0</div>
-      <div id="job">Job: None</div>
+    <div id="ui">
+        <div id="status">System Ready</div>
+        <div id="turn">Player: Alpha</div>
     </div>
-    <div id="metaHud">
-      <div id="promotions">Promotions: 0</div>
-      <div id="dispatches">Dispatches: 0</div>
-      <div id="followers">Followers: 0</div>
-      <div id="planetsVisited">Planets Visited: 0</div>
-      <div id="pod">POD: N/A</div>
-    </div>
-    <div id="menuBox"></div>
-    <div id="messageBox"></div>
-  </div>
-</div>
 
-<footer>© 2025 Galaxy Explorer | Build your interstellar career</footer>
+    <div id="board"></div>
 
-<script>
-/* ===== Game State ===== */
-const canvas = document.getElementById("mapCanvas");
-const ctx = canvas.getContext("2d");
-const messageBox = document.getElementById("messageBox");
-const menuBox = document.getElementById("menuBox");
+    <div id="log"></div>
 
-const hudFuel = document.getElementById("fuel");
-const hudHealth = document.getElementById("health");
-const hudCredits = document.getElementById("credits");
-const hudJob = document.getElementById("job");
-const hudPromotions = document.getElementById("promotions");
-const hudDispatches = document.getElementById("dispatches");
-const hudFollowers = document.getElementById("followers");
-const hudPlanetsVisited = document.getElementById("planetsVisited");
-const hudPOD = document.getElementById("pod");
+    <script>
+        const board = document.getElementById('board');
+        const status = document.getElementById('status');
+        const turnDisplay = document.getElementById('turn');
+        const log = document.getElementById('log');
 
-const planets = [];
-const ship = { x:0, y:0, width:15, height:10, color:'#00ffcc' };
-let fuel = 50, health = 100, credits = 500;
-let promotions = 0, dispatches = 0, followers = 0;
-let visitedPlanets = [];
-let currentJob = null;
+        let selected = null;
+        let turn = 'p1'; 
+        let active = true;
 
-/* ===== Canvas Resize ===== */
-function resizeCanvas(){
-  const container = document.getElementById("mapContainer");
-  canvas.width = container.clientWidth;
-  canvas.height = container.clientHeight;
-  if(planets.length===0) generatePlanets();
-  draw();
-}
-window.addEventListener('resize', resizeCanvas);
+        const winMap = { 'R': 'S', 'S': 'P', 'P': 'R' };
+        
+        // Initial State (2 of each)
+        let pieces = {
+            "0-2": {o:'p1', t:'R'}, "0-3": {o:'p1', t:'R'},
+            "0-4": {o:'p1', t:'P'}, "0-5": {o:'p1', t:'P'},
+            "0-6": {o:'p1', t:'S'}, "1-4": {o:'p1', t:'S'}, // Slightly staggered start
 
-/* ===== Planets ===== */
-function generatePlanets(){
-  planets.length=0;
-  const centerX = canvas.width/2;
-  const centerY = canvas.height/2;
-  planets.push({x:centerX, y:centerY, radius:30, color:'#ff6600', name:'Planet Prime', distanceFromPrime:0});
-  for(let i=1;i<=7;i++){
-    let x,y;
-    do{
-      const angle=Math.random()*Math.PI*2;
-      const distance=150 + Math.random()*(Math.min(canvas.width,canvas.height)*0.4);
-      x = centerX + Math.cos(angle)*distance;
-      y = centerY + Math.sin(angle)*distance;
-    }while(planets.some(p=>Math.sqrt((p.x-x)**2 + (p.y-y)**2)<100));
-    planets.push({x,y,radius:20, color:['#00bfff','#ff3399','#ffcc00'][i%3], name:`Planet ${i}`, distanceFromPrime:Math.round(Math.sqrt((x-centerX)**2 + (y-centerY)**2)/50)});
-  }
-  ship.x = planets[0].x - ship.width/2;
-  ship.y = planets[0].y - ship.height/2;
-}
+            "8-2": {o:'p2', t:'R'}, "8-3": {o:'p2', t:'R'},
+            "8-4": {o:'p2', t:'P'}, "8-5": {o:'p2', t:'P'},
+            "8-6": {o:'p2', t:'S'}, "7-4": {o:'p2', t:'S'}
+        };
 
-/* ===== Draw ===== */
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  planets.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
-    ctx.fillStyle=p.color;
-    ctx.fill();
-    ctx.strokeStyle="#fff";
-    ctx.stroke();
-    ctx.font="12px Orbitron";
-    ctx.fillStyle="#fff";
-    ctx.textAlign="center";
-    ctx.fillText(p.name,p.x,p.y-p.radius-5);
-  });
-  ctx.fillStyle=ship.color;
-  ctx.fillRect(ship.x,ship.y,ship.width,ship.height);
-}
+        function writeLog(msg) {
+            const entry = document.createElement('div');
+            entry.textContent = `> ${msg}`;
+            log.prepend(entry);
+        }
 
-/* ===== HUD ===== */
-function updateHUD(){
-  hudFuel.textContent=`Fuel: ${fuel}`;
-  hudHealth.textContent=`Health: ${health}`;
-  hudCredits.textContent=`Credits: ${credits}`;
-  hudJob.textContent=currentJob ? `Job: ${currentJob.targetPlanet.name}`:'Job: None';
-  hudPromotions.textContent=`Promotions: ${promotions}`;
-  hudDispatches.textContent=`Dispatches: ${dispatches}`;
-  hudFollowers.textContent=`Followers: ${followers}`;
-  hudPlanetsVisited.textContent=`Planets Visited: ${visitedPlanets.length}`;
-  hudPOD.textContent=`POD: ${dispatches>0?(promotions/dispatches).toFixed(2):'N/A'}`;
-}
+        function init() {
+            board.innerHTML = '';
+            for (let r = 0; r < 9; r++) {
+                for (let c = 0; c < 9; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    const key = `${r}-${c}`;
+                    
+                    if (pieces[key]) {
+                        const p = pieces[key];
+                        const pDiv = document.createElement('div');
+                        pDiv.className = `piece ${p.o}`;
+                        pDiv.textContent = p.t;
+                        if (selected && selected.r === r && selected.c === c) pDiv.classList.add('selected');
+                        cell.appendChild(pDiv);
+                    }
+                    cell.onclick = () => { if(turn === 'p1' && active) handleTap(r, c); };
+                    board.appendChild(cell);
+                }
+            }
+        }
 
-/* ===== Messages ===== */
-function showMessage(message,type='info'){
-  const div=document.createElement('div');
-  div.textContent=message;
-  if(type==='success') div.style.color='#00ff00';
-  else if(type==='error') div.style.color='#ff0000';
-  else if(type==='warning') div.style.color='#ffff00';
-  messageBox.appendChild(div);
-  setTimeout(()=>div.remove(),5000);
-}
+        function handleTap(r, c) {
+            const key = `${r}-${c}`;
+            const p = pieces[key];
 
-/* ===== Click Planet ===== */
-canvas.addEventListener('click',(e)=>{
-  const {offsetX,offsetY}=e;
-  planets.forEach(p=>{
-    const dx=offsetX-p.x;
-    const dy=offsetY-p.y;
-    if(Math.sqrt(dx**2+dy**2)<=p.radius){
-      if(p.name==='Planet Prime') openPlanetPrimeMenu();
-      else moveShipTo(p);
-    }
-  });
-});
+            if (p && p.o === 'p1') {
+                selected = { r, c, p };
+                init();
+            } else if (selected) {
+                if (Math.abs(r - selected.r) <= 1 && Math.abs(c - selected.c) <= 1) {
+                    processMove(selected.r, selected.c, r, c);
+                }
+            }
+        }
 
-/* ===== Ship Movement ===== */
-function moveShipTo(targetPlanet){
-  const dx = targetPlanet.x - (ship.x + ship.width/2);
-  const dy = targetPlanet.y - (ship.y + ship.height/2);
-  const distance = Math.sqrt(dx**2+dy**2);
-  const fuelCost = Math.ceil(distance/50);
-  if(fuel<fuelCost){ showMessage("Not enough fuel!",'error'); return; }
-  fuel -= fuelCost;
-  updateHUD();
-  const steps=100;
-  const stepX=dx/steps;
-  const stepY=dy/steps;
-  let step=0;
-  const interval=setInterval(()=>{
-    if(step>=steps){ clearInterval(interval); ship.x=targetPlanet.x-ship.width/2; ship.y=targetPlanet.y-ship.height/2; showMessage(`Arrived at ${targetPlanet.name}!`,'success'); openPlanetMenu(targetPlanet); draw(); }
-    else{ ship.x+=stepX; ship.y+=stepY; step++; draw(); }
-  },16);
-}
+        function processMove(fr, fc, tr, tc) {
+            const att = pieces[`${fr}-${fc}`];
+            const def = pieces[`${tr}-${tc}`];
+            const targetKey = `${tr}-${tc}`;
 
-/* ===== Planet Menus ===== */
-function openPlanetPrimeMenu(){
-  menuBox.innerHTML="<h3>Planet Prime Menu</h3>";
-  const jobBtn=document.createElement('button');
-  jobBtn.textContent="Choose Job";
-  jobBtn.onclick=chooseJob;
-  menuBox.appendChild(jobBtn);
-}
+            if (def) {
+                if (def.o === att.o) return;
+                if (att.t === def.t) {
+                    writeLog("clash. kinetic halt.");
+                    selected = null; init(); return;
+                } 
+                if (winMap[att.t] === def.t) {
+                    writeLog(`${att.t} deletes ${def.t}`);
+                    pieces[targetKey] = att;
+                } else {
+                    writeLog(`${att.t} fails. removed.`);
+                }
+            } else {
+                pieces[targetKey] = att;
+            }
 
-function openPlanetMenu(planet){
-  menuBox.innerHTML=`<h3>Welcome to ${planet.name}</h3>`;
-  const fuelBtn=document.createElement('button');
-  fuelBtn.textContent="Buy Fuel (2-5 credits/unit)";
-  fuelBtn.onclick=()=>{ const price=2+planet.distanceFromPrime; const units=Math.min(10,Math.floor(credits/price)); if(units>0){ fuel+=units; credits-=units*price; showMessage(`Bought ${units} fuel for ${units*price} credits`,'success'); updateHUD(); }else showMessage("Not enough credits!",'error'); };
-  menuBox.appendChild(fuelBtn);
-}
+            delete pieces[`${fr}-${fc}`];
+            selected = null;
+            
+            if (att.o === 'p1' && tr === 8) return finish("alpha breach. victory.");
+            if (att.o === 'p2' && tr === 0) return finish("omega breach. loss.");
 
-/* ===== Jobs ===== */
-function chooseJob(){
-  menuBox.innerHTML="<h3>Choose a Job</h3>";
-  const jobs = planets.slice(1).map(p=>{
-    const risk=['low','medium','high'][Math.floor(Math.random()*3)];
-    const healthCost= risk==='low'?Math.ceil(Math.random()*5): risk==='medium'?Math.ceil(Math.random()*10):Math.ceil(Math.random()*20);
-    const payout = p.distanceFromPrime*50 + healthCost*5;
-    return { targetPlanet:p, risk, healthCost, payout };
-  });
-  jobs.forEach(job=>{
-    const btn=document.createElement('button');
-    btn.textContent=`Travel to ${job.targetPlanet.name} (${job.payout} credits, Risk: ${job.risk})`;
-    btn.onclick=()=>{ currentJob=job; showMessage(`Job accepted: ${job.targetPlanet.name}`, 'success'); updateHUD(); };
-    menuBox.appendChild(btn);
-  });
-}
+            turn = (turn === 'p1') ? 'p2' : 'p1';
+            updateUI();
+            init();
 
-/* ===== Initialize ===== */
-function initializeGame(){
-  resizeCanvas();
-  updateHUD();
-  showMessage("Welcome to Galaxy Explorer!",'success');
-  openPlanetPrimeMenu();
-}
+            if (turn === 'p2') setTimeout(aiBrain, 400);
+        }
 
-initializeGame();
-</script>
+        function aiBrain() {
+            const ai = [];
+            for (let k in pieces) if (pieces[k].o === 'p2') {
+                const [r, c] = k.split('-').map(Number);
+                ai.push({ r, c, t: pieces[k].t });
+            }
 
+            if (ai.length === 0) return finish("alpha cleanup. victory.");
+
+            // AI Logic: 1. Kill if possible. 2. Advance.
+            let move = null;
+            for (let p of ai) {
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        let nr = p.r + dr, nc = p.c + dc;
+                        if (nr >= 0 && nr < 9 && nc >= 0 && nc < 9) {
+                            let target = pieces[`${nr}-${nc}`];
+                            if (target && target.o === 'p1' && winMap[p.t] === target.t) {
+                                move = { fr: p.r, fc: p.c, tr: nr, tc: nc };
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!move) {
+                const p = ai[Math.floor(Math.random() * ai.length)];
+                move = { fr: p.r, fc: p.c, tr: Math.max(0, p.r - 1), tc: p.c + (Math.random() > 0.5 ? 1 : -1) };
+                if (move.tc < 0 || move.tc > 8) move.tc = p.c;
+            }
+
+            processMove(move.fr, move.fc, move.tr, move.tc);
+        }
+
+        function updateUI() {
+            turnDisplay.textContent = turn === 'p1' ? "Player: Alpha" : "Player: Omega";
+            turnDisplay.style.color = turn === 'p1' ? 'var(--p1)' : 'var(--p2)';
+        }
+
+        function finish(m) {
+            active = false;
+            status.textContent = m;
+            setTimeout(() => location.reload(), 3000);
+        }
+
+        init();
+    </script>
 </body>
 </html>
