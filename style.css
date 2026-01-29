@@ -388,3 +388,26 @@ footer {
 /* Custom Scrollbar for the Tuner */
 .vr-carousel::-webkit-scrollbar { height: 4px; }
 .vr-carousel::-webkit-scrollbar-thumb { background: var(--primary-color); }
+
+/* --- FINAL 9:16 CALIBRATION FOR DAILY SHORTS --- */
+
+/* Targets the Shorts container specifically by its ID */
+#latest-short.responsive-iframe-container {
+    max-width: 340px;      /* Standard vertical width for desktop */
+    aspect-ratio: 9 / 16;  /* Forces the vertical smartphone shape */
+    height: auto;          /* Overrides the fixed height from previous classes */
+    margin: 30px auto;     /* Centers it and adds breathing room */
+}
+
+/* Ensures the iframe fills that vertical space entirely */
+#latest-short iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/* Mobile fix: ensures it doesn't get too wide on small screens */
+@media (max-width: 768px) {
+    #latest-short.responsive-iframe-container {
+        max-width: 80%;    /* Scales down nicely on phones */
+    }
+}
