@@ -3,26 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Explore the Codex of The Economy of Nothing—a satirical dystopian sci-fi series blending cosmic adventure with biting critique." />
-  <meta name="keywords" content="Economy of Nothing, Codex, sci-fi lore, characters, factions, episodes" />
-  <meta name="author" content="The Economy of Nothing Team" />
-  <title>Codex of Nothing</title>
-  <link rel="icon" type="image/png" href="/media/codexicon.png" />
-  <link rel="apple-touch-icon" href="/media/codexicon.png" />
+  <meta name="description" content="Explore the Codex of The Economy of Nothing." />
+  <title>Codex of Nothing | Personnel Terminal</title>
   <link rel="stylesheet" href="codexstyle.css" />
+  <style>
+    /* Adding a small fade-in effect for the dynamic content */
+    #human-display-container {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
+
   <header>
     <h1>Codex of Nothing</h1>
-    <button id="theme-toggle">☀️</button>
+    <button id="theme-toggle" title="Toggle Terminal Mode">☀️</button>
   </header>
 
-  <!-- 📡 Intercepted Banner -->
   <div class="random-fact-banner">
-    📡 Intercepted: <span id="random-fact">Loading fact...</span>
+    <span>📡 INTERCEPTED: <span id="random-fact">RE-ESTABLISHING UPLINK...</span></span>
   </div>
 
-  <!-- 🧭 Nav Strip -->
   <nav id="nav-strip">
     <a href="/codex/">Home</a>
     <a href="/codex/humans/">Humans</a>
@@ -31,59 +36,86 @@
     <a href="/codex/robots/">Robots</a>
     <a href="/codex/transportation/">Ships</a>
     <a href="/codex/locations/">Places</a>
-    <a href="/index.html">Exit</a>
+    <a href="/index.html" style="color: var(--red);">EXIT_SYSTEM</a>
   </nav>
 
   <main class="content">
     <section>
-      <h2 class="section-title">📂 Welcome to the Codex</h2>
-      <p>Explore the vast universe of <em>The Economy of Nothing</em>. Use the links above to dive into characters, factions, locations, and more.</p>
+      <h2 class="section-title">📂 Database Access</h2>
+      <p>Welcome to the <strong>Nothing Corporation</strong> internal repository. Unauthorized access is a violation of your Friends & Benefits™ agreement.</p>
     </section>
 
-    <section>
-      <h2 class="section-title">📘 Codex Pages of the Week</h2>
-      <ul>
-        <li><a href="/codex/humans/cheyenne.html">Captain Cheyenne (Shyan)</a> – She technically outranks Tracy, and that’s a whole thing.</li>
-        <li><a href="/codex/humans/officer-fist.html">Officer Fist</a> – He’s not subtle. He *is* very, very loud.</li>
-        <li><a href="/codex/transportation/sunshine.html">The Sunshine</a> – A matryoshka-class ship piloted by Rangers. Beauty, brains, and detachable layers.</li>
-      </ul>
+    <section id="featured-human-section">
+      <h2 class="section-title">👤 Random Personnel File: <span id="human-name-header">Scanning...</span></h2>
+      <div id="human-display-container">
+         <p>Initializing terminal uplink and bypassing corporate firewalls...</p>
+      </div>
     </section>
-
-<section>
-  <h2 class="section-title">🧑‍🚀 Featured Character: Lance</h2>
-  <div class="character-box">
-    <label>Lance</label>
-    <div class="character-summary">
-      <img src="../media/images/lance-1.png" alt="Lance" />
-      <p><strong>Role:</strong> Head of Communications, Nothing Corporation</p>
-      <p><strong>Description:</strong> He’s the face of The Pooh Crew™, the voice behind every corporate apology, and the only person in the galaxy who can sell censorship as a hug. Lance believes in branding, synergy, and hugging the truth until it stops struggling.</p>
-      <p><a href="/codex/humans/lance.html">→ View Full Codex Entry</a></p>
-    </div>
-  </div>
-</section>
-
   </main>
 
-  <!-- 🔧 Scripts -->
   <script>
-    // Theme toggle
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('light');
+    // 1. Theme Toggle Logic
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn.addEventListener('click', () => {
+      const isLight = document.body.classList.toggle('light');
+      themeBtn.textContent = isLight ? '🌙' : '☀️';
     });
 
-    // Random fact loader with scrolling banner
+    // 2. Random Fact Ticker Logic
     async function fetchRandomFact() {
+      const factEl = document.getElementById('random-fact');
       try {
         const response = await fetch('../data/facts.txt');
+        if (!response.ok) throw new Error();
         const text = await response.text();
         const facts = text.split('\n').filter(f => f.trim());
-        const randomIndex = Math.floor(Math.random() * facts.length);
-        document.getElementById('random-fact').textContent = facts[randomIndex];
+        factEl.textContent = facts[Math.floor(Math.random() * facts.length)];
       } catch {
-        document.getElementById('random-fact').textContent = '...fact failed to load...';
+        factEl.textContent = "SIGNAL INTERRUPTED: CORPORATE CENSORSHIP ACTIVE.";
       }
     }
+
+    // 3. Random Human Loader Logic
+    async function loadRandomHuman() {
+      const container = document.getElementById('human-display-container');
+      const headerName = document.getElementById('human-name-header');
+
+      try {
+        // Path to your JSON file
+        const response = await fetch('../data/humans.json');
+        if (!response.ok) throw new Error();
+        const humans = await response.json();
+        
+        // Select a random entry
+        const person = humans[Math.floor(Math.random() * humans.length)];
+
+        // Update UI
+        headerName.textContent = person.name;
+        container.innerHTML = `
+          <div class="character-box">
+            <div class="character-summary">
+              <img src="${person.image}" alt="${person.name}" onerror="this.src='https://via.placeholder.com/300x200?text=REDACTED+IMAGE'"/>
+              <h3>${person.name}</h3>
+              <p><strong>Primary Role:</strong> ${person.role}</p>
+              <p><strong>Bio:</strong> ${person.desc}</p>
+              <br>
+              <p><a href="${person.link}" class="character-link">→ Access Full Personnel File</a></p>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        headerName.textContent = "ERROR";
+        container.innerHTML = `
+          <div class="character-box" style="border-color: var(--red);">
+            <p style="color: var(--red);"><strong>CRITICAL ERROR:</strong> Unable to retrieve personnel data from Nothing Corp Mainframe. Please report to your supervisor for re-education.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Initialize Page
     fetchRandomFact();
+    loadRandomHuman();
   </script>
 </body>
 </html>
