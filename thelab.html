@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>VOID / RPS</title>
     <style>
         :root {
             --bg: #0a0a0a;
             --surface: #1a1a1a;
-            --p1: #00f2ff;
-            --p2: #ff0055;
+            --p1: #00f2ff; /* Alpha - Bottom */
+            --p2: #ff0055; /* Omega - Top */
             --text: #ffffff;
             --border: #333;
         }
@@ -20,73 +21,107 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
+            padding: 10px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        #ui { text-align: center; margin-bottom: 20px; }
-        
+        #header { 
+            text-align: center; 
+            margin-bottom: 15px; 
+            width: 100%;
+            max-width: 450px;
+        }
+
+        #rules {
+            font-size: 10px;
+            color: #666;
+            line-height: 1.4;
+            border: 1px solid var(--border);
+            padding: 8px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        #status-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 5px;
+            padding: 0 5px;
+        }
+
+        /* Responsive Board: Uses vmin to ensure it fits any screen */
         #board {
             display: grid;
-            grid-template-columns: repeat(9, 45px);
-            grid-template-rows: repeat(9, 45px);
+            grid-template-columns: repeat(9, 10.5vmin);
+            grid-template-rows: repeat(9, 10.5vmin);
             gap: 1px;
             background-color: var(--border);
             border: 1px solid var(--border);
+            max-width: 95vw;
         }
 
         .cell {
-            width: 45px;
-            height: 45px;
+            width: 10.5vmin;
+            height: 10.5vmin;
             background-color: var(--bg);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: crosshair;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .piece {
-            width: 100%;
-            height: 100%;
+            width: 90%;
+            height: 90%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 18px;
             font-weight: bold;
-            transition: 0.1s;
         }
 
-        .p1 { color: var(--p1); }
-        .p2 { color: var(--p2); }
+        .p1 { color: var(--p1); text-shadow: 0 0 5px var(--p1); }
+        .p2 { color: var(--p2); text-shadow: 0 0 5px var(--p2); }
 
         .selected {
             background-color: var(--surface);
-            box-shadow: inset 0 0 10px var(--p1);
+            box-shadow: inset 0 0 15px var(--p1);
         }
 
         #log {
-            margin-top: 20px;
-            width: 414px;
-            height: 60px;
+            margin-top: 15px;
+            width: 90vmin;
+            max-width: 450px;
+            height: 50px;
             font-size: 10px;
-            color: #666;
+            color: #444;
             overflow: hidden;
             border-left: 1px solid var(--border);
             padding-left: 10px;
         }
 
-        .win-p1 { color: var(--p1); }
-        .win-p2 { color: var(--p2); }
+        .highlight-win { color: #0f0; }
     </style>
 </head>
 <body>
 
-    <div id="ui">
-        <div id="status">System Ready</div>
-        <div id="turn">Player: Alpha</div>
+    <div id="header">
+        <div id="rules">
+            [OBJECTIVE] BREACH OPPONENT BACK ROW OR ELIMINATE.<br>
+            [LOGIC] R > S | S > P | P > R.<br>
+            [SAME-TYPE] KINETIC HALT (BLOCKING).<br>
+            [CONTROLS] TAP PIECE -> TAP ADJACENT SQUARE.
+        </div>
+        <div id="status-row">
+            <div id="status">SYS_ACTIVE</div>
+            <div id="turn-display" style="color: var(--p1)">TURN: ALPHA</div>
+        </div>
     </div>
 
     <div id="board"></div>
@@ -96,7 +131,7 @@
     <script>
         const board = document.getElementById('board');
         const status = document.getElementById('status');
-        const turnDisplay = document.getElementById('turn');
+        const turnDisplay = document.getElementById('turn-display');
         const log = document.getElementById('log');
 
         let selected = null;
@@ -105,15 +140,15 @@
 
         const winMap = { 'R': 'S', 'S': 'P', 'P': 'R' };
         
-        // Initial State (2 of each)
+        // P1 at Bottom (Row 8), P2 at Top (Row 0)
         let pieces = {
-            "0-2": {o:'p1', t:'R'}, "0-3": {o:'p1', t:'R'},
-            "0-4": {o:'p1', t:'P'}, "0-5": {o:'p1', t:'P'},
-            "0-6": {o:'p1', t:'S'}, "1-4": {o:'p1', t:'S'}, // Slightly staggered start
+            "0-2": {o:'p2', t:'R'}, "0-3": {o:'p2', t:'R'},
+            "0-4": {o:'p2', t:'P'}, "0-5": {o:'p2', t:'P'},
+            "0-6": {o:'p2', t:'S'}, "1-4": {o:'p2', t:'S'}, 
 
-            "8-2": {o:'p2', t:'R'}, "8-3": {o:'p2', t:'R'},
-            "8-4": {o:'p2', t:'P'}, "8-5": {o:'p2', t:'P'},
-            "8-6": {o:'p2', t:'S'}, "7-4": {o:'p2', t:'S'}
+            "8-2": {o:'p1', t:'R'}, "8-3": {o:'p1', t:'R'},
+            "8-4": {o:'p1', t:'P'}, "8-5": {o:'p1', t:'P'},
+            "8-6": {o:'p1', t:'S'}, "7-4": {o:'p1', t:'S'}
         };
 
         function writeLog(msg) {
@@ -135,9 +170,13 @@
                         const pDiv = document.createElement('div');
                         pDiv.className = `piece ${p.o}`;
                         pDiv.textContent = p.t;
-                        if (selected && selected.r === r && selected.c === c) pDiv.classList.add('selected');
                         cell.appendChild(pDiv);
                     }
+
+                    if (selected && selected.r === r && selected.c === c) {
+                        cell.classList.add('selected');
+                    }
+
                     cell.onclick = () => { if(turn === 'p1' && active) handleTap(r, c); };
                     board.appendChild(cell);
                 }
@@ -148,12 +187,18 @@
             const key = `${r}-${c}`;
             const p = pieces[key];
 
+            // Select your own piece
             if (p && p.o === 'p1') {
                 selected = { r, c, p };
                 init();
-            } else if (selected) {
+            } 
+            // Attempt move
+            else if (selected) {
                 if (Math.abs(r - selected.r) <= 1 && Math.abs(c - selected.c) <= 1) {
                     processMove(selected.r, selected.c, r, c);
+                } else {
+                    selected = null; // Deselect if tapping too far
+                    init();
                 }
             }
         }
@@ -164,16 +209,19 @@
             const targetKey = `${tr}-${tc}`;
 
             if (def) {
-                if (def.o === att.o) return;
+                if (def.o === att.o) {
+                    selected = null; init(); return; // Blocked by teammate
+                }
                 if (att.t === def.t) {
-                    writeLog("clash. kinetic halt.");
-                    selected = null; init(); return;
+                    writeLog("KINETIC HALT. SAME TYPE BLOCK.");
+                    selected = null; init(); return; // NO TURN PASS on clash, just block move
                 } 
+                
                 if (winMap[att.t] === def.t) {
-                    writeLog(`${att.t} deletes ${def.t}`);
+                    writeLog(`${att.t} DELETES ${def.t}`);
                     pieces[targetKey] = att;
                 } else {
-                    writeLog(`${att.t} fails. removed.`);
+                    writeLog(`${att.t} COUNTERED. UNIT LOST.`);
                 }
             } else {
                 pieces[targetKey] = att;
@@ -182,14 +230,21 @@
             delete pieces[`${fr}-${fc}`];
             selected = null;
             
-            if (att.o === 'p1' && tr === 8) return finish("alpha breach. victory.");
-            if (att.o === 'p2' && tr === 0) return finish("omega breach. loss.");
+            // Win check: P1 reaches Row 0, P2 reaches Row 8
+            if (att.o === 'p1' && tr === 0) return finish("ALPHA BREACH. VICTORY.");
+            if (att.o === 'p2' && tr === 8) return finish("OMEGA BREACH. LOSS.");
+
+            // Check for total elimination
+            const p1count = Object.values(pieces).filter(p => p.o === 'p1').length;
+            const p2count = Object.values(pieces).filter(p => p.o === 'p2').length;
+            if (p1count === 0) return finish("ALPHA WIPED. LOSS.");
+            if (p2count === 0) return finish("OMEGA WIPED. VICTORY.");
 
             turn = (turn === 'p1') ? 'p2' : 'p1';
             updateUI();
             init();
 
-            if (turn === 'p2') setTimeout(aiBrain, 400);
+            if (turn === 'p2') setTimeout(aiBrain, 600);
         }
 
         function aiBrain() {
@@ -199,10 +254,11 @@
                 ai.push({ r, c, t: pieces[k].t });
             }
 
-            if (ai.length === 0) return finish("alpha cleanup. victory.");
+            if (ai.length === 0) return;
 
-            // AI Logic: 1. Kill if possible. 2. Advance.
             let move = null;
+            
+            // AI Priority 1: Kill
             for (let p of ai) {
                 for (let dr = -1; dr <= 1; dr++) {
                     for (let dc = -1; dc <= 1; dc++) {
@@ -217,24 +273,46 @@
                 }
             }
 
+            // AI Priority 2: Advance Downward (Row + 1)
             if (!move) {
-                const p = ai[Math.floor(Math.random() * ai.length)];
-                move = { fr: p.r, fc: p.c, tr: Math.max(0, p.r - 1), tc: p.c + (Math.random() > 0.5 ? 1 : -1) };
-                if (move.tc < 0 || move.tc > 8) move.tc = p.c;
+                // Try several times to find a valid forward move
+                for(let i=0; i<10; i++) {
+                    const p = ai[Math.floor(Math.random() * ai.length)];
+                    let tr = p.r + 1;
+                    let tc = p.c + (Math.floor(Math.random() * 3) - 1);
+                    
+                    if (tr < 9 && tc >= 0 && tc < 9) {
+                        const target = pieces[`${tr}-${tc}`];
+                        // Only move if target is empty OR we can beat it
+                        if (!target || (target.o === 'p1' && winMap[p.t] === target.t)) {
+                            move = { fr: p.r, fc: p.c, tr: tr, tc: tc };
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // AI Priority 3: Random wiggle if stuck
+            if (!move) {
+                 const p = ai[Math.floor(Math.random() * ai.length)];
+                 move = { fr: p.r, fc: p.c, tr: p.r, tc: Math.max(0, Math.min(8, p.c + (Math.random() > 0.5 ? 1 : -1))) };
             }
 
             processMove(move.fr, move.fc, move.tr, move.tc);
         }
 
         function updateUI() {
-            turnDisplay.textContent = turn === 'p1' ? "Player: Alpha" : "Player: Omega";
+            turnDisplay.textContent = turn === 'p1' ? "TURN: ALPHA" : "TURN: OMEGA";
             turnDisplay.style.color = turn === 'p1' ? 'var(--p1)' : 'var(--p2)';
         }
 
         function finish(m) {
             active = false;
-            status.textContent = m;
-            setTimeout(() => location.reload(), 3000);
+            status.textContent = "SIGNAL_LOST";
+            status.style.color = "#fff";
+            writeLog(m);
+            alert(m);
+            setTimeout(() => location.reload(), 1000);
         }
 
         init();
