@@ -8,11 +8,13 @@
         :root {
             --bg: #0a0a0a;
             --surface: #1a1a1a;
-            --p1: #00f2ff; /* Alpha - Bottom */
-            --p2: #ff0055; /* Omega - Top */
+            --p1: #00f2ff;
+            --p2: #ff0055;
             --text: #ffffff;
             --border: #333;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             background-color: var(--bg);
@@ -24,50 +26,45 @@
             margin: 0;
             padding: 10px;
             text-transform: uppercase;
-            letter-spacing: 1px;
             height: 100vh;
             overflow: hidden;
         }
 
         #header { 
             text-align: center; 
-            margin-bottom: 15px; 
             width: 100%;
-            max-width: 450px;
+            max-width: 400px;
+            flex-shrink: 0;
         }
 
         #rules {
-            font-size: 10px;
+            font-size: 9px;
             color: #666;
-            line-height: 1.4;
             border: 1px solid var(--border);
             padding: 8px;
             margin-bottom: 10px;
-            text-align: left;
         }
 
         #status-row {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
+            font-size: 11px;
             margin-bottom: 5px;
-            padding: 0 5px;
         }
 
-        /* Responsive Board: Uses vmin to ensure it fits any screen */
         #board {
             display: grid;
-            grid-template-columns: repeat(9, 10.5vmin);
-            grid-template-rows: repeat(9, 10.5vmin);
+            grid-template-columns: repeat(9, 9vmin);
+            grid-template-rows: repeat(9, 9vmin);
             gap: 1px;
             background-color: var(--border);
             border: 1px solid var(--border);
-            max-width: 95vw;
+            user-select: none;
         }
 
         .cell {
-            width: 10.5vmin;
-            height: 10.5vmin;
+            width: 9vmin;
+            height: 9vmin;
             background-color: var(--bg);
             display: flex;
             align-items: center;
@@ -77,12 +74,12 @@
         }
 
         .piece {
-            width: 90%;
-            height: 90%;
+            width: 80%;
+            height: 80%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
         }
 
@@ -91,46 +88,42 @@
 
         .selected {
             background-color: var(--surface);
-            box-shadow: inset 0 0 15px var(--p1);
+            box-shadow: inset 0 0 10px var(--p1);
         }
 
         #log {
-            margin-top: 15px;
-            width: 90vmin;
-            max-width: 450px;
-            height: 50px;
+            margin-top: 10px;
+            width: 81vmin;
+            max-width: 400px;
+            height: 60px;
             font-size: 10px;
-            color: #444;
-            overflow: hidden;
+            color: #555;
+            overflow-y: hidden;
             border-left: 1px solid var(--border);
             padding-left: 10px;
+            flex-shrink: 0;
         }
-
-        .highlight-win { color: #0f0; }
     </style>
 </head>
 <body>
 
     <div id="header">
         <div id="rules">
-            [OBJECTIVE] BREACH OPPONENT BACK ROW OR ELIMINATE.<br>
-            [LOGIC] R > S | S > P | P > R.<br>
-            [SAME-TYPE] KINETIC HALT (BLOCKING).<br>
-            [CONTROLS] TAP PIECE -> TAP ADJACENT SQUARE.
+            [GOAL] BREACH BACK ROW OR WIPE ENEMY<br>
+            [LOGIC] R > S | S > P | P > R<br>
+            [NOTE] SAME-TYPE BLOCKS MOVEMENT
         </div>
         <div id="status-row">
-            <div id="status">SYS_ACTIVE</div>
+            <div id="status">SYS_READY</div>
             <div id="turn-display" style="color: var(--p1)">TURN: ALPHA</div>
         </div>
     </div>
 
     <div id="board"></div>
-
     <div id="log"></div>
 
     <script>
         const board = document.getElementById('board');
-        const status = document.getElementById('status');
         const turnDisplay = document.getElementById('turn-display');
         const log = document.getElementById('log');
 
@@ -140,12 +133,10 @@
 
         const winMap = { 'R': 'S', 'S': 'P', 'P': 'R' };
         
-        // P1 at Bottom (Row 8), P2 at Top (Row 0)
         let pieces = {
             "0-2": {o:'p2', t:'R'}, "0-3": {o:'p2', t:'R'},
             "0-4": {o:'p2', t:'P'}, "0-5": {o:'p2', t:'P'},
             "0-6": {o:'p2', t:'S'}, "1-4": {o:'p2', t:'S'}, 
-
             "8-2": {o:'p1', t:'R'}, "8-3": {o:'p1', t:'R'},
             "8-4": {o:'p1', t:'P'}, "8-5": {o:'p1', t:'P'},
             "8-6": {o:'p1', t:'S'}, "7-4": {o:'p1', t:'S'}
@@ -173,9 +164,7 @@
                         cell.appendChild(pDiv);
                     }
 
-                    if (selected && selected.r === r && selected.c === c) {
-                        cell.classList.add('selected');
-                    }
+                    if (selected && selected.r === r && selected.c === c) cell.classList.add('selected');
 
                     cell.onclick = () => { if(turn === 'p1' && active) handleTap(r, c); };
                     board.appendChild(cell);
@@ -187,17 +176,14 @@
             const key = `${r}-${c}`;
             const p = pieces[key];
 
-            // Select your own piece
             if (p && p.o === 'p1') {
-                selected = { r, c, p };
+                selected = { r, c };
                 init();
-            } 
-            // Attempt move
-            else if (selected) {
+            } else if (selected) {
                 if (Math.abs(r - selected.r) <= 1 && Math.abs(c - selected.c) <= 1) {
                     processMove(selected.r, selected.c, r, c);
                 } else {
-                    selected = null; // Deselect if tapping too far
+                    selected = null;
                     init();
                 }
             }
@@ -206,99 +192,79 @@
         function processMove(fr, fc, tr, tc) {
             const att = pieces[`${fr}-${fc}`];
             const def = pieces[`${tr}-${tc}`];
-            const targetKey = `${tr}-${tc}`;
+            
+            if (def && def.o === att.o) return; // Blocked by teammate, don't end turn
+            
+            if (def && att.t === def.t) {
+                writeLog("KINETIC HALT. POSITION BLOCKED.");
+                return; 
+            }
 
             if (def) {
-                if (def.o === att.o) {
-                    selected = null; init(); return; // Blocked by teammate
-                }
-                if (att.t === def.t) {
-                    writeLog("KINETIC HALT. SAME TYPE BLOCK.");
-                    selected = null; init(); return; // NO TURN PASS on clash, just block move
-                } 
-                
                 if (winMap[att.t] === def.t) {
-                    writeLog(`${att.t} DELETES ${def.t}`);
-                    pieces[targetKey] = att;
+                    writeLog(`${att.t} VAPORIZES ${def.t}`);
+                    pieces[`${tr}-${tc}`] = att;
                 } else {
-                    writeLog(`${att.t} COUNTERED. UNIT LOST.`);
+                    writeLog(`${att.t} COUNTERED. UNIT DELETED.`);
                 }
             } else {
-                pieces[targetKey] = att;
+                pieces[`${tr}-${tc}`] = att;
             }
 
             delete pieces[`${fr}-${fc}`];
             selected = null;
             
-            // Win check: P1 reaches Row 0, P2 reaches Row 8
             if (att.o === 'p1' && tr === 0) return finish("ALPHA BREACH. VICTORY.");
             if (att.o === 'p2' && tr === 8) return finish("OMEGA BREACH. LOSS.");
 
-            // Check for total elimination
-            const p1count = Object.values(pieces).filter(p => p.o === 'p1').length;
-            const p2count = Object.values(pieces).filter(p => p.o === 'p2').length;
-            if (p1count === 0) return finish("ALPHA WIPED. LOSS.");
-            if (p2count === 0) return finish("OMEGA WIPED. VICTORY.");
+            const counts = Object.values(pieces).reduce((acc, p) => { acc[p.o]++; return acc; }, {p1:0, p2:0});
+            if (counts.p1 === 0) return finish("ALPHA WIPED. LOSS.");
+            if (counts.p2 === 0) return finish("OMEGA WIPED. VICTORY.");
 
             turn = (turn === 'p1') ? 'p2' : 'p1';
             updateUI();
             init();
 
-            if (turn === 'p2') setTimeout(aiBrain, 600);
+            if (turn === 'p2' && active) setTimeout(aiBrain, 600);
         }
 
         function aiBrain() {
-            const ai = [];
-            for (let k in pieces) if (pieces[k].o === 'p2') {
-                const [r, c] = k.split('-').map(Number);
-                ai.push({ r, c, t: pieces[k].t });
-            }
-
-            if (ai.length === 0) return;
-
-            let move = null;
+            let possibleMoves = [];
             
-            // AI Priority 1: Kill
-            for (let p of ai) {
-                for (let dr = -1; dr <= 1; dr++) {
-                    for (let dc = -1; dc <= 1; dc++) {
-                        let nr = p.r + dr, nc = p.c + dc;
-                        if (nr >= 0 && nr < 9 && nc >= 0 && nc < 9) {
-                            let target = pieces[`${nr}-${nc}`];
-                            if (target && target.o === 'p1' && winMap[p.t] === target.t) {
-                                move = { fr: p.r, fc: p.c, tr: nr, tc: nc };
+            // Find all valid moves for all P2 pieces
+            for (let k in pieces) {
+                if (pieces[k].o === 'p2') {
+                    const [r, c] = k.split('-').map(Number);
+                    for (let dr = -1; dr <= 1; dr++) {
+                        for (let dc = -1; dc <= 1; dc++) {
+                            if (dr === 0 && dc === 0) continue;
+                            let nr = r + dr, nc = c + dc;
+                            if (nr >= 0 && nr < 9 && nc >= 0 && nc < 9) {
+                                let target = pieces[`${nr}-${nc}`];
+                                if (!target || (target.o === 'p1' && pieces[k].t !== target.t)) {
+                                    possibleMoves.push({ fr: r, fc: c, tr: nr, tc: nc, score: 0, target });
+                                }
                             }
                         }
                     }
                 }
             }
 
-            // AI Priority 2: Advance Downward (Row + 1)
-            if (!move) {
-                // Try several times to find a valid forward move
-                for(let i=0; i<10; i++) {
-                    const p = ai[Math.floor(Math.random() * ai.length)];
-                    let tr = p.r + 1;
-                    let tc = p.c + (Math.floor(Math.random() * 3) - 1);
-                    
-                    if (tr < 9 && tc >= 0 && tc < 9) {
-                        const target = pieces[`${tr}-${tc}`];
-                        // Only move if target is empty OR we can beat it
-                        if (!target || (target.o === 'p1' && winMap[p.t] === target.t)) {
-                            move = { fr: p.r, fc: p.c, tr: tr, tc: tc };
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            // AI Priority 3: Random wiggle if stuck
-            if (!move) {
-                 const p = ai[Math.floor(Math.random() * ai.length)];
-                 move = { fr: p.r, fc: p.c, tr: p.r, tc: Math.max(0, Math.min(8, p.c + (Math.random() > 0.5 ? 1 : -1))) };
+            if (possibleMoves.length === 0) {
+                turn = 'p1'; // AI stuck, skip turn
+                updateUI();
+                return;
             }
 
-            processMove(move.fr, move.fc, move.tr, move.tc);
+            // Simple heuristic: Prioritize kills, then forward movement
+            possibleMoves.forEach(m => {
+                if (m.target && winMap[pieces[`${m.fr}-${m.fc}`].t] === m.target.t) m.score += 10;
+                if (m.tr > m.fr) m.score += 2; // Moving downward is good
+            });
+
+            possibleMoves.sort((a, b) => b.score - a.score || Math.random() - 0.5);
+            const best = possibleMoves[0];
+            processMove(best.fr, best.fc, best.tr, best.tc);
         }
 
         function updateUI() {
@@ -308,11 +274,9 @@
 
         function finish(m) {
             active = false;
-            status.textContent = "SIGNAL_LOST";
-            status.style.color = "#fff";
             writeLog(m);
             alert(m);
-            setTimeout(() => location.reload(), 1000);
+            location.reload();
         }
 
         init();
