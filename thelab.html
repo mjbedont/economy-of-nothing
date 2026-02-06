@@ -3,70 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VOID / RPS</title>
+    <title>VOID / ZERO SYSTEM</title>
     <style>
         :root {
-            --bg: #0a0a0a;
-            --surface: #1a1a1a;
-            --p1: #00f2ff;
-            --p2: #ff0055;
-            --text: #ffffff;
-            --border: #333;
+            --bg: #050505;
+            --surface: #111;
+            --p1: #00f2ff; /* Alpha - Cyan */
+            --p2: #ff0055; /* Omega - Crimson */
+            --text: #e0e0e0;
+            --border: #222;
         }
         * { box-sizing: border-box; touch-action: manipulation; }
         body {
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Courier New', monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0;
-            padding: 5px;
-            text-transform: uppercase;
-            height: 100vh;
-            overflow: hidden;
+            display: flex; flex-direction: column; align-items: center;
+            margin: 0; padding: 5px; text-transform: uppercase;
+            height: 100vh; overflow: hidden;
         }
+
         #header { text-align: center; width: 100%; max-width: 400px; flex-shrink: 0; }
-        #rules { font-size: 9px; color: #666; border: 1px solid var(--border); padding: 5px; margin-bottom: 5px; }
-        #score-box { border: 1px solid var(--border); width: 100%; padding: 5px; display: flex; justify-content: space-around; margin-bottom: 5px; font-size: 12px; color: var(--p1); }
-        #status-row { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 5px; padding: 0 5px; width: 100%; max-width: 400px; }
-        #board {
-            display: grid;
-            grid-template-columns: repeat(9, 9vmin);
-            grid-template-rows: repeat(9, 9vmin);
-            gap: 1px;
-            background-color: var(--border);
-            border: 1px solid var(--border);
+        #rules { font-size: 9px; color: #444; border: 1px solid var(--border); padding: 5px; margin-bottom: 5px; }
+        
+        #score-box { 
+            border: 1px solid var(--p1); background: rgba(0, 242, 255, 0.05);
+            width: 100%; padding: 5px; display: flex; justify-content: space-around; 
+            margin-bottom: 5px; font-size: 12px; color: var(--p1); 
         }
+
+        #status-row { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 5px; width: 100%; max-width: 400px; }
+
+        #board {
+            display: grid; grid-template-columns: repeat(9, 9vmin); grid-template-rows: repeat(9, 9vmin);
+            gap: 1px; background-color: var(--border); border: 2px solid var(--border);
+        }
+
         .cell {
-            width: 9vmin; height: 9vmin;
-            background-color: var(--bg);
+            width: 9vmin; height: 9vmin; background-color: var(--bg);
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; -webkit-tap-highlight-color: transparent;
         }
-        .piece { width: 80%; height: 80%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; transition: all 0.2s; }
-        .p1 { color: var(--p1); text-shadow: 0 0 5px var(--p1); }
-        .p2 { color: var(--p2); text-shadow: 0 0 5px var(--p2); }
+
+        .piece { 
+            width: 80%; height: 80%; display: flex; align-items: center; justify-content: center; 
+            font-size: 16px; font-weight: bold; transition: transform 0.1s;
+        }
+
+        .p1 { color: var(--p1); text-shadow: 0 0 8px var(--p1); }
+        .p2 { color: var(--p2); text-shadow: 0 0 8px var(--p2); }
+        .hidden { color: #444; text-shadow: none; }
+
         .selected { background-color: var(--surface); box-shadow: inset 0 0 10px var(--p1); }
+        
+        /* Combat Shake Animation */
+        .shake { animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
         #log {
-            margin-top: 10px; width: 81vmin; max-width: 400px; height: 40px;
-            font-size: 10px; color: #555; overflow: hidden;
-            border-left: 1px solid var(--border); padding-left: 10px; flex-shrink: 0;
+            margin-top: 10px; width: 81vmin; max-width: 400px; height: 45px;
+            font-size: 9px; color: #666; overflow: hidden;
+            border-left: 2px solid var(--p1); padding-left: 10px; flex-shrink: 0;
         }
     </style>
 </head>
 <body>
 
     <div id="header">
-        <div id="rules">R > S | S > P | P > R // DEPLOYMENT RANDOMIZED</div>
+        <div id="rules">COMBAT PROTOCOL: RANDOMIZED // FOG OF WAR ACTIVE</div>
         <div id="score-box">
-            <span>SCORE: <span id="current-score">0</span></span>
-            <span>HIGH: <span id="high-score">0</span></span>
+            <span>XP: <span id="current-score">0</span></span>
+            <span>TOP_PILOT: <span id="high-score">0</span></span>
         </div>
         <div id="status-row">
-            <div id="status">INIT_NEURAL_MAP</div>
-            <div id="turn-display" style="color: var(--p1)">TURN: ALPHA</div>
+            <div id="status">ZERO_SYSTEM_ACTIVE</div>
+            <div id="turn-display" style="color: var(--p1)">SYNC: ALPHA</div>
         </div>
     </div>
 
@@ -83,11 +99,8 @@
         let selected = null;
         let turn = 'p1'; 
         let active = true;
-        let kills = 0;
-        let deaths = 0;
-        let breachBonus = 0;
+        let kills = 0, deaths = 0, breachBonus = 0;
         let pieces = {};
-        
         const winMap = { 'R': 'S', 'S': 'P', 'P': 'R' };
 
         function shuffle(array) {
@@ -100,17 +113,15 @@
 
         function setupGame() {
             pieces = {};
-            const types = ['R', 'R', 'P', 'P', 'S', 'S'];
-            const p1Types = shuffle([...types]);
-            const p2Types = shuffle([...types]);
-            
+            const p1Types = shuffle(['R', 'R', 'P', 'P', 'S', 'S']);
+            const p2Types = shuffle(['R', 'R', 'P', 'P', 'S', 'S']);
             const p1Pos = ["8-2", "8-3", "8-4", "8-5", "8-6", "7-4"];
             const p2Pos = ["0-2", "0-3", "0-4", "0-5", "0-6", "1-4"];
 
-            p1Pos.forEach((pos, i) => pieces[pos] = {o:'p1', t:p1Types[i]});
-            p2Pos.forEach((pos, i) => pieces[pos] = {o:'p2', t:p2Types[i]});
+            p1Pos.forEach((pos, i) => pieces[pos] = {o:'p1', t:p1Types[i], known: true});
+            p2Pos.forEach((pos, i) => pieces[pos] = {o:'p2', t:p2Types[i], known: false});
             
-            highEl.textContent = localStorage.getItem('void_rps_high') || 0;
+            highEl.textContent = localStorage.getItem('zero_high') || 0;
             init();
         }
 
@@ -122,20 +133,10 @@
 
         function updateScore() {
             let proximity = 0;
-            for (let k in pieces) {
-                if (pieces[k].o === 'p1') {
-                    const r = parseInt(k.split('-')[0]);
-                    proximity += (8 - r) * 10;
-                }
-            }
-            const currentScore = (kills * 100) - (deaths * 50) + proximity + breachBonus;
-            scoreEl.textContent = currentScore;
-            
-            const high = parseInt(localStorage.getItem('void_rps_high') || 0);
-            if (currentScore > high) {
-                localStorage.setItem('void_rps_high', currentScore);
-                highEl.textContent = currentScore;
-            }
+            for (let k in pieces) if (pieces[k].o === 'p1') proximity += (8 - parseInt(k.split('-')[0])) * 15;
+            const score = (kills * 150) - (deaths * 50) + proximity + breachBonus;
+            scoreEl.textContent = Math.max(0, score);
+            if (score > (localStorage.getItem('zero_high') || 0)) localStorage.setItem('zero_high', score);
         }
 
         function init() {
@@ -148,11 +149,11 @@
                     if (pieces[key]) {
                         const p = pieces[key];
                         const pDiv = document.createElement('div');
-                        pDiv.className = `piece ${p.o}`;
-                        pDiv.textContent = p.t;
+                        pDiv.className = `piece ${p.o} ${(!p.known && p.o === 'p2') ? 'hidden' : ''}`;
+                        pDiv.textContent = (p.known || p.o === 'p1') ? p.t : '?';
                         cell.appendChild(pDiv);
                     }
-                    if (selected && selected.r === r && selected.c === c) cell.classList.add('selected');
+                    if (selected?.r === r && selected?.c === c) cell.classList.add('selected');
                     cell.onclick = () => { if(turn === 'p1' && active) handleTap(r, c); };
                     board.appendChild(cell);
                 }
@@ -162,7 +163,7 @@
 
         function handleTap(r, c) {
             const p = pieces[`${r}-${c}`];
-            if (p && p.o === 'p1') { selected = { r, c }; init(); } 
+            if (p?.o === 'p1') { selected = { r, c }; init(); } 
             else if (selected) {
                 if (Math.abs(r - selected.r) <= 1 && Math.abs(c - selected.c) <= 1) processMove(selected.r, selected.c, r, c);
                 else { selected = null; init(); }
@@ -173,37 +174,48 @@
             const att = pieces[`${fr}-${fc}`];
             const def = pieces[`${tr}-${tc}`];
             
-            if (def && (def.o === att.o || att.t === def.t)) return;
+            if (def && (def.o === att.o || (def.known && att.t === def.t))) return;
 
             if (def) {
-                if (winMap[att.t] === def.t) {
-                    writeLog(`${att.t} >> ${def.t}`);
-                    pieces[`${tr}-${tc}`] = att;
-                    if (att.o === 'p1') kills++; else deaths++;
-                } else {
-                    writeLog(`${att.t} << ${def.t}`);
-                    if (att.o === 'p1') deaths++; else kills++;
+                board.classList.add('shake');
+                setTimeout(() => board.classList.remove('shake'), 300);
+                def.known = true; // Reveal on clash
+                
+                if (att.t === def.t) {
+                    writeLog(`KINETIC HALT: ${att.t} vs ${def.t}`);
+                    return;
                 }
-            } else pieces[`${tr}-${tc}`] = att;
+
+                if (winMap[att.t] === def.t) {
+                    writeLog(`CRITICAL: ${att.t} DESTROYED ${def.t}`);
+                    pieces[`${tr}-${tc}`] = att;
+                    att.o === 'p1' ? kills++ : deaths++;
+                } else {
+                    writeLog(`COUNTER: ${att.t} VAPORIZED BY ${def.t}`);
+                    att.o === 'p1' ? deaths++ : kills++;
+                }
+            } else {
+                pieces[`${tr}-${tc}`] = att;
+            }
 
             delete pieces[`${fr}-${fc}`];
             selected = null;
             
-            if (att.o === 'p1' && tr === 0) { breachBonus = 500; return finish("ALPHA BREACH."); }
-            if (att.o === 'p2' && tr === 8) return finish("OMEGA BREACH.");
+            if (att.o === 'p1' && tr === 0) { breachBonus = 1000; return finish("TARGET AREA BREACHED."); }
+            if (att.o === 'p2' && tr === 8) return finish("BASE DEFENSES COLLAPSED.");
 
             const counts = Object.values(pieces).reduce((acc, p) => { acc[p.o]++; return acc; }, {p1:0, p2:0});
-            if (counts.p1 === 0 || counts.p2 === 0) return finish("ELIMINATION COMPLETE.");
+            if (counts.p1 === 0 || counts.p2 === 0) return finish("COMBATANTS ELIMINATED.");
 
             turn = (turn === 'p1') ? 'p2' : 'p1';
             updateUI(); init();
-            if (turn === 'p2' && active) setTimeout(aiBrain, 500);
+            if (turn === 'p2' && active) setTimeout(aiBrain, 600);
         }
 
         function aiBrain() {
             let moves = [];
-            let p1LeadRow = 8;
-            for (let k in pieces) if(pieces[k].o === 'p1') p1LeadRow = Math.min(p1LeadRow, parseInt(k.split('-')[0]));
+            let p1Lead = 8;
+            for (let k in pieces) if(pieces[k].o === 'p1') p1Lead = Math.min(p1Lead, parseInt(k.split('-')[0]));
 
             for (let k in pieces) {
                 if (pieces[k].o === 'p2') {
@@ -215,10 +227,9 @@
                             if (nr >= 0 && nr < 9 && nc >= 0 && nc < 9) {
                                 let target = pieces[`${nr}-${nc}`];
                                 if (!target || (target.o === 'p1' && pieces[k].t !== target.t)) {
-                                    let score = 0;
-                                    if (target && winMap[pieces[k].t] === target.t) score += 50;
-                                    score += nr * 2; 
-                                    if (nr > p1LeadRow && Math.abs(nc - c) < 2) score += 30; 
+                                    let score = nr * 5; 
+                                    if (target && winMap[pieces[k].t] === target.t) score += 60;
+                                    if (nr > p1Lead) score += 40; 
                                     moves.push({ fr: r, fc: c, tr: nr, tc: nc, score });
                                 }
                             }
@@ -226,17 +237,17 @@
                     }
                 }
             }
-            if (moves.length === 0) { turn = 'p1'; updateUI(); return; }
+            if (!moves.length) { turn = 'p1'; updateUI(); return; }
             moves.sort((a, b) => b.score - a.score || Math.random() - 0.5);
             processMove(moves[0].fr, moves[0].fc, moves[0].tr, moves[0].tc);
         }
 
         function updateUI() {
-            turnDisplay.textContent = `TURN: ${turn === 'p1' ? 'ALPHA' : 'OMEGA'}`;
+            turnDisplay.textContent = `SYNC: ${turn === 'p1' ? 'ALPHA' : 'OMEGA'}`;
             turnDisplay.style.color = turn === 'p1' ? 'var(--p1)' : 'var(--p2)';
         }
 
-        function finish(m) { active = false; updateScore(); alert(`${m}\nSCORE: ${scoreEl.textContent}`); location.reload(); }
+        function finish(m) { active = false; updateScore(); alert(`${m}\nFINAL XP: ${scoreEl.textContent}`); location.reload(); }
         
         setupGame();
     </script>
