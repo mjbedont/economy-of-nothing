@@ -29,7 +29,8 @@
         }
         #header { text-align: center; width: 100%; max-width: 400px; flex-shrink: 0; }
         #rules { font-size: 9px; color: #666; border: 1px solid var(--border); padding: 5px; margin-bottom: 5px; }
-        #status-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; padding: 0 5px; }
+        #status-row { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 5px; padding: 0 5px; }
+        #score-box { border: 1px solid var(--border); width: 100%; padding: 5px; display: flex; justify-content: space-around; margin-bottom: 5px; font-size: 12px; color: var(--p1); }
         #board {
             display: grid;
             grid-template-columns: repeat(9, 9vmin);
@@ -49,7 +50,7 @@
         .p2 { color: var(--p2); text-shadow: 0 0 5px var(--p2); }
         .selected { background-color: var(--surface); box-shadow: inset 0 0 10px var(--p1); }
         #log {
-            margin-top: 10px; width: 81vmin; max-width: 400px; height: 50px;
+            margin-top: 10px; width: 81vmin; max-width: 400px; height: 40px;
             font-size: 10px; color: #555; overflow: hidden;
             border-left: 1px solid var(--border); padding-left: 10px; flex-shrink: 0;
         }
@@ -58,7 +59,11 @@
 <body>
 
     <div id="header">
-        <div id="rules">R > S | S > P | P > R // BREACH BACK ROW TO WIN</div>
+        <div id="rules">R > S | S > P | P > R // SCORE: KILLS(+100) DEATHS(-50) PROXIMITY(+10/ROW)</div>
+        <div id="score-box">
+            <span>SCORE: <span id="current-score">0</span></span>
+            <span>HIGH: <span id="high-score">0</span></span>
+        </div>
         <div id="status-row">
             <div id="status">OMEGA_V2.1</div>
             <div id="turn-display" style="color: var(--p1)">TURN: ALPHA</div>
@@ -71,13 +76,18 @@
     <script>
         const board = document.getElementById('board');
         const turnDisplay = document.getElementById('turn-display');
+        const scoreEl = document.getElementById('current-score');
+        const highEl = document.getElementById('high-score');
         const log = document.getElementById('log');
 
         let selected = null;
         let turn = 'p1'; 
         let active = true;
-        const winMap = { 'R': 'S', 'S': 'P', 'P': 'R' };
+        let kills = 0;
+        let deaths = 0;
+        let breachBonus = 0;
         
+        const winMap = { 'R': 'S', 'S': 'P', 'P': 'R' };
         let pieces = {
             "0-2": {o:'p2', t:'R'}, "0-3": {o:'p2', t:'R'}, "0-4": {o:'p2', t:'P'}, 
             "0-5": {o:'p2', t:'P'}, "0-6": {o:'p2', t:'S'}, "1-4": {o:'p2', t:'S'}, 
@@ -89,6 +99,26 @@
             const entry = document.createElement('div');
             entry.textContent = `> ${msg}`;
             log.prepend(entry);
+        }
+
+        function updateScore() {
+            let proximity = 0;
+            for (let k in pieces) {
+                if (pieces[k].o === 'p1') {
+                    const r = parseInt(k.split('-')[0]);
+                    proximity += (8 - r) * 10;
+                }
+            }
+            const currentScore = (kills * 100) - (deaths * 50) + proximity + breachBonus;
+            scoreEl.textContent = currentScore;
+            
+            const high = localStorage.getItem('void_rps_high') || 0;
+            if (currentScore > high) {
+                localStorage.setItem('void_rps_high', currentScore);
+                highEl.textContent = currentScore;
+            } else {
+                highEl.textContent = high;
+            }
         }
 
         function init() {
@@ -110,6 +140,7 @@
                     board.appendChild(cell);
                 }
             }
+            updateScore();
         }
 
         function handleTap(r, c) {
@@ -131,15 +162,17 @@
                 if (winMap[att.t] === def.t) {
                     writeLog(`${att.t} >> ${def.t}`);
                     pieces[`${tr}-${tc}`] = att;
+                    if (att.o === 'p1') kills++; else deaths++;
                 } else {
                     writeLog(`${att.t} << ${def.t}`);
+                    if (att.o === 'p1') deaths++; else kills++;
                 }
             } else pieces[`${tr}-${tc}`] = att;
 
             delete pieces[`${fr}-${fc}`];
             selected = null;
             
-            if (att.o === 'p1' && tr === 0) return finish("ALPHA BREACH.");
+            if (att.o === 'p1' && tr === 0) { breachBonus = 500; return finish("ALPHA BREACH."); }
             if (att.o === 'p2' && tr === 8) return finish("OMEGA BREACH.");
 
             const counts = Object.values(pieces).reduce((acc, p) => { acc[p.o]++; return acc; }, {p1:0, p2:0});
@@ -166,13 +199,9 @@
                                 let target = pieces[`${nr}-${nc}`];
                                 if (!target || (target.o === 'p1' && pieces[k].t !== target.t)) {
                                     let score = 0;
-                                    // PRIORITY 1: KILL
                                     if (target && winMap[pieces[k].t] === target.t) score += 50;
-                                    // PRIORITY 2: GOAL PROGRESSION
                                     score += nr * 2; 
-                                    // PRIORITY 3: DEFENSE (Block pieces approaching Row 0)
                                     if (nr > p1LeadRow && Math.abs(nc - c) < 2) score += 30; 
-                                    
                                     moves.push({ fr: r, fc: c, tr: nr, tc: nc, score });
                                 }
                             }
@@ -190,7 +219,9 @@
             turnDisplay.style.color = turn === 'p1' ? 'var(--p1)' : 'var(--p2)';
         }
 
-        function finish(m) { active = false; alert(m); location.reload(); }
+        function finish(m) { active = false; updateScore(); alert(`${m}\nSCORE: ${scoreEl.textContent}`); location.reload(); }
+        
+        highEl.textContent = localStorage.getItem('void_rps_high') || 0;
         init();
     </script>
 </body>
