@@ -29,8 +29,8 @@
         }
         #header { text-align: center; width: 100%; max-width: 400px; flex-shrink: 0; }
         #rules { font-size: 9px; color: #666; border: 1px solid var(--border); padding: 5px; margin-bottom: 5px; }
-        #status-row { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 5px; padding: 0 5px; }
         #score-box { border: 1px solid var(--border); width: 100%; padding: 5px; display: flex; justify-content: space-around; margin-bottom: 5px; font-size: 12px; color: var(--p1); }
+        #status-row { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 5px; padding: 0 5px; width: 100%; max-width: 400px; }
         #board {
             display: grid;
             grid-template-columns: repeat(9, 9vmin);
@@ -45,7 +45,7 @@
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; -webkit-tap-highlight-color: transparent;
         }
-        .piece { width: 80%; height: 80%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; }
+        .piece { width: 80%; height: 80%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; transition: all 0.2s; }
         .p1 { color: var(--p1); text-shadow: 0 0 5px var(--p1); }
         .p2 { color: var(--p2); text-shadow: 0 0 5px var(--p2); }
         .selected { background-color: var(--surface); box-shadow: inset 0 0 10px var(--p1); }
@@ -59,13 +59,13 @@
 <body>
 
     <div id="header">
-        <div id="rules">R > S | S > P | P > R // SCORE: KILLS(+100) DEATHS(-50) PROXIMITY(+10/ROW)</div>
+        <div id="rules">R > S | S > P | P > R // DEPLOYMENT RANDOMIZED</div>
         <div id="score-box">
             <span>SCORE: <span id="current-score">0</span></span>
             <span>HIGH: <span id="high-score">0</span></span>
         </div>
         <div id="status-row">
-            <div id="status">OMEGA_V2.1</div>
+            <div id="status">INIT_NEURAL_MAP</div>
             <div id="turn-display" style="color: var(--p1)">TURN: ALPHA</div>
         </div>
     </div>
@@ -86,14 +86,33 @@
         let kills = 0;
         let deaths = 0;
         let breachBonus = 0;
+        let pieces = {};
         
         const winMap = { 'R': 'S', 'S': 'P', 'P': 'R' };
-        let pieces = {
-            "0-2": {o:'p2', t:'R'}, "0-3": {o:'p2', t:'R'}, "0-4": {o:'p2', t:'P'}, 
-            "0-5": {o:'p2', t:'P'}, "0-6": {o:'p2', t:'S'}, "1-4": {o:'p2', t:'S'}, 
-            "8-2": {o:'p1', t:'R'}, "8-3": {o:'p1', t:'R'}, "8-4": {o:'p1', t:'P'}, 
-            "8-5": {o:'p1', t:'P'}, "8-6": {o:'p1', t:'S'}, "7-4": {o:'p1', t:'S'}
-        };
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function setupGame() {
+            pieces = {};
+            const types = ['R', 'R', 'P', 'P', 'S', 'S'];
+            const p1Types = shuffle([...types]);
+            const p2Types = shuffle([...types]);
+            
+            const p1Pos = ["8-2", "8-3", "8-4", "8-5", "8-6", "7-4"];
+            const p2Pos = ["0-2", "0-3", "0-4", "0-5", "0-6", "1-4"];
+
+            p1Pos.forEach((pos, i) => pieces[pos] = {o:'p1', t:p1Types[i]});
+            p2Pos.forEach((pos, i) => pieces[pos] = {o:'p2', t:p2Types[i]});
+            
+            highEl.textContent = localStorage.getItem('void_rps_high') || 0;
+            init();
+        }
 
         function writeLog(msg) {
             const entry = document.createElement('div');
@@ -112,12 +131,10 @@
             const currentScore = (kills * 100) - (deaths * 50) + proximity + breachBonus;
             scoreEl.textContent = currentScore;
             
-            const high = localStorage.getItem('void_rps_high') || 0;
+            const high = parseInt(localStorage.getItem('void_rps_high') || 0);
             if (currentScore > high) {
                 localStorage.setItem('void_rps_high', currentScore);
                 highEl.textContent = currentScore;
-            } else {
-                highEl.textContent = high;
             }
         }
 
@@ -221,8 +238,7 @@
 
         function finish(m) { active = false; updateScore(); alert(`${m}\nSCORE: ${scoreEl.textContent}`); location.reload(); }
         
-        highEl.textContent = localStorage.getItem('void_rps_high') || 0;
-        init();
+        setupGame();
     </script>
 </body>
 </html>
