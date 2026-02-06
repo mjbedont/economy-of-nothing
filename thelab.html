@@ -13,9 +13,7 @@
             --text: #ffffff;
             --border: #333;
         }
-
-        * { box-sizing: border-box; }
-
+        * { box-sizing: border-box; touch-action: manipulation; }
         body {
             background-color: var(--bg);
             color: var(--text);
@@ -24,34 +22,14 @@
             flex-direction: column;
             align-items: center;
             margin: 0;
-            padding: 10px;
+            padding: 5px;
             text-transform: uppercase;
             height: 100vh;
             overflow: hidden;
         }
-
-        #header { 
-            text-align: center; 
-            width: 100%;
-            max-width: 400px;
-            flex-shrink: 0;
-        }
-
-        #rules {
-            font-size: 9px;
-            color: #666;
-            border: 1px solid var(--border);
-            padding: 8px;
-            margin-bottom: 10px;
-        }
-
-        #status-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            margin-bottom: 5px;
-        }
-
+        #header { text-align: center; width: 100%; max-width: 400px; flex-shrink: 0; }
+        #rules { font-size: 9px; color: #666; border: 1px solid var(--border); padding: 5px; margin-bottom: 5px; }
+        #status-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; padding: 0 5px; }
         #board {
             display: grid;
             grid-template-columns: repeat(9, 9vmin);
@@ -59,62 +37,30 @@
             gap: 1px;
             background-color: var(--border);
             border: 1px solid var(--border);
-            user-select: none;
         }
-
         .cell {
-            width: 9vmin;
-            height: 9vmin;
+            width: 9vmin; height: 9vmin;
             background-color: var(--bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
         }
-
-        .piece {
-            width: 80%;
-            height: 80%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
+        .piece { width: 80%; height: 80%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; }
         .p1 { color: var(--p1); text-shadow: 0 0 5px var(--p1); }
         .p2 { color: var(--p2); text-shadow: 0 0 5px var(--p2); }
-
-        .selected {
-            background-color: var(--surface);
-            box-shadow: inset 0 0 10px var(--p1);
-        }
-
+        .selected { background-color: var(--surface); box-shadow: inset 0 0 10px var(--p1); }
         #log {
-            margin-top: 10px;
-            width: 81vmin;
-            max-width: 400px;
-            height: 60px;
-            font-size: 10px;
-            color: #555;
-            overflow-y: hidden;
-            border-left: 1px solid var(--border);
-            padding-left: 10px;
-            flex-shrink: 0;
+            margin-top: 10px; width: 81vmin; max-width: 400px; height: 50px;
+            font-size: 10px; color: #555; overflow: hidden;
+            border-left: 1px solid var(--border); padding-left: 10px; flex-shrink: 0;
         }
     </style>
 </head>
 <body>
 
     <div id="header">
-        <div id="rules">
-            [GOAL] BREACH BACK ROW OR WIPE ENEMY<br>
-            [LOGIC] R > S | S > P | P > R<br>
-            [NOTE] SAME-TYPE BLOCKS MOVEMENT
-        </div>
+        <div id="rules">R > S | S > P | P > R // BREACH BACK ROW TO WIN</div>
         <div id="status-row">
-            <div id="status">SYS_READY</div>
+            <div id="status">OMEGA_V2.1</div>
             <div id="turn-display" style="color: var(--p1)">TURN: ALPHA</div>
         </div>
     </div>
@@ -130,16 +76,13 @@
         let selected = null;
         let turn = 'p1'; 
         let active = true;
-
         const winMap = { 'R': 'S', 'S': 'P', 'P': 'R' };
         
         let pieces = {
-            "0-2": {o:'p2', t:'R'}, "0-3": {o:'p2', t:'R'},
-            "0-4": {o:'p2', t:'P'}, "0-5": {o:'p2', t:'P'},
-            "0-6": {o:'p2', t:'S'}, "1-4": {o:'p2', t:'S'}, 
-            "8-2": {o:'p1', t:'R'}, "8-3": {o:'p1', t:'R'},
-            "8-4": {o:'p1', t:'P'}, "8-5": {o:'p1', t:'P'},
-            "8-6": {o:'p1', t:'S'}, "7-4": {o:'p1', t:'S'}
+            "0-2": {o:'p2', t:'R'}, "0-3": {o:'p2', t:'R'}, "0-4": {o:'p2', t:'P'}, 
+            "0-5": {o:'p2', t:'P'}, "0-6": {o:'p2', t:'S'}, "1-4": {o:'p2', t:'S'}, 
+            "8-2": {o:'p1', t:'R'}, "8-3": {o:'p1', t:'R'}, "8-4": {o:'p1', t:'P'}, 
+            "8-5": {o:'p1', t:'P'}, "8-6": {o:'p1', t:'S'}, "7-4": {o:'p1', t:'S'}
         };
 
         function writeLog(msg) {
@@ -155,7 +98,6 @@
                     const cell = document.createElement('div');
                     cell.className = 'cell';
                     const key = `${r}-${c}`;
-                    
                     if (pieces[key]) {
                         const p = pieces[key];
                         const pDiv = document.createElement('div');
@@ -163,9 +105,7 @@
                         pDiv.textContent = p.t;
                         cell.appendChild(pDiv);
                     }
-
                     if (selected && selected.r === r && selected.c === c) cell.classList.add('selected');
-
                     cell.onclick = () => { if(turn === 'p1' && active) handleTap(r, c); };
                     board.appendChild(cell);
                 }
@@ -173,19 +113,11 @@
         }
 
         function handleTap(r, c) {
-            const key = `${r}-${c}`;
-            const p = pieces[key];
-
-            if (p && p.o === 'p1') {
-                selected = { r, c };
-                init();
-            } else if (selected) {
-                if (Math.abs(r - selected.r) <= 1 && Math.abs(c - selected.c) <= 1) {
-                    processMove(selected.r, selected.c, r, c);
-                } else {
-                    selected = null;
-                    init();
-                }
+            const p = pieces[`${r}-${c}`];
+            if (p && p.o === 'p1') { selected = { r, c }; init(); } 
+            else if (selected) {
+                if (Math.abs(r - selected.r) <= 1 && Math.abs(c - selected.c) <= 1) processMove(selected.r, selected.c, r, c);
+                else { selected = null; init(); }
             }
         }
 
@@ -193,45 +125,36 @@
             const att = pieces[`${fr}-${fc}`];
             const def = pieces[`${tr}-${tc}`];
             
-            if (def && def.o === att.o) return; // Blocked by teammate, don't end turn
-            
-            if (def && att.t === def.t) {
-                writeLog("KINETIC HALT. POSITION BLOCKED.");
-                return; 
-            }
+            if (def && (def.o === att.o || att.t === def.t)) return;
 
             if (def) {
                 if (winMap[att.t] === def.t) {
-                    writeLog(`${att.t} VAPORIZES ${def.t}`);
+                    writeLog(`${att.t} >> ${def.t}`);
                     pieces[`${tr}-${tc}`] = att;
                 } else {
-                    writeLog(`${att.t} COUNTERED. UNIT DELETED.`);
+                    writeLog(`${att.t} << ${def.t}`);
                 }
-            } else {
-                pieces[`${tr}-${tc}`] = att;
-            }
+            } else pieces[`${tr}-${tc}`] = att;
 
             delete pieces[`${fr}-${fc}`];
             selected = null;
             
-            if (att.o === 'p1' && tr === 0) return finish("ALPHA BREACH. VICTORY.");
-            if (att.o === 'p2' && tr === 8) return finish("OMEGA BREACH. LOSS.");
+            if (att.o === 'p1' && tr === 0) return finish("ALPHA BREACH.");
+            if (att.o === 'p2' && tr === 8) return finish("OMEGA BREACH.");
 
             const counts = Object.values(pieces).reduce((acc, p) => { acc[p.o]++; return acc; }, {p1:0, p2:0});
-            if (counts.p1 === 0) return finish("ALPHA WIPED. LOSS.");
-            if (counts.p2 === 0) return finish("OMEGA WIPED. VICTORY.");
+            if (counts.p1 === 0 || counts.p2 === 0) return finish("ELIMINATION COMPLETE.");
 
             turn = (turn === 'p1') ? 'p2' : 'p1';
-            updateUI();
-            init();
-
-            if (turn === 'p2' && active) setTimeout(aiBrain, 600);
+            updateUI(); init();
+            if (turn === 'p2' && active) setTimeout(aiBrain, 500);
         }
 
         function aiBrain() {
-            let possibleMoves = [];
-            
-            // Find all valid moves for all P2 pieces
+            let moves = [];
+            let p1LeadRow = 8;
+            for (let k in pieces) if(pieces[k].o === 'p1') p1LeadRow = Math.min(p1LeadRow, parseInt(k.split('-')[0]));
+
             for (let k in pieces) {
                 if (pieces[k].o === 'p2') {
                     const [r, c] = k.split('-').map(Number);
@@ -242,43 +165,32 @@
                             if (nr >= 0 && nr < 9 && nc >= 0 && nc < 9) {
                                 let target = pieces[`${nr}-${nc}`];
                                 if (!target || (target.o === 'p1' && pieces[k].t !== target.t)) {
-                                    possibleMoves.push({ fr: r, fc: c, tr: nr, tc: nc, score: 0, target });
+                                    let score = 0;
+                                    // PRIORITY 1: KILL
+                                    if (target && winMap[pieces[k].t] === target.t) score += 50;
+                                    // PRIORITY 2: GOAL PROGRESSION
+                                    score += nr * 2; 
+                                    // PRIORITY 3: DEFENSE (Block pieces approaching Row 0)
+                                    if (nr > p1LeadRow && Math.abs(nc - c) < 2) score += 30; 
+                                    
+                                    moves.push({ fr: r, fc: c, tr: nr, tc: nc, score });
                                 }
                             }
                         }
                     }
                 }
             }
-
-            if (possibleMoves.length === 0) {
-                turn = 'p1'; // AI stuck, skip turn
-                updateUI();
-                return;
-            }
-
-            // Simple heuristic: Prioritize kills, then forward movement
-            possibleMoves.forEach(m => {
-                if (m.target && winMap[pieces[`${m.fr}-${m.fc}`].t] === m.target.t) m.score += 10;
-                if (m.tr > m.fr) m.score += 2; // Moving downward is good
-            });
-
-            possibleMoves.sort((a, b) => b.score - a.score || Math.random() - 0.5);
-            const best = possibleMoves[0];
-            processMove(best.fr, best.fc, best.tr, best.tc);
+            if (moves.length === 0) { turn = 'p1'; updateUI(); return; }
+            moves.sort((a, b) => b.score - a.score || Math.random() - 0.5);
+            processMove(moves[0].fr, moves[0].fc, moves[0].tr, moves[0].tc);
         }
 
         function updateUI() {
-            turnDisplay.textContent = turn === 'p1' ? "TURN: ALPHA" : "TURN: OMEGA";
+            turnDisplay.textContent = `TURN: ${turn === 'p1' ? 'ALPHA' : 'OMEGA'}`;
             turnDisplay.style.color = turn === 'p1' ? 'var(--p1)' : 'var(--p2)';
         }
 
-        function finish(m) {
-            active = false;
-            writeLog(m);
-            alert(m);
-            location.reload();
-        }
-
+        function finish(m) { active = false; alert(m); location.reload(); }
         init();
     </script>
 </body>
