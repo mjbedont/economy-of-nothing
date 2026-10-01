@@ -45,21 +45,6 @@
       </div>
     </div>
 
-    <script>
-      var vid = new URLSearchParams(location.search).get('v');
-      var player = document.getElementById('yt-player');
-      var chat = document.getElementById('yt-chat');
-
-      if (vid) {
-        player.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1';
-        chat.src = 'https://www.youtube.com/live_chat?v=' + vid + '&embed_domain=' + location.hostname;
-      } else {
-        player.src = 'https://www.youtube.com/embed/live_stream?channel=UCSQun-kKmhoJ9K9VPlTP0ww';
-        document.getElementById('chat-panel').style.display = 'none';
-      }
-    </script>
-
-
 <h2>Visual Radio™</h2>
     <div class="vr-container">
       <div class="vr-header">
@@ -294,5 +279,21 @@ const CHANNELS = [
     buildTuner();
     loadPlaylist(window.currentChannelId);
   </script>
+
+   
+    <script>
+      var vid = new URLSearchParams(location.search).get('v');
+      var player = document.getElementById('yt-player');
+      var chat = document.getElementById('yt-chat');
+
+      if (vid) {
+        player.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1';
+        chat.src = 'https://www.youtube.com/live_chat?v=' + vid + '&embed_domain=' + location.hostname;
+      } else {
+        player.src = 'https://www.youtube.com/embed/live_stream?channel=UCSQun-kKmhoJ9K9VPlTP0ww';
+        document.getElementById('chat-panel').style.display = 'none';
+      }
+    </script>
+   
 </body>
 </html>
