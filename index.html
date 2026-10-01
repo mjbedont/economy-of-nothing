@@ -28,6 +28,38 @@
       Part space opera, part existential prank. The Economy of Nothing is what’s left when the future shows up and no one wants it.
     </p>
 
+    <h2>If You Misss it, You Missed it</h2>
+
+    <div class="stream-layout">
+      <div class="responsive-iframe-container">
+        <iframe id="yt-player"
+          title="The Economy of Nothing Live Stream"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="chat-panel" id="chat-panel">
+        <h3>Shareholder Comms Channel</h3>
+        <iframe id="yt-chat" title="Live Chat"></iframe>
+      </div>
+    </div>
+
+    <script>
+      var vid = new URLSearchParams(location.search).get('v');
+      var player = document.getElementById('yt-player');
+      var chat = document.getElementById('yt-chat');
+
+      if (vid) {
+        player.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1';
+        chat.src = 'https://www.youtube.com/live_chat?v=' + vid + '&embed_domain=' + location.hostname;
+      } else {
+        player.src = 'https://www.youtube.com/embed/live_stream?channel=UCSQun-kKmhoJ9K9VPlTP0ww';
+        document.getElementById('chat-panel').style.display = 'none';
+      }
+    </script>
+
+
 <h2>Visual Radio™</h2>
     <div class="vr-container">
       <div class="vr-header">
