@@ -411,3 +411,37 @@ footer {
         max-width: 80%;    /* Scales down nicely on phones */
     }
 }
+/* --- LIVE STREAM + CHAT --- */
+.stream-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1rem;
+    align-items: start;
+}
+
+.chat-panel {
+    margin-top: 2rem; /* lines up with the video box */
+}
+
+.chat-panel h3 {
+    font-family: 'Courier New', monospace;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.chat-panel iframe {
+    width: 100%;
+    height: 338px; /* same height as the video box */
+    border: 3px solid var(--primary-color);
+    background: #000;
+    box-shadow: 10px 10px 0px #000;
+}
+
+@media (max-width: 800px) {
+    .stream-layout { grid-template-columns: 1fr; }
+    .chat-panel { margin-top: 0; }
+    .chat-panel iframe { height: 400px; }
+}
